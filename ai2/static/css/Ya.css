@@ -3962,3 +3962,241 @@ div.dropdiv p {
 /* Media-column hover preview (offline mode) */
 .ode-AssetPreview { background:#fff; border:1px solid #888; padding:6px; box-shadow:2px 2px 6px rgba(0,0,0,0.2); z-index:1000; }
 .ode-AssetPreview-empty { color:#888; font-style:italic; padding:8px 12px; }
+
+/* Mobile layout ---------------------------------------------------
+ * The editor itself is a dense desktop-style workspace. On small
+ * screens, let the application chrome fit the viewport and keep the
+ * workspace scrollable instead of shrinking controls until unusable.
+ */
+@media screen and (max-width: 767px) {
+  html,
+  body {
+    min-width: 0;
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
+    position: relative;
+  }
+
+  .ode-Root {
+    width: 100%;
+    min-width: 0;
+    overflow: hidden;
+  }
+
+  .ode-TopPanel {
+    min-height: 44px;
+    height: auto;
+    min-width: 0;
+    padding: 4px;
+    margin-bottom: 2px;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+
+  .ode-Logo {
+    max-width: 34vw;
+    margin-left: 2px;
+    overflow: hidden;
+  }
+
+  .ode-Logo img {
+    max-width: 100%;
+    height: auto;
+  }
+
+  .ode-LogoText {
+    max-width: 34vw;
+    margin: 0 4px;
+    font-size: 13px;
+    white-space: normal;
+  }
+
+  .ode-TopToolbar {
+    min-width: 0;
+    max-width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .ode-TopPanelAccount {
+    max-width: 100%;
+    padding-right: 4px;
+    font-size: 12px;
+    white-space: normal;
+    overflow-wrap: anywhere;
+  }
+
+  .ode-TopPanelLinks {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px 10px;
+  }
+
+  .ode-TopPanelLinks .gwt-Label,
+  .ode-TopPanelLinks .gwt-Anchor,
+  .ode-TopPanelLinks .gwt-TitleLabel {
+    margin-right: 0;
+    font-size: 12px;
+  }
+
+  .ode-TopPanelButton,
+  .ActionDropDown-Default,
+  .ActionDropDown-Options {
+    min-height: 40px;
+    height: auto;
+    padding: 8px 10px;
+  }
+
+  .ode-TutorialWrapper,
+  .ode-DeckPanel {
+    min-width: 0;
+    max-width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .ode-ProjectEditor {
+    min-width: 0;
+    width: max-content;
+    max-width: none;
+  }
+
+  .ode-WorkColumns {
+    min-width: 700px;
+    width: max-content;
+  }
+
+  .ViewerBox {
+    min-width: 300px;
+  }
+
+  .ode-Box-content {
+    margin: 2px;
+  }
+
+  .ode-noDialogDiv {
+    box-sizing: border-box;
+    min-width: 0;
+    width: calc(100vw - 24px);
+    max-width: 600px;
+    max-height: calc(100vh - 24px);
+    overflow-y: auto;
+    padding-bottom: 16px;
+  }
+
+  .ode-noDialogDivHeader {
+    height: auto;
+  }
+
+  .ode-noDialogExampleDiv {
+    box-sizing: border-box;
+    width: calc(100% - 24px);
+    min-width: 0;
+    min-height: 0;
+  }
+
+  .ode-projectPropertyCategoryTitlePanel {
+    box-sizing: border-box;
+    width: 100%;
+    max-height: 180px;
+    border-right: 0;
+    border-bottom: 2px solid black;
+    padding: 0 0 8px;
+  }
+
+  .ode-propertyDialogPropertiesScrollPanel {
+    box-sizing: border-box;
+    width: 100%;
+    height: auto;
+    max-height: 55vh;
+    padding-right: 0;
+    overflow-y: auto;
+  }
+
+  .ode-DialogBox {
+    box-sizing: border-box;
+    max-width: calc(100vw - 24px);
+    max-height: calc(100vh - 24px);
+    overflow: auto;
+  }
+
+  .ode-ComponentHelpPopup {
+    box-sizing: border-box;
+    width: min(92vw, 360px);
+    max-height: calc(100vh - 24px);
+    overflow: auto;
+  }
+
+  .ode-ComponentHelpPopup-Body {
+    box-sizing: border-box;
+    width: auto;
+    max-width: 100%;
+  }
+
+  .ode-UserSettingsDialog .dialogContent {
+    box-sizing: border-box;
+    width: calc(100vw - 24px);
+    max-width: 600px;
+    max-height: calc(100vh - 24px);
+    overflow: auto;
+  }
+
+  .image-label img {
+    width: min(100%, 360px);
+    max-width: 100%;
+    height: auto;
+  }
+
+  .lie-body {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+
+  .lie-row {
+    gap: 8px;
+  }
+
+  .lie-thumb {
+    width: 52px;
+  }
+
+  .lie-thumb-tile {
+    width: 46px;
+    height: 46px;
+    line-height: 46px;
+  }
+
+  .lie-fields {
+    min-width: 0;
+  }
+
+  .lie-del {
+    width: 40px;
+    height: 40px;
+  }
+
+  .lie-foot {
+    flex-wrap: wrap;
+    justify-content: stretch;
+  }
+
+  .lie-foot > * {
+    flex: 1 1 120px;
+  }
+}
+
+@media screen and (max-width: 380px) {
+  .ode-Logo,
+  .ode-LogoText {
+    max-width: 28vw;
+  }
+
+  .ode-TopPanelAccount {
+    font-size: 11px;
+  }
+
+  .ode-WorkColumns {
+    min-width: 620px;
+  }
+}

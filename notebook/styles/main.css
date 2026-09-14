@@ -1,0 +1,488 @@
+/* ============================================================
+   AgenticNotebook — main layout, top bar, theme variables
+   ============================================================ */
+
+:root {
+  /* Dark theme (fallback when no data-theme is set) */
+  --bg-root: #1e1e1e;
+  --bg-elevated: #252526;
+  --bg-cell: #1a1a1a;
+  --bg-output: #2a2a2a;
+  --border: #3a3a3a;
+  --border-strong: #4a4a4a;
+  --text-primary: #e6e6e6;
+  --text-secondary: #a0a0a0;
+  --text-muted: #707070;
+  --accent: #4a9eff;
+  --accent-hover: #6bb3ff;
+  --error: #ff6b6b;
+  --success: #51cf66;
+  --shadow: 0 4px 12px rgba(0,0,0,0.25);
+  /* Code blocks stay dark in both themes so github-dark hljs CSS reads well */
+  --code-bg: #1e1e1e;
+  --code-fg: #e6e6e6;
+}
+
+html[data-theme="light"] {
+  --bg-root: #fafafa;
+  --bg-elevated: #ffffff;
+  --bg-cell: #ffffff;
+  --bg-output: #f5f5f5;
+  --border: #d8d8d8;
+  --border-strong: #c0c0c0;
+  --text-primary: #1a1a1a;
+  --text-secondary: #555;
+  --text-muted: #888;
+  --accent: #1f6feb;
+  --accent-hover: #388bfd;
+  --error: #d73a49;
+  --success: #22863a;
+  --shadow: 0 4px 12px rgba(0,0,0,0.08);
+  /* --code-bg / --code-fg intentionally NOT overridden — keep code blocks dark */
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  background: var(--bg-root);
+  color: var(--text-primary);
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* ---------- Top bar ---------- */
+.topbar {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 8px 16px;
+  background: var(--bg-elevated);
+  border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.brand {
+  font-weight: 600;
+  font-size: 18px;
+  white-space: nowrap;
+}
+
+.menubar {
+  display: flex;
+  gap: 2px;
+}
+
+.menu {
+  position: relative;
+}
+
+.menu > summary {
+  list-style: none;
+  cursor: pointer;
+  padding: 6px 12px;
+  border-radius: 4px;
+  user-select: none;
+  font-size: 13px;
+}
+
+.menu > summary::-webkit-details-marker { display: none; }
+.menu > summary::marker { display: none; }
+
+.menu > summary:hover { background: var(--bg-root); }
+
+.menu[open] > summary {
+  background: var(--bg-root);
+  color: var(--accent);
+}
+
+.menu-items {
+  position: absolute;
+  top: calc(100% + 2px);
+  left: 0;
+  margin: 0;
+  padding: 4px 0;
+  list-style: none;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-strong);
+  border-radius: 4px;
+  box-shadow: var(--shadow);
+  min-width: 200px;
+  z-index: 200;
+}
+
+.menu-items li {
+  padding: 8px 16px;
+  cursor: pointer;
+  user-select: none;
+  font-size: 13px;
+}
+
+.menu-items li:hover {
+  background: var(--accent);
+  color: white;
+}
+
+.toolbar {
+  display: flex;
+  gap: 6px;
+  margin-left: auto;
+  align-items: center;
+}
+
+/* Uniform icon buttons (used by the top-right toolbar).
+   Each button is a square 36×36 box holding a single colored emoji;
+   `title` attribute provides the function-name tooltip on hover. */
+.icon-btn {
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  color: var(--text-primary);
+  cursor: pointer;
+  font-size: 18px;
+  line-height: 1;
+  font-family: 'Apple Color Emoji', 'Segoe UI Emoji', 'Noto Color Emoji',
+               'Segoe UI Symbol', 'EmojiOne Color', sans-serif;
+  transition: background 0.12s, border-color 0.12s, transform 0.06s;
+}
+
+.icon-btn:hover {
+  background: var(--bg-root);
+  border-color: var(--accent);
+  transform: translateY(-1px);
+}
+
+.icon-btn:active { transform: translateY(0); }
+
+.icon-btn:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* ---------- Notebook container ---------- */
+#notebook {
+  flex: 1;
+  padding: 16px;
+  max-width: 960px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+/* ---------- Modal ---------- */
+.modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  animation: fadeIn 0.15s ease;
+}
+
+.modal.hidden { display: none; }
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.modal-content {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-strong);
+  border-radius: 8px;
+  padding: 24px;
+  width: 90%;
+  max-width: 480px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+}
+
+.modal-content h2 {
+  margin: 0 0 16px;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.modal-content label {
+  display: block;
+  margin-bottom: 14px;
+  font-size: 12px;
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+.modal-content label > span {
+  display: block;
+  margin-bottom: 4px;
+}
+
+.modal-content input {
+  display: block;
+  width: 100%;
+  padding: 8px 10px;
+  background: var(--bg-root);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  color: var(--text-primary);
+  font-family: inherit;
+  font-size: 14px;
+  transition: border-color 0.1s;
+}
+
+.modal-content input:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 20px;
+}
+
+.modal-actions button {
+  padding: 8px 16px;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 13px;
+  font-family: inherit;
+  background: var(--bg-root);
+  color: var(--text-primary);
+  transition: background 0.1s, border-color 0.1s;
+}
+
+.modal-actions button:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.modal-actions button[type="submit"] {
+  background: var(--accent);
+  color: white;
+  border-color: var(--accent);
+}
+
+.modal-actions button[type="submit"]:hover {
+  background: var(--accent-hover);
+  border-color: var(--accent-hover);
+  color: white;
+}
+
+.modal-hint {
+  margin: 14px 0 0;
+  font-size: 12px;
+  color: var(--text-muted);
+  line-height: 1.4;
+}
+
+/* ---------- Inline current-notebook slot in topbar ---------- */
+.notebook-slot {
+  display: flex;
+  align-items: center;
+  padding: 0 10px;
+  margin-left: 4px;
+  height: 36px;
+  border-left: 1px solid var(--border);
+  border-right: 1px solid var(--border);
+}
+
+.notebook-name {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-primary);
+  padding: 5px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  max-width: 280px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  user-select: none;
+}
+
+.notebook-name:hover {
+  background: var(--bg-root);
+  color: var(--accent);
+}
+
+/* ---------- Menu submenu (Export ▸) ---------- */
+.menu-separator {
+  height: 1px;
+  margin: 4px 0;
+  background: var(--border);
+  list-style: none;
+  padding: 0;
+  pointer-events: none;
+}
+
+.menu-item.has-submenu {
+  position: relative;
+}
+
+.menu-item.has-submenu > .menu-item-label {
+  display: block;
+  width: 100%;
+}
+
+.menu-submenu {
+  display: none;
+  position: absolute;
+  left: 100%;
+  top: 0;
+  margin: 0;
+  padding: 4px 0;
+  list-style: none;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-strong);
+  border-radius: 4px;
+  box-shadow: var(--shadow);
+  min-width: 140px;
+  z-index: 210;
+  /* Override the inherited white color from a hovered parent li
+     (.menu-items li:hover sets color: white), which would otherwise
+     make submenu items invisible on the --bg-elevated background. */
+  color: var(--text-primary);
+}
+
+.menu-item.has-submenu:hover .menu-submenu,
+.menu-item.has-submenu:focus-within .menu-submenu {
+  display: block;
+}
+
+.menu-submenu li {
+  padding: 6px 14px;
+  cursor: pointer;
+  font-size: 13px;
+  user-select: none;
+}
+
+.menu-submenu li:hover {
+  background: var(--accent);
+  color: white;
+}
+
+/* ---------- Open Notebook modal ---------- */
+#open-modal .modal-content {
+  width: min(580px, 92vw);
+  max-height: 80vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.notebook-list {
+  flex: 1;
+  overflow-y: auto;
+  margin: 8px 0 16px;
+  min-height: 80px;
+}
+
+.notebook-empty {
+  padding: 40px 16px;
+  text-align: center;
+  color: var(--text-muted);
+  font-style: italic;
+  font-size: 13px;
+}
+
+.notebook-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  margin-bottom: 6px;
+  background: var(--bg-cell);
+  transition: background 0.1s, border-color 0.1s;
+}
+
+.notebook-row:hover {
+  background: var(--bg-root);
+  border-color: var(--border-strong);
+}
+
+.notebook-row.current {
+  border-color: var(--accent);
+  background: rgba(74, 158, 255, 0.10);
+}
+
+.notebook-row-main {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  min-width: 0;
+}
+
+.notebook-row-check {
+  width: 16px;
+  text-align: center;
+  color: var(--accent);
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.notebook-row-name {
+  flex: 1;
+  font-weight: 500;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--text-primary);
+}
+
+.notebook-row-meta {
+  font-size: 12px;
+  color: var(--text-muted);
+  flex-shrink: 0;
+}
+
+.notebook-row-delete {
+  flex-shrink: 0;
+  width: 30px;
+  height: 28px;
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  cursor: pointer;
+  font-size: 13px;
+  color: var(--text-secondary);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.notebook-row-delete:hover {
+  background: var(--error);
+  color: white;
+  border-color: var(--error);
+}
+
+/* ---------- Scrollbar (subtle) ---------- */
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb {
+  background: var(--border-strong);
+  border-radius: 5px;
+}
+::-webkit-scrollbar-thumb:hover { background: var(--text-muted); }

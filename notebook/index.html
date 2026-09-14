@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AgenticNotebook</title>
+
+<!-- CodeMirror 5 (vendored locally — no CDN dependency) -->
+<link rel="stylesheet" href="vendor/codemirror/codemirror.min.css">
+<link rel="stylesheet" href="vendor/codemirror/theme/dracula.min.css">
+
+<!-- KaTeX (math rendering in output) -->
+<link rel="stylesheet" href="vendor/katex/katex.min.css">
+
+<!-- highlight.js (vendored locally) -->
+<link rel="stylesheet" href="vendor/highlight.js/styles/github-dark.min.css">
+
+<!-- App styles -->
+<link rel="stylesheet" href="styles/main.css">
+<link rel="stylesheet" href="styles/cells.css">
+
+<!-- CodeMirror 5 scripts (vendored) -->
+<script src="vendor/codemirror/codemirror.min.js"></script>
+<script src="vendor/codemirror/mode/markdown/markdown.min.js"></script>
+<script src="vendor/codemirror/mode/xml/xml.min.js"></script>
+<script src="vendor/codemirror/mode/javascript/javascript.min.js"></script>
+<script src="vendor/codemirror/mode/css/css.min.js"></script>
+<script src="vendor/codemirror/addon/mode/overlay.js"></script>
+
+<!-- marked + highlight.js (vendored) -->
+<script src="vendor/marked.min.js"></script>
+<script src="vendor/highlight.min.js"></script>
+
+<!-- KaTeX (math rendering) -->
+<script src="vendor/katex/katex.min.js"></script>
+<script src="vendor/katex/auto-render.min.js"></script>
+
+<!-- App modules — order matters: storage → editor → llm → settings → notebooks → cells → main -->
+<script src="scripts/storage.js"></script>
+<script src="scripts/editor.js"></script>
+<script src="scripts/llm.js"></script>
+<script src="scripts/settings.js"></script>
+<script src="scripts/notebooks.js"></script>
+<script src="scripts/cells.js"></script>
+<script src="scripts/main.js"></script>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="brand">📓 AgenticNotebook</div>
+
+  <div class="notebook-slot" title="Click to rename">
+    <span class="notebook-name" id="current-notebook-name">untitle</span>
+  </div>
+
+  <div class="menubar">
+    <details class="menu">
+      <summary>Notebook</summary>
+      <ul class="menu-items">
+        <li data-action="new-notebook">New…</li>
+        <li data-action="open-notebook">Open…</li>
+        <li data-action="save-notebook">Save</li>
+        <li class="menu-separator"></li>
+        <li data-action="import-notebook">Import…</li>
+        <li class="menu-item has-submenu">
+          <span class="menu-item-label">Export ▸</span>
+          <ul class="menu-submenu">
+            <li data-action="export-json">as JSON</li>
+            <li data-action="export-html">as HTML</li>
+          </ul>
+        </li>
+      </ul>
+    </details>
+    <details class="menu">
+      <summary>Edit</summary>
+      <ul class="menu-items">
+        <li data-action="add-below">Add Cell Below</li>
+        <li data-action="add-above">Add Cell at Top</li>
+        <li data-action="clear-outputs">Clear All Outputs</li>
+      </ul>
+    </details>
+  </div>
+
+  <div class="toolbar">
+    <button class="icon-btn" id="btn-add-cell"   title="Add Cell"           aria-label="Add Cell">➕</button>
+    <button class="icon-btn" id="btn-run-all"    title="Run All Cells"      aria-label="Run All Cells">⏩️</button>
+    <button class="icon-btn" id="btn-clear"      title="Clear All Outputs"  aria-label="Clear All Outputs">🧹</button>
+    <button class="icon-btn" id="btn-settings"   title="LLM Settings"       aria-label="LLM Settings">⚙️</button>
+    <button class="icon-btn" id="btn-theme"      title="Toggle Theme"       aria-label="Toggle Theme">☀️</button>
+  </div>
+</header>
+
+<main id="notebook"></main>
+
+<!-- Open Notebook modal -->
+<div id="open-modal" class="modal hidden" role="dialog" aria-labelledby="open-title">
+  <div class="modal-content">
+    <h2 id="open-title">📂 Open Notebook</h2>
+    <div class="notebook-list" id="open-notebook-list"></div>
+    <div class="modal-actions">
+      <button type="button" id="open-cancel">Close</button>
+    </div>
+  </div>
+</div>
+
+<!-- Settings modal -->
+<div id="settings-modal" class="modal hidden" role="dialog" aria-labelledby="settings-title">
+  <div class="modal-content">
+    <h2 id="settings-title">⚙ LLM Settings</h2>
+    <form id="settings-form">
+      <label>
+        <span>Base URL</span>
+        <input type="text" id="cfg-base-url" placeholder="https://api.deepseek.com" autocomplete="off" required>
+      </label>
+      <label>
+        <span>API Key</span>
+        <input type="password" id="cfg-api-key" placeholder="sk-..." autocomplete="off" required>
+      </label>
+      <label>
+        <span>Model</span>
+        <input type="text" id="cfg-model" placeholder="deepseek-chat" autocomplete="off" required>
+      </label>
+      <div class="modal-actions">
+        <button type="button" id="cfg-cancel">Cancel</button>
+        <button type="submit" id="cfg-save">Save</button>
+      </div>
+    </form>
+    <p class="modal-hint">Defaults are DeepSeek. Any OpenAI-compatible endpoint works.</p>
+  </div>
+</div>
+
+<script>
+  // Fallback for old / no-defer browsers: main.js already calls main() on its own
+  // via an IIFE at the bottom of that file. Nothing to do here.
+</script>
+</body>
+</html>

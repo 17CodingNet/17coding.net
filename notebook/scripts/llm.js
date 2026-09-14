@@ -39,7 +39,19 @@ window.Anb = window.Anb || {};
       return;
     }
 
-    const url = `${baseUrl.replace(/\/$/, '')}/v1/chat/completions`;
+    // Accept either a bare origin ("https://api.example.com"), a
+    // /v1 base ("https://api.example.com/v1"), or a full chat-completions
+    // endpoint ("https://api.example.com/v1/chat/completions"). The
+    // latter is what some providers (Agnes) publish in their docs.
+    const trimmed = baseUrl.replace(/\/+$/, '');
+    let url;
+    if (/\/chat\/completions(\?|$)/.test(trimmed)) {
+      url = trimmed;
+    } else if (/\/v1$/.test(trimmed)) {
+      url = `${trimmed}/chat/completions`;
+    } else {
+      url = `${trimmed}/v1/chat/completions`;
+    }
 
     let response;
     try {

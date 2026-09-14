@@ -6,14 +6,35 @@ window.Anb = window.Anb || {};
 
 (function () {
   const DEFAULTS = {
-    baseUrl: 'https://api.deepseek.com',
+    baseUrl: 'https://api.agnes-ai.cn/v1/chat/completions',
     apiKey: '',
-    model: 'deepseek-chat'
+    model: 'agnes-3.0-flash'
   };
 
   async function load() {
-    const s = await window.Anb.storage.get('settings');
-    return s ? { ...DEFAULTS, ...s } : { ...DEFAULTS };
+    let s = await window.Anb.storage.get('settings');
+    if (s) {
+      // One-time migration: if the stored values are still the untouched
+      // defaults from the previous DeepSeek-era version (customised
+      // settings — different URL / model / non-empty key — are left
+      // alone), replace with the current defaults so the Settings
+      // modal picks up the new provider without the user having to
+      // wipe IndexedDB by hand.
+      const OLD = {
+        baseUrl: 'https://api.deepseek.com',
+        model: 'deepseek-chat'
+      };
+      if (
+        s.baseUrl === OLD.baseUrl &&
+        s.model === OLD.model &&
+        (!s.apiKey || s.apiKey === '')
+      ) {
+        s = { baseUrl: DEFAULTS.baseUrl, apiKey: '', model: DEFAULTS.model };
+        await save(s);
+      }
+      return { ...DEFAULTS, ...s };
+    }
+    return { ...DEFAULTS };
   }
 
   async function save(settings) {

@@ -281,7 +281,339 @@ ${cellsHtml}
     URL.revokeObjectURL(url);
   }
 
-  // --- internals ------------------------------------------------------------
+  async function exportNotebookAgent() {
+    // Bake current settings in as the agent's defaults (fallback to Agnes)
+    let settings = { baseUrl: 'https://api.agnes-ai.cn/v1/chat/completions', apiKey: '', model: 'agnes-3.0-flash' };
+    try {
+      const s = await Anb.settings.load();
+      settings = { baseUrl: s.baseUrl || settings.baseUrl, apiKey: '', model: s.model || settings.model };
+    } catch (err) {
+      console.warn('agent export: failed to read settings, using defaults', err);
+    }
+
+    const name = Anb.notebooks.getName();
+
+    // System prompt: whole notebook as the agent's background knowledge
+    const sysParts = cells.map((c, i) => {
+      const body = [];
+      if (c.content.trim()) body.push(c.content.trim());
+      if (c.output.trim()) body.push('(output) ' + c.output.trim());
+      return `[Cell ${i + 1}]\n${body.join('\n') || '(empty)'}`;
+    });
+    const sysPrompt =
+      `You are an AI assistant inside an AgenticNotebook export called "${name}".\n` +
+      `The notebook content below is your background knowledge.\n` +
+      `Answer the user's questions using this material when relevant, and be concise.\n\n` +
+      sysParts.join('\n\n---\n\n');
+
+    const jsonSafe = (v) =>
+      JSON.stringify(v)
+        .replace(/</g, '\\u003c')
+        .replace(/>/g, '\\u003e')
+        .replace(/&/g, '\\u0026');
+
+    const html = `<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>${escapeHtml(name)} · Agent App</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/styles/github-dark.min.css">
+<style>
+  * { box-sizing: border-box; }
+  html, body { height: 100%; }
+  body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif; background: #f7f7f8; color: #1a1a1a; display: flex; flex-direction: column; }
+  /* ---- top bar ---- */
+  .topbar { display: flex; align-items: center; gap: 10px; padding: 8px 16px; background: #fff; border-bottom: 1px solid #e4e4e7; }
+  .brand { font-weight: 600; font-size: 16px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .badge { font-size: 11px; color: #fff; background: #1f6feb; border-radius: 999px; padding: 2px 8px; flex-shrink: 0; }
+  .spacer { flex: 1; }
+  .icon-btn { width: 32px; height: 32px; border: 1px solid #e4e4e7; background: #fff; border-radius: 6px; cursor: pointer; font-size: 16px; line-height: 1; }
+  .icon-btn:hover { background: #f0f0f0; }
+  /* ---- chat ---- */
+  .chat { flex: 1; min-height: 0; display: flex; flex-direction: column; margin: 12px 16px 16px; background: #fff; border: 1px solid #e4e4e7; border-radius: 8px; overflow: hidden; }
+  .messages { flex: 1; overflow-y: auto; padding: 16px; }
+  .msg { margin-bottom: 12px; max-width: 88%; line-height: 1.6; font-size: 14px; }
+  .msg.user { margin-left: auto; background: #1f6feb; color: #fff; border-radius: 12px 12px 2px 12px; padding: 8px 12px; white-space: pre-wrap; word-wrap: break-word; }
+  .msg.assistant { background: #f4f4f5; border: 1px solid #e4e4e7; border-radius: 12px 12px 12px 2px; padding: 10px 14px; }
+  .msg.assistant .hint { color: #888; font-style: italic; }
+  .err { color: #d33; margin-top: 8px; }
+  /* markdown typography inside assistant bubbles */
+  .msg.assistant > *:first-child { margin-top: 0; }
+  .msg.assistant > *:last-child { margin-bottom: 0; }
+  .msg.assistant h1, .msg.assistant h2, .msg.assistant h3, .msg.assistant h4 { margin: 12px 0 6px; font-weight: 600; line-height: 1.3; }
+  .msg.assistant h1 { font-size: 20px; border-bottom: 1px solid #eee; padding-bottom: 3px; }
+  .msg.assistant h2 { font-size: 17px; } .msg.assistant h3 { font-size: 15px; } .msg.assistant h4 { font-size: 14px; }
+  .msg.assistant p { margin: 8px 0; }
+  .msg.assistant ul, .msg.assistant ol { padding-left: 22px; margin: 8px 0; }
+  .msg.assistant li { margin: 2px 0; }
+  .msg.assistant code { background: #e8e8ea; padding: 2px 6px; border-radius: 3px; font-family: 'JetBrains Mono', 'Menlo', monospace; font-size: 0.9em; }
+  .msg.assistant pre { background: #1e1e1e; color: #e6e6e6; padding: 12px 14px; border-radius: 4px; overflow-x: auto; margin: 8px 0; font-size: 13px; }
+  .msg.assistant pre code { background: transparent; padding: 0; color: inherit; }
+  .msg.assistant blockquote { border-left: 3px solid #1f6feb; margin: 8px 0; padding: 4px 12px; color: #555; }
+  .msg.assistant a { color: #1f6feb; text-decoration: none; } .msg.assistant a:hover { text-decoration: underline; }
+  .msg.assistant table { border-collapse: collapse; margin: 8px 0; }
+  .msg.assistant th, .msg.assistant td { border: 1px solid #ddd; padding: 5px 10px; }
+  .msg.assistant th { background: #eef0f2; font-weight: 600; }
+  .msg.assistant hr { border: none; border-top: 1px solid #eee; margin: 10px 0; }
+  .msg.assistant .katex-display { margin: 10px 0; overflow-x: auto; }
+  .msg.assistant .katex { font-size: 1.05em; white-space: nowrap; }
+  /* ---- composer ---- */
+  .composer { display: flex; gap: 8px; padding: 12px; border-top: 1px solid #e4e4e7; }
+  .composer input { flex: 1; padding: 10px 12px; border: 1px solid #e4e4e7; border-radius: 6px; font-size: 14px; }
+  .composer input:focus { outline: none; border-color: #1f6feb; }
+  .composer button { padding: 10px 16px; border: none; border-radius: 6px; background: #1f6feb; color: #fff; font-size: 14px; cursor: pointer; }
+  .composer button:disabled { opacity: 0.5; cursor: not-allowed; }
+  .composer #btn-clear-chat { background: #fff; color: #666; border: 1px solid #e4e4e7; }
+  /* ---- settings modal ---- */
+  .modal { position: fixed; inset: 0; background: rgba(0,0,0,.4); display: flex; align-items: center; justify-content: center; z-index: 100; }
+  .modal.hidden { display: none; }
+  .modal-content { background: #fff; border-radius: 8px; padding: 20px; width: min(460px, 90vw); box-shadow: 0 10px 30px rgba(0,0,0,.2); }
+  .modal-content h2 { margin: 0 0 14px; font-size: 17px; }
+  .modal-content label { display: block; margin-bottom: 12px; font-size: 13px; color: #555; }
+  .modal-content label span { display: block; margin-bottom: 4px; }
+  .modal-content input { width: 100%; padding: 8px 10px; border: 1px solid #e4e4e7; border-radius: 6px; font-size: 14px; }
+  .modal-content input:focus { outline: none; border-color: #1f6feb; }
+  .modal-actions { display: flex; justify-content: flex-end; gap: 8px; margin-top: 16px; }
+  .modal-actions button { padding: 8px 16px; border-radius: 6px; border: 1px solid #e4e4e7; background: #fff; cursor: pointer; font-size: 13px; }
+  .modal-actions button[type=submit] { background: #1f6feb; color: #fff; border-color: #1f6feb; }
+  .modal-hint { font-size: 12px; color: #888; margin-top: 12px; word-wrap: break-word; }
+</style>
+</head>
+<body>
+  <header class="topbar">
+    <span class="brand">📓 ${escapeHtml(name)}</span>
+    <span class="badge">Agent App</span>
+    <div class="spacer"></div>
+    <button class="icon-btn" id="btn-settings" title="LLM Settings" aria-label="LLM Settings">⚙️</button>
+  </header>
+
+  <main class="chat">
+    <div id="messages" class="messages"></div>
+    <form id="chat-form" class="composer" autocomplete="off">
+      <button type="button" id="btn-clear-chat" title="Clear chat" aria-label="Clear chat">🗑</button>
+      <input id="chat-input" placeholder="Ask about the notebook… (Enter to send)">
+      <button type="submit">Send</button>
+    </form>
+  </main>
+
+  <div id="settings-modal" class="modal hidden" role="dialog" aria-labelledby="settings-title">
+    <div class="modal-content">
+      <h2 id="settings-title">⚙️ Agent LLM Settings</h2>
+      <form id="settings-form">
+        <label><span>Base URL</span><input type="text" id="cfg-base-url" required></label>
+        <label><span>API Key</span><input type="password" id="cfg-api-key" required></label>
+        <label><span>Model</span><input type="text" id="cfg-model" required></label>
+        <div class="modal-actions">
+          <button type="button" id="cfg-cancel">Cancel</button>
+          <button type="submit">Save</button>
+        </div>
+      </form>
+      <p class="modal-hint" id="cfg-hint"></p>
+    </div>
+  </div>
+
+<script src="https://cdn.jsdelivr.net/npm/marked@11.1.0/marked.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/highlight.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
+<script>
+"use strict";
+/* ===== baked at export time ===== */
+var NOTEBOOK_NAME = ${jsonSafe(name)};
+var AGENT_DEFAULTS = ${jsonSafe({ baseUrl: settings.baseUrl, model: settings.model })};
+var SYSTEM_PROMPT = ${jsonSafe(sysPrompt)};
+
+var LS_KEY = "agentic-notebook-agent-settings";
+
+function escapeHtml(s) {
+  return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#39;");
+}
+function loadSettings() {
+  var base = { baseUrl: AGENT_DEFAULTS.baseUrl, apiKey: "", model: AGENT_DEFAULTS.model };
+  try {
+    var raw = localStorage.getItem(LS_KEY);
+    if (raw) {
+      var s = JSON.parse(raw);
+      for (var k in base) { if (s && s[k] !== undefined && s[k] !== null && s[k] !== "") base[k] = s[k]; }
+    }
+  } catch (e) {}
+  return base;
+}
+function saveSettings(s) { try { localStorage.setItem(LS_KEY, JSON.stringify(s)); } catch (e) {} }
+function buildUrl(baseUrl) {
+  var t = String(baseUrl || "").replace(/\\/+$/, "");
+  if (/\\/chat\\/completions(\\?|$)/.test(t)) return t;
+  if (/\\/v1$/.test(t)) return t + "/chat/completions";
+  return t + "/v1/chat/completions";
+}
+function renderMarkdown(text) {
+  if (!text) return "";
+  try {
+    marked.setOptions({ breaks: true, gfm: true, highlight: function (code, lang) {
+      if (lang && window.hljs && hljs.getLanguage(lang)) { try { return hljs.highlight(code, { language: lang }).value; } catch (e) {} }
+      return escapeHtml(code);
+    }});
+    var html = marked.parse(text);
+    if (window.renderMathInElement) {
+      var wrap = document.createElement("div");
+      wrap.innerHTML = html;
+      try {
+        window.renderMathInElement(wrap, { delimiters: [ {left:"$$",right:"$$",display:true}, {left:"$",right:"$",display:false} ], throwOnError: false, ignoredClasses: ["katex"] });
+        html = wrap.innerHTML;
+      } catch (e) {}
+    }
+    return html;
+  } catch (e) {
+    return "<pre>" + escapeHtml(text) + "</pre>";
+  }
+}
+function streamChat(opts) {
+  var settings = opts.settings;
+  if (!settings.apiKey) { opts.onError(new Error("Missing API Key — open ⚙ Settings to set it.")); return; }
+  if (!settings.baseUrl) { opts.onError(new Error("Missing Base URL — open ⚙ Settings to set it.")); return; }
+  if (!settings.model) { opts.onError(new Error("Missing Model — open ⚙ Settings to set it.")); return; }
+  var url = buildUrl(settings.baseUrl);
+  fetch(url, {
+    method: "POST",
+    headers: { "Content-Type": "application/json", "Authorization": "Bearer " + settings.apiKey },
+    body: JSON.stringify({ model: settings.model, messages: opts.messages, stream: true, stream_options: { include_usage: true } })
+  }).then(function (resp) {
+    if (!resp.ok) {
+      return resp.text().then(function (txt) { throw new Error("HTTP " + resp.status + " " + (txt || resp.statusText).slice(0, 200)); });
+    }
+    var reader = resp.body.getReader();
+    var decoder = new TextDecoder("utf-8");
+    var buffer = "";
+    var acc = "";
+    function pump() {
+      return reader.read().then(function (r) {
+        if (r.done) { opts.onDone(acc); return; }
+        buffer += decoder.decode(r.value, { stream: true });
+        var lines = buffer.split("\\n");
+        buffer = lines.pop() || "";
+        for (var i = 0; i < lines.length; i++) {
+          var line = lines[i].trim();
+          if (!line || line.indexOf("data:") !== 0) continue;
+          var payload = line.slice(5).trim();
+          if (payload === "[DONE]") { opts.onDone(acc); return; }
+          var obj;
+          try { obj = JSON.parse(payload); } catch (e) { continue; }
+          if (obj.error) { opts.onError(new Error(obj.error.message || "API error")); return; }
+          var delta = obj.choices && obj.choices[0] && obj.choices[0].delta ? obj.choices[0].delta.content : null;
+          if (delta) { acc += delta; opts.onChunk(delta, acc); }
+        }
+        return pump();
+      });
+    }
+    return pump();
+  }).catch(function (err) {
+    opts.onError(err instanceof Error ? err : new Error(String(err)));
+  });
+}
+
+/* ===== chat ===== */
+var chatHistory = [ { role: "system", content: SYSTEM_PROMPT } ];
+var messagesEl = document.getElementById("messages");
+var form = document.getElementById("chat-form");
+var input = document.getElementById("chat-input");
+var sendBtn = form.querySelector("button[type=submit]");
+var busy = false;
+
+function addBubble(role, html) {
+  var div = document.createElement("div");
+  div.className = "msg " + role;
+  div.innerHTML = html;
+  messagesEl.appendChild(div);
+  messagesEl.scrollTop = messagesEl.scrollHeight;
+  return div;
+}
+function addUser(text) { return addBubble("user", escapeHtml(text)); }
+function clearChat() {
+  chatHistory = [ { role: "system", content: SYSTEM_PROMPT } ];
+  messagesEl.innerHTML = "";
+  addBubble("assistant", '<div class="hint">Ask me anything about this notebook.</div>');
+}
+document.getElementById("btn-clear-chat").addEventListener("click", clearChat);
+
+form.addEventListener("submit", function (e) {
+  e.preventDefault();
+  if (busy) return;
+  var text = input.value.trim();
+  if (!text) return;
+  input.value = "";
+  chatHistory.push({ role: "user", content: text });
+  addUser(text);
+  busy = true;
+  sendBtn.disabled = true;
+
+  var bubble = addBubble("assistant", "");
+  var raw = "";
+  var timer = null;
+  function flush() { timer = null; bubble.innerHTML = renderMarkdown(raw); messagesEl.scrollTop = messagesEl.scrollHeight; }
+  function schedule() { if (timer) return; timer = setTimeout(flush, 150); }
+
+  streamChat({
+    settings: loadSettings(),
+    messages: chatHistory,
+    onChunk: function (d, full) { raw = full; schedule(); },
+    onDone: function (full) {
+      if (timer) { clearTimeout(timer); timer = null; }
+      raw = full;
+      bubble.innerHTML = renderMarkdown(full);
+      messagesEl.scrollTop = messagesEl.scrollHeight;
+      chatHistory.push({ role: "assistant", content: full });
+      busy = false; sendBtn.disabled = false; input.focus();
+    },
+    onError: function (err) {
+      if (timer) { clearTimeout(timer); timer = null; }
+      bubble.innerHTML = bubble.innerHTML + '<div class="err">❌ ' + escapeHtml(err.message || String(err)) + '</div>';
+      busy = false; sendBtn.disabled = false; input.focus();
+    }
+  });
+});
+
+/* ===== settings ===== */
+var modal = document.getElementById("settings-modal");
+var settingsForm = document.getElementById("settings-form");
+var baseUrlInput = document.getElementById("cfg-base-url");
+var apiKeyInput = document.getElementById("cfg-api-key");
+var modelInput = document.getElementById("cfg-model");
+var cfgHint = document.getElementById("cfg-hint");
+function openSettings() {
+  var s = loadSettings();
+  baseUrlInput.value = s.baseUrl;
+  apiKeyInput.value = s.apiKey;
+  modelInput.value = s.model;
+  cfgHint.textContent = "Defaults baked in: " + AGENT_DEFAULTS.baseUrl + " / " + AGENT_DEFAULTS.model + ". The API key is stored only in this browser.";
+  modal.classList.remove("hidden");
+  baseUrlInput.focus();
+}
+function closeSettings() { modal.classList.add("hidden"); }
+document.getElementById("btn-settings").addEventListener("click", openSettings);
+document.getElementById("cfg-cancel").addEventListener("click", closeSettings);
+modal.addEventListener("click", function (e) { if (e.target === modal) closeSettings(); });
+settingsForm.addEventListener("submit", function (e) {
+  e.preventDefault();
+  saveSettings({ baseUrl: baseUrlInput.value.trim(), apiKey: apiKeyInput.value.trim(), model: modelInput.value.trim() });
+  closeSettings();
+});
+
+clearChat();
+input.focus();
+</script>
+</body>
+</html>`;
+
+    const blob = new Blob([html], { type: 'text/html' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `${sanitizeFilename(name)}-agent-${Date.now()}.html`;
+    a.click();
+    URL.revokeObjectURL(url);
+  }
 
   function createBlankCell() {
     return {
@@ -723,6 +1055,7 @@ ${cellsHtml}
     runAll,
     exportNotebook,
     exportNotebookHtml,
+    exportNotebookAgent,
     toggleCellPreview,
     setCellPreview
   };

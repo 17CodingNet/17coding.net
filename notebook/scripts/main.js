@@ -124,6 +124,10 @@
           Anb.cells.exportNotebookHtml();
           flashStatus('Exported as HTML.');
           break;
+        case 'export-agent':
+          await Anb.cells.exportNotebookAgent();
+          flashStatus('Exported as agent app.');
+          break;
         case 'add-below':
           Anb.cells.addCell('below', Anb.cells.getCells().length - 1);
           break;

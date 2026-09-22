@@ -44,8 +44,54 @@
         <h2> App Inventor needs JavaScript enabled to run.</h2>
       </div>
     </noscript>
-    <script type="text/javascript" src="ode/messages_241c8ecf.cache.js"></script>
+    <!-- offline-webapp: the JSP resolves the locale server-side from ?locale=
+         and emits the matching Blockly messages bundle; a static site has to do
+         that in the browser, before the GWT module loads. LOCALES comes from
+         YaClient.gwt.xml and this build's i18n.java - do not edit by hand. -->
+    <script type="text/javascript">
+      (function() {
+        var LOCALES = {"en":"messages_bdcc1545.cache.js","zh_CN":"messages_5b60fe32.cache.js","zh_TW":"messages_e50c0c59.cache.js","es_ES":"messages_1c9ad123.cache.js","fr_FR":"messages_cc8ae7ae.cache.js","it_IT":"messages_5dbb0d72.cache.js","ru":"messages_83ceb5eb.cache.js","ko_KR":"messages_31a9b9b0.cache.js","sv":"messages_6afbcb32.cache.js","pt_BR":"messages_86f6a54.cache.js","pt":"messages_8029608c.cache.js","hu":"messages_b1990a14.cache.js","nl":"messages_f6975916.cache.js","de":"messages_a76a6ed.cache.js","pl":"messages_cb6df85d.cache.js","lt":"messages_c7315ee2.cache.js","tr":"messages_740c104b.cache.js","hy":"messages_44d24601.cache.js","ca":"messages_a3df157a.cache.js","uk":"messages_df43eff9.cache.js","ja":"messages_513d7f0e.cache.js"};
+        var DEFAULT_LOCALE = "en";
+        var STORAGE_KEY = "ai2.locale";
+        function known(locale) {
+          return Object.prototype.hasOwnProperty.call(LOCALES, locale);
+        }
+        var locale = null;
+        try {
+          var match = /[?&]locale=([^&#]*)/.exec(window.location.search);
+          if (match) {
+            locale = decodeURIComponent(match[1].replace(/\+/g, " "));
+          }
+        } catch (e) {
+          locale = null;
+        }
+        if (locale === null || !known(locale)) {
+          try {
+            locale = window.localStorage.getItem(STORAGE_KEY);
+          } catch (e) {
+            locale = null;
+          }
+        }
+        if (locale === null || !known(locale)) {
+          locale = DEFAULT_LOCALE;
+        }
+        try {
+          // Remember the choice: the desktop wrapper and a plain reload of
+          // index.html have no ?locale= to carry it.
+          window.localStorage.setItem(STORAGE_KEY, locale);
+        } catch (e) {
+        }
+        // Always pin the GWT permutation to the locale resolved above. Shipping
+        // more than one locale means GWT would otherwise follow the browser's
+        // own language and paint its widgets in a different language than the
+        // Blockly messages bundle loaded below.
+        document.write('<meta name="gwt:property" content="locale=' + locale + '">');
+        document.documentElement.lang = locale.replace(/_/g, "-");
+        document.write('<script type="text/javascript" src="ode/' + LOCALES[locale] + '"><\/script>');
+      })();
+    </script>
       <script type="text/javascript" src="templates/template-data.js"></script>
+    <script type="text/javascript" src="init-specs/spec-data.js"></script>
   </head>
 
   <!-- ODE scripts -->
@@ -80,7 +126,7 @@
     </script>
     <script src="static/js/tutorial.js"></script>
     <script type="text/javascript" src="static/closure-compiler/base.js"></script>
-    <script type="text/javascript" src="ode/aiblockly-c8552c1fb466279de0eb27bd6ae53a81e6b5a6edd544211859c4dd25471f47bc.cache.js"></script>
+    <script type="text/javascript" src="ode/aiblockly-d1839463b38a016147cc0abfff3210e659d7337d1e58b792548f9fef18093edc.cache.js"></script>
     <script type="text/javascript" src="static/js/scroll-options-6.0.16.min.js"></script>
     <script type="text/javascript" src="static/js/workspace-search-9.1.10.min.js"></script>
     <script type="text/javascript" src="static/js/block-dynamic-connection-0.7.16.min.js"></script>

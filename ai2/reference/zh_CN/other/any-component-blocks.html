@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+
+     一一对应。
+     - 正文（标题/段落/列表/表格/图片 alt/视频说明）译为简体中文；
+     - 顶部导航（MIT logo、"Create Apps!" 按钮、About/Educators/News/Resources/Blogs
+       菜单、Donate 按钮、gcse 搜索框）与底部 MIT 版权页脚（© 声明、CC BY-SA、ToS、
+       Support/Twitter/GitHub/Accessibility）已整块删除：本项目是离线产品，帮助页只在
+       应用内新标签页打开，不应出现通往 MIT 主站的品牌链接与捐赠入口。head 里仅供
+       "Create Apps!" 按钮使用的 gotoappinventor() 脚本一并删除；<title> 与页面 <h1>
+       里的 "MIT " 字样已去掉，正文中作为产品名出现的 "MIT App Inventor" 已改为
+       "App Inventor蔻丁工坊"(zh_CN 语境带蔻丁工坊后缀;版权说明处的 MIT 保留)；
+     - 重定向脚本（<script> 块）按上游原文保留：本项目 blocklyeditor.js 的 _resolveHelpUrl
+       已把 href 直接写成 zh_CN 路径且不带 ?locale=，脚本不会触发；若日后有人手工拼了
+       ?locale=zh_CN 进 URL，file:// 下 sync XHR 会被浏览器拦截，脚本停在"已是目标语言"，
+       不会跳错位置；
+     - /static/ 绝对路径改为相对路径：offline webapp 支持以 file:// 打开，绝对路径会解析到
+       磁盘根目录（file:///static/...）从而 404；
+     - 本地图片/视频按上游同名相对路径复制到本目录，故 src 与上游完全一致；
+     - id= 锚点与块/组件/属性英文名保持上游原文，帮助链接里的 #fragment 才能定位。 -->
+<html lang="zh-CN"><head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="stylesheet" href="../../../static/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="../../../static/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
+    <link href="../../../static/css/fonts.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="../../../static/css/mit_app_inventor.css">
+    <title>任意组件块</title></head>
+<body class="mit_app_inventor">
+<div class="default-page">
+            <div class="header">
+	        <h1 class="font-weight-bold text-center offset-xl-2 col-xl-8">任意组件块</h1>
+            </div>
+            <div class="container-fluid">
+                <article class="documentation">
+<p>编写应用时有一个常见原则叫“不要重复自己”（Don’t Repeat Yourself，DRY）。与其写一大堆重复的代码（比如靠复制粘贴），不如改用一类特殊的块——“任意组件”（Any Component）块。</p>
+
+<p>那么“任意组件”块到底是什么呢？每一个组件块，例如 <span class="setter block">set Button1.Text to</span>，都由三部分组成：(1) 被修改的组件（<span class="component block">Button1</span>）；(2) 被操作的组件属性（<span class="setter block">set ….Text to</span>）；(3) 输入（如果有的话）。您编写应用时，从块抽屉里拖出来的块通常都指定了某一个具体的组件。但如果您想对许多<strong><em>同一类型</em></strong>的不同组件执行同一个操作，该怎么办呢？一种办法是按需把每个块复制粘贴很多次，但随着应用规模扩大，这样做就很难编辑了。这时，如果能用一个可替换的组件来代表某一个具体组件，就会方便很多。“任意组件”块正是为此而设。它们不把块限定在某个具体组件上，而是允许您输入同一类型的任意一个组件，让代码更通用。例如，您可以建立一个按钮的列表，然后用 <span class="control block">for-each</span>（遍历）循环一次性更新它们的所有属性，如下所示：</p>
+
+<p class="figure"><img src="loop-example.png" alt="隐藏按钮列表中的所有块" /></p>
+
+<p class="caption"><strong>图 1.</strong> 用 for 循环隐藏列表中所有按钮的示例。</p>
+
+<p>组件块的主要三种类型，即事件、方法和属性，都有对应的“任意组件”块。</p>
+
+<h2 id="properties">属性</h2>
+
+<p>属性类的“任意组件”块是所有任意组件块中最简单的一种。属性读取块（如下图所示）接受一个组件，并返回该组件上指定属性的值。属性设置块则多接受一个参数，即该属性的新值。</p>
+
+<p class="figure"><img src="getter.png" alt="读取名为 ExampleButton 的按钮的 Text 属性的读取块" />
+<br />
+<img src="setter.png" alt="把名为 ExampleButton 的按钮的 Enabled 属性设为 false 的设置块" /></p>
+
+<p class="caption"><strong>图 2.</strong> 属性类任意组件读取块与设置块的示例。</p>
+
+<h2 id="methods">方法</h2>
+
+<p>任意组件的方法块用法与属性读取块、设置块类似。对于组件上的某个方法，对应的任意组件块会接受一个组件以及该方法所需的全部参数。该块的输出与具体的组件方法块（如果有输出的话）相同。例如，下面是一个方法块，用来计算地图（Map）上某个标记（Marker）到用户当前位置的距离。</p>
+
+<p class="figure"><img src="method.png" alt="计算从用户当前位置到变量 feature 中所提供的标记之间的距离" /></p>
+
+<p class="caption"><strong>图 3.</strong> 方法块的用法示例：接受任意一个标记，计算它到用户当前位置的距离。</p>
+
+<h2 id="events">事件</h2>
+
+<p>任意组件的事件块是任意组件块中最复杂的一种。对于某个事件，对应的任意组件事件块会在原有的事件参数列表（如果有）之外，再增加两个参数：<span class="variable block">component</span> 和 <span class="variable block">notAlreadyHandled</span>。<span class="variable block">component</span> 参数是触发该事件的那个组件，例如 <span class="component block">Button</span>。如果没有其他事件块专门处理 <span class="variable block">component</span> 上的该事件，那么 <span class="variable block">notAlreadyHandled</span> 参数就为 <span class="logic block">true</span>。</p>
+
+<p>看看下面这段事件处理的伪代码，就能了解它的工作机制：</p>
+
+<ol>
+  <li>某个事件发生，例如用户点击了名为 Button1 的按钮。</li>
+  <li><span class="variable block">component</span> 被初始化为 <span class="getter block">Button1</span>。</li>
+  <li><span class="variable block">notAlreadyHandled</span> 被初始化为 <span class="logic block">true</span>。</li>
+  <li>App Inventor 检查是否存在 <span class="event block">when Button1.Click</span>。</li>
+  <li>如果找到了该事件块：
+    <ol>
+      <li>运行该事件块中的代码。</li>
+      <li><span class="variable block">notAlreadyHandled</span> 被设为 <span class="logic block">false</span>。</li>
+    </ol>
+  </li>
+  <li>App Inventor 检查是否存在 <span class="event block">when any Button.Click</span>。</li>
+  <li>如果找到了该任意组件事件块，就运行该事件块中的代码，并把 <span class="variable block">component</span> 和 <span class="variable block">notAlreadyHandled</span> 传给它。</li>
+</ol>
+
+<h2 id="tips--tricks">提示与技巧</h2>
+
+<p>用任意组件块可以做很多事情。下面是一些提示与技巧，帮您充分发挥任意组件块的作用。</p>
+
+<h3 id="lists-of-components">组件列表</h3>
+
+<p>您可以用全局变量把组件放进 <span class="list block">make a list</span>（建立列表）中。这样就可以通过一个列表轻松引用大量组件，并用 <span class="control block">for-each</span>（遍历）块对它们统一做修改。</p>
+
+<p class="figure"><img src="list-of-components.png" alt="创建一个名为 listOfButtons 的变量，其中加入了 Button1 到 Button5" /></p>
+
+<p class="caption"><strong>图 4.</strong> 全局变量 <span class="variable block">listOfButtons</span> 被设为一个由按钮组件构成的列表。</p>
+
+<h3 id="swap-blocks">互换块</h3>
+
+<p>您可以通过块的右键（上下文）菜单中的“Make Generic”和“Make Specific”菜单项，在针对具体组件的块与等价的任意组件块之间来回切换。“Make Generic”（类代码）会把针对具体组件的块，例如 <span class="setter block">set Button1.Enabled to</span>，转换成任意组件块，例如带有对应组件块（如 <span class="component block">Button1</span>）的 <span class="setter block">set Button.Enabled of component</span>。要使用“Make Specific”（转为组件代码块）菜单项，“of component”插槽中必须填入一个具体的组件（如 <span class="component block">Button1</span>），而不能是其他类型的块。该功能适用于属性设置块、属性读取块和方法块。</p>
+
+<p class="figure"><img src="specific-block.png" alt="在块上单击右键调出上下文菜单，选择 Make Generic 把它变成等价的任意组件块。" /> <img src="setter.png" alt="上一个块所对应的任意组件形式。" /></p>
+
+<p class="caption"><strong>图 5.</strong> 演示如何用右键（上下文）菜单把块从具体版本转换为通用版本。</p>
+
+<h3 id="any-component-events">任意组件事件</h3>
+
+<p>与把属性和方法转成任意组件版本的操作不同，用“Make Generic”（类代码）把某个组件的事件处理程序改成任意组件事件是单向操作（不过仍可以用“撤消”选项撤销）。使用该功能时，所有对该组件的引用都会被替换成任意组件版本。</p>
+
+<p class="figure"><img src="any-event-example-a.png" alt="一个针对 Button1.Click 的事件处理程序，它会修改 Button1 的若干属性" /><br />
+<img src="any-event-example-b.png" alt="一个针对任意 Button.Click 的通用事件处理程序，它执行与上面相同的操作，但作用于任意 Button，而不只是 Button1" /></p>
+
+<p class="caption"><strong>图 6.</strong> 上：一个 <span class="event block">when Button1.Click</span> 事件，它会修改 Button1 的若干属性。下：使用“Make Generic”菜单项（下图）之后，<span class="event block">when Button1.Click</span> 事件被替换为 <span class="event block">when any Button.Click</span> 事件，所有引用 Button1 的块都被替换为 <span class="variable block">component</span>。</p>
+
+<h2 id="examples">示例</h2>
+
+<h3 id="snow-globe">雪花玻璃球</h3>
+
+<p>在雪花玻璃球应用中，您可能会在画布（Canvas）上放许多球（Ball）精灵来表示玻璃球里的雪花，并希望它们在到达屏幕边缘时消失。以前要做到这一点，必须为每一片雪花分别创建一个 <span class="event block">when Ball_XX_.EdgeReached</span>。有了 <span class="event block">when any Ball.EdgeReached</span> 事件之后，这段代码只需要写一次：</p>
+
+<p><img src="snowglobe-specific.png" alt="旧代码中有许多功能完全相同的事件处理程序" class="figure" width="750px" /><br />
+<img src="snowglobe-generic.png" alt="新代码中用一个任意 Ball.EdgeReached 处理程序替换了上面重复的代码" class="figure" /><br /></p>
+
+<p class="caption"><strong>图 7.</strong> 上：使用通用事件处理程序之前的重复事件处理程序。下：所有代码精简为一个事件处理程序，既节省空间也节省编写时间。</p>
+
+<h3 id="random-button-colors">按钮随机变色</h3>
+
+<p>这个事件块演示了任意组件事件和属性设置块的用法。</p>
+
+<p class="figure"><img src="random-colors.png" alt="一个事件处理程序，在任意按钮被点击时改变它的背景色" /></p>
+
+<p class="caption"><strong>图 8.</strong> 一个事件处理程序，在任意按钮被点击时改变它的背景色。</p>
+
+<h3 id="distance-to-nearest-feature">到最近特征点的距离</h3>
+
+<p>已知一张地图（Map）上有若干标记（Marker），用 <span class="procedure block">call Marker.DistanceToPoint</span> 块可以求出离用户最近的那个标记的距离：</p>
+
+<p class="figure"><img src="method-example.png" alt="示例代码：在已知用户当前位置的情况下，求地图上最近标记的距离" /></p>
+
+<p class="caption"><strong>图 9.</strong> 找出地图上离用户当前位置最近的标记的示例。</p>
+
+</article>
+<script>
+  // Handle redirection to documentation based on locale query parameter (if specified)
+  (function() {
+      // [2026-10-10 roadlabs] 离线 webapp 走 file:// 协议,这下面:
+      //   1) pathname 段数远多于上游 http:// 路径假设的 4/5 段
+      //      (http://host/reference/<locale>/... 那种),page.length 检查全
+      //      落空,然后 page[2].toLowerCase() 改写错段;
+      //   2) 同步 XMLHttpRequest 在 file:// 下被现代浏览器拦截,xhr.send()
+      //      直接抛错或读不到 readyState,重定向逻辑卡死。
+      // 而离线入口(windows.__gwt_Locale 已知)已经把菜单 helpUrl 直接
+      // 改写到 reference/<locale>/other/<basename> 上了,这里再重定
+      // 向一遍只会添乱。直接跳过。
+      if (location.protocol === 'file:') return;
+      var locale = window.location.search.match('[&?]locale=([a-zA-Z-]*)');
+      if (locale) {
+          if (locale[1].indexOf('en') === 0) {
+              // English needs to stay at the top level to not break existing links
+              var page = window.location.pathname.split('/');
+              if (page.length === 5) {
+                  page.splice(2, 1);
+              } else {
+                  // already on english
+                  return;
+              }
+              window.location.href = page.join('/');
+          } else {
+              var page = window.location.pathname.split('/');
+              if (page.length === 4) {
+                  page.splice(2, 0, locale[1]);
+              } else if (page[2].toLowerCase() != locale[1].toLowerCase()) {
+                  page[2] = locale[1];
+              } else {
+                  return;  // already on the desired language
+              }
+              // Test that the page exists before redirecting.
+              var xhr = new XMLHttpRequest();
+              xhr.open('HEAD', page.join('/'), false);
+              xhr.onreadystatechange = function() {
+                  if (xhr.readyState == 4) {
+                      if ((xhr.status == 200 || xhr.status == 204)) {
+                          window.location.href = page.join('/');
+                      } else if (xhr.status  >= 400) {
+                          page.splice(2, 1);  // go to english version
+                          window.location.href = page.join('/');
+                      }
+                  }
+              };
+              xhr.send();
+          }
+      }
+  })();
+
+  // Handle embedded documentation in help by removing website template
+  if (window.self !== window.top) {
+      setTimeout(function() {
+          var videos = document.querySelectorAll('video');
+          for (var i = 0; i < videos.length; i++) {
+              if (parseInt(videos[i].getAttribute('width')) > 360) {
+                  var aspect = parseInt(videos[i].getAttribute('height')) / parseInt(videos[i].getAttribute('width'));
+                  videos[i].setAttribute('width', '360');
+                  videos[i].setAttribute('height', '' + (360 * aspect));
+              }
+          }
+          var h1 = document.querySelector('h1');
+          var article = document.querySelector('article');
+          article.insertBefore(h1, article.firstElementChild);
+          document.body.innerHTML = article.outerHTML;
+      });
+  }
+</script>
+
+            </div>
+<script src="../../../static/js/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="../../../static/js/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="../../../static/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+<script async src="../../../static/js/widgets.js" charset="utf-8"></script>
+</div>
+    </body>
+</html>

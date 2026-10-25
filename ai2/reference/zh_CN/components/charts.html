@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+
+     一一对应。
+     - 正文（标题/段落/列表/表格/图片 alt/视频说明）译为简体中文；
+     - 顶部导航（MIT logo、"Create Apps!" 按钮、About/Educators/News/Resources/Blogs
+       菜单、Donate 按钮、gcse 搜索框）与底部 MIT 版权页脚（© 声明、CC BY-SA、ToS、
+       Support/Twitter/GitHub/Accessibility）已整块删除：本项目是离线产品，帮助页只在
+       应用内新标签页打开，不应出现通往 MIT 主站的品牌链接与捐赠入口。head 里仅供
+       "Create Apps!" 按钮使用的 gotoappinventor() 脚本一并删除；<title> 与页面 <h1>
+       里的 "MIT " 字样已去掉，正文中作为产品名出现的 "MIT App Inventor" 已改为
+       "App Inventor蔻丁工坊"(zh_CN 语境带蔻丁工坊后缀;版权说明处的 MIT 保留)；
+     - 重定向脚本（<script> 块）按上游原文保留：本项目 blocklyeditor.js 的 _resolveHelpUrl
+       已把 href 直接写成 zh_CN 路径且不带 ?locale=，脚本不会触发；若日后有人手工拼了
+       ?locale=zh_CN 进 URL，file:// 下 sync XHR 会被浏览器拦截，脚本停在“已是目标语言”，
+       不会跳错位置；
+     - /static/ 绝对路径改为相对路径：offline webapp 支持以 file:// 打开，绝对路径会解析到
+       磁盘根目录（file:///static/...）从而 404；
+     - 本地图片/视频按上游同名相对路径复制到本目录，故 src 与上游完全一致；
+     - id= 锚点与块/组件/属性英文名保持上游原文，帮助链接里的 #fragment 才能定位。 -->
+<html lang="zh-CN"><head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="stylesheet" href="../../../static/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="../../../static/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
+    <link href="../../../static/css/fonts.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="../../../static/css/mit_app_inventor.css">
+    <title>数据图表</title></head>
+<body class="mit_app_inventor">
+<div class="default-page">
+            <div class="header">
+	        <h1 class="font-weight-bold text-center offset-xl-2 col-xl-8">数据图表</h1>
+            </div>
+            <div class="container-fluid">
+                <article class="documentation">
+<p><a href="index.html">« 返回目录</a></p>
+<h1 id="charts">数据图表</h1>
+
+<p>目录：</p>
+
+<ul>
+  <li><a href="#Chart">图表（Chart）</a></li>
+  <li><a href="#ChartData2D">数据（ChartData2D）</a></li>
+  <li><a href="#Trendline">拟合线（Trendline）</a></li>
+</ul>
+
+<h2 id="Chart">图表（Chart）</h2>
+
+<p>Chart 组件绘制来自与其关联的数据组件的数据。它有五种不同的
+ 图表类型，包括线条图、面积图、散点图、柱状图和饼状图，可以通过
+ <a href="#Chart.Type"><code class="language-plaintext highlighter-rouge">Type</code></a> 属性更改。
+ Chart 组件自身还有许多其他改变图表外观的属性，
+ 例如 {<a href="#Chart.Description"><code class="language-plaintext highlighter-rouge">Description</code></a>、<a href="#Chart.GridEnabled"><code class="language-plaintext highlighter-rouge">GridEnabled</code></a>、</p>
+
+<h3 id="Chart-Properties">属性</h3>
+
+<dl class="properties">
+  <dt id="Chart.AxesTextColor" class="color"><em>AxesTextColor</em></dt>
+  <dd>以 alpha-red-green-blue（透明度-红-绿-蓝）整数指定图表的坐标轴文字颜色。</dd>
+  <dt id="Chart.BackgroundColor" class="color"><em>BackgroundColor</em></dt>
+  <dd>以 alpha-red-green-blue（透明度-红-绿-蓝）整数指定图表的背景色。</dd>
+  <dt id="Chart.Description" class="text"><em>Description</em></dt>
+  <dd>指定图表内描述标签所显示的文本。
+ 指定空字符串（“”）将不显示任何标签。</dd>
+  <dt id="Chart.GridEnabled" class="boolean"><em>GridEnabled</em></dt>
+  <dd>改变图表网格的可见性，前提是
+ 图表类型被设置为带坐标轴的图表（适用于面积图、柱状图、线条图、
+ 散点图类型）。</dd>
+  <dt id="Chart.Height" class="number bo"><em>Height</em></dt>
+  <dd>以像素为单位指定 <code class="language-plaintext highlighter-rouge">Chart</code> 的垂直高度。</dd>
+  <dt id="Chart.HeightPercent" class="number wo bo"><em>HeightPercent</em></dt>
+  <dd>以 <a href="userinterface.html#Screen.Height"><code class="language-plaintext highlighter-rouge">Screen</code> 的 <code class="language-plaintext highlighter-rouge">Height</code></a> 的百分比形式指定 <code class="language-plaintext highlighter-rouge">Chart</code> 的垂直高度。</dd>
+  <dt id="Chart.Labels" class="list bo"><em>Labels</em></dt>
+  <dd>把图表的 X 轴标签改为指定的列表，
+ 前提是图表的类型被设置为带坐标轴的图表。
+
+    <p>列表的第一个条目对应数据的最小 x 值，
+ 第二个对应最小 x 值 + 1，依此类推。</p>
+
+    <p>如果没有为某个 x 值指定标签，则使用默认值
+ （该位置坐标轴刻度的 x 值）。</p>
+  </dd>
+  <dt id="Chart.LabelsFromString" class="text wo do"><em>LabelsFromString</em></dt>
+  <dd>指定要对图表 X 轴设置的标签，前提是当前
+ 视图是带 X 轴的图表。这些标签以单个用半角逗号分隔的
+ 值的字符串给出（即每个值用逗号分隔）。标签如何应用到图表上的更多细节，
+ 请见 <a href="#Chart.Labels"><code class="language-plaintext highlighter-rouge">Labels</code></a>。</dd>
+  <dt id="Chart.Left" class="number"><em>Left</em></dt>
+  <dd>指定组件左边缘相对于
+ AbsoluteArrangement 的位置。</dd>
+  <dt id="Chart.LegendEnabled" class="boolean"><em>LegendEnabled</em></dt>
+  <dd>改变图表图例的可见性。</dd>
+  <dt id="Chart.PieRadius" class="number wo do"><em>PieRadius</em></dt>
+  <dd>设置图表的饼图半径。如果当前类型
+ 不是饼状图，该值不起作用。</dd>
+  <dt id="Chart.Top" class="number"><em>Top</em></dt>
+  <dd>指定组件上边缘相对于
+ AbsoluteArrangement 的位置。</dd>
+  <dt id="Chart.Type" class="com google appinventor components common ChartTypeEnum ro"><em>Type</em></dt>
+  <dd>指定图表的类型，它决定如何把数据可视化。</dd>
+  <dt id="Chart.ValueFormat" class="number do"><em>ValueFormat</em></dt>
+  <dd>指定 X 轴标签和点值的格式。</dd>
+  <dt id="Chart.Visible" class="boolean"><em>Visible</em></dt>
+  <dd>指定 <code class="language-plaintext highlighter-rouge">Chart</code> 是否应在屏幕上可见。若 <code class="language-plaintext highlighter-rouge">Chart</code> 正在显示，值为 <code class="language-plaintext logic block highlighter-rouge">true</code>，
+ 若已隐藏，值为 <code class="language-plaintext logic block highlighter-rouge">false</code>。</dd>
+  <dt id="Chart.Width" class="number bo"><em>Width</em></dt>
+  <dd>以像素为单位指定 <code class="language-plaintext highlighter-rouge">Chart</code> 的水平宽度。</dd>
+  <dt id="Chart.WidthPercent" class="number wo bo"><em>WidthPercent</em></dt>
+  <dd>以 <a href="userinterface.html#Screen.Width"><code class="language-plaintext highlighter-rouge">Screen</code> 的 <code class="language-plaintext highlighter-rouge">Width</code></a> 的百分比形式指定 <code class="language-plaintext highlighter-rouge">Chart</code> 的水平宽度。</dd>
+  <dt id="Chart.XFromZero" class="boolean"><em>XFromZero</em></dt>
+  <dd>决定 X 轴原点设为 0，还是设为所有数据系列中的
+ 最小 X 值。</dd>
+  <dt id="Chart.YFromZero" class="boolean"><em>YFromZero</em></dt>
+  <dd>决定 Y 轴原点设为 0，还是设为所有数据系列中的
+ 最小 y 值。</dd>
+</dl>
+
+<h3 id="Chart-Events">事件</h3>
+
+<dl class="events">
+  <dt id="Chart.EntryClick">EntryClick(<em class="component">series</em>,<em class="any">x</em>,<em class="number">y</em>)</dt>
+  <dd>表示用户点击了 <code class="language-plaintext highlighter-rouge">Chart</code> 中的某个数据条目。会报告具体的系列，以及
+ 它的 x 和 y 值。</dd>
+</dl>
+
+<h3 id="Chart-Methods">方法</h3>
+
+<dl class="methods">
+  <dt id="Chart.ExtendDomainToInclude" class="method"><i></i> ExtendDomainToInclude(<em class="number">x</em>)</dt>
+  <dd>扩展图表的定义域以包含给定的 x 值。如果 x 已经处于
+ 定义域范围内，此方法不起作用。</dd>
+  <dt id="Chart.ExtendRangeToInclude" class="method"><i></i> ExtendRangeToInclude(<em class="number">y</em>)</dt>
+  <dd>扩展图表的值域以包含给定的 y 值。如果 y 已经处于
+ 值域范围内，此方法不起作用。</dd>
+  <dt id="Chart.ResetAxes" class="method"><i></i> ResetAxes()</dt>
+  <dd>把图表的坐标轴重置为其初始界限。</dd>
+  <dt id="Chart.SetDomain" class="method"><i></i> SetDomain(<em class="number">minimum</em>,<em class="number">maximum</em>)</dt>
+  <dd>设置 X 轴定义域的最小值和最大值。</dd>
+  <dt id="Chart.SetRange" class="method"><i></i> SetRange(<em class="number">minimum</em>,<em class="number">maximum</em>)</dt>
+  <dd>设置 Y 轴值域的最小值和最大值。</dd>
+</dl>
+
+<h2 id="ChartData2D">数据（ChartData2D）</h2>
+
+<p>ChartData2D 组件代表 Chart 组件中的单个二维数据系列，
+ 例如线条图中的单条线，或者柱状图中的单根柱子。数据组件负责处理图表的
+ 全部数据。数据组件的条目对应一个 x 值和一个 y 值。
+ 把该组件直接拖放到 Chart 上，即可将其关联到 Chart 组件。</p>
+
+<h3 id="ChartData2D-Properties">属性</h3>
+
+<dl class="properties">
+  <dt id="ChartData2D.Color" class="color"><em>Color</em></dt>
+  <dd>以 alpha-red-green-blue（透明度-红-绿-蓝）整数指定数据系列的颜色。</dd>
+  <dt id="ChartData2D.Colors" class="list bo"><em>Colors</em></dt>
+  <dd>以 alpha-red-green-blue（透明度-红-绿-蓝）整数列表指定数据系列的颜色。
+
+    <p>如果数据比颜色多，颜色会按顺序轮换使用。例如，如果有红、蓝两种
+ 颜色，颜色会按以下顺序应用：红、蓝、红、蓝、……</p>
+  </dd>
+  <dt id="ChartData2D.DataFileXColumn" class="text wo do"><em>DataFileXColumn</em></dt>
+  <dd>从 DataFile 组件 <a href="#ChartData2D.Source"><code class="language-plaintext highlighter-rouge">Source</code></a> 导入数据时使用的值。该
+ 值表示从 DataFile 中为数据系列的 x 条目取用哪一列。例如，如果某一列
+ 的第一个值是 “Time”，并且指定了列值 “Time”，则该列将被用于
+ x 值。如果这里未指定值，则会改为为 x 值生成
+ 默认值。</dd>
+  <dt id="ChartData2D.DataFileYColumn" class="text wo do"><em>DataFileYColumn</em></dt>
+  <dd>从 DataFile 组件 <a href="#ChartData2D.Source"><code class="language-plaintext highlighter-rouge">Source</code></a> 导入数据时使用的值。该
+ 值表示从 DataFile 中为数据系列的 y 条目取用哪一列。例如，如果某一列
+ 的第一个值是 “Temperature”，并且指定了列值 “Temperature”，则该列将被用于
+ y 值。如果这里未指定值，则会改为为 y 值生成
+ 默认值。</dd>
+  <dt id="ChartData2D.DataLabelColor" class="color"><em>DataLabelColor</em></dt>
+  <dd>以 alpha-red-green-blue（透明度-红-绿-蓝）整数指定数据点标签的颜色。</dd>
+  <dt id="ChartData2D.DataSourceKey" class="text wo do"><em>DataSourceKey</em></dt>
+  <dd>设置要从所关联的数据源导入值的数据源键标识符。
+
+    <p>一个例子是 TinyDB 组件的标签，它用于标识该值。</p>
+
+    <p>该属性是仅设计视图属性，应当在设置图表数据组件的
+ Source 组件之后再修改。</p>
+
+    <p>对于每种兼容的数据源，适用的完整取值列表如下：</p>
+
+    <ul>
+      <li>对于 TinyDB 和 CloudDB，这是标签值。</li>
+      <li>对于 AccelerometerSensor，该值应当是下列之一：X、Y 或 Z</li>
+      <li>对于 GyroscopeSensor，该值应当是下列之一：X、Y 或 Z</li>
+      <li>对于 LocationSensor，该值应当是下列之一：
+latitude、longitude、altitude 或 speed</li>
+      <li>对于 OrientationSensor，该值应当是下列之一：
+pitch、azimuth 或 roll</li>
+      <li>对于 Pedometer，该值应当是下列之一：
+WalkSteps、SimpleSteps 或 Distance</li>
+      <li>对于 ProximitySensor，该值应当是 distance。</li>
+      <li>对于 BluetoothClient，该值表示要从值中移除的前缀。
+例如，如果值以 “t:12” 的格式传入，可以把前缀指定为 “t:”，
+随后该前缀会从数据中移除。如果返回的是纯
+数值，则不能指定任何值。</li>
+    </ul>
+  </dd>
+  <dt id="ChartData2D.ElementsFromPairs" class="text wo do"><em>ElementsFromPairs</em></dt>
+  <dd>用逗号分隔的、用于数据系列的元素列表。值的格式
+ 如下：x1,y1,x2,y2,x3,y3。值按对取用，由 x 和 y 值
+ 构成一个条目。</dd>
+  <dt id="ChartData2D.Label" class="text"><em>Label</em></dt>
+  <dd>指定数据系列标签的文本。</dd>
+  <dt id="ChartData2D.LineType" class="com google appinventor components common LineTypeEnum wo do"><em>LineType</em></dt>
+  <dd>改变数据系列的线型，前提是该
+ 数据组件关联的图表类型被设置为
+ 基于线条的图表（适用于面积图和线条图类型）。
+ 有效类型包括线性、曲线或阶梯。</dd>
+  <dt id="ChartData2D.PointShape" class="com google appinventor components common PointStyleEnum wo do"><em>PointShape</em></dt>
+  <dd>改变数据系列的点形状，前提是该
+ 数据组件关联的图表类型被设置为
+ 散点图。有效类型包括圆形、方形、三角形、十字、x。</dd>
+  <dt id="ChartData2D.Source" class="component wo do"><em>Source</em></dt>
+  <dd>设置数据组件要使用的数据源。有效选项
+ 包括 AccelerometerSensor、BluetoothClient、CloudDB、DataFile、
+ GyroscopeSensor、LocationSesnro、OrientationSensor、Pedometer、
+ ProximitySensor TinyDB 和 Web 组件。数据源取值还需要
+ 有效的 DataSourceValue、WebColumn 或 DataFileColumn 属性，
+ 具体取决于所关联数据源的类型（更改数据源后，
+ 所需属性会出现在属性菜单中）。
+
+    <p>如果由 <a href="#ChartData2D.DataSourceKey"><code class="language-plaintext highlighter-rouge">DataSourceKey</code></a> 标识的数据在所关联的数据源组件中
+ 被更新，那么图表数据组件中的数据也会随之更新。</p>
+  </dd>
+  <dt id="ChartData2D.SpreadsheetUseHeaders" class="boolean wo do"><em>SpreadsheetUseHeaders</em></dt>
+  <dd>如果勾选，电子表格的第一行将用于解释 x 列和 y 列的
+ 取值。否则，x 列和 y 列应当是列引用，例如 A 或 B。</dd>
+  <dt id="ChartData2D.SpreadsheetXColumn" class="text wo do"><em>SpreadsheetXColumn</em></dt>
+  <dd>设置从所关联的 Spreadsheet 组件中为 x 值解析哪一列。如果
+ 未指定列，则会改为为 x 值生成默认值。</dd>
+  <dt id="ChartData2D.SpreadsheetYColumn" class="text wo do"><em>SpreadsheetYColumn</em></dt>
+  <dd>设置从所关联的 Spreadsheet 组件中为 y 值解析哪一列。如果
+ 未指定列，则会改为为 y 值生成默认值。</dd>
+  <dt id="ChartData2D.WebXColumn" class="text wo do"><em>WebXColumn</em></dt>
+  <dd>从 Web 组件数据源导入数据时使用的值。该
+ 值表示从 Web 中为数据系列的 x 条目取用哪一列。例如，如果从 Web
+ 获取的内容是 JSON 格式，并且存在一个带有 “Time” 标签的数组，
+ 则可以指定 “Time” 列值来使用该数组。</dd>
+  <dt id="ChartData2D.WebYColumn" class="text wo do"><em>WebYColumn</em></dt>
+  <dd>从 Web 组件数据源导入数据时使用的值。该
+ 值表示从 Web 中为数据系列的 y 条目取用哪一列。例如，如果从 Web
+ 获取的内容是 JSON 格式，并且存在一个带有 “Temperature” 标签的数组，
+ 则可以指定 “Temperature” 列值来使用该数组。</dd>
+</dl>
+
+<h3 id="ChartData2D-Events">事件</h3>
+
+<dl class="events">
+  <dt id="ChartData2D.EntryClick">EntryClick(<em class="any">x</em>,<em class="number">y</em>)</dt>
+  <dd>表示用户点击了图表中的某个数据点。会报告被点击条目的
+ x 和 y 值。</dd>
+</dl>
+
+<h3 id="ChartData2D-Methods">方法</h3>
+
+<dl class="methods">
+  <dt id="ChartData2D.AddEntry" class="method"><i></i> AddEntry(<em class="text">x</em>,<em class="text">y</em>)</dt>
+  <dd>添加一个具有指定 x 和 y 值的条目。值可以指定为文本，
+ 也可以指定为数字。对于线条图、散点图、面积图和柱状图，两个值都应当表示数字。
+ 对于柱状图，x 值会四舍五入到最接近的整数。
+ 对于饼状图，x 值是一个文本值。</dd>
+  <dt id="ChartData2D.ChangeDataSource" class="method"><i></i> ChangeDataSource(<em class="component">source</em>,<em class="text">keyValue</em>)</dt>
+  <dd>把组件的数据源改为指定的组件 Source，并使用
+ 指定的键值。适用的组件请见 <a href="#ChartData2D.Source"><code class="language-plaintext highlighter-rouge">Source</code></a> 属性。
+ keyValue 的解释请见 <a href="#ChartData2D.DataSourceKey"><code class="language-plaintext highlighter-rouge">DataSourceKey</code></a> 属性。
+ 对于 DataFile 和 Web 组件，keyValue 应当是一个
+ CSV 格式的字符串，其中第一个值对应 x 列，第二个
+ 值对应 y 值。</dd>
+  <dt id="ChartData2D.Clear" class="method"><i></i> Clear()</dt>
+  <dd>从数据系列中移除所有条目。</dd>
+  <dt id="ChartData2D.DoesEntryExist" class="method returns boolean"><i></i> DoesEntryExist(<em class="text">x</em>,<em class="text">y</em>)</dt>
+  <dd>返回一个布尔值，表示是否存在具有指定 x 和 y
+ 值的条目。如果该值存在则返回布尔值 true，
+ 否则返回 false。关于有效条目值的说明请见 <a href="#ChartData2D.AddEntry"><code class="language-plaintext highlighter-rouge">AddEntry</code></a>。</dd>
+  <dt id="ChartData2D.GetAllEntries" class="method returns list"><i></i> GetAllEntries()</dt>
+  <dd>返回数据系列的所有条目。
+ 返回的是一个列表，其中列表的每个元素
+ 都是一个按顺序包含该条目各值的列表。</dd>
+  <dt id="ChartData2D.GetEntriesWithXValue" class="method returns list"><i></i> GetEntriesWithXValue(<em class="text">x</em>)</dt>
+  <dd>返回数据系列中所有匹配指定 x 值的条目。
+ 关于返回列表格式的说明，请见 <a href="#ChartData2D.GetAllEntries"><code class="language-plaintext highlighter-rouge">GetAllEntries</code></a></dd>
+  <dt id="ChartData2D.GetEntriesWithYValue" class="method returns list"><i></i> GetEntriesWithYValue(<em class="text">y</em>)</dt>
+  <dd>返回数据系列中所有匹配指定 y 值的条目。
+ 关于返回列表格式的说明，请见 <a href="#ChartData2D.GetAllEntries"><code class="language-plaintext highlighter-rouge">GetAllEntries</code></a></dd>
+  <dt id="ChartData2D.HighlightDataPoints" class="method"><i></i> HighlightDataPoints(<em class="list">dataPoints</em>,<em class="number">color</em>)</dt>
+  <dd>用所选的颜色在图表上高亮显示所有给定的数据点。</dd>
+  <dt id="ChartData2D.ImportFromCloudDB" class="method"><i></i> ImportFromCloudDB(<em class="component">cloudDB</em>,<em class="text">tag</em>)</dt>
+  <dd>从指定的 CloudDB 组件导入数据，取用
+ 由指定标签值标识的值。
+
+    <p>预期的 CloudDB 值是一个列表，其格式与
+ <a href="#ChartData2D.ImportFromList"><code class="language-plaintext highlighter-rouge">ImportFromList</code></a> 中描述的相同。</p>
+
+    <p>不会覆盖任何数据。</p>
+  </dd>
+  <dt id="ChartData2D.ImportFromDataFile" class="method"><i></i> ImportFromDataFile(<em class="component">dataFile</em>,<em class="text">xValueColumn</em>,<em class="text">yValueColumn</em>)</dt>
+  <dd>从指定的 DataFile 组件导入数据，取用指定的 x 列
+ 作为 x 值，指定的 y 列作为 y 值。DataFile 的源文件
+ 应当是 CSV 或 JSON 文件。
+
+    <p>任何列参数若传入空文本，将导致使用
+ 默认值，即条目的索引。对于第一个条目，默认
+ 值会是 1，第二个是 2，依此类推。</p>
+  </dd>
+  <dt id="ChartData2D.ImportFromList" class="method"><i></i> ImportFromList(<em class="list">list</em>)</dt>
+  <dd>从指定的列表参数把数据导入到数据系列中。
+ 该列表应当包含同时是列表的元素。每个
+ 列表元素应当有 2 个值，第一个是
+ x 值，第二个是 y 值。
+ 无效的列表条目会被直接跳过。已有数据不会被清除。</dd>
+  <dt id="ChartData2D.ImportFromSpreadsheet" class="method"><i></i> ImportFromSpreadsheet(<em class="component">spreadsheet</em>,<em class="text">xColumn</em>,<em class="text">yColumn</em>,<em class="boolean">useHeaders</em>)</dt>
+  <dd>从指定的 Spreadsheet 组件导入数据，取用指定的 x 列
+ 作为 x 值，指定的 y 列作为 y 值。在调用此函数之前，
+ 必须先调用 Spreadsheet 组件的 ReadSheet 方法以加载数据。无需
+ 使用 Spreadsheet 组件中的 GotSheet 事件。
+
+    <p>空列会用默认值填充（条目 1、2、3、…… 对应 1、2、3、……）。</p>
+  </dd>
+  <dt id="ChartData2D.ImportFromTinyDB" class="method"><i></i> ImportFromTinyDB(<em class="component">tinyDB</em>,<em class="text">tag</em>)</dt>
+  <dd>从指定的 TinyDB 组件导入数据，取用
+ 由指定标签值标识的值。
+
+    <p>预期的 TinyDB 值是一个列表，其格式与
+ <a href="#ChartData2D.ImportFromList"><code class="language-plaintext highlighter-rouge">ImportFromList</code></a> 中描述的相同。</p>
+
+    <p>不会覆盖任何数据。</p>
+  </dd>
+  <dt id="ChartData2D.ImportFromWeb" class="method"><i></i> ImportFromWeb(<em class="component">web</em>,<em class="text">xValueColumn</em>,<em class="text">yValueColumn</em>)</dt>
+  <dd>从指定的 Web 组件导入数据，取用指定的 x 列
+ 作为 x 值，指定的 y 列作为 y 值。在调用此函数之前，
+ 必须先调用 Web 组件的 Get 方法以加载数据。无需
+ 使用 Web 组件中的 gotValue 事件。
+
+    <p>此函数要正常工作，Web 组件返回的响应应当是
+ JSON 或 CSV 格式的文件。</p>
+
+    <p>空列会用默认值填充（条目 1、2、3、…… 对应 1、2、3、……）。</p>
+  </dd>
+  <dt id="ChartData2D.RemoveDataSource" class="method"><i></i> RemoveDataSource()</dt>
+  <dd>从图表数据组件中移除当前关联的数据源。
+ 这样做将不再发送来自该数据源的更新，不过，
+ 当前数据不会被移除。</dd>
+  <dt id="ChartData2D.RemoveEntry" class="method"><i></i> RemoveEntry(<em class="text">x</em>,<em class="text">y</em>)</dt>
+  <dd>移除具有指定 x 和 y 值的条目，前提是它存在。
+ 关于有效条目值的说明请见 <a href="#ChartData2D.AddEntry"><code class="language-plaintext highlighter-rouge">AddEntry</code></a>。</dd>
+</dl>
+
+<h2 id="Trendline">拟合线（Trendline）</h2>
+
+<p>Trendline 组件可用于把 ChartData2D 组件所代表的数据系列的趋势可视化。
+ 它必须被添加到 Chart 组件中。要关联一个 ChartData2D
+ 实例，可以在应用的设计视图中设置 ChartData 属性，或者使用设置器
+ 块。如果其关联的 ChartData2D 发生变化，趋势线会自动更新。</p>
+
+<p>趋势线有四种可用模型：线性、二次、对数和
+ 指数。根据您使用的是哪种模型，趋势线组件的某些属性
+ 会提供相关的值。</p>
+
+<ul>
+  <li>线性：y = m*x + b，其中 m 是 LinearCoefficient，b 是 YIntercept</li>
+  <li>二次：y = a*x<sup>2</sup> + b*x + c，其中 a 是 QuadraticCoefficient，b 是
+LinearCoefficient，c 是 YIntercept</li>
+  <li>对数：y = a + b*ln(x)，其中 a 是 LogarithmConstant，b 是 LogarithmCoefficient</li>
+  <li>指数：y = a*b<sup>x</sup>，其中 a 是 ExponentialCoefficient，b 是
+ExponentialBase</li>
+</ul>
+
+<p>对于所有模型，r<sup>2</sup> 相关性都会通过 RSquared 属性
+ 块报告。</p>
+
+<h3 id="Trendline-Properties">属性</h3>
+
+<dl class="properties">
+  <dt id="Trendline.ChartData" class="component wo"><em>ChartData</em></dt>
+  <dd>要计算最佳拟合线的数据系列。</dd>
+  <dt id="Trendline.Color" class="color"><em>Color</em></dt>
+  <dd>最佳拟合线的颜色。</dd>
+  <dt id="Trendline.CorrelationCoefficient" class="number ro bo"><em>CorrelationCoefficient</em></dt>
+  <dd>趋势线与数据的相关系数。</dd>
+  <dt id="Trendline.ExponentialBase" class="number ro bo"><em>ExponentialBase</em></dt>
+  <dd>方程 y = a*b^x 中指数项的底数。</dd>
+  <dt id="Trendline.ExponentialCoefficient" class="number ro bo"><em>ExponentialCoefficient</em></dt>
+  <dd>方程 y = a*b^x 中指数项的系数。</dd>
+  <dt id="Trendline.Extend" class="boolean"><em>Extend</em></dt>
+  <dd>是否把最佳拟合线延伸到数据之外。</dd>
+  <dt id="Trendline.LinearCoefficient" class="number ro bo"><em>LinearCoefficient</em></dt>
+  <dd>趋势线中一次项的系数。</dd>
+  <dt id="Trendline.LogarithmCoefficient" class="number ro bo"><em>LogarithmCoefficient</em></dt>
+  <dd>方程 y = a + b*ln(x) 中对数项的系数。</dd>
+  <dt id="Trendline.LogarithmConstant" class="number ro bo"><em>LogarithmConstant</em></dt>
+  <dd>对数方程 y = a + b*ln(x) 中的常数项。</dd>
+  <dt id="Trendline.Model" class="com google appinventor components common BestFitModelEnum"><em>Model</em></dt>
+  <dd>用于最佳拟合线的模型。</dd>
+  <dt id="Trendline.Predictions" class="list ro bo"><em>Predictions</em></dt>
+  <dd>趋势线的预测值。</dd>
+  <dt id="Trendline.QuadraticCoefficient" class="number ro bo"><em>QuadraticCoefficient</em></dt>
+  <dd>趋势线中二次项的系数（若有）。</dd>
+  <dt id="Trendline.RSquared" class="number ro bo"><em>RSquared</em></dt>
+  <dd>趋势线的 r 平方决定系数。</dd>
+  <dt id="Trendline.Results" class="dictionary ro bo"><em>Results</em></dt>
+  <dd>获取最佳拟合线最近一次计算所得各值的一份副本。</dd>
+  <dt id="Trendline.StrokeStyle" class="com google appinventor components common StrokeStyleEnum"><em>StrokeStyle</em></dt>
+  <dd>最佳拟合线的样式。</dd>
+  <dt id="Trendline.StrokeWidth" class="number"><em>StrokeWidth</em></dt>
+  <dd>最佳拟合线的宽度。</dd>
+  <dt id="Trendline.Visible" class="boolean"><em>Visible</em></dt>
+  <dd>最佳拟合线是否可见。</dd>
+  <dt id="Trendline.XIntercepts" class="any ro bo"><em>XIntercepts</em></dt>
+  <dd>趋势线与 X 轴的交点（线穿过 X 轴处），若有。可能的
+ 值有 NaN（无交点）、单个值（一个交点），或值的列表。</dd>
+  <dt id="Trendline.YIntercept" class="number ro bo"><em>YIntercept</em></dt>
+  <dd>趋势线的 Y 轴截距（常数项）。</dd>
+</dl>
+
+<h3 id="Trendline-Events">事件</h3>
+
+<dl class="events">
+  <dt id="Trendline.Updated">Updated(<em class="dictionary">results</em>)</dt>
+  <dd>表示最佳拟合线已更新的事件。</dd>
+</dl>
+
+<h3 id="Trendline-Methods">方法</h3>
+
+<dl class="methods">
+  <dt id="Trendline.DisconnectFromChartData" class="method"><i></i> DisconnectFromChartData()</dt>
+  <dd>断开趋势线与之前关联的 ChartData2D 之间的关联。</dd>
+  <dt id="Trendline.GetResultValue" class="method returns any"><i></i> GetResultValue(<em class="text">value</em>)</dt>
+  <dd>获取最佳拟合线最近一次计算所得各值中的某个字段。可用的
+ 值随所使用的模型而不同。例如，线性模型会有 slope 和
+ Yintercept 字段，而二次模型会有 x^2、slope 和 intercept 字段。</dd>
+</dl>
+
+</article>
+<script>
+  // Handle redirection to documentation based on locale query parameter (if specified)
+  (function() {
+      var locale = window.location.search.match('[&?]locale=([a-zA-Z-]*)');
+      if (locale) {
+          if (locale[1].indexOf('en') === 0) {
+              // English needs to stay at the top level to not break existing links
+              var page = window.location.pathname.split('/');
+              if (page.length === 5) {
+                  page.splice(2, 1);
+              } else {
+                  // already on english
+                  return;
+              }
+              window.location.href = page.join('/');
+          } else {
+              var page = window.location.pathname.split('/');
+              if (page.length === 4) {
+                  page.splice(2, 0, locale[1]);
+              } else if (page[2].toLowerCase() != locale[1].toLowerCase()) {
+                  page[2] = locale[1];
+              } else {
+                  return;  // already on the desired language
+              }
+              // Test that the page exists before redirecting.
+              var xhr = new XMLHttpRequest();
+              xhr.open('HEAD', page.join('/'), false);
+              xhr.onreadystatechange = function() {
+                  if (xhr.readyState == 4) {
+                      if ((xhr.status == 200 || xhr.status == 204)) {
+                          window.location.href = page.join('/');
+                      } else if (xhr.status  >= 400) {
+                          page.splice(2, 1);  // go to english version
+                          window.location.href = page.join('/');
+                      }
+                  }
+              };
+              xhr.send();
+          }
+      }
+  })();
+
+  // Handle embedded documentation in help by removing website template
+  if (window.self !== window.top) {
+      setTimeout(function() {
+          var videos = document.querySelectorAll('video');
+          for (var i = 0; i < videos.length; i++) {
+              if (parseInt(videos[i].getAttribute('width')) > 360) {
+                  var aspect = parseInt(videos[i].getAttribute('height')) / parseInt(videos[i].getAttribute('width'));
+                  videos[i].setAttribute('width', '360');
+                  videos[i].setAttribute('height', '' + (360 * aspect));
+              }
+          }
+          var h1 = document.querySelector('h1');
+          var article = document.querySelector('article');
+          article.insertBefore(h1, article.firstElementChild);
+          document.body.innerHTML = article.outerHTML;
+      });
+  }
+</script>
+
+            </div>
+<script src="../../../static/js/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="../../../static/js/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="../../../static/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+<script async src="../../../static/js/widgets.js" charset="utf-8"></script>
+</div>
+    </body>
+</html>

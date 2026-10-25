@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+
+     一一对应。
+     - 正文（标题/段落/列表/表格/图片 alt/视频说明）译为简体中文；
+     - 顶部导航（MIT logo、"Create Apps!" 按钮、About/Educators/News/Resources/Blogs
+       菜单、Donate 按钮、gcse 搜索框）与底部 MIT 版权页脚（© 声明、CC BY-SA、ToS、
+       Support/Twitter/GitHub/Accessibility）已整块删除：本项目是离线产品，帮助页只在
+       应用内新标签页打开，不应出现通往 MIT 主站的品牌链接与捐赠入口。head 里仅供
+       "Create Apps!" 按钮使用的 gotoappinventor() 脚本一并删除；<title> 与页面 <h1>
+       里的 "MIT " 字样已去掉，正文中作为产品名出现的 "MIT App Inventor" 已改为
+       "App Inventor蔻丁工坊"(zh_CN 语境带蔻丁工坊后缀;版权说明处的 MIT 保留)；
+     - 重定向脚本（<script> 块）按上游原文保留：本项目 blocklyeditor.js 的 _resolveHelpUrl
+       已把 href 直接写成 zh_CN 路径且不带 ?locale=，脚本不会触发；若日后有人手工拼了
+       ?locale=zh_CN 进 URL，file:// 下 sync XHR 会被浏览器拦截，脚本停在"已是目标语言"，
+       不会跳错位置；
+     - /static/ 绝对路径改为相对路径：offline webapp 支持以 file:// 打开，绝对路径会解析到
+       磁盘根目录（file:///static/...）从而 404；
+     - 本地图片/视频按上游同名相对路径复制到本目录，故 src 与上游完全一致；
+     - id= 锚点与块/组件/属性英文名保持上游原文，帮助链接里的 #fragment 才能定位。 -->
+<html lang="zh-CN"><head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="stylesheet" href="../../../static/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="../../../static/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
+    <link href="../../../static/css/fonts.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="../../../static/css/mit_app_inventor.css">
+    <title>App Inventor 字典块</title></head>
+<body class="mit_app_inventor">
+<div class="default-page">
+            <div class="header">
+	        <h1 class="font-weight-bold text-center offset-xl-2 col-xl-8">App Inventor 字典块</h1>
+            </div>
+            <div class="container-fluid">
+                <article class="documentation">
+<p>目录：</p>
+
+<ul>
+  <li><a href="#dictionaries">简介</a></li>
+  <li><a href="#create-empty-dictionary">空字典</a></li>
+  <li><a href="#make-a-dictionary">建立字典</a></li>
+  <li><a href="#pair">键值对</a></li>
+  <li><a href="#get-value-for-key">查询字典</a></li>
+  <li><a href="#set-value-for-key">设字典键对应值</a></li>
+  <li><a href="#delete-entry-for-key">删除字典键值对</a></li>
+  <li><a href="#get-value-at-key-path">字典中键路径对应值</a></li>
+  <li><a href="#set-value-for-key-path">设字典中键路径对应值</a></li>
+  <li><a href="#get-keys">全部键</a></li>
+  <li><a href="#get-values">全部值</a></li>
+  <li><a href="#is-key-in-dictionary">检查字典中是否存在指定键</a></li>
+  <li><a href="#size-of-dictionary">字典的长度</a></li>
+  <li><a href="#list-of-pairs-to-dictionary">键值对转字典</a></li>
+  <li><a href="#dictionary-to-list-of-pairs">字典转键值对</a></li>
+  <li><a href="#copy-dictionary">复制字典</a></li>
+  <li><a href="#merge-into-dictionary">字典组合</a></li>
+  <li><a href="#list-by-walking-key-path">字典或列表中键路径对应值列表</a></li>
+  <li><a href="#walk-all-at-level">当前全部节点</a></li>
+  <li><a href="#is-a-dictionary">是否为字典</a></li>
+</ul>
+
+<h2 id="introduction">简介</h2>
+
+<p>字典在别的语言里也叫映射（map）、关联数组（associative array）或列表，它是一种把某个值（通常称为键）与另一个值关联起来的数据结构。展示字典的常见方式是使用 JavaScript 对象表示法（JSON），例如：</p>
+
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"id"</span><span class="p">:</span><span class="w">  </span><span class="mi">1</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"name"</span><span class="p">:</span><span class="w">  </span><span class="s2">"Tim the Beaver"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"school"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Massachusetts Institute of Technology"</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="nl">"enrolled"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"classes"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"6.001"</span><span class="p">,</span><span class="w"> </span><span class="s2">"18.01"</span><span class="p">,</span><span class="w"> </span><span class="s2">"8.01"</span><span class="p">]</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div></div>
+
+<p>上面的例子说明，在 JSON 中键（<code class="language-plaintext highlighter-rouge">:</code> 前面的带引号文本）可以映射到不同类型的值。允许的类型有数字、文本、其他字典、布尔值和列表。在块语言中，您可以按下面的方式构建这个字典：</p>
+
+<p><img src="images/dictionaries/example-dictionary-blocks.png" alt="上面所示字典的块表示形式" /></p>
+
+<p><strong>图 1</strong>：上面所示 JSON 代码片段的块表示形式。</p>
+
+<h3 id="create-empty-dictionary">空字典</h3>
+
+<p><img src="images/dictionaries/create-with.png" alt="" /></p>
+
+<p><code class="language-plaintext dictionary block highlighter-rouge">create empty dictionary</code> 块创建一个不含任何键值对的字典。可以使用 <code class="language-plaintext dictionary block highlighter-rouge">set value for key</code> 块向这个空字典添加数据项。<code class="language-plaintext dictionary block highlighter-rouge">create empty dictionary</code> 块还可以通过蓝色变体按钮添加 <code class="language-plaintext dictionary block highlighter-rouge">pair</code> 项，从而转变成 <code class="language-plaintext dictionary block highlighter-rouge">make a dictionary</code> 块。</p>
+
+<h3 id="make-a-dictionary">建立字典</h3>
+
+<p><img src="images/dictionaries/make-a-dictionary.png" alt="" /></p>
+
+<p><code class="language-plaintext dictionary block highlighter-rouge">make a dictionary</code> 用于创建带有若干事先确定好的 <code class="language-plaintext dictionary block highlighter-rouge">pair</code> 的字典。还可以用 <code class="language-plaintext dictionary block highlighter-rouge">set value for key</code> 添加更多数据项。</p>
+
+<h3 id="pair">键值对</h3>
+
+<p><img src="images/dictionaries/pair.png" alt="" /></p>
+
+<p><code class="language-plaintext dictionary block highlighter-rouge">pair</code> 块是用于构建字典的专用块。</p>
+
+<h3 id="get-value-for-key">查询字典</h3>
+
+<p><img src="images/dictionaries/get-value-for-key2.png" alt="" /></p>
+
+<p><code class="language-plaintext dictionary block highlighter-rouge">get value for key</code> 块会检查字典中是否存在与给定键对应的值。如果存在，就返回该值；否则返回 <code class="language-plaintext highlighter-rouge">not found</code> 参数的值。这一行为与 <a href="lists.html#lookupinpairs"><code class="language-plaintext list block highlighter-rouge">lookup in pairs</code></a> 块类似。</p>
+
+<h3 id="set-value-for-key">设字典键对应值</h3>
+
+<p><img src="images/dictionaries/set-value-for-key.png" alt="" /></p>
+
+<p><code class="language-plaintext dictionary block highlighter-rouge">set value for key</code> 块把 <code class="language-plaintext highlighter-rouge">dictionary</code> 中给定 <code class="language-plaintext highlighter-rouge">key</code> 对应的值设为 <code class="language-plaintext highlighter-rouge">value</code>。如果该 <code class="language-plaintext highlighter-rouge">key</code> 还没有映射，就新建一个映射；否则，原有的值会被新值替换。</p>
+
+<h3 id="delete-entry-for-key">删除字典键值对</h3>
+
+<p><img src="images/dictionaries/delete-value-for-key.png" alt="" /></p>
+
+<p><code class="language-plaintext dictionary block highlighter-rouge">delete entry for key</code> 块会删除字典中给定键对应的键值映射。如果字典中不存在该键对应的数据项，则字典保持不变。</p>
+
+<h3 id="get-value-at-key-path">字典中键路径对应值</h3>
+
+<p><code class="language-plaintext dictionary block highlighter-rouge">get value at key path</code> 块是 <code class="language-plaintext dictionary block highlighter-rouge">get value for key</code> 块的进阶版本。它不是获取某个特定键的值，而是接收一个由有效键和数字组成的列表，用来表示在数据结构中穿行的路径。使用本块并传入长度为 1、只包含该键的键路径，就相当于 <code class="language-plaintext dictionary block highlighter-rouge">get value for key</code> 块。例如，下面两个块都会返回 <code class="language-plaintext text block highlighter-rouge">"Tim the Beaver"</code>：</p>
+
+<p><img src="images/dictionaries/get-value-for-key.png" alt="" /> <img src="images/dictionaries/get-value-for-key-path.png" alt="" /></p>
+
+<p>它从初始字典开始，按照提供的 <code class="language-plaintext highlighter-rouge">path</code> 在数据结构中穿行，以取出嵌套在复杂结构深处的值，最适合用来处理来自网络服务的 JSON 数据。它从初始输入开始，取出 <code class="language-plaintext highlighter-rouge">key path</code> 中的第一个元素，检查该处是否存在相应的键（如果输入是字典）或索引（如果输入是列表）。如果存在，就选中该项作为输入，继续检查 <code class="language-plaintext highlighter-rouge">key path</code> 中的下一个元素；如此继续，直到走完整条路径——此时返回该位置的内容——或者返回 <code class="language-plaintext highlighter-rouge">"not found"</code> 参数。</p>
+
+<p><strong>示例</strong></p>
+
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"id"</span><span class="p">:</span><span class="w">  </span><span class="mi">1</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"name"</span><span class="p">:</span><span class="w">  </span><span class="s2">"Tim the Beaver"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"school"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Massachusetts Institute of Technology"</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="nl">"enrolled"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"classes"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"6.001"</span><span class="p">,</span><span class="w"> </span><span class="s2">"18.01"</span><span class="p">,</span><span class="w"> </span><span class="s2">"8.01"</span><span class="p">]</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div></div>
+
+<p>例如，对于上面的 JSON 字典，下面这样使用 <code class="language-plaintext dictionary block highlighter-rouge">get value at key path</code> 会得到结果 <code class="language-plaintext text block highlighter-rouge">"Massachusetts Institute of Technology"</code>。</p>
+
+<p><img src="images/dictionaries/get-value-for-key-path2.png" alt="" /></p>
+
+<p>当字典和列表混用时，<code class="language-plaintext dictionary block highlighter-rouge">get value at key path&lt;</code> 允许路径中包含表示待穿行元素索引的数字。例如，如果我们想知道 Tim 选修的第二门课，可以这样做：</p>
+
+<p><img src="images/dictionaries/get-value-for-key-path-with-index.png" alt="" /></p>
+
+<p>它会返回 <code class="language-plaintext highlighter-rouge">"18.01"</code>。</p>
+
+<h3 id="set-value-for-key-path">设字典中键路径对应值</h3>
+
+<p><img src="images/dictionaries/set-value-for-key-path.png" alt="" /></p>
+
+<p><code class="language-plaintext dictionary block highlighter-rouge">set value for key path</code> 块会更新数据结构中特定 <code class="language-plaintext highlighter-rouge">key path</code> 处的值。它与 <code class="language-plaintext dictionary block highlighter-rouge">get value for key path</code> 相对应，后者用于获取特定 <code class="language-plaintext highlighter-rouge">key path</code> 处的值。路径<strong>必须有效</strong>，只有最后一个键例外：如果该键还没有映射，就会新建一个指向新值的映射；否则，原有的值会被新值替换。</p>
+
+<h3 id="get-keys">全部键</h3>
+
+<p><img src="images/dictionaries/get-keys.png" alt="" /></p>
+
+<p><code class="language-plaintext dictionary block highlighter-rouge">get keys</code> 返回字典中所有键组成的列表。</p>
+
+<h3 id="get-values">全部值</h3>
+
+<p><img src="images/dictionaries/get-values.png" alt="" /></p>
+
+<p><code class="language-plaintext dictionary block highlighter-rouge">get values</code> 返回包含字典中所有值的列表。修改列表中某个值的内容，字典中的该值也会随之改变。</p>
+
+<h3 id="is-key-in-dictionary">检查字典中是否存在指定键</h3>
+
+<p><img src="images/dictionaries/is-key-in.png" alt="" /></p>
+
+<p><code class="language-plaintext dictionary block highlighter-rouge">is key in dictionary?</code> 检查该键是否存在于字典中：如果存在就返回 <code class="language-plaintext logic block highlighter-rouge">true</code>，否则返回 <code class="language-plaintext logic block highlighter-rouge">false</code>。</p>
+
+<h3 id="size-of-dictionary">字典的长度</h3>
+
+<p><img src="images/dictionaries/size.png" alt="" /></p>
+
+<p><code class="language-plaintext dictionary block highlighter-rouge">size of dictionary</code> 块返回字典中键值对的个数。</p>
+
+<h3 id="list-of-pairs-to-dictionary">键值对转字典</h3>
+
+<p><img src="images/dictionaries/alist-to-dict.png" alt="" /></p>
+
+<p><code class="language-plaintext dictionary block highlighter-rouge">list of pairs to dictionary</code> 块把形如 <code class="language-plaintext highlighter-rouge">((key1 value1) (key2 value2) ...)</code> 的关联列表转换为把键映射到其值的字典。
+由于字典的查找性能优于关联列表，如果您要在一份数据结构上执行大量操作，建议先用这个块把关联列表转换为字典。</p>
+
+<h3 id="dictionary-to-list-of-pairs">字典转键值对</h3>
+
+<p><img src="images/dictionaries/dict-to-alist.png" alt="" /></p>
+
+<p><code class="language-plaintext dictionary block highlighter-rouge">dictionary to list of pairs</code> 把字典转换为关联列表。
+该块执行的是 <a href="#list-of-pairs-to-dictionary"><code class="language-plaintext list block highlighter-rouge">list of pairs to dictionary</code></a> 块的反向转换。</p>
+
+<p><img src="images/dictionaries/alist-dict-reversability.png" alt="字典转键值对块反向执行键值对转字典块的示例" /></p>
+
+<h3 id="copy-dictionary">复制字典</h3>
+
+<p><img src="images/dictionaries/copy-dict.png" alt="" /></p>
+
+<p><code class="language-plaintext dictionary block highlighter-rouge">copy dictionary</code> 对给定的字典做深复制（deep copy），也就是说所有值都会被递归复制，因此修改副本中的某个值不会影响原字典。</p>
+
+<h3 id="merge-into-dictionary">字典组合</h3>
+
+<p><img src="images/dictionaries/combine-dicts.png" alt="" /></p>
+
+<p><code class="language-plaintext dictionary block highlighter-rouge">merge into dictionary from dictionary</code> 块把一个字典中的键值对复制到另一个字典中，并覆盖目标字典中同名的键。</p>
+
+<h3 id="list-by-walking-key-path">字典或列表中键路径对应值列表</h3>
+
+<p><img src="images/dictionaries/walk-tree.png" alt="" /></p>
+
+<p><code class="language-plaintext dictionary block highlighter-rouge">list by walking key path</code> 块的用法与 <code class="language-plaintext dictionary block highlighter-rouge">get value at key path</code> 类似，但它生成的是一个值的列表，而不是返回单个值。它从给定的字典出发，沿给定路径在对象树中逐层向下穿行。不过与 <code class="language-plaintext dictionary block highlighter-rouge">get value at key path</code> 不同的是，它的路径可以由三类主要元素组成：字典的键、列表的索引，以及 <a href="#walk-all-at-level"><code class="language-plaintext dictionary block highlighter-rouge">walk all at level</code></a> 块。如果给出的是键或索引，就在树的该位置走对应的那一条路径；如果指定的是 <code class="language-plaintext dictionary block highlighter-rouge">walk all at level</code>，则该位置上的每个值都会被依次访问（广度优先），随后遍历从路径中的下一个元素继续。凡与整条路径匹配的元素，都会加入输出的列表。</p>
+
+<p><strong>示例</strong></p>
+
+<p>请看下面的 JSON 和块：</p>
+
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"people"</span><span class="p">:</span><span class="w"> </span><span class="p">[{</span><span class="w">
+    </span><span class="nl">"first_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Tim"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"last_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Beaver"</span><span class="w">
+  </span><span class="p">},{</span><span class="w">
+    </span><span class="nl">"first_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"John"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"last_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Smith"</span><span class="w">
+  </span><span class="p">},{</span><span class="w">
+    </span><span class="nl">"first_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Jane"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"last_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Doe"</span><span class="w">
+  </span><span class="p">}]</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div></div>
+
+<p><img src="images/dictionaries/walk-tree-example.png" alt="" /></p>
+
+<p>如果 <code class="language-plaintext variable block highlighter-rouge">global data</code> 保存了由该 JSON 表示的字典，那么 <code class="language-plaintext dictionary block highlighter-rouge">list by walking key path</code> 块会生成列表 <code class="language-plaintext list block highlighter-rouge">["Tim", "Beaver"]</code>。首先选取 <code class="language-plaintext text block highlighter-rouge">"people"</code> 这个标签的值，也就是人员列表；接着选取列表中的第一个元素；最后，walk all at level 块选取该位置对象中的各个值，也就是 <code class="language-plaintext text block highlighter-rouge">"Tim"</code> 和 <code class="language-plaintext text block highlighter-rouge">"Beaver"</code>。</p>
+
+<p>您也可以在包含列表的层级上使用 <code class="language-plaintext dictionary block highlighter-rouge">walk all at level</code>。例如，下面的块会选出结构中所有人的名字，即 <code class="language-plaintext list block highlighter-rouge">["Tim", "John", "Jane"]</code>。</p>
+
+<p><img src="images/dictionaries/walk-tree-example2.png" alt="" /></p>
+
+<p>该块也可以配合 <a href="../components/connectivity.html#Web.XMLTextDecodeAsDictionary"><code class="language-plaintext method block highlighter-rouge">Web.XMLTextDecodeAsDictionary</code></a> 块解析得到的 XML 一起使用。请看下面的 XML 文档：</p>
+
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;schedule&gt;</span>
+  <span class="nt">&lt;day&gt;</span>
+    <span class="nt">&lt;room</span> <span class="na">name=</span><span class="s">"Hewlitt"</span> <span class="nt">/&gt;</span>
+    <span class="nt">&lt;room</span> <span class="na">name=</span><span class="s">"Bleil"</span> <span class="nt">/&gt;</span>
+  <span class="nt">&lt;/day&gt;</span>
+  <span class="nt">&lt;day&gt;</span>
+    <span class="nt">&lt;room</span> <span class="na">name=</span><span class="s">"Kiva"</span> <span class="nt">/&gt;</span>
+    <span class="nt">&lt;room</span> <span class="na">name=</span><span class="s">"Star"</span> <span class="nt">/&gt;</span>
+  <span class="nt">&lt;/day&gt;</span>
+<span class="nt">&lt;/schedule&gt;</span>
+</code></pre></div></div>
+
+<p>您可以用下面的块得到第一天各房间名称的列表，即 <code class="language-plaintext list block highlighter-rouge">["Hewlitt", "Bleil"]</code>。</p>
+
+<p><img src="images/dictionaries/walk-tree-xml.png" alt="" /></p>
+
+<h3 id="walk-all-at-level">当前全部节点</h3>
+
+<p><img src="images/dictionaries/walk-all.png" alt="" /></p>
+
+<p><code class="language-plaintext dictionary block highlighter-rouge">walk all at level</code> 块是一个专用块，可以用在 <code class="language-plaintext dictionary block highlighter-rouge">list by walking key path</code> 的键路径中。遍历过程中遇到它时，该层级上的每一项都会被探查。对于字典，这意味着访问每一个值；对于列表，则访问列表中的每一项。它可用于汇总字典中一组数据项的信息，例如由 JSON 对象表示的数据库中每个人的名字。示例请参见 <a href="#list-by-walking-key-path"><code class="language-plaintext dictionary block highlighter-rouge">list by walking key path</code></a> 块。</p>
+
+<h3 id="is-a-dictionary">是否为字典</h3>
+
+<p><img src="images/dictionaries/is-dict.png" alt="" /></p>
+
+<p><code class="language-plaintext dictionary block highlighter-rouge">is a dictionary?</code> 块检查传给它的 <code class="language-plaintext highlighter-rouge">thing</code> 是不是字典。返回 <code class="language-plaintext logic block highlighter-rouge">true</code> 表示 <code class="language-plaintext highlighter-rouge">thing</code> 是字典，返回 <code class="language-plaintext logic block highlighter-rouge">false</code> 则表示不是。</p>
+
+</article>
+<script>
+  // Handle redirection to documentation based on locale query parameter (if specified)
+  (function() {
+      var locale = window.location.search.match('[&?]locale=([a-zA-Z-]*)');
+      if (locale) {
+          if (locale[1].indexOf('en') === 0) {
+              // English needs to stay at the top level to not break existing links
+              var page = window.location.pathname.split('/');
+              if (page.length === 5) {
+                  page.splice(2, 1);
+              } else {
+                  // already on english
+                  return;
+              }
+              window.location.href = page.join('/');
+          } else {
+              var page = window.location.pathname.split('/');
+              if (page.length === 4) {
+                  page.splice(2, 0, locale[1]);
+              } else if (page[2].toLowerCase() != locale[1].toLowerCase()) {
+                  page[2] = locale[1];
+              } else {
+                  return;  // already on the desired language
+              }
+              // Test that the page exists before redirecting.
+              var xhr = new XMLHttpRequest();
+              xhr.open('HEAD', page.join('/'), false);
+              xhr.onreadystatechange = function() {
+                  if (xhr.readyState == 4) {
+                      if ((xhr.status == 200 || xhr.status == 204)) {
+                          window.location.href = page.join('/');
+                      } else if (xhr.status  >= 400) {
+                          page.splice(2, 1);  // go to english version
+                          window.location.href = page.join('/');
+                      }
+                  }
+              };
+              xhr.send();
+          }
+      }
+  })();
+
+  // Handle embedded documentation in help by removing website template
+  if (window.self !== window.top) {
+      setTimeout(function() {
+          var videos = document.querySelectorAll('video');
+          for (var i = 0; i < videos.length; i++) {
+              if (parseInt(videos[i].getAttribute('width')) > 360) {
+                  var aspect = parseInt(videos[i].getAttribute('height')) / parseInt(videos[i].getAttribute('width'));
+                  videos[i].setAttribute('width', '360');
+                  videos[i].setAttribute('height', '' + (360 * aspect));
+              }
+          }
+          var h1 = document.querySelector('h1');
+          var article = document.querySelector('article');
+          article.insertBefore(h1, article.firstElementChild);
+          document.body.innerHTML = article.outerHTML;
+      });
+  }
+</script>
+
+            </div>
+<script src="../../../static/js/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="../../../static/js/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="../../../static/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+<script async src="../../../static/js/widgets.js" charset="utf-8"></script>
+</div>
+    </body>
+</html>

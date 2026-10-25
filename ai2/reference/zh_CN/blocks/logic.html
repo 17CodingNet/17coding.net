@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+
+     一一对应。
+     - 正文（标题/段落/列表/表格/图片 alt/视频说明）译为简体中文；
+     - 顶部导航（MIT logo、"Create Apps!" 按钮、About/Educators/News/Resources/Blogs
+       菜单、Donate 按钮、gcse 搜索框）与底部 MIT 版权页脚（© 声明、CC BY-SA、ToS、
+       Support/Twitter/GitHub/Accessibility）已整块删除：本项目是离线产品，帮助页只在
+       应用内新标签页打开，不应出现通往 MIT 主站的品牌链接与捐赠入口。head 里仅供
+       "Create Apps!" 按钮使用的 gotoappinventor() 脚本一并删除；<title> 与页面 <h1>
+       里的 "MIT " 字样已去掉，正文中作为产品名出现的 "MIT App Inventor" 已改为
+       "App Inventor蔻丁工坊"(zh_CN 语境带蔻丁工坊后缀;版权说明处的 MIT 保留)；
+     - 重定向脚本（<script> 块）按上游原文保留：本项目 blocklyeditor.js 的 _resolveHelpUrl
+       已把 href 直接写成 zh_CN 路径且不带 ?locale=，脚本不会触发；若日后有人手工拼了
+       ?locale=zh_CN 进 URL，file:// 下 sync XHR 会被浏览器拦截，脚本停在"已是目标语言"，
+       不会跳错位置；
+     - /static/ 绝对路径改为相对路径：offline webapp 支持以 file:// 打开，绝对路径会解析到
+       磁盘根目录（file:///static/...）从而 404；
+     - 本地图片/视频按上游同名相对路径复制到本目录，故 src 与上游完全一致；
+     - id= 锚点与块/组件/属性英文名保持上游原文，帮助链接里的 #fragment 才能定位。 -->
+<html lang="zh-CN"><head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="stylesheet" href="../../../static/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="../../../static/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
+    <link href="../../../static/css/fonts.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="../../../static/css/mit_app_inventor.css">
+    <title>App Inventor 逻辑块</title></head>
+<body class="mit_app_inventor">
+<div class="default-page">
+            <div class="header">
+	        <h1 class="font-weight-bold text-center offset-xl-2 col-xl-8">App Inventor 逻辑块</h1>
+            </div>
+            <div class="container-fluid">
+                <article class="documentation">
+<ul>
+  <li><a href="#true">真</a></li>
+  <li><a href="#false">假</a></li>
+  <li><a href="#not">非</a></li>
+  <li><a href="#=">=</a></li>
+  <li><a href="#not=">≠</a></li>
+  <li><a href="#and">并且</a></li>
+  <li><a href="#or">或者</a></li>
+</ul>
+
+<h3 id="true">真</h3>
+
+<p><img src="images/logic/true.png" alt="" /></p>
+
+<p>表示常量值“真”。您可以用它来设置组件的布尔型属性值，也可以把它用作表示条件的变量的值。</p>
+
+<h3 id="false">假</h3>
+
+<p><img src="images/logic/false.png" alt="" /></p>
+
+<p>表示常量值“假”。您可以用它来设置组件的布尔型属性值，也可以把它用作表示条件的变量的值。</p>
+
+<h3 id="not">非</h3>
+
+<p><img src="images/logic/not.png" alt="" /></p>
+
+<p>执行逻辑取反：如果输入为“真”则返回“假”，如果输入为“假”则返回“真”。</p>
+
+<h3 id="---">=   {#=}</h3>
+
+<p><img src="images/logic/equals.png" alt="" /></p>
+
+<p>检测它的各个参数是否相等。</p>
+
+<ul>
+  <li>两个数字在数值上相等时即为相等，例如 1 等于 1.0。</li>
+  <li>两个文本块在字符相同、顺序相同且大小写相同时才相等。例如，banana 不等于 Banana。</li>
+  <li>数字和文本：如果该数字在数值上等于按该文本打印出来的数字，则二者相等。例如，12.0 等于把 1A 的第一个字符与 Teafor2 的最后一个字符拼接后得到的结果。</li>
+  <li>两个列表在元素个数相同、且对应元素相等时即为相等。</li>
+</ul>
+
+<p>它的行为与“数学”分类中的 = 块完全相同</p>
+
+<h3 id="---not">≠   {#not=}</h3>
+
+<p><img src="images/logic/notequals.png" alt="" /></p>
+
+<p>检测两个参数是否不相等。</p>
+
+<h3 id="and">并且</h3>
+
+<p><img src="images/logic/and.png" alt="" height="36" /></p>
+
+<p>检测一组逻辑条件是否全部为“真”。当且仅当所有被测条件都为“真”时，结果才为“真”。可以使用<a href="../concepts/mutators.html">变体块（mutator）</a>来增加条件的数量。条件按从左到右的顺序依次检测，一旦发现某个条件为“假”就立即停止检测。如果没有条件需要检测，则结果为“真”。您可以把这当作逻辑学家的一个玩笑。</p>
+
+<h3 id="or">或者</h3>
+
+<p><img src="images/logic/or.png" alt="" height="36" /></p>
+
+<p>检测一组逻辑条件中是否有任意一个为“真”。只要有一个或多个被测条件为“真”，结果就为“真”。可以使用<a href="../concepts/mutators.html">变体块（mutator）</a>来增加条件的数量。条件按从左到右的顺序依次检测，一旦发现某个条件为“真”就立即停止检测。如果没有条件需要检测，则结果为“假”。</p>
+
+</article>
+<script>
+  // Handle redirection to documentation based on locale query parameter (if specified)
+  (function() {
+      var locale = window.location.search.match('[&?]locale=([a-zA-Z-]*)');
+      if (locale) {
+          if (locale[1].indexOf('en') === 0) {
+              // English needs to stay at the top level to not break existing links
+              var page = window.location.pathname.split('/');
+              if (page.length === 5) {
+                  page.splice(2, 1);
+              } else {
+                  // already on english
+                  return;
+              }
+              window.location.href = page.join('/');
+          } else {
+              var page = window.location.pathname.split('/');
+              if (page.length === 4) {
+                  page.splice(2, 0, locale[1]);
+              } else if (page[2].toLowerCase() != locale[1].toLowerCase()) {
+                  page[2] = locale[1];
+              } else {
+                  return;  // already on the desired language
+              }
+              // Test that the page exists before redirecting.
+              var xhr = new XMLHttpRequest();
+              xhr.open('HEAD', page.join('/'), false);
+              xhr.onreadystatechange = function() {
+                  if (xhr.readyState == 4) {
+                      if ((xhr.status == 200 || xhr.status == 204)) {
+                          window.location.href = page.join('/');
+                      } else if (xhr.status  >= 400) {
+                          page.splice(2, 1);  // go to english version
+                          window.location.href = page.join('/');
+                      }
+                  }
+              };
+              xhr.send();
+          }
+      }
+  })();
+
+  // Handle embedded documentation in help by removing website template
+  if (window.self !== window.top) {
+      setTimeout(function() {
+          var videos = document.querySelectorAll('video');
+          for (var i = 0; i < videos.length; i++) {
+              if (parseInt(videos[i].getAttribute('width')) > 360) {
+                  var aspect = parseInt(videos[i].getAttribute('height')) / parseInt(videos[i].getAttribute('width'));
+                  videos[i].setAttribute('width', '360');
+                  videos[i].setAttribute('height', '' + (360 * aspect));
+              }
+          }
+          var h1 = document.querySelector('h1');
+          var article = document.querySelector('article');
+          article.insertBefore(h1, article.firstElementChild);
+          document.body.innerHTML = article.outerHTML;
+      });
+  }
+</script>
+
+            </div>
+<script src="../../../static/js/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="../../../static/js/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="../../../static/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+<script async src="../../../static/js/widgets.js" charset="utf-8"></script>
+</div>
+    </body>
+</html>

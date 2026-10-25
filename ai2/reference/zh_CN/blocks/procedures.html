@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+
+     一一对应。
+     - 正文（标题/段落/列表/表格/图片 alt/视频说明）译为简体中文；
+     - 顶部导航（MIT logo、"Create Apps!" 按钮、About/Educators/News/Resources/Blogs
+       菜单、Donate 按钮、gcse 搜索框）与底部 MIT 版权页脚（© 声明、CC BY-SA、ToS、
+       Support/Twitter/GitHub/Accessibility）已整块删除：本项目是离线产品，帮助页只在
+       应用内新标签页打开，不应出现通往 MIT 主站的品牌链接与捐赠入口。head 里仅供
+       "Create Apps!" 按钮使用的 gotoappinventor() 脚本一并删除；<title> 与页面 <h1>
+       里的 "MIT " 字样已去掉，正文中作为产品名出现的 "MIT App Inventor" 已改为
+       "App Inventor蔻丁工坊"(zh_CN 语境带蔻丁工坊后缀;版权说明处的 MIT 保留)；
+     - 重定向脚本（<script> 块）按上游原文保留：本项目 blocklyeditor.js 的 _resolveHelpUrl
+       已把 href 直接写成 zh_CN 路径且不带 ?locale=，脚本不会触发；若日后有人手工拼了
+       ?locale=zh_CN 进 URL，file:// 下 sync XHR 会被浏览器拦截，脚本停在"已是目标语言"，
+       不会跳错位置；
+     - /static/ 绝对路径改为相对路径：offline webapp 支持以 file:// 打开，绝对路径会解析到
+       磁盘根目录（file:///static/...）从而 404；
+     - 本地图片/视频按上游同名相对路径复制到本目录，故 src 与上游完全一致；
+     - id= 锚点与块/组件/属性英文名保持上游原文，帮助链接里的 #fragment 才能定位。 -->
+<html lang="zh-CN"><head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="stylesheet" href="../../../static/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="../../../static/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
+    <link href="../../../static/css/fonts.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="../../../static/css/mit_app_inventor.css">
+    <title>App Inventor 过程块</title></head>
+<body class="mit_app_inventor">
+<div class="default-page">
+            <div class="header">
+	        <h1 class="font-weight-bold text-center offset-xl-2 col-xl-8">App Inventor 过程块</h1>
+            </div>
+            <div class="container-fluid">
+                <article class="documentation">
+<p>过程（procedure）是以一个名称保存的一段代码块或代码序列，这个名称就是您的过程块的名称。您不必一遍遍重复拼装同样的一长串代码块，只要创建一个过程，并在需要运行这段代码块时调用该过程块即可。在计算机科学中，过程有时也称为函数（function）或方法（method）。</p>
+
+<ul>
+  <li><a href="#named-procedures">具名过程</a></li>
+  <li><a href="#unnamed-procedures">匿名过程</a></li>
+  <li><a href="#do">定义过程（执行）</a></li>
+  <li><a href="#return">定义过程（返回）</a></li>
+  <li><a href="#create-do">匿名过程（执行）</a></li>
+  <li><a href="#create-result">匿名过程（返回）</a></li>
+  <li><a href="#call-procedure">调用过程</a></li>
+  <li><a href="#call-procedure-list">用输入列表调用过程</a></li>
+  <li><a href="#number-of-inputs">过程的参数数量</a></li>
+  <li><a href="#get-procedure-name">取过程（按名称）</a></li>
+  <li><a href="#get-procedure-dropdown">取过程（下拉框）</a></li>
+</ul>
+
+<h2 id="named-procedures">具名过程</h2>
+
+<h3 id="do">定义过程（执行）</h3>
+
+<p><img src="images/procedure/do.png" alt="" /></p>
+
+<p>把一段代码块集合成一个整体。之后，您只要调用该过程，就能反复使用这段代码块。如果过程带有参数，可以通过该块的变体（mutator）按钮来指定参数。点击蓝色的加号，即可把更多参数拖入过程中。</p>
+
+<p>新建过程块时，App Inventor 会自动为它选一个唯一的名称。点击该名称并输入即可修改。应用中的过程名称必须唯一：App Inventor 不允许在同一屏幕上定义两个同名过程。在构建应用的过程中，您随时都可以通过修改块中的标签来重命名过程，App Inventor 会自动把相关联的调用块改成相同的名称。</p>
+
+<p>Java 关键字不能用作过程名。<a href="https://en.wikipedia.org/wiki/List_of_Java_keywords">这里</a>是关键字列表。</p>
+
+<p><img src="images/procedure/calldo.png" alt="" /></p>
+
+<p>创建过程时，App Inventor 会自动生成一个调用块，并将其放在过程抽屉中。您可以使用该调用块来调用过程。</p>
+
+<h3 id="return">定义过程（返回）</h3>
+
+<p><img src="images/procedure/return.png" alt="" /></p>
+
+<p>与<a href="#do">定义过程（执行）</a>块相同，但调用该过程会返回一个结果。</p>
+
+<p><img src="images/procedure/callreturn.png" alt="" /></p>
+
+<p>创建该过程后，会生成一个需要插入的调用块。这是因为执行该过程得到的结果会由该调用块返回，并传递给与插头相连的任何块。</p>
+
+<hr />
+
+<h2 id="unnamed-procedures">匿名过程</h2>
+
+<p>高阶过程可以把其他过程作为输入，以及（或者）把过程作为值返回。过程也可以不命名（匿名过程）地创建、赋给变量，并动态调用。</p>
+
+<h3 id="create-do">匿名过程（执行）</h3>
+
+<p><img src="images/procedure/procedures_defanonnoreturn.png" alt="" /></p>
+
+<p>该块创建一个匿名（未命名）过程，它执行一系列动作（语句），但不返回值。由于没有名称，它通常被赋给一个变量，或直接传入另一个以过程为输入的块。</p>
+
+<h3 id="create-result">匿名过程（返回）</h3>
+
+<p><img src="images/procedure/procedures_defanonreturn.png" alt="" /></p>
+
+<p>该块创建一个匿名过程，它对一个表达式求值并返回结果。在需要临时定义可当作参数传递或保存到变量中的计算或逻辑（例如按价格计算 25% 的折扣）时，它很有用。</p>
+
+<h3 id="call-procedure">调用过程</h3>
+
+<p><img src="images/procedure/procedures_callanonnoreturn.png" alt="" /><br />
+<img src="images/procedure/procedures_callanonreturn.png" alt="" /></p>
+
+<p>动态执行一个过程对象。您无需从下拉框中选择固定的过程名，而是把过程对象（例如保存了过程的变量）插入该块，并提供所需的参数。该块有两个版本：语句块（用于不返回值的过程）和值块（用于返回结果的过程）。</p>
+
+<h3 id="call-procedure-list">用输入列表调用过程</h3>
+
+<p><img src="images/procedure/procedures_callanonnoreturn_inputlist.png" alt="" /><br />
+<img src="images/procedure/procedures_callanonreturn_inputlist.png" alt="" /></p>
+
+<p>通过把所有参数合并成一个 App Inventor 列表传入，从而执行一个过程对象。当参数是在运行时动态构造、而不是逐个硬编码到各个插槽中时，这个块特别有用。与标准调用块一样，它也有语句和值两个版本。</p>
+
+<h3 id="number-of-inputs">过程的参数数量</h3>
+
+<p><img src="images/procedure/procedures_numArgs.png" alt="" /></p>
+
+<p>以一个过程对象作为输入，返回该过程运行所需的参数（形参）数量。</p>
+
+<h3 id="get-procedure-name">取过程（按名称）</h3>
+
+<p><img src="images/procedure/procedures_getWithName.png" alt="" /></p>
+
+<p>根据过程的字符串名称获取过程对象。这样您就能借助文本块或变量，动态查找并调用具名过程。</p>
+
+<h3 id="get-procedure-dropdown">取过程（下拉框）</h3>
+
+<p><img src="images/procedure/procedures_getWithDropdown.png" alt="" /></p>
+
+<p>提供一个静态下拉菜单，列出项目中当前定义的所有具名过程。它返回所选的过程对象，以便传递给其他块或赋给变量。</p>
+
+</article>
+<script>
+  // Handle redirection to documentation based on locale query parameter (if specified)
+  (function() {
+      var locale = window.location.search.match('[&?]locale=([a-zA-Z-]*)');
+      if (locale) {
+          if (locale[1].indexOf('en') === 0) {
+              // English needs to stay at the top level to not break existing links
+              var page = window.location.pathname.split('/');
+              if (page.length === 5) {
+                  page.splice(2, 1);
+              } else {
+                  // already on english
+                  return;
+              }
+              window.location.href = page.join('/');
+          } else {
+              var page = window.location.pathname.split('/');
+              if (page.length === 4) {
+                  page.splice(2, 0, locale[1]);
+              } else if (page[2].toLowerCase() != locale[1].toLowerCase()) {
+                  page[2] = locale[1];
+              } else {
+                  return;  // already on the desired language
+              }
+              // Test that the page exists before redirecting.
+              var xhr = new XMLHttpRequest();
+              xhr.open('HEAD', page.join('/'), false);
+              xhr.onreadystatechange = function() {
+                  if (xhr.readyState == 4) {
+                      if ((xhr.status == 200 || xhr.status == 204)) {
+                          window.location.href = page.join('/');
+                      } else if (xhr.status  >= 400) {
+                          page.splice(2, 1);  // go to english version
+                          window.location.href = page.join('/');
+                      }
+                  }
+              };
+              xhr.send();
+          }
+      }
+  })();
+
+  // Handle embedded documentation in help by removing website template
+  if (window.self !== window.top) {
+      setTimeout(function() {
+          var videos = document.querySelectorAll('video');
+          for (var i = 0; i < videos.length; i++) {
+              if (parseInt(videos[i].getAttribute('width')) > 360) {
+                  var aspect = parseInt(videos[i].getAttribute('height')) / parseInt(videos[i].getAttribute('width'));
+                  videos[i].setAttribute('width', '360');
+                  videos[i].setAttribute('height', '' + (360 * aspect));
+              }
+          }
+          var h1 = document.querySelector('h1');
+          var article = document.querySelector('article');
+          article.insertBefore(h1, article.firstElementChild);
+          document.body.innerHTML = article.outerHTML;
+      });
+  }
+</script>
+
+            </div>
+<script src="../../../static/js/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="../../../static/js/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="../../../static/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+<script async src="../../../static/js/widgets.js" charset="utf-8"></script>
+</div>
+    </body>
+</html>

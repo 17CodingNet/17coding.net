@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+
+     一一对应。
+     - 正文（标题/段落/列表/表格/图片 alt/视频说明）译为简体中文；
+     - 顶部导航（MIT logo、"Create Apps!" 按钮、About/Educators/News/Resources/Blogs
+       菜单、Donate 按钮、gcse 搜索框）与底部 MIT 版权页脚（© 声明、CC BY-SA、ToS、
+       Support/Twitter/GitHub/Accessibility）已整块删除：本项目是离线产品，帮助页只在
+       应用内新标签页打开，不应出现通往 MIT 主站的品牌链接与捐赠入口。head 里仅供
+       "Create Apps!" 按钮使用的 gotoappinventor() 脚本一并删除；<title> 与页面 <h1>
+       里的 "MIT " 字样已去掉，正文中作为产品名出现的 "MIT App Inventor" 已改为
+       "App Inventor蔻丁工坊"(zh_CN 语境带蔻丁工坊后缀;版权说明处的 MIT 保留)；
+     - 重定向脚本（<script> 块）按上游原文保留：本项目 blocklyeditor.js 的 _resolveHelpUrl
+       已把 href 直接写成 zh_CN 路径且不带 ?locale=，脚本不会触发；若日后有人手工拼了
+       ?locale=zh_CN 进 URL，file:// 下 sync XHR 会被浏览器拦截，脚本停在"已是目标语言"，
+       不会跳错位置；
+     - /static/ 绝对路径改为相对路径：offline webapp 支持以 file:// 打开，绝对路径会解析到
+       磁盘根目录（file:///static/...）从而 404；
+     - 本地图片/视频按上游同名相对路径复制到本目录，故 src 与上游完全一致；
+     - id= 锚点与块/组件/属性英文名保持上游原文，帮助链接里的 #fragment 才能定位。 -->
+<html lang="zh-CN"><head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="stylesheet" href="../../../static/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="../../../static/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
+    <link href="../../../static/css/fonts.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="../../../static/css/mit_app_inventor.css">
+    <title>使用带 JSON 的 Web API</title></head>
+<body class="mit_app_inventor">
+<div class="default-page">
+            <div class="header">
+	        <h1 class="font-weight-bold text-center offset-xl-2 col-xl-8">使用带 JSON 的 Web API</h1>
+            </div>
+            <div class="container-fluid">
+                <article class="documentation">
+<p>JavaScript 对象表示法（JavaScript Object Notation，JSON）广泛用于与 Web 上的应用程序编程接口（API）交互。JSON 提供了若干用于组合消息的类型。App Inventor 同样支持这些值。</p>
+
+<ul>
+  <li>JSON 值 <code class="language-plaintext highlighter-rouge">true</code> 和 <code class="language-plaintext highlighter-rouge">false</code> 会变成 App Inventor 的 <code class="language-plaintext logic block highlighter-rouge">true</code> 和 <code class="language-plaintext logic block highlighter-rouge">false</code></li>
+  <li>JSON 数字（包括整数和小数）会变成 App Inventor 的 <code class="language-plaintext math block highlighter-rouge">number</code></li>
+  <li>JSON 字符串会变成 App Inventor 的 <code class="language-plaintext text block highlighter-rouge">text</code></li>
+  <li>JSON 数组会变成 App Inventor 的 <code class="language-plaintext list block highlighter-rouge">list</code></li>
+  <li>JSON 对象会变成 App Inventor 的 <code class="language-plaintext dictionary block highlighter-rouge">dictionary</code></li>
+</ul>
+
+<p>一条 JSON 消息的示例如下：</p>
+
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Tim Beaver"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"likes"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"dams"</span><span class="p">,</span><span class="w"> </span><span class="s2">"engineering"</span><span class="p">],</span><span class="w">
+  </span><span class="nl">"hasTowel"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"widgets"</span><span class="p">:</span><span class="w"> </span><span class="mi">42</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div></div>
+
+<p>这段 JSON 声明了一个对象（由 <code class="language-plaintext highlighter-rouge">{</code> 和 <code class="language-plaintext highlighter-rouge">}</code> 表示）。键是冒号（<code class="language-plaintext highlighter-rouge">:</code>）前面那些带引号的字符串（例如 <code class="language-plaintext highlighter-rouge">"name"</code>）。可以看到其中包含不同类型的值，包括数组（方括号 <code class="language-plaintext highlighter-rouge">[...]</code> 之间以逗号分隔的值）、数字（例如 <code class="language-plaintext highlighter-rouge">42</code>）和布尔值（例如 <code class="language-plaintext highlighter-rouge">true</code>）。</p>
+
+<p>在本文余下的部分中，我们将使用一个名为 <a href="https://jsonplaceholder.typicode.com">JSONPlaceholder</a> 的服务，它专门用于示例演示。它会以 Lorem Ipsum 的形式生成示例 JSON 响应，并不会真正存储任何数据。</p>
+
+<h2 id="components-used-in-this-document">本文用到的组件</h2>
+
+<p>下面的示例会用到这些组件：</p>
+
+<ul>
+  <li><a href="../components/userinterface.html#Button">Button</a></li>
+  <li><a href="../components/userinterface.html#Label">Label</a></li>
+  <li><a href="../components/userinterface.html#ListView">ListView</a></li>
+  <li><a href="../components/connectivity.html#Web">Web</a></li>
+</ul>
+
+<h2 id="retrieving-data">获取数据</h2>
+
+<p>Web 组件提供了 <code class="language-plaintext method block highlighter-rouge">Get</code> 方法。请求完成后，Web 的 <code class="language-plaintext event block highlighter-rouge">GotText</code> 事件块就会运行。该事件有两个重要的参数：</p>
+
+<ul>
+  <li><code class="language-plaintext variable block highlighter-rouge">responseCode</code>：服务器返回的 HTTP 状态码。通常会是 <code class="language-plaintext math block highlighter-rouge">200</code>（OK）或 <code class="language-plaintext math block highlighter-rouge">201</code>（Created），但也可能得到 <code class="language-plaintext math block highlighter-rouge">400</code>（Bad Request）、<code class="language-plaintext math block highlighter-rouge">403</code>（Forbidden）、<code class="language-plaintext math block highlighter-rouge">404</code>（Not Found）之类的值。根据应用中使用的 API，您应当检查状态码，以判断请求是否成功。</li>
+  <li><code class="language-plaintext variable block highlighter-rouge">responseContent</code>：服务器返回的响应内容，类型为 <code class="language-plaintext text block highlighter-rouge">text</code>。下面看看如何把它按 JSON 处理：</li>
+</ul>
+
+<p>Web 组件提供了 <a href="../components/connectivity.html#Web.JsonTextDecodeWithDictionaries"><code class="language-plaintext method block highlighter-rouge">JsonTextDecodeWithDictionaries</code></a> 方法，它接受一个 <code class="language-plaintext text block highlighter-rouge">text</code>（例如 <code class="language-plaintext variable block highlighter-rouge">responseContent</code> 参数的内容），并把它转换成相应的 App Inventor 类型。根据返回内容的不同，<code class="language-plaintext method block highlighter-rouge">JsonTextDecodeWithDictionaries</code> 的输出可能是不同的类型，例如 <code class="language-plaintext list block highlighter-rouge">list</code> 或 <code class="language-plaintext dictionary block highlighter-rouge">dictionary</code>。如果 API 可能返回不止一种类型的内容，您可以用 App Inventor 提供的 <code class="language-plaintext list block highlighter-rouge">is a list?</code> 和 <code class="language-plaintext dictionary block highlighter-rouge">is a dictionary?</code> 等块来检测该值。</p>
+
+<h3 id="example---successful-get">示例：成功的 Get 请求</h3>
+
+<p>相应地设置 <code class="language-plaintext setter block highlighter-rouge">Url</code> 属性并调用 <code class="language-plaintext method block highlighter-rouge">Get</code>，即可请求第一篇文章</p>
+
+<p><img src="images/webapis-get-button.png" alt="" /></p>
+
+<p>成功时，<code class="language-plaintext event block highlighter-rouge">GotText</code> 事件的 <code class="language-plaintext variable block highlighter-rouge">responseCode</code> 为 <code class="language-plaintext math block highlighter-rouge">200</code>。我们可以用 <code class="language-plaintext method block highlighter-rouge">JsonTextDecodeWithDictionaries</code> 方法解析 <code class="language-plaintext variable block highlighter-rouge">responseText}</code> 的内容。拿到包含结果的字典后，就可以访问它的 <code class="language-plaintext text block highlighter-rouge">title</code> 和 <code class="language-plaintext text block highlighter-rouge">body</code> 属性了。</p>
+
+<p><strong>示例 JSON</strong></p>
+
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"userId"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"title"</span><span class="p">:</span><span class="w"> </span><span class="s2">"sunt aut facere repellat provident occaecati excepturi optio reprehenderit"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"body"</span><span class="p">:</span><span class="w"> </span><span class="s2">"quia et suscipit</span><span class="se">\n</span><span class="s2">suscipit recusandae consequuntur expedita et cum</span><span class="se">\n</span><span class="s2">reprehenderit molestiae ut ut quas totam</span><span class="se">\n</span><span class="s2">nostrum rerum est autem sunt rem eveniet architecto"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div></div>
+
+<p><strong>块</strong></p>
+
+<p><img src="images/webapis-get-success.png" alt="" /></p>
+
+<p>运行上面的块之后，Label1 中会保存 JSON 里的 title（即 <code class="language-plaintext highlighter-rouge">"sunt aut facere..."</code>），Label2 中会保存 JSON 里的 body（即 <code class="language-plaintext highlighter-rouge">"quia et sucipit..."</code>）。</p>
+
+<h3 id="example---failed-get">示例：失败的 Get 请求</h3>
+
+<p>如果您请求的资源不存在（在所示的示例中是第 101 篇文章），就会得到错误。</p>
+
+<p><img src="images/webapis-get-button-fail.png" alt="" /></p>
+
+<p>HTTP 用错误码 <code class="language-plaintext math block highlighter-rouge">404</code> 表示服务器找不到某个资源。我们对此进行检测，并向用户报告错误。</p>
+
+<p><img src="images/webapis-get-failure.png" alt="" /></p>
+
+<h3 id="example---walking-a-response">示例：逐层访问响应</h3>
+
+<p>如果把 <code class="language-plaintext setter block highlighter-rouge">Url</code> 设为 <code class="language-plaintext text block highlighter-rouge">https://jsonplaceholder.typicode.com/posts</code> 并调用 <code class="language-plaintext method block highlighter-rouge">Get</code>，就会返回一个含 100 个条目的列表。</p>
+
+<p><img src="images/webapis-get-all-posts.png" alt="" /></p>
+
+<p>如果您想在列表框（ListView）中显示这些条目的相关信息，一种做法是用 <code class="language-plaintext control block highlighter-rouge">for each item</code> 块遍历这个列表。</p>
+
+<p><img src="images/webapis-get-foreach.png" alt="" /></p>
+
+<p>不过，<a href="../blocks/dictionaries.html#list-by-walking-key-path"><code class="language-plaintext dictionary block highlighter-rouge">list by walking key path</code></a> 可以让这件事更简单。这个块从给定的对象出发，按照以 <code class="language-plaintext list block highlighter-rouge">list</code> 形式提供给它的一系列步骤逐层访问。在下面的示例中，我们给它传入 <code class="language-plaintext dictionary block highlighter-rouge">walk all at level</code> 和 <code class="language-plaintext text block highlighter-rouge">title</code> 这条键路径，从而按出现顺序取出列表中每篇文章的 title。这段代码与上面用 <code class="language-plaintext control block highlighter-rouge">for each</code> 块的代码功能等价，但更简洁。</p>
+
+<p><img src="images/webapis-get-walk.png" alt="" /></p>
+
+<h2 id="sending-data">发送数据</h2>
+
+<p>把数据发送给 Web API 进行处理通常涉及两件事。第一，您必须构造出需要发送给该 API 的消息。API 的开发者通常会提供详尽的文档，说明如何使用他们的 API。第二，取决于该操作是否敏感（例如修改或删除数据），您还需要提供某种身份验证令牌。</p>
+
+<p>要与使用 JSON 的 Web API 打交道，您会用到 App Inventor 的列表和字典类型。例如：</p>
+
+<h3 id="example">示例</h3>
+
+<p>我们可以用 Web 组件的 <a href="../components/connectivity.html#Web.PostText"><code class="language-plaintext method block highlighter-rouge">PostText</code></a> 方法把内容发送给基于 JSON 的 Web API。对于 JSONPlaceholder，文章应当包含 3 个键：<code class="language-plaintext highlighter-rouge">"userId"</code>、<code class="language-plaintext highlighter-rouge">"title"</code> 和 <code class="language-plaintext highlighter-rouge">"body"</code>。</p>
+
+<p><img src="images/webapis-post.png" alt="" /></p>
+
+<p>成功时，<code class="language-plaintext event block highlighter-rouge">GotText</code> 中的 <code class="language-plaintext variable block highlighter-rouge">responseCode</code> 会是 <code class="language-plaintext math block highlighter-rouge">201</code>，表示“Created”（已创建）。</p>
+
+<p><img src="images/webapis-post-success.png" alt="" /></p>
+
+<h2 id="further-reading">延伸阅读</h2>
+
+<p>要了解 HTTP 响应码的更多内容，请参阅 <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Status">HTTP response status codes</a>。</p>
+
+</article>
+<script>
+  // Handle redirection to documentation based on locale query parameter (if specified)
+  (function() {
+      var locale = window.location.search.match('[&?]locale=([a-zA-Z-]*)');
+      if (locale) {
+          if (locale[1].indexOf('en') === 0) {
+              // English needs to stay at the top level to not break existing links
+              var page = window.location.pathname.split('/');
+              if (page.length === 5) {
+                  page.splice(2, 1);
+              } else {
+                  // already on english
+                  return;
+              }
+              window.location.href = page.join('/');
+          } else {
+              var page = window.location.pathname.split('/');
+              if (page.length === 4) {
+                  page.splice(2, 0, locale[1]);
+              } else if (page[2].toLowerCase() != locale[1].toLowerCase()) {
+                  page[2] = locale[1];
+              } else {
+                  return;  // already on the desired language
+              }
+              // Test that the page exists before redirecting.
+              var xhr = new XMLHttpRequest();
+              xhr.open('HEAD', page.join('/'), false);
+              xhr.onreadystatechange = function() {
+                  if (xhr.readyState == 4) {
+                      if ((xhr.status == 200 || xhr.status == 204)) {
+                          window.location.href = page.join('/');
+                      } else if (xhr.status  >= 400) {
+                          page.splice(2, 1);  // go to english version
+                          window.location.href = page.join('/');
+                      }
+                  }
+              };
+              xhr.send();
+          }
+      }
+  })();
+
+  // Handle embedded documentation in help by removing website template
+  if (window.self !== window.top) {
+      setTimeout(function() {
+          var videos = document.querySelectorAll('video');
+          for (var i = 0; i < videos.length; i++) {
+              if (parseInt(videos[i].getAttribute('width')) > 360) {
+                  var aspect = parseInt(videos[i].getAttribute('height')) / parseInt(videos[i].getAttribute('width'));
+                  videos[i].setAttribute('width', '360');
+                  videos[i].setAttribute('height', '' + (360 * aspect));
+              }
+          }
+          var h1 = document.querySelector('h1');
+          var article = document.querySelector('article');
+          article.insertBefore(h1, article.firstElementChild);
+          document.body.innerHTML = article.outerHTML;
+      });
+  }
+</script>
+
+            </div>
+<script src="../../../static/js/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="../../../static/js/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="../../../static/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+<script async src="../../../static/js/widgets.js" charset="utf-8"></script>
+</div>
+    </body>
+</html>

@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+
+     一一对应。
+     - 正文（标题/段落/列表/表格/图片 alt/视频说明）译为简体中文；
+     - 顶部导航（MIT logo、"Create Apps!" 按钮、About/Educators/News/Resources/Blogs
+       菜单、Donate 按钮、gcse 搜索框）与底部 MIT 版权页脚（© 声明、CC BY-SA、ToS、
+       Support/Twitter/GitHub/Accessibility）已整块删除：本项目是离线产品，帮助页只在
+       应用内新标签页打开，不应出现通往 MIT 主站的品牌链接与捐赠入口。head 里仅供
+       "Create Apps!" 按钮使用的 gotoappinventor() 脚本一并删除；<title> 与页面 <h1>
+       里的 "MIT " 字样已去掉，正文中作为产品名出现的 "MIT App Inventor" 已改为
+       "App Inventor蔻丁工坊"(zh_CN 语境带蔻丁工坊后缀;版权说明处的 MIT 保留)；
+     - 重定向脚本（<script> 块）按上游原文保留：本项目 blocklyeditor.js 的 _resolveHelpUrl
+       已把 href 直接写成 zh_CN 路径且不带 ?locale=，脚本不会触发；若日后有人手工拼了
+       ?locale=zh_CN 进 URL，file:// 下 sync XHR 会被浏览器拦截，脚本停在"已是目标语言"，
+       不会跳错位置；
+     - /static/ 绝对路径改为相对路径：offline webapp 支持以 file:// 打开，绝对路径会解析到
+       磁盘根目录（file:///static/...）从而 404；
+     - 本地图片/视频按上游同名相对路径复制到本目录，故 src 与上游完全一致；
+     - id= 锚点与块/组件/属性英文名保持上游原文，帮助链接里的 #fragment 才能定位。 -->
+<html lang="zh-CN"><head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="stylesheet" href="../../../static/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="../../../static/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
+    <link href="../../../static/css/fonts.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="../../../static/css/mit_app_inventor.css">
+    <title>通信连接</title></head>
+<body class="mit_app_inventor">
+<div class="default-page">
+            <div class="header">
+	        <h1 class="font-weight-bold text-center offset-xl-2 col-xl-8">通信连接</h1>
+            </div>
+            <div class="container-fluid">
+                <article class="documentation">
+<p><a href="index.html">« 返回目录</a></p>
+<h1 id="connectivity">通信连接</h1>
+
+<p>目录：</p>
+
+<ul>
+  <li><a href="#ActivityStarter">活动启动器（ActivityStarter）</a></li>
+  <li><a href="#BluetoothClient">蓝牙客户端（BluetoothClient）</a></li>
+  <li><a href="#BluetoothServer">蓝牙服务器（BluetoothServer）</a></li>
+  <li><a href="#Serial">串口（Serial）</a></li>
+  <li><a href="#Web">网络客户端（Web）</a></li>
+</ul>
+
+<h2 id="ActivityStarter">活动启动器（ActivityStarter）</h2>
+
+<p>该组件可以通过 StartActivity 方法启动一个活动（activity）。</p>
+
+<p>可以启动的活动包括：</p>
+
+<ul>
+  <li>启动另一个 App Inventor for Android 应用。为此，先下载该应用的源代码，
+用文件管理器或解压缩工具找到名为 “youngandroidproject/project.properties” 的文件，
+其第一行以 “main=” 开头，后面就是类名；例如
+<code class="language-plaintext highlighter-rouge">main=com.gmail.Bitdiddle.Ben.HelloPurr.Screen1</code>. （开头的几个分量表明该应用由
+Ben.Bitdiddle@gmail.com 创建。） To make your <code class="language-plaintext highlighter-rouge">ActivityStarter</code> 启动这个应用，
+请设置以下属性：
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">ActivityPackage</code> 设为类名去掉最后一段（例如
+<code class="language-plaintext highlighter-rouge">com.gmail.Bitdiddle.Ben.HelloPurr</code>)</li>
+      <li><code class="language-plaintext highlighter-rouge">ActivityClass</code> 设为完整类名（例如
+<code class="language-plaintext highlighter-rouge">com.gmail.Bitdiddle.Ben.HelloPurr.Screen1</code>)</li>
+    </ul>
+  </li>
+  <li>通过设置以下属性启动照相机应用：
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">Action</code>：<code class="language-plaintext highlighter-rouge">android.intent.action.MAIN</code></li>
+      <li><code class="language-plaintext highlighter-rouge">ActivityPackage</code>：<code class="language-plaintext highlighter-rouge">com.android.camera</code></li>
+      <li><code class="language-plaintext highlighter-rouge">ActivityClass</code>：<code class="language-plaintext highlighter-rouge">com.android.camera.Camera</code></li>
+    </ul>
+  </li>
+  <li>执行网络搜索。假设您要搜索的词是 “vampire”（您可以换成自己想搜的词），请把属性设置为：
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">Action</code>：<code class="language-plaintext highlighter-rouge">android.intent.action.WEB_SEARCH</code></li>
+      <li><code class="language-plaintext highlighter-rouge">ExtraKey</code>：<code class="language-plaintext highlighter-rouge">query</code></li>
+      <li><code class="language-plaintext highlighter-rouge">ExtraValue</code>：<code class="language-plaintext highlighter-rouge">vampire</code></li>
+      <li><code class="language-plaintext highlighter-rouge">ActivityPackage</code>：<code class="language-plaintext highlighter-rouge">com.google.android.providers.enhancedgooglesearch</code></li>
+      <li><code class="language-plaintext highlighter-rouge">ActivityClass</code>：<code class="language-plaintext highlighter-rouge">com.google.android.providers.enhancedgooglesearch.Launcher</code></li>
+    </ul>
+  </li>
+  <li>打开浏览器并访问指定的网页。假设您要访问的页面是 “www.facebook.com”（您可以换成自己想访问的网页），请把属性设置为：
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">Action</code>：<code class="language-plaintext highlighter-rouge">android.intent.action.VIEW</code></li>
+      <li><code class="language-plaintext highlighter-rouge">DataUri</code>：<code class="language-plaintext highlighter-rouge">http://www.facebook.com</code></li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="ActivityStarter-Properties">属性</h3>
+
+<dl class="properties">
+  <dt id="ActivityStarter.Action" class="text"><em>Action</em></dt>
+  <dd>指定用于启动活动的 action。</dd>
+  <dt id="ActivityStarter.ActivityClass" class="text"><em>ActivityClass</em></dt>
+  <dd>指定要启动的组件的类名部分。</dd>
+  <dt id="ActivityStarter.ActivityPackage" class="text"><em>ActivityPackage</em></dt>
+  <dd>指定要启动的组件的包名部分。</dd>
+  <dt id="ActivityStarter.DataType" class="text"><em>DataType</em></dt>
+  <dd>指定传给活动的 MIME 类型。</dd>
+  <dt id="ActivityStarter.DataUri" class="text"><em>DataUri</em></dt>
+  <dd>指定用于启动活动的数据 URI。</dd>
+  <dt id="ActivityStarter.ExtraKey" class="text"><em>ExtraKey</em></dt>
+  <dd>指定传给活动的额外键（extra key）。
+ 已废弃，请改用 Extras。</dd>
+  <dt id="ActivityStarter.ExtraValue" class="text"><em>ExtraValue</em></dt>
+  <dd>指定传给活动的额外值（extra value）。
+ 已废弃，请改用 Extras。</dd>
+  <dt id="ActivityStarter.Extras" class="list bo"><em>Extras</em></dt>
+  <dd>返回将作为额外数据传给活动的键值对列表。</dd>
+  <dt id="ActivityStarter.Result" class="text ro bo"><em>Result</em></dt>
+  <dd>返回活动的结果。</dd>
+  <dt id="ActivityStarter.ResultName" class="text"><em>ResultName</em></dt>
+  <dd>指定用于从活动中取回结果的名字。</dd>
+  <dt id="ActivityStarter.ResultType" class="text ro bo"><em>ResultType</em></dt>
+  <dd>返回活动的 MIME 类型。</dd>
+  <dt id="ActivityStarter.ResultUri" class="text ro bo"><em>ResultUri</em></dt>
+  <dd>返回活动的 URI。</dd>
+</dl>
+
+<h3 id="ActivityStarter-Events">事件</h3>
+
+<dl class="events">
+  <dt id="ActivityStarter.ActivityCanceled">ActivityCanceled()</dt>
+  <dd>当活动被取消、ActivityStarter 因此返回时引发本事件。</dd>
+  <dt id="ActivityStarter.AfterActivity">AfterActivity(<em class="text">result</em>)</dt>
+  <dd>在此 <code class="language-plaintext highlighter-rouge">ActivityStarter</code> 返回之后引发本事件。</dd>
+</dl>
+
+<h3 id="ActivityStarter-Methods">方法</h3>
+
+<dl class="methods">
+  <dt id="ActivityStarter.ResolveActivity" class="method returns text"><i></i> ResolveActivity()</dt>
+  <dd>返回与此 <code class="language-plaintext highlighter-rouge">ActivityStarter</code> 对应的活动名称，
+ 如果找不到对应的活动，则返回空字符串。</dd>
+  <dt id="ActivityStarter.StartActivity" class="method"><i></i> StartActivity()</dt>
+  <dd>启动与此 <code class="language-plaintext highlighter-rouge">ActivityStarter</code> 对应的活动。</dd>
+</dl>
+
+<h2 id="BluetoothClient">蓝牙客户端（BluetoothClient）</h2>
+
+<p>用 <code class="language-plaintext highlighter-rouge">BluetoothClient</code> 可以通过蓝牙把您的设备连接到其他设备。本组件
+ 使用串口协议（Serial Port Profile，SPP）进行通信。如果您想使用低功耗
+ 蓝牙（Bluetooth low energy），请参阅
+ <a href="http://iot.appinventor.mit.edu/#/bluetoothle/bluetoothleintro">BluetoothLE</a> extension.</p>
+
+<h3 id="BluetoothClient-Properties">属性</h3>
+
+<dl class="properties">
+  <dt id="BluetoothClient.AddressesAndNames" class="list ro bo"><em>AddressesAndNames</em></dt>
+  <dd>返回已配对的蓝牙设备列表。返回列表的每个元素都是一个字符串，
+ 依次由设备地址、一个空格和设备名称组成。在 Android 12 或更高版本上，
+ 如果应用未被授予 BLUETOOTH_CONNECT 和 BLUETOOTH_SCAN 权限，
+ 该块将通过屏幕的 PermissionDenied 事件报错。</dd>
+  <dt id="BluetoothClient.Available" class="boolean ro bo"><em>Available</em></dt>
+  <dd>如果设备支持蓝牙，则返回 <code class="language-plaintext logic block highlighter-rouge">true</code>，
+ 否则返回 <code class="language-plaintext logic block highlighter-rouge">false</code>。</dd>
+  <dt id="BluetoothClient.CharacterEncoding" class="text"><em>CharacterEncoding</em></dt>
+  <dd>返回收发文本时使用的字符编码。</dd>
+  <dt id="BluetoothClient.DelimiterByte" class="number"><em>DelimiterByte</em></dt>
+  <dd>调用 ReceiveText、ReceiveSignedBytes 或 ReceiveUnsignedBytes 时，
+ 如果给 numberOfBytes 参数传入负数，则使用本属性返回的分隔字节。</dd>
+  <dt id="BluetoothClient.DisconnectOnError" class="boolean"><em>DisconnectOnError</em></dt>
+  <dd>指定发生错误时是否自动断开 BluetoothClient。</dd>
+  <dt id="BluetoothClient.Enabled" class="boolean ro bo"><em>Enabled</em></dt>
+  <dd>如果蓝牙已启用，则返回 <code class="language-plaintext logic block highlighter-rouge">true</code>，否则返回 <code class="language-plaintext logic block highlighter-rouge">false</code>。</dd>
+  <dt id="BluetoothClient.HighByteFirst" class="boolean"><em>HighByteFirst</em></dt>
+  <dd>指定收发数字时是否采用最高有效字节在前的顺序。</dd>
+  <dt id="BluetoothClient.IsConnected" class="boolean ro bo"><em>IsConnected</em></dt>
+  <dd>如果已与蓝牙设备建立连接，则返回 <code class="language-plaintext logic block highlighter-rouge">true</code>。</dd>
+  <dt id="BluetoothClient.NoLocationNeeded" class="boolean do"><em>NoLocationNeeded</em></dt>
+  <dd>在 Android 12 及更高版本上，表示并未使用蓝牙来确定用户位置。</dd>
+  <dt id="BluetoothClient.PollingRate" class="number"><em>PollingRate</em></dt>
+  <dd>返回蓝牙客户端所配置的轮询速率值。</dd>
+  <dt id="BluetoothClient.Secure" class="boolean"><em>Secure</em></dt>
+  <dd>指定是否使用安全连接。</dd>
+</dl>
+
+<h3 id="BluetoothClient-Events">事件</h3>
+
+<p class="events">无</p>
+
+<h3 id="BluetoothClient-Methods">方法</h3>
+
+<dl class="methods">
+  <dt id="BluetoothClient.BytesAvailableToReceive" class="method returns number"><i></i> BytesAvailableToReceive()</dt>
+  <dd>返回输入流中可用的字节数。</dd>
+  <dt id="BluetoothClient.Connect" class="method returns boolean"><i></i> Connect(<em class="text">address</em>)</dt>
+  <dd>连接到指定地址的蓝牙设备。</dd>
+  <dt id="BluetoothClient.ConnectWithUUID" class="method returns boolean"><i></i> ConnectWithUUID(<em class="text">address</em>,<em class="text">uuid</em>)</dt>
+  <dd>连接到指定地址、指定 UUID 的蓝牙设备。</dd>
+  <dt id="BluetoothClient.Disconnect" class="method"><i></i> Disconnect()</dt>
+  <dd>断开与已连接蓝牙设备的连接。</dd>
+  <dt id="BluetoothClient.IsDevicePaired" class="method returns boolean"><i></i> IsDevicePaired(<em class="text">address</em>)</dt>
+  <dd>检查指定地址的蓝牙设备是否已配对。</dd>
+  <dt id="BluetoothClient.ReceiveSigned1ByteNumber" class="method returns number"><i></i> ReceiveSigned1ByteNumber()</dt>
+  <dd>读取一个有符号 1 字节数。</dd>
+  <dt id="BluetoothClient.ReceiveSigned2ByteNumber" class="method returns number"><i></i> ReceiveSigned2ByteNumber()</dt>
+  <dd>读取一个有符号 2 字节数。</dd>
+  <dt id="BluetoothClient.ReceiveSigned4ByteNumber" class="method returns number"><i></i> ReceiveSigned4ByteNumber()</dt>
+  <dd>读取一个有符号 4 字节数。</dd>
+  <dt id="BluetoothClient.ReceiveSignedBytes" class="method returns list"><i></i> ReceiveSignedBytes(<em class="number">numberOfBytes</em>)</dt>
+  <dd>从输入流中读取若干个有符号字节，并以列表形式返回。
+
+    <p>如果 numberOfBytes 为负数，本方法会一直读取到分隔字节值为止。
+ 返回的列表中包含该分隔字节值。</p>
+  </dd>
+  <dt id="BluetoothClient.ReceiveText" class="method returns text"><i></i> ReceiveText(<em class="number">numberOfBytes</em>)</dt>
+  <dd>从输入流中读取若干个字节，并把它们转换成文本。
+
+    <p>如果 numberOfBytes 为负数，则一直读取到分隔字节值为止。</p>
+  </dd>
+  <dt id="BluetoothClient.ReceiveUnsigned1ByteNumber" class="method returns number"><i></i> ReceiveUnsigned1ByteNumber()</dt>
+  <dd>读取一个无符号 1 字节数。</dd>
+  <dt id="BluetoothClient.ReceiveUnsigned2ByteNumber" class="method returns number"><i></i> ReceiveUnsigned2ByteNumber()</dt>
+  <dd>读取一个无符号 2 字节数。</dd>
+  <dt id="BluetoothClient.ReceiveUnsigned4ByteNumber" class="method returns number"><i></i> ReceiveUnsigned4ByteNumber()</dt>
+  <dd>读取一个无符号 4 字节数。</dd>
+  <dt id="BluetoothClient.ReceiveUnsignedBytes" class="method returns list"><i></i> ReceiveUnsignedBytes(<em class="number">numberOfBytes</em>)</dt>
+  <dd>从输入流中读取若干个无符号字节，并以列表形式返回。
+
+    <p>如果 numberOfBytes 为负数，本方法会一直读取到分隔字节值为止。
+ 返回的列表中包含该分隔字节值。</p>
+  </dd>
+  <dt id="BluetoothClient.Send1ByteNumber" class="method"><i></i> Send1ByteNumber(<em class="text">number</em>)</dt>
+  <dd>把给定的数字字符串解码为整数，并把它作为 1 个字节写入输出流。
+
+    <p>如果该数字无法解码为整数，或该整数放不进 1 个字节，则会触发表单的
+ ErrorOccurred 事件，本方法随即返回，不向输出流写入任何字节。</p>
+  </dd>
+  <dt id="BluetoothClient.Send2ByteNumber" class="method"><i></i> Send2ByteNumber(<em class="text">number</em>)</dt>
+  <dd>把给定的数字字符串解码为整数，并把它作为 2 个字节写入输出流。
+
+    <p>如果该数字无法解码为整数，或该整数放不进 2 个字节，则会触发表单的
+ ErrorOccurred 事件，本方法随即返回，不向输出流写入任何字节。</p>
+  </dd>
+  <dt id="BluetoothClient.Send4ByteNumber" class="method"><i></i> Send4ByteNumber(<em class="text">number</em>)</dt>
+  <dd>把给定的数字字符串解码为整数，并把它作为 4 个字节写入输出流。
+
+    <p>如果该数字无法解码为整数，或该整数放不进 4 个字节，则会触发表单的
+ ErrorOccurred 事件，本方法随即返回，不向输出流写入任何字节。</p>
+  </dd>
+  <dt id="BluetoothClient.SendBytes" class="method"><i></i> SendBytes(<em class="list">list</em>)</dt>
+  <dd>取出给定列表中的每个元素，把它转换为字符串，再把该字符串解码为整数，
+ 并作为 1 个字节写入输出流。
+
+    <p>如果某个元素无法解码为整数，或该整数放不进 1 个字节，则会触发表单的
+ ErrorOccurred 事件，本方法随即返回，不向输出流写入任何字节。</p>
+  </dd>
+  <dt id="BluetoothClient.SendText" class="method"><i></i> SendText(<em class="text">text</em>)</dt>
+  <dd>把给定的文本转换为字节，并写入输出流。</dd>
+</dl>
+
+<h2 id="BluetoothServer">蓝牙服务器（BluetoothServer）</h2>
+
+<p>用 <code class="language-plaintext highlighter-rouge">BluetoothServer</code> 组件可以把您的设备变成服务器，
+ 接收其他使用 <code class="language-plaintext highlighter-rouge">BluetoothClient</code> 组件的应用发来的连接。</p>
+
+<h3 id="BluetoothServer-Properties">属性</h3>
+
+<dl class="properties">
+  <dt id="BluetoothServer.Available" class="boolean ro bo"><em>Available</em></dt>
+  <dd>如果设备支持蓝牙，则返回 <code class="language-plaintext logic block highlighter-rouge">true</code>，
+ 否则返回 <code class="language-plaintext logic block highlighter-rouge">false</code>。</dd>
+  <dt id="BluetoothServer.CharacterEncoding" class="text"><em>CharacterEncoding</em></dt>
+  <dd>返回收发文本时使用的字符编码。</dd>
+  <dt id="BluetoothServer.DelimiterByte" class="number"><em>DelimiterByte</em></dt>
+  <dd>调用 ReceiveText、ReceiveSignedBytes 或 ReceiveUnsignedBytes 时，
+ 如果给 numberOfBytes 参数传入负数，则使用本属性返回的分隔字节。</dd>
+  <dt id="BluetoothServer.Enabled" class="boolean ro bo"><em>Enabled</em></dt>
+  <dd>如果蓝牙已启用，则返回 <code class="language-plaintext logic block highlighter-rouge">true</code>，否则返回 <code class="language-plaintext logic block highlighter-rouge">false</code>。</dd>
+  <dt id="BluetoothServer.HighByteFirst" class="boolean"><em>HighByteFirst</em></dt>
+  <dd>指定收发数字时是否采用最高有效字节在前的顺序。</dd>
+  <dt id="BluetoothServer.IsAccepting" class="boolean ro bo"><em>IsAccepting</em></dt>
+  <dd>如果此蓝牙服务器组件正在接受传入连接，则返回 true。</dd>
+  <dt id="BluetoothServer.IsConnected" class="boolean ro bo"><em>IsConnected</em></dt>
+  <dd>如果已与蓝牙设备建立连接，则返回 <code class="language-plaintext logic block highlighter-rouge">true</code>。</dd>
+  <dt id="BluetoothServer.Secure" class="boolean"><em>Secure</em></dt>
+  <dd>指定是否使用安全连接。</dd>
+</dl>
+
+<h3 id="BluetoothServer-Events">事件</h3>
+
+<dl class="events">
+  <dt id="BluetoothServer.ConnectionAccepted">ConnectionAccepted()</dt>
+  <dd>表示已接受一个蓝牙连接。</dd>
+</dl>
+
+<h3 id="BluetoothServer-Methods">方法</h3>
+
+<dl class="methods">
+  <dt id="BluetoothServer.AcceptConnection" class="method"><i></i> AcceptConnection(<em class="text">serviceName</em>)</dt>
+  <dd>使用串口协议（SPP）接受传入连接。</dd>
+  <dt id="BluetoothServer.AcceptConnectionWithUUID" class="method"><i></i> AcceptConnectionWithUUID(<em class="text">serviceName</em>,<em class="text">uuid</em>)</dt>
+  <dd>接受使用指定 UUID 的传入连接。</dd>
+  <dt id="BluetoothServer.BytesAvailableToReceive" class="method returns number"><i></i> BytesAvailableToReceive()</dt>
+  <dd>返回输入流中可用的字节数。</dd>
+  <dt id="BluetoothServer.Disconnect" class="method"><i></i> Disconnect()</dt>
+  <dd>断开与已连接蓝牙设备的连接。</dd>
+  <dt id="BluetoothServer.ReceiveSigned1ByteNumber" class="method returns number"><i></i> ReceiveSigned1ByteNumber()</dt>
+  <dd>读取一个有符号 1 字节数。</dd>
+  <dt id="BluetoothServer.ReceiveSigned2ByteNumber" class="method returns number"><i></i> ReceiveSigned2ByteNumber()</dt>
+  <dd>读取一个有符号 2 字节数。</dd>
+  <dt id="BluetoothServer.ReceiveSigned4ByteNumber" class="method returns number"><i></i> ReceiveSigned4ByteNumber()</dt>
+  <dd>读取一个有符号 4 字节数。</dd>
+  <dt id="BluetoothServer.ReceiveSignedBytes" class="method returns list"><i></i> ReceiveSignedBytes(<em class="number">numberOfBytes</em>)</dt>
+  <dd>从输入流中读取若干个有符号字节，并以列表形式返回。
+
+    <p>如果 numberOfBytes 为负数，本方法会一直读取到分隔字节值为止。
+ 返回的列表中包含该分隔字节值。</p>
+  </dd>
+  <dt id="BluetoothServer.ReceiveText" class="method returns text"><i></i> ReceiveText(<em class="number">numberOfBytes</em>)</dt>
+  <dd>从输入流中读取若干个字节，并把它们转换成文本。
+
+    <p>如果 numberOfBytes 为负数，则一直读取到分隔字节值为止。</p>
+  </dd>
+  <dt id="BluetoothServer.ReceiveUnsigned1ByteNumber" class="method returns number"><i></i> ReceiveUnsigned1ByteNumber()</dt>
+  <dd>读取一个无符号 1 字节数。</dd>
+  <dt id="BluetoothServer.ReceiveUnsigned2ByteNumber" class="method returns number"><i></i> ReceiveUnsigned2ByteNumber()</dt>
+  <dd>读取一个无符号 2 字节数。</dd>
+  <dt id="BluetoothServer.ReceiveUnsigned4ByteNumber" class="method returns number"><i></i> ReceiveUnsigned4ByteNumber()</dt>
+  <dd>读取一个无符号 4 字节数。</dd>
+  <dt id="BluetoothServer.ReceiveUnsignedBytes" class="method returns list"><i></i> ReceiveUnsignedBytes(<em class="number">numberOfBytes</em>)</dt>
+  <dd>从输入流中读取若干个无符号字节，并以列表形式返回。
+
+    <p>如果 numberOfBytes 为负数，本方法会一直读取到分隔字节值为止。
+ 返回的列表中包含该分隔字节值。</p>
+  </dd>
+  <dt id="BluetoothServer.Send1ByteNumber" class="method"><i></i> Send1ByteNumber(<em class="text">number</em>)</dt>
+  <dd>把给定的数字字符串解码为整数，并把它作为 1 个字节写入输出流。
+
+    <p>如果该数字无法解码为整数，或该整数放不进 1 个字节，则会触发表单的
+ ErrorOccurred 事件，本方法随即返回，不向输出流写入任何字节。</p>
+  </dd>
+  <dt id="BluetoothServer.Send2ByteNumber" class="method"><i></i> Send2ByteNumber(<em class="text">number</em>)</dt>
+  <dd>把给定的数字字符串解码为整数，并把它作为 2 个字节写入输出流。
+
+    <p>如果该数字无法解码为整数，或该整数放不进 2 个字节，则会触发表单的
+ ErrorOccurred 事件，本方法随即返回，不向输出流写入任何字节。</p>
+  </dd>
+  <dt id="BluetoothServer.Send4ByteNumber" class="method"><i></i> Send4ByteNumber(<em class="text">number</em>)</dt>
+  <dd>把给定的数字字符串解码为整数，并把它作为 4 个字节写入输出流。
+
+    <p>如果该数字无法解码为整数，或该整数放不进 4 个字节，则会触发表单的
+ ErrorOccurred 事件，本方法随即返回，不向输出流写入任何字节。</p>
+  </dd>
+  <dt id="BluetoothServer.SendBytes" class="method"><i></i> SendBytes(<em class="list">list</em>)</dt>
+  <dd>取出给定列表中的每个元素，把它转换为字符串，再把该字符串解码为整数，
+ 并作为 1 个字节写入输出流。
+
+    <p>如果某个元素无法解码为整数，或该整数放不进 1 个字节，则会触发表单的
+ ErrorOccurred 事件，本方法随即返回，不向输出流写入任何字节。</p>
+  </dd>
+  <dt id="BluetoothServer.SendText" class="method"><i></i> SendText(<em class="text">text</em>)</dt>
+  <dd>把给定的文本转换为字节，并写入输出流。</dd>
+  <dt id="BluetoothServer.StopAccepting" class="method"><i></i> StopAccepting()</dt>
+  <dd>停止接受传入连接。</dd>
+</dl>
+
+<h2 id="Serial">串口（Serial）</h2>
+
+<p>串口组件</p>
+
+<h3 id="Serial-Properties">属性</h3>
+
+<dl class="properties">
+  <dt id="Serial.BaudRate" class="number"><em>BaudRate</em></dt>
+  <dd>返回当前波特率</dd>
+  <dt id="Serial.BufferSize" class="number"><em>BufferSize</em></dt>
+  <dd>返回缓冲区大小，以字节为单位</dd>
+  <dt id="Serial.IsInitialized" class="boolean ro bo"><em>IsInitialized</em></dt>
+  <dd>串口初始化完成后返回 true。</dd>
+  <dt id="Serial.IsOpen" class="boolean ro bo"><em>IsOpen</em></dt>
+  <dd>串口连接打开后返回 true。</dd>
+</dl>
+
+<h3 id="Serial-Events">事件</h3>
+
+<p class="events">无</p>
+
+<h3 id="Serial-Methods">方法</h3>
+
+<dl class="methods">
+  <dt id="Serial.CloseSerial" class="method returns boolean"><i></i> CloseSerial()</dt>
+  <dd>关闭串口连接。关闭后返回 true。</dd>
+  <dt id="Serial.InitializeSerial" class="method"><i></i> InitializeSerial()</dt>
+  <dd>初始化串口连接。</dd>
+  <dt id="Serial.OpenSerial" class="method returns boolean"><i></i> OpenSerial()</dt>
+  <dd>打开串口连接。打开后返回 true。</dd>
+  <dt id="Serial.PrintSerial" class="method"><i></i> PrintSerial(<em class="text">data</em>)</dt>
+  <dd>把给定数据写入串口，并在末尾追加一个换行符。</dd>
+  <dt id="Serial.ReadSerial" class="method returns text"><i></i> ReadSerial()</dt>
+  <dd>从串口读取数据。</dd>
+  <dt id="Serial.WriteSerial" class="method"><i></i> WriteSerial(<em class="text">data</em>)</dt>
+  <dd>把给定数据写入串口。</dd>
+</dl>
+
+<h2 id="Web">网络客户端（Web）</h2>
+
+<p>非可视组件，提供 HTTP GET、POST、PUT 和 DELETE 请求功能。</p>
+
+<h3 id="Web-Properties">属性</h3>
+
+<dl class="properties">
+  <dt id="Web.AllowCookies" class="boolean"><em>AllowCookies</em></dt>
+  <dd>指定是否允许使用 cookie</dd>
+  <dt id="Web.RequestHeaders" class="list bo"><em>RequestHeaders</em></dt>
+  <dd>设置请求头。</dd>
+  <dt id="Web.ResponseFileName" class="text"><em>ResponseFileName</em></dt>
+  <dd>指定保存响应的文件名。
+ 如果 SaveResponse 为 true 且 ResponseFileName 为空，
+ 则会自动生成新的文件名。</dd>
+  <dt id="Web.ResponseTextEncoding" class="text"><em>ResponseTextEncoding</em></dt>
+  <dd>指定响应文本的编码。</dd>
+  <dt id="Web.SaveResponse" class="boolean"><em>SaveResponse</em></dt>
+  <dd>指定是否把响应保存到文件中。</dd>
+  <dt id="Web.Timeout" class="number"><em>Timeout</em></dt>
+  <dd>返回每个请求在超时之前等待响应的毫秒数。
+ 如果设为 0，请求将无限期地等待响应。</dd>
+  <dt id="Web.Url" class="text"><em>Url</em></dt>
+  <dd>指定 URL。</dd>
+</dl>
+
+<h3 id="Web-Events">事件</h3>
+
+<dl class="events">
+  <dt id="Web.GotFile">GotFile(<em class="text">url</em>,<em class="number">responseCode</em>,<em class="text">responseType</em>,<em class="text">fileName</em>)</dt>
+  <dd>表示请求已完成的事件。</dd>
+  <dt id="Web.GotText">GotText(<em class="text">url</em>,<em class="number">responseCode</em>,<em class="text">responseType</em>,<em class="text">responseContent</em>)</dt>
+  <dd>表示请求已完成的事件。</dd>
+  <dt id="Web.TimedOut">TimedOut(<em class="text">url</em>)</dt>
+  <dd>表示请求已超时的事件。</dd>
+</dl>
+
+<h3 id="Web-Methods">方法</h3>
+
+<dl class="methods">
+  <dt id="Web.BuildRequestData" class="method returns text"><i></i> BuildRequestData(<em class="list">list</em>)</dt>
+  <dd>把由二元子列表（表示名称与值对）构成的列表转换为
+ application/x-www-form-urlencoded 媒体类型的字符串，
+ 以便传给 PostText。</dd>
+  <dt id="Web.ClearCookies" class="method"><i></i> ClearCookies()</dt>
+  <dd>清除此 Web 组件的所有 cookie。</dd>
+  <dt id="Web.Delete" class="method"><i></i> Delete()</dt>
+  <dd>使用 Url 属性执行 HTTP DELETE 请求，并获取响应。
+
+    <p>如果 SaveResponse 属性为 true，响应会保存到文件中，
+ 并触发 GotFile 事件。可以用 ResponseFileName 属性
+ 指定文件名。</p>
+
+    <p>如果 SaveResponse 属性为 false，则会触发
+ GotText 事件。</p>
+  </dd>
+  <dt id="Web.Get" class="method"><i></i> Get()</dt>
+  <dd>使用 Url 属性执行 HTTP GET 请求，并获取响应。
+
+    <p>如果 SaveResponse 属性为 true，响应会保存到文件中，
+ 并触发 GotFile 事件。可以用 ResponseFileName 属性
+ 指定文件名。</p>
+
+    <p>如果 SaveResponse 属性为 false，则会触发
+ GotText 事件。</p>
+  </dd>
+  <dt id="Web.HtmlTextDecode" class="method returns text"><i></i> HtmlTextDecode(<em class="text">htmlText</em>)</dt>
+  <dd>解码给定的 HTML 文本值。
+
+    <p>HTML 字符实体（HTML Character Entities），例如 <code class="language-plaintext highlighter-rouge">&amp;amp;</code>、<code class="language-plaintext highlighter-rouge">&amp;lt;</code>、<code class="language-plaintext highlighter-rouge">&amp;gt;</code>、<code class="language-plaintext highlighter-rouge">&amp;apos;</code> 和 <code class="language-plaintext highlighter-rouge">&amp;quot;</code>，
+ 会被转换为 <code class="language-plaintext highlighter-rouge">&amp;</code>、<code class="language-plaintext highlighter-rouge">&lt;</code>、<code class="language-plaintext highlighter-rouge">&gt;</code>、<code class="language-plaintext highlighter-rouge">'</code> 和 <code class="language-plaintext highlighter-rouge">"</code>。
+ <code class="language-plaintext highlighter-rouge">&amp;#xhhhh;</code> 和 <code class="language-plaintext highlighter-rouge">&amp;#nnnn;</code> 这类实体则会转换为相应的字符。</p>
+  </dd>
+  <dt id="Web.JsonObjectEncode" class="method returns text"><i></i> JsonObjectEncode(<em class="any">jsonObject</em>)</dt>
+  <dd>返回内置类型（即 boolean、number、text、list、dictionary）值
+ 的 JavaScript Object Notation（JSON）表示。如果该值无法
+ 表示为 JSON，则会运行屏幕的 ErrorOccurred 事件（如果存在），
+ Web 组件将返回空字符串。</dd>
+  <dt id="Web.JsonTextDecode" class="method returns any"><i></i> JsonTextDecode(<em class="text">jsonText</em>)</dt>
+  <dd>解码给定的 JSON 编码值，得到对应的 AppInventor 值。
+ JSON 列表 <code class="language-plaintext highlighter-rouge">[x, y, z]</code> 会解码为列表 <code class="language-plaintext highlighter-rouge">(x y z)</code>；键为 A、值为 B 的 JSON 对象
+ （记作 <code class="language-plaintext highlighter-rouge">{A:B}</code>）会解码为列表 <code class="language-plaintext highlighter-rouge">((A B))</code>，即一个包含二元
+ 列表 <code class="language-plaintext highlighter-rouge">(A B)</code> 的列表。
+
+    <p>如果您希望结果返回字典对象而不是列表的列表，
+ 请改用 <a href="#Web.JsonTextDecodeWithDictionaries">JsonTextDecodeWithDictionaries</a> 方法。</p>
+  </dd>
+  <dt id="Web.JsonTextDecodeWithDictionaries" class="method returns any"><i></i> JsonTextDecodeWithDictionaries(<em class="text">jsonText</em>)</dt>
+  <dd>解码给定的 JSON 编码值，得到对应的 App Inventor 值。
+ JSON 列表 [x, y, z] 会解码为列表 (x y z)。名为 A、值为 B 的 JSON 对象
+ （记作 {a: b}）会解码为以 a 为键、b 为值的字典。</dd>
+  <dt id="Web.PatchFile" class="method"><i></i> PatchFile(<em class="text">path</em>)</dt>
+  <dd>使用 Url 属性和指定文件中的数据执行 HTTP PATCH 请求。
+
+    <p>If the SaveResponse property is true, the response will be saved in a file
+ and the GotFile event will be triggered. The ResponseFileName property can be
+ used to specify the name of the file.</p>
+
+    <p>如果 SaveResponse 属性为 false，则会触发 GotText 事件。</p>
+  </dd>
+  <dt id="Web.PatchText" class="method"><i></i> PatchText(<em class="text">text</em>)</dt>
+  <dd>使用 Url 属性和指定文本执行 HTTP PATCH 请求。
+
+    <p>文本中的字符使用 UTF-8 编码。</p>
+
+    <p>如果 SaveResponse 属性为 true，响应会保存到
+ 文件中，并触发 GotFile 事件。可以用 responseFileName 属性
+ 指定文件名。</p>
+
+    <p>如果 SaveResponse 属性为 false，则会触发 GotText 事件。</p>
+  </dd>
+  <dt id="Web.PatchTextWithEncoding" class="method"><i></i> PatchTextWithEncoding(<em class="text">text</em>,<em class="text">encoding</em>)</dt>
+  <dd>使用 Url 属性和指定文本执行 HTTP PATCH 请求。
+
+    <p>文本中的字符使用给定的编码。</p>
+
+    <p>如果 SaveResponse 属性为 true，响应会保存到
+ 文件中，并触发 GotFile 事件。可以用 ResponseFileName 属性
+ 指定文件名。</p>
+
+    <p>如果 SaveResponse 属性为 false，则会触发 GotText 事件。</p>
+  </dd>
+  <dt id="Web.PostFile" class="method"><i></i> PostFile(<em class="text">path</em>)</dt>
+  <dd>使用 Url 属性和指定文件中的数据执行 HTTP POST 请求。
+
+    <p>If the SaveResponse property is true, the response will be saved in a file
+ and the GotFile event will be triggered. The ResponseFileName property can be
+ used to specify the name of the file.</p>
+
+    <p>如果 SaveResponse 属性为 false，则会触发 GotText 事件。</p>
+  </dd>
+  <dt id="Web.PostText" class="method"><i></i> PostText(<em class="text">text</em>)</dt>
+  <dd>使用 Url 属性和指定文本执行 HTTP POST 请求。
+
+    <p>文本中的字符使用 UTF-8 编码。</p>
+
+    <p>如果 SaveResponse 属性为 true，响应会保存到
+ 文件中，并触发 GotFile 事件。可以用 responseFileName 属性
+ 指定文件名。</p>
+
+    <p>如果 SaveResponse 属性为 false，则会触发 GotText 事件。</p>
+  </dd>
+  <dt id="Web.PostTextWithEncoding" class="method"><i></i> PostTextWithEncoding(<em class="text">text</em>,<em class="text">encoding</em>)</dt>
+  <dd>使用 Url 属性和指定文本执行 HTTP POST 请求。
+
+    <p>文本中的字符使用给定的编码。</p>
+
+    <p>如果 SaveResponse 属性为 true，响应会保存到
+ 文件中，并触发 GotFile 事件。可以用 ResponseFileName 属性
+ 指定文件名。</p>
+
+    <p>如果 SaveResponse 属性为 false，则会触发 GotText 事件。</p>
+  </dd>
+  <dt id="Web.PutFile" class="method"><i></i> PutFile(<em class="text">path</em>)</dt>
+  <dd>使用 Url 属性和指定文件中的数据执行 HTTP PUT 请求。
+
+    <p>If the SaveResponse property is true, the response will be saved in a file
+ and the GotFile event will be triggered. The ResponseFileName property can be
+ used to specify the name of the file.</p>
+
+    <p>如果 SaveResponse 属性为 false，则会触发 GotText 事件。</p>
+  </dd>
+  <dt id="Web.PutText" class="method"><i></i> PutText(<em class="text">text</em>)</dt>
+  <dd>使用 Url 属性和指定文本执行 HTTP PUT 请求。
+
+    <p>文本中的字符使用 UTF-8 编码。</p>
+
+    <p>如果 SaveResponse 属性为 true，响应会保存到
+ 文件中，并触发 GotFile 事件。可以用 responseFileName 属性
+ 指定文件名。</p>
+
+    <p>如果 SaveResponse 属性为 false，则会触发 GotText 事件。</p>
+  </dd>
+  <dt id="Web.PutTextWithEncoding" class="method"><i></i> PutTextWithEncoding(<em class="text">text</em>,<em class="text">encoding</em>)</dt>
+  <dd>使用 Url 属性和指定文本执行 HTTP PUT 请求。
+
+    <p>文本中的字符使用给定的编码。</p>
+
+    <p>如果 SaveResponse 属性为 true，响应会保存到
+ 文件中，并触发 GotFile 事件。可以用 ResponseFileName 属性
+ 指定文件名。</p>
+
+    <p>如果 SaveResponse 属性为 false，则会触发 GotText 事件。</p>
+  </dd>
+  <dt id="Web.UriDecode" class="method returns text"><i></i> UriDecode(<em class="text">text</em>)</dt>
+  <dd>解码已编码的文本值，使其中的值不再是 URL 编码的形式。</dd>
+  <dt id="Web.UriEncode" class="method returns text"><i></i> UriEncode(<em class="text">text</em>)</dt>
+  <dd>对给定的文本值进行编码，使其可以用于 URL 中。</dd>
+  <dt id="Web.XMLTextDecode" class="method returns any"><i></i> XMLTextDecode(<em class="text">XmlText</em>)</dt>
+  <dd>解码给定的 XML 字符串，得到列表结构。<code class="language-plaintext highlighter-rouge">&lt;tag&gt;string&lt;/tag&gt;</code> 会解码为
+ 一个包含标签与字符串对的列表。更一般地说，如果 obj1、obj2、……
+ 是以标签分隔的 XML 字符串，那么 <code class="language-plaintext highlighter-rouge">&lt;tag&gt;obj1 obj2 ...&lt;/tag&gt;</code> 会解码为一个列表，
+ 其中包含一个对，该对的第一个元素是标签，第二个元素是
+ 各 obj 解码后按标签字母顺序排列得到的列表。
+
+    <p>示例：</p>
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">&lt;foo&gt;&lt;123/foo&gt;</code> 会解码为包含该对的单项列表 <code class="language-plaintext highlighter-rouge">(foo 123)</code></li>
+      <li><code class="language-plaintext highlighter-rouge">&lt;foo&gt;1 2 3&lt;/foo&gt;</code> 会解码为包含该对的单项列表 <code class="language-plaintext highlighter-rouge">(foo "1 2 3")</code></li>
+      <li><code class="language-plaintext highlighter-rouge">&lt;a&gt;&lt;foo&gt;1 2 3&lt;/foo&gt;&lt;bar&gt;456&lt;/bar&gt;&lt;/a&gt;</code> 会解码为一个包含对 <code class="language-plaintext highlighter-rouge">(a X)</code> 的列表，
+其中 X 是一个二元列表，包含对 <code class="language-plaintext highlighter-rouge">(bar 123)</code> 和对 <code class="language-plaintext highlighter-rouge">(foo "1 2 3")</code>。</li>
+    </ul>
+
+    <p>如果 obj 序列中既有以标签分隔的项，也有非标签分隔的项，则
+ 会把非标签分隔的项从序列中取出，并用 “content” 标签包裹起来。
+ 例如，解码 <code class="language-plaintext highlighter-rouge">&lt;a&gt;&lt;bar&gt;456&lt;/bar&gt;many&lt;foo&gt;1 2 3&lt;/foo&gt;apples&lt;a&gt;&lt;/code&gt;</code>
+ 与上面的情况类似，只是列表 X 是一个三项列表，其中多出一个对：
+ 该对的第一个元素是字符串 “content”，第二个元素是列表 (many, apples)。
+ 如果结果不是格式良好的 XML，本方法会报错并返回空列表。</p>
+  </dd>
+  <dt id="Web.XMLTextDecodeAsDictionary" class="method returns any"><i></i> XMLTextDecodeAsDictionary(<em class="text">XmlText</em>)</dt>
+  <dd>解码给定的 XML 字符串，得到字典结构。该字典包含
+ 特殊键 <code class="language-plaintext highlighter-rouge">$tag</code>、<code class="language-plaintext highlighter-rouge">$localName</code>、<code class="language-plaintext highlighter-rouge">$namespace</code>、<code class="language-plaintext highlighter-rouge">$namespaceUri</code>、<code class="language-plaintext highlighter-rouge">$attributes</code> 和 <code class="language-plaintext highlighter-rouge">$content</code>，
+ 此外，每个节点中各个唯一的标签也各自对应一个键，该键指向
+ 与此处所述结构相同的元素列表。
+
+    <p><code class="language-plaintext highlighter-rouge">$tag</code> 键是完整的标签名，例如 foo:bar。<code class="language-plaintext highlighter-rouge">$localName</code> 是名称的
+ 本地部分（即冒号 <code class="language-plaintext highlighter-rouge">:</code> 之后的所有内容）。如果给出了命名空间（即冒号
+ <code class="language-plaintext highlighter-rouge">:</code> 之前的所有内容），它会放在 <code class="language-plaintext highlighter-rouge">$namespace</code> 中，对应的 URI 放在
+ <code class="language-plaintext highlighter-rouge">$namespaceUri</code> 中。属性存放在 <code class="language-plaintext highlighter-rouge">$attributes</code> 字典里，
+ 子节点则以列表形式放在 <code class="language-plaintext highlighter-rouge">$content</code> 下。</p>
+
+    <p><strong>关于特殊键的更多说明</strong></p>
+
+    <p>请看下面的 XML 文档：</p>
+
+    <div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code>   <span class="nt">&lt;ex:Book</span> <span class="na">xmlns:ex=</span><span class="s">"http://example.com/"</span><span class="nt">&gt;</span>
+     <span class="nt">&lt;ex:title</span> <span class="na">xml:lang=</span><span class="s">"en"</span><span class="nt">&gt;</span>On the Origin of Species<span class="nt">&lt;/ex:title&gt;</span>
+     <span class="nt">&lt;ex:author&gt;</span>Charles Darwin<span class="nt">&lt;/ex:author&gt;</span>
+   <span class="nt">&lt;/ex:Book&gt;</span>
+</code></pre></div>    </div>
+
+    <p>解析后，<code class="language-plaintext highlighter-rouge">$tag</code> 键为 <code class="language-plaintext highlighter-rouge">"ex:Book"</code>，<code class="language-plaintext highlighter-rouge">$localName</code> 键为 <code class="language-plaintext highlighter-rouge">"Book"</code>，
+ <code class="language-plaintext highlighter-rouge">$namespace</code> 键为 <code class="language-plaintext highlighter-rouge">"ex"</code>，<code class="language-plaintext highlighter-rouge">$namespaceUri</code> 为 <code class="language-plaintext highlighter-rouge">"http://example.com/"</code>，
+ <code class="language-plaintext highlighter-rouge">$attributes</code> 键为字典 <code class="language-plaintext highlighter-rouge">{}</code>（命名空间对应的 xmlns 已被移除），
+ <code class="language-plaintext highlighter-rouge">$content</code> 则是一个两项列表，分别表示解码后的 <code class="language-plaintext highlighter-rouge">&lt;ex:title&gt;</code> 和 <code class="language-plaintext highlighter-rouge">&lt;ex:author&gt;</code>
+ 元素。第一项对应 <code class="language-plaintext highlighter-rouge">&lt;ex:title&gt;</code> 元素，它的
+ <code class="language-plaintext highlighter-rouge">$attributes</code> 键包含字典 <code class="language-plaintext highlighter-rouge">{"xml:lang": "en"}</code>。对于元素上的每个 <code class="language-plaintext highlighter-rouge">name=value</code>
+ 属性，<code class="language-plaintext highlighter-rouge">$attributes</code> 字典中都会有一个把 <code class="language-plaintext highlighter-rouge">name</code> 映射到 <code class="language-plaintext highlighter-rouge">value</code> 的键值对。
+ 除这些特殊键之外，还会有 <code class="language-plaintext highlighter-rouge">"ex:title"</code> 和
+ <code class="language-plaintext highlighter-rouge">"ex:author"</code> 键，以便比遍历 <code class="language-plaintext highlighter-rouge">$content</code> 列表更快地查找。</p>
+  </dd>
+</dl>
+
+</article>
+<script>
+  // Handle redirection to documentation based on locale query parameter (if specified)
+  (function() {
+      var locale = window.location.search.match('[&?]locale=([a-zA-Z-]*)');
+      if (locale) {
+          if (locale[1].indexOf('en') === 0) {
+              // English needs to stay at the top level to not break existing links
+              var page = window.location.pathname.split('/');
+              if (page.length === 5) {
+                  page.splice(2, 1);
+              } else {
+                  // already on english
+                  return;
+              }
+              window.location.href = page.join('/');
+          } else {
+              var page = window.location.pathname.split('/');
+              if (page.length === 4) {
+                  page.splice(2, 0, locale[1]);
+              } else if (page[2].toLowerCase() != locale[1].toLowerCase()) {
+                  page[2] = locale[1];
+              } else {
+                  return;  // already on the desired language
+              }
+              // Test that the page exists before redirecting.
+              var xhr = new XMLHttpRequest();
+              xhr.open('HEAD', page.join('/'), false);
+              xhr.onreadystatechange = function() {
+                  if (xhr.readyState == 4) {
+                      if ((xhr.status == 200 || xhr.status == 204)) {
+                          window.location.href = page.join('/');
+                      } else if (xhr.status  >= 400) {
+                          page.splice(2, 1);  // go to english version
+                          window.location.href = page.join('/');
+                      }
+                  }
+              };
+              xhr.send();
+          }
+      }
+  })();
+
+  // Handle embedded documentation in help by removing website template
+  if (window.self !== window.top) {
+      setTimeout(function() {
+          var videos = document.querySelectorAll('video');
+          for (var i = 0; i < videos.length; i++) {
+              if (parseInt(videos[i].getAttribute('width')) > 360) {
+                  var aspect = parseInt(videos[i].getAttribute('height')) / parseInt(videos[i].getAttribute('width'));
+                  videos[i].setAttribute('width', '360');
+                  videos[i].setAttribute('height', '' + (360 * aspect));
+              }
+          }
+          var h1 = document.querySelector('h1');
+          var article = document.querySelector('article');
+          article.insertBefore(h1, article.firstElementChild);
+          document.body.innerHTML = article.outerHTML;
+      });
+  }
+</script>
+
+            </div>
+<script src="../../../static/js/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="../../../static/js/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="../../../static/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+<script async src="../../../static/js/widgets.js" charset="utf-8"></script>
+</div>
+    </body>
+</html>

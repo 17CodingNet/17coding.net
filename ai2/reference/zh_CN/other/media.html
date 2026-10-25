@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+
+     一一对应。
+     - 正文（标题/段落/列表/表格/图片 alt/视频说明）译为简体中文；
+     - 顶部导航（MIT logo、"Create Apps!" 按钮、About/Educators/News/Resources/Blogs
+       菜单、Donate 按钮、gcse 搜索框）与底部 MIT 版权页脚（© 声明、CC BY-SA、ToS、
+       Support/Twitter/GitHub/Accessibility）已整块删除：本项目是离线产品，帮助页只在
+       应用内新标签页打开，不应出现通往 MIT 主站的品牌链接与捐赠入口。head 里仅供
+       "Create Apps!" 按钮使用的 gotoappinventor() 脚本一并删除；<title> 与页面 <h1>
+       里的 "MIT " 字样已去掉，正文中作为产品名出现的 "MIT App Inventor" 已改为
+       "App Inventor蔻丁工坊"(zh_CN 语境带蔻丁工坊后缀;版权说明处的 MIT 保留)；
+     - 重定向脚本（<script> 块）按上游原文保留：本项目 blocklyeditor.js 的 _resolveHelpUrl
+       已把 href 直接写成 zh_CN 路径且不带 ?locale=，脚本不会触发；若日后有人手工拼了
+       ?locale=zh_CN 进 URL，file:// 下 sync XHR 会被浏览器拦截，脚本停在"已是目标语言"，
+       不会跳错位置；
+     - /static/ 绝对路径改为相对路径：offline webapp 支持以 file:// 打开，绝对路径会解析到
+       磁盘根目录（file:///static/...）从而 404；
+     - 本地图片/视频按上游同名相对路径复制到本目录，故 src 与上游完全一致；
+     - id= 锚点与块/组件/属性英文名保持上游原文，帮助链接里的 #fragment 才能定位。 -->
+<html lang="zh-CN"><head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="stylesheet" href="../../../static/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="../../../static/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
+    <link href="../../../static/css/fonts.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="../../../static/css/mit_app_inventor.css">
+    <title>访问图像和声音</title></head>
+<body class="mit_app_inventor">
+<div class="default-page">
+            <div class="header">
+	        <h1 class="font-weight-bold text-center offset-xl-2 col-xl-8">访问图像和声音</h1>
+            </div>
+            <div class="container-fluid">
+                <article class="documentation">
+<p>用 App Inventor 构建的应用可以从三类不同的位置访问声音、图像和视频来源：</p>
+
+<dl>
+  <dt>应用程序资源（assets）</dt>
+  <dd>
+    <p>设计视图中标记为<em>媒体</em>（Media）的来源属于应用的<em>资源</em>（assets），会随应用一起打包。任何人安装您的应用，都会得到这些资源，它们是应用的一部分。在设计视图中指定这些资源很方便。您也可以在程序里用文件名来指定它们：直接写文件名，不加任何特殊前缀。例如，如果您有一个名为 <em>kitty.png</em> 的图像资源，要把它用作图像，只需把图像组件的 <code class="language-plaintext highlighter-rouge">Picture</code> 属性设为文本 <em>kitty.png</em>。声音（Sound 或 Player）和视频（VideoPlayer）也可以同样用文件名来指定。</p>
+
+    <p>资源用起来最方便，但它必须随应用一起打包，因此可用的空间只有几兆字节。资源适合小图片和短音频片段；完整歌曲或视频一般不会用资源。</p>
+  </dd>
+  <dt>设备存储</dt>
+  <dd>
+    <p>您可以使用以 <em>/sdcard</em> 开头的文件名，访问手机 SD（安全数字）卡上的文件。要把 SD 卡上的一首歌曲播放出来，可以把 <code class="language-plaintext highlighter-rouge">Player</code> 组件的来源属性设为：</p>
+
+    <p>/sdcard/Music/Blondie/The Best of Blondie/Heart of Glass.mp3</p>
+
+    <p>然后启动 <code class="language-plaintext highlighter-rouge">Player</code>（当然，前提是歌曲文件确实在 SD 卡上）。请务必写完整的文件名，包括“mp3”扩展名。</p>
+
+    <p>Android 系统还提供了另一种方式，可以把 SD 卡上的文件写成 URL：在文件名前加上 <em>file:///sdcard</em>，并对特殊字符使用“URL 编码”。例如空格写成“%20”。因此，您也可以把播放器的来源设为：</p>
+
+    <p>file:///sdcard/Music/Blondie/The%20Best%20of%20Blondie/Heart%20of%20Glass.mp3</p>
+
+    <p>请注意，这种情况要用 <code class="language-plaintext highlighter-rouge">Player</code> 组件，而不是 <code class="language-plaintext highlighter-rouge">Sound</code>。像这样的完整歌曲文件太大，<code class="language-plaintext highlighter-rouge">Sound</code> 处理不了。</p>
+
+    <p>图像和视频也可以用类似的方式指定。</p>
+
+    <p>App Inventor 目前（还）没有提供把文件保存到 SD 卡上的方法，也（还）没有提供列出 SD 卡上文件的方法。这些操作需要用其他应用或 Android 手机的文件管理器来完成。</p>
+
+    <p>与把媒体打包成资源相比，使用 SD 卡能为媒体提供大得多的空间。缺点是用户安装您的应用时，不会自动获得这些文件。</p>
+  </dd>
+  <dt>URL 与网络</dt>
+  <dd>
+    <p>您可以用以 <em>http://</em> 开头的 URL 访问网络上的文件。例如，把图像的 Picture 属性设为：</p>
+
+    <p>http://www.google.com/images/srpr/nav_logo14.png</p>
+
+    <p>音乐和视频也类似。请务必使用直接指向文件本身的链接，而不是指向文件播放器的链接——网络上后者更常见，音乐和视频尤其如此。</p>
+  </dd>
+  <dt>其他内容 URL</dt>
+  <dd>
+    <p>Android 系统也用 URL 来访问手机上存放媒体的各种位置。例如，相册中的图像可以用以 <em>content://media/external/images/media</em> 开头的文件名访问——您只要使用 <code class="language-plaintext highlighter-rouge">ImagePicker</code> 并查看得到的图像路径，就能看到这一点。</p>
+  </dd>
+</dl>
+
+</article>
+<script>
+  // Handle redirection to documentation based on locale query parameter (if specified)
+  (function() {
+      var locale = window.location.search.match('[&?]locale=([a-zA-Z-]*)');
+      if (locale) {
+          if (locale[1].indexOf('en') === 0) {
+              // English needs to stay at the top level to not break existing links
+              var page = window.location.pathname.split('/');
+              if (page.length === 5) {
+                  page.splice(2, 1);
+              } else {
+                  // already on english
+                  return;
+              }
+              window.location.href = page.join('/');
+          } else {
+              var page = window.location.pathname.split('/');
+              if (page.length === 4) {
+                  page.splice(2, 0, locale[1]);
+              } else if (page[2].toLowerCase() != locale[1].toLowerCase()) {
+                  page[2] = locale[1];
+              } else {
+                  return;  // already on the desired language
+              }
+              // Test that the page exists before redirecting.
+              var xhr = new XMLHttpRequest();
+              xhr.open('HEAD', page.join('/'), false);
+              xhr.onreadystatechange = function() {
+                  if (xhr.readyState == 4) {
+                      if ((xhr.status == 200 || xhr.status == 204)) {
+                          window.location.href = page.join('/');
+                      } else if (xhr.status  >= 400) {
+                          page.splice(2, 1);  // go to english version
+                          window.location.href = page.join('/');
+                      }
+                  }
+              };
+              xhr.send();
+          }
+      }
+  })();
+
+  // Handle embedded documentation in help by removing website template
+  if (window.self !== window.top) {
+      setTimeout(function() {
+          var videos = document.querySelectorAll('video');
+          for (var i = 0; i < videos.length; i++) {
+              if (parseInt(videos[i].getAttribute('width')) > 360) {
+                  var aspect = parseInt(videos[i].getAttribute('height')) / parseInt(videos[i].getAttribute('width'));
+                  videos[i].setAttribute('width', '360');
+                  videos[i].setAttribute('height', '' + (360 * aspect));
+              }
+          }
+          var h1 = document.querySelector('h1');
+          var article = document.querySelector('article');
+          article.insertBefore(h1, article.firstElementChild);
+          document.body.innerHTML = article.outerHTML;
+      });
+  }
+</script>
+
+            </div>
+<script src="../../../static/js/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="../../../static/js/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="../../../static/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+<script async src="../../../static/js/widgets.js" charset="utf-8"></script>
+</div>
+    </body>
+</html>

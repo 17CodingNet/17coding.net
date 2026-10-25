@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+
+     一一对应。
+     - 正文（标题/段落/列表/表格/图片 alt/视频说明）译为简体中文；
+     - 顶部导航（MIT logo、"Create Apps!" 按钮、About/Educators/News/Resources/Blogs
+       菜单、Donate 按钮、gcse 搜索框）与底部 MIT 版权页脚（© 声明、CC BY-SA、ToS、
+       Support/Twitter/GitHub/Accessibility）已整块删除：本项目是离线产品，帮助页只在
+       应用内新标签页打开，不应出现通往 MIT 主站的品牌链接与捐赠入口。head 里仅供
+       "Create Apps!" 按钮使用的 gotoappinventor() 脚本一并删除；<title> 与页面 <h1>
+       里的 "MIT " 字样已去掉，正文中作为产品名出现的 "MIT App Inventor" 已改为
+       "App Inventor蔻丁工坊"(zh_CN 语境带蔻丁工坊后缀;版权说明处的 MIT 保留)；
+     - 重定向脚本（<script> 块）按上游原文保留：本项目 blocklyeditor.js 的 _resolveHelpUrl
+       已把 href 直接写成 zh_CN 路径且不带 ?locale=，脚本不会触发；若日后有人手工拼了
+       ?locale=zh_CN 进 URL，file:// 下 sync XHR 会被浏览器拦截，脚本停在"已是目标语言"，
+       不会跳错位置；
+     - /static/ 绝对路径改为相对路径：offline webapp 支持以 file:// 打开，绝对路径会解析到
+       磁盘根目录（file:///static/...）从而 404；
+     - 本地图片/视频按上游同名相对路径复制到本目录，故 src 与上游完全一致；
+     - id= 锚点与块/组件/属性英文名保持上游原文，帮助链接里的 #fragment 才能定位。 -->
+<html lang="zh-CN"><head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="stylesheet" href="../../../static/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="../../../static/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
+    <link href="../../../static/css/fonts.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="../../../static/css/mit_app_inventor.css">
+    <title>社交应用</title></head>
+<body class="mit_app_inventor">
+<div class="default-page">
+            <div class="header">
+	        <h1 class="font-weight-bold text-center offset-xl-2 col-xl-8">社交应用</h1>
+            </div>
+            <div class="container-fluid">
+                                <article class="documentation">
+<p><a href="index.html">« 返回目录</a></p>
+<h1 id="social">社交应用</h1>
+
+<p>目录：</p>
+
+<ul>
+  <li><a href="#ContactPicker">联系人选框（ContactPicker）</a></li>
+  <li><a href="#EmailPicker">邮箱选框（EmailPicker）</a></li>
+  <li><a href="#PhoneCall">电话拨号器（PhoneCall）</a></li>
+  <li><a href="#PhoneNumberPicker">电话号选框（PhoneNumberPicker）</a></li>
+  <li><a href="#Sharing">信息分享器（Sharing）</a></li>
+  <li><a href="#Texting">短信收发器（Texting）</a></li>
+</ul>
+
+<h2 id="ContactPicker">联系人选框（ContactPicker）</h2>
+
+<p>一个按钮，点击后会显示联系人列表供选择。用户做出选择后，以下属性将被设为
+ 所选联系人的相关信息：</p>
+
+<ul>
+  <li><a href="#ContactPicker.ContactName"><code class="language-plaintext highlighter-rouge">ContactName</code></a>：联系人的姓名</li>
+  <li><a href="#ContactPicker.EmailAddress"><code class="language-plaintext highlighter-rouge">EmailAddress</code></a>：联系人的主要电子邮件地址</li>
+  <li><a href="#ContactPicker.EmailAddressList"><code class="language-plaintext highlighter-rouge">EmailAddressList</code></a>：联系人的电子邮件地址列表</li>
+  <li><a href="#ContactPicker.ContactUri"><code class="language-plaintext highlighter-rouge">ContactUri</code></a>：联系人在设备上的 URI</li>
+  <li><a href="#ContactPicker.PhoneNumber"><code class="language-plaintext highlighter-rouge">PhoneNumber</code></a>：联系人的主要电话号码（在较新的 Android 版本上）</li>
+  <li><a href="#ContactPicker.PhoneNumberList"><code class="language-plaintext highlighter-rouge">PhoneNumberList</code></a>：联系人的电话号码列表（在较新的 Android 版本上）</li>
+  <li><a href="#ContactPicker.Picture"><code class="language-plaintext highlighter-rouge">Picture</code></a>：包含联系人图像的文件名，可用作图像（Image）或图像精灵（ImageSprite）组件的图片属性值。</li>
+</ul>
+
+<p>其他属性会影响按钮的外观（<a href="#ContactPicker.TextAlignment"><code class="language-plaintext highlighter-rouge">TextAlignment</code></a>、
+ <a href="#ContactPicker.BackgroundColor"><code class="language-plaintext highlighter-rouge">BackgroundColor</code></a> 等）以及它是否可以被点击（<a href="#ContactPicker.Enabled"><code class="language-plaintext highlighter-rouge">Enabled</code></a>）。</p>
+
+<p><code class="language-plaintext highlighter-rouge">ContactPicker</code> 组件可能并非在所有手机上都能正常工作。例如，在系统 3.0 之前的
+ Android 系统上，它无法选取电话号码，而且电子邮件地址列表只包含一个电子邮件地址。</p>
+
+<h3 id="ContactPicker-Properties">属性</h3>
+
+<dl class="properties">
+  <dt id="ContactPicker.BackgroundColor" class="color"><em>BackgroundColor</em></dt>
+  <dd>以 alpha-red-green-blue（透明度-红-绿-蓝）整数指定 <code class="language-plaintext highlighter-rouge">ContactPicker</code> 的背景色。
+ 如果设置了 <a href="#ContactPicker.Image"><code class="language-plaintext highlighter-rouge">Image</code></a>，则在移除该
+ <a href="#ContactPicker.Image"><code class="language-plaintext highlighter-rouge">Image</code></a> 之前看不到颜色的变化。</dd>
+  <dt id="ContactPicker.ContactName" class="text ro bo"><em>ContactName</em></dt>
+  <dd>返回所选联系人的全名；如果姓名不可用，则返回空字符串。</dd>
+  <dt id="ContactPicker.ContactUri" class="text ro bo"><em>ContactUri</em></dt>
+  <dd>返回一个 URI，指定联系人在设备上的位置。</dd>
+  <dt id="ContactPicker.EmailAddress" class="text ro bo"><em>EmailAddress</em></dt>
+  <dd>返回所选联系人的主要电子邮件地址；如果电子邮件
+ 地址不可用，则返回空字符串。</dd>
+  <dt id="ContactPicker.EmailAddressList" class="list ro bo"><em>EmailAddressList</em></dt>
+  <dd>返回与所选联系人关联的电子邮件地址列表。</dd>
+  <dt id="ContactPicker.Enabled" class="boolean"><em>Enabled</em></dt>
+  <dd>指定 <code class="language-plaintext highlighter-rouge">ContactPicker</code> 是否处于活动状态且可点击。</dd>
+  <dt id="ContactPicker.FontBold" class="boolean"><em>FontBold</em></dt>
+  <dd>指定 <code class="language-plaintext highlighter-rouge">ContactPicker</code> 的文本是否使用粗体。
+ 有些字体不支持粗体。</dd>
+  <dt id="ContactPicker.FontItalic" class="boolean"><em>FontItalic</em></dt>
+  <dd>指定 <code class="language-plaintext highlighter-rouge">ContactPicker</code> 的文本是否使用斜体。
+ 有些字体不支持斜体。</dd>
+  <dt id="ContactPicker.FontSize" class="number"><em>FontSize</em></dt>
+  <dd>指定 <code class="language-plaintext highlighter-rouge">ContactPicker</code> 的文本字号，以 sp（缩放无关像素）为单位。</dd>
+  <dt id="ContactPicker.FontTypeface" class="text"><em>FontTypeface</em></dt>
+  <dd>以 default、serif、sans serif、monospace 或自定义字体指定 <code class="language-plaintext highlighter-rouge">ContactPicker</code> 的文本字体。要添加自定义字体，
+ 请将一个 .ttf 文件上传到项目的媒体资源中。</dd>
+  <dt id="ContactPicker.Height" class="number bo"><em>Height</em></dt>
+  <dd>指定 <code class="language-plaintext highlighter-rouge">ContactPicker</code> 的垂直高度，以像素为单位。</dd>
+  <dt id="ContactPicker.HeightPercent" class="number wo bo"><em>HeightPercent</em></dt>
+  <dd>以 <a href="userinterface.html#Screen.Height"><code class="language-plaintext highlighter-rouge">Screen</code> 的 <code class="language-plaintext highlighter-rouge">Height</code></a> 的百分比形式
+ 指定 <code class="language-plaintext highlighter-rouge">ContactPicker</code> 的垂直高度。</dd>
+  <dt id="ContactPicker.Image" class="text"><em>Image</em></dt>
+  <dd>指定 <code class="language-plaintext highlighter-rouge">ContactPicker</code> 图像的路径。如果同时指定了 <code class="language-plaintext highlighter-rouge">Image</code> 和
+ <a href="#ContactPicker.BackgroundColor"><code class="language-plaintext highlighter-rouge">BackgroundColor</code></a>，则只有 <code class="language-plaintext highlighter-rouge">Image</code> 可见。</dd>
+  <dt id="ContactPicker.Left" class="number"><em>Left</em></dt>
+  <dd>指定组件左边缘相对于
+ AbsoluteArrangement 的位置。</dd>
+  <dt id="ContactPicker.PhoneNumber" class="text ro bo"><em>PhoneNumber</em></dt>
+  <dd>返回与所选联系人关联的主要电话号码；如果
+ 该联系人没有关联电话号码，则返回空字符串。</dd>
+  <dt id="ContactPicker.PhoneNumberList" class="list ro bo"><em>PhoneNumberList</em></dt>
+  <dd>返回与所选联系人关联的电话号码列表。</dd>
+  <dt id="ContactPicker.Picture" class="text ro bo"><em>Picture</em></dt>
+  <dd>返回所选联系人的图片 URI，可用于
+ 获取联系人的照片及其他字段。</dd>
+  <dt id="ContactPicker.Shape" class="number"><em>Shape</em></dt>
+  <dd>指定 <code class="language-plaintext highlighter-rouge">ContactPicker</code> 的形状。本属性的有效取值为 <code class="language-plaintext highlighter-rouge">0</code>（默认）、
+ <code class="language-plaintext highlighter-rouge">1</code>（圆角）、<code class="language-plaintext highlighter-rouge">2</code>（矩形）和 <code class="language-plaintext highlighter-rouge">3</code>（椭圆）。若使用了
+ <a href="#ContactPicker.Image"><code class="language-plaintext highlighter-rouge">Image</code></a>，则 <code class="language-plaintext highlighter-rouge">Shape</code> 不可见。</dd>
+  <dt id="ContactPicker.ShowFeedback" class="boolean"><em>ShowFeedback</em></dt>
+  <dd>指定当按下带有指定
+ <a href="#ContactPicker.Image"><code class="language-plaintext highlighter-rouge">Image</code></a> 的 <code class="language-plaintext highlighter-rouge">ContactPicker</code> 时是否显示视觉反馈。</dd>
+  <dt id="ContactPicker.Text" class="text"><em>Text</em></dt>
+  <dd>指定 <code class="language-plaintext highlighter-rouge">ContactPicker</code> 显示的文本。</dd>
+  <dt id="ContactPicker.TextAlignment" class="number"><em>TextAlignment</em></dt>
+  <dd>指定 <code class="language-plaintext highlighter-rouge">ContactPicker</code> 文本的对齐方式。有效取值为：
+ <code class="language-plaintext highlighter-rouge">0</code>（正常；例如，当文字从左到右书写时为左对齐）、
+ <code class="language-plaintext highlighter-rouge">1</code>（居中），或
+ <code class="language-plaintext highlighter-rouge">2</code>（相反；例如，当文字从左到右书写时为右对齐）。</dd>
+  <dt id="ContactPicker.TextColor" class="color"><em>TextColor</em></dt>
+  <dd>以 alpha-red-green-blue（透明度-红-绿-蓝）整数指定 <code class="language-plaintext highlighter-rouge">ContactPicker</code> 的文本颜色。</dd>
+  <dt id="ContactPicker.Top" class="number"><em>Top</em></dt>
+  <dd>指定组件上边缘相对于
+ AbsoluteArrangement 的位置。</dd>
+  <dt id="ContactPicker.Visible" class="boolean"><em>Visible</em></dt>
+  <dd>指定 <code class="language-plaintext highlighter-rouge">ContactPicker</code> 是否在屏幕上可见。若 <code class="language-plaintext highlighter-rouge">ContactPicker</code> 正在显示，值为 <code class="language-plaintext logic block highlighter-rouge">true</code>；
+ 若已隐藏，值为 <code class="language-plaintext logic block highlighter-rouge">false</code>。</dd>
+  <dt id="ContactPicker.Width" class="number bo"><em>Width</em></dt>
+  <dd>指定 <code class="language-plaintext highlighter-rouge">ContactPicker</code> 的水平宽度，以像素为单位。</dd>
+  <dt id="ContactPicker.WidthPercent" class="number wo bo"><em>WidthPercent</em></dt>
+  <dd>以 <a href="userinterface.html#Screen.Width"><code class="language-plaintext highlighter-rouge">Screen</code> 的 <code class="language-plaintext highlighter-rouge">Width</code></a> 的百分比形式
+ 指定 <code class="language-plaintext highlighter-rouge">ContactPicker</code> 的水平宽度。</dd>
+</dl>
+
+<h3 id="ContactPicker-Events">事件</h3>
+
+<dl class="events">
+  <dt id="ContactPicker.AfterPicking">AfterPicking()</dt>
+  <dd>在 <code class="language-plaintext highlighter-rouge">ContactPicker</code> 活动返回其结果并填充完
+ 属性之后引发的事件。</dd>
+  <dt id="ContactPicker.BeforePicking">BeforePicking()</dt>
+  <dd>当点击 <code class="language-plaintext highlighter-rouge">ContactPicker</code>，或使用
+ <a href="#ContactPicker.Open"><code class="language-plaintext highlighter-rouge">Open</code></a> 方法显示选择框时引发的事件。该事件在选择框显示之前发生，
+ 可用于在显示之前准备选择框。</dd>
+  <dt id="ContactPicker.GotFocus">GotFocus()</dt>
+  <dd>表示光标移动到 <code class="language-plaintext highlighter-rouge">ContactPicker</code> 上方，现在可以
+ 点击它。</dd>
+  <dt id="ContactPicker.LostFocus">LostFocus()</dt>
+  <dd>表示光标从 <code class="language-plaintext highlighter-rouge">ContactPicker</code> 上移开，现在
+ 不能再点击它。</dd>
+  <dt id="ContactPicker.TouchDown">TouchDown()</dt>
+  <dd>表示 <code class="language-plaintext highlighter-rouge">ContactPicker</code> 被按下。</dd>
+  <dt id="ContactPicker.TouchUp">TouchUp()</dt>
+  <dd>表示 <code class="language-plaintext highlighter-rouge">ContactPicker</code> 已被松开。</dd>
+</dl>
+
+<h3 id="ContactPicker-Methods">方法</h3>
+
+<dl class="methods">
+  <dt id="ContactPicker.Open" class="method"><i></i> Open()</dt>
+  <dd>打开 <code class="language-plaintext highlighter-rouge">ContactPicker</code>，如同用户点击了它。</dd>
+  <dt id="ContactPicker.ViewContact" class="method"><i></i> ViewContact(<em class="text">uri</em>)</dt>
+  <dd>在设备的默认联系人应用中打开所选联系人的条目。</dd>
+</dl>
+
+<h2 id="EmailPicker">邮箱选框（EmailPicker）</h2>
+
+<p><code class="language-plaintext highlighter-rouge">EmailPicker</code> 是一种文本框。如果用户开始输入联系人的姓名或电子邮件地址，
+ 手机将显示一个下拉菜单，列出可补全输入的选项。如果联系人很多，下拉菜单可能需要几秒钟才会出现，
+ 并且在计算匹配项的过程中会显示中间结果。</p>
+
+<p>文本框的初始内容以及用户输入后的内容都保存在 <a href="#EmailPicker.Text"><code class="language-plaintext highlighter-rouge">Text</code></a>
+ 属性中。如果 <a href="#EmailPicker.Text"><code class="language-plaintext highlighter-rouge">Text</code></a> 属性初始为空，则 <a href="#EmailPicker.Hint"><code class="language-plaintext highlighter-rouge">Hint</code></a>
+ 属性的内容将作为提示以浅色显示在文本框中，提示用户输入。</p>
+
+<p>其他属性会影响文本框的外观（<a href="#EmailPicker.TextAlignment"><code class="language-plaintext highlighter-rouge">TextAlignment</code></a>、
+ <a href="#EmailPicker.BackgroundColor"><code class="language-plaintext highlighter-rouge">BackgroundColor</code></a> 等）以及它是否可以使用（<a href="#EmailPicker.Enabled"><code class="language-plaintext highlighter-rouge">Enabled</code></a>）。</p>
+
+<p>这样的文本框通常与 <a href="userinterface.html#Button"><code class="language-plaintext highlighter-rouge">Button</code></a> 组件配合使用，
+ 当文本输入完成后，由用户点击按钮。</p>
+
+<h3 id="EmailPicker-Properties">属性</h3>
+
+<dl class="properties">
+  <dt id="EmailPicker.BackgroundColor" class="color"><em>BackgroundColor</em></dt>
+  <dd><code class="language-plaintext highlighter-rouge">EmailPicker</code> 的背景色。您可以按名称在设计视图或
+ 编程视图中选择颜色。默认背景色为 'default'（带阴影的 3-D 外观）。</dd>
+  <dt id="EmailPicker.Enabled" class="boolean"><em>Enabled</em></dt>
+  <dd>若已设置，用户可以在 <code class="language-plaintext highlighter-rouge">EmailPicker</code> 中输入文本。</dd>
+  <dt id="EmailPicker.FontBold" class="boolean"><em>FontBold</em></dt>
+  <dd>指定 <code class="language-plaintext highlighter-rouge">EmailPicker</code> 的文本是否使用粗体。
+ 有些字体不支持粗体。</dd>
+  <dt id="EmailPicker.FontItalic" class="boolean"><em>FontItalic</em></dt>
+  <dd>指定 <code class="language-plaintext highlighter-rouge">EmailPicker</code> 的文本是否使用斜体。
+ 有些字体不支持斜体。</dd>
+  <dt id="EmailPicker.FontSize" class="number"><em>FontSize</em></dt>
+  <dd>指定 <code class="language-plaintext highlighter-rouge">EmailPicker</code> 的文本字号，以 sp（缩放无关像素）为单位。</dd>
+  <dt id="EmailPicker.FontTypeface" class="text"><em>FontTypeface</em></dt>
+  <dd><code class="language-plaintext highlighter-rouge">EmailPicker</code> 的文本字体。有效取值为 <code class="language-plaintext highlighter-rouge">0</code>（默认）、<code class="language-plaintext highlighter-rouge">1</code>（serif）、<code class="language-plaintext highlighter-rouge">2</code>（sans
+ serif）或 <code class="language-plaintext highlighter-rouge">3</code>（monospace）。</dd>
+  <dt id="EmailPicker.Height" class="number bo"><em>Height</em></dt>
+  <dd>指定 <code class="language-plaintext highlighter-rouge">EmailPicker</code> 的垂直高度，以像素为单位。</dd>
+  <dt id="EmailPicker.HeightPercent" class="number wo bo"><em>HeightPercent</em></dt>
+  <dd>以 <a href="userinterface.html#Screen.Height"><code class="language-plaintext highlighter-rouge">Screen</code> 的 <code class="language-plaintext highlighter-rouge">Height</code></a> 的百分比形式
+ 指定 <code class="language-plaintext highlighter-rouge">EmailPicker</code> 的垂直高度。</dd>
+  <dt id="EmailPicker.Hint" class="text"><em>Hint</em></dt>
+  <dd><code class="language-plaintext highlighter-rouge">EmailPicker</code> 向用户显示的提示。</dd>
+  <dt id="EmailPicker.HintColor" class="color"><em>HintColor</em></dt>
+  <dd>指定 EmailPicker 提示文字的颜色。</dd>
+  <dt id="EmailPicker.Left" class="number"><em>Left</em></dt>
+  <dd>指定组件左边缘相对于
+ AbsoluteArrangement 的位置。</dd>
+  <dt id="EmailPicker.Text" class="text"><em>Text</em></dt>
+  <dd><code class="language-plaintext highlighter-rouge">EmailPicker</code> 中的文本，可由程序员在设计视图或编程视图中设置，
+ 也可由用户输入（除非 <a href="#EmailPicker.Enabled"><code class="language-plaintext highlighter-rouge">Enabled</code></a> 属性为 false）。</dd>
+  <dt id="EmailPicker.TextAlignment" class="number"><em>TextAlignment</em></dt>
+  <dd>指定 <code class="language-plaintext highlighter-rouge">EmailPicker</code> 文本的对齐方式。有效取值为：
+ <code class="language-plaintext highlighter-rouge">0</code>（正常；例如，当文字从左到右书写时为左对齐）、
+ <code class="language-plaintext highlighter-rouge">1</code>（居中），或
+ <code class="language-plaintext highlighter-rouge">2</code>（相反；例如，当文字从左到右书写时为右对齐）。</dd>
+  <dt id="EmailPicker.TextColor" class="color"><em>TextColor</em></dt>
+  <dd>以 alpha-red-green-blue（透明度-红-绿-蓝）整数指定 <code class="language-plaintext highlighter-rouge">EmailPicker</code> 的文本颜色。</dd>
+  <dt id="EmailPicker.Top" class="number"><em>Top</em></dt>
+  <dd>指定组件上边缘相对于
+ AbsoluteArrangement 的位置。</dd>
+  <dt id="EmailPicker.Visible" class="boolean"><em>Visible</em></dt>
+  <dd>指定 <code class="language-plaintext highlighter-rouge">EmailPicker</code> 是否在屏幕上可见。若 <code class="language-plaintext highlighter-rouge">EmailPicker</code> 正在显示，值为 <code class="language-plaintext logic block highlighter-rouge">true</code>；
+ 若已隐藏，值为 <code class="language-plaintext logic block highlighter-rouge">false</code>。</dd>
+  <dt id="EmailPicker.Width" class="number bo"><em>Width</em></dt>
+  <dd>指定 <code class="language-plaintext highlighter-rouge">EmailPicker</code> 的水平宽度，以像素为单位。</dd>
+  <dt id="EmailPicker.WidthPercent" class="number wo bo"><em>WidthPercent</em></dt>
+  <dd>以 <a href="userinterface.html#Screen.Width"><code class="language-plaintext highlighter-rouge">Screen</code> 的 <code class="language-plaintext highlighter-rouge">Width</code></a> 的百分比形式
+ 指定 <code class="language-plaintext highlighter-rouge">EmailPicker</code> 的水平宽度。</dd>
+</dl>
+
+<h3 id="EmailPicker-Events">事件</h3>
+
+<dl class="events">
+  <dt id="EmailPicker.GotFocus">GotFocus()</dt>
+  <dd>当 <code class="language-plaintext highlighter-rouge">EmailPicker</code> 被选中以进行输入时（例如
+ 由用户触摸它）引发的事件。</dd>
+  <dt id="EmailPicker.LostFocus">LostFocus()</dt>
+  <dd>当 <code class="language-plaintext highlighter-rouge">EmailPicker</code> 不再被选中以进行输入时（例如
+ 用户触摸了另一个文本框）引发的事件。</dd>
+  <dt id="EmailPicker.TextChanged">TextChanged()</dt>
+  <dd>当 EmailPicker 的文本发生变化时引发的事件，无论是用户还是程序造成的。</dd>
+</dl>
+
+<h3 id="EmailPicker-Methods">方法</h3>
+
+<dl class="methods">
+  <dt id="EmailPicker.MoveCursorTo" class="method"><i></i> MoveCursorTo(<em class="number">position</em>)</dt>
+  <dd>将 EmailPicker 的光标重新定位到给定（从 1 开始计数）位置处的字符之前。如果给定位置大于 EmailPicker 的长度，光标将移到文本末尾；如果给定位置小于或等于 1，光标将移到开头。</dd>
+  <dt id="EmailPicker.MoveCursorToEnd" class="method"><i></i> MoveCursorToEnd()</dt>
+  <dd>将光标重新定位到 EmailPicker 文本的末尾。</dd>
+  <dt id="EmailPicker.MoveCursorToStart" class="method"><i></i> MoveCursorToStart()</dt>
+  <dd>将光标重新定位到 EmailPicker 文本的开头。</dd>
+  <dt id="EmailPicker.RequestFocus" class="method"><i></i> RequestFocus()</dt>
+  <dd>请求将焦点给予当前的 <code class="language-plaintext highlighter-rouge">EmailPicker</code>。</dd>
+</dl>
+
+<h2 id="PhoneCall">电话拨号器（PhoneCall）</h2>
+
+<p><img src="images/phonecall.png" alt="电话拨号器组件图标" /></p>
+
+<p>一种非可视组件，用于拨打 <a href="#PhoneCall.PhoneNumber"><code class="language-plaintext highlighter-rouge">PhoneNumber</code></a> 属性中指定的号码，
+ 该属性可以在设计视图或编程视图中设置。
+ 该组件有一个 <a href="#PhoneCall.MakePhoneCall"><code class="language-plaintext highlighter-rouge">MakePhoneCall</code></a> 方法，使程序能够发起电话呼叫。
+ 您也可以使用 <a href="#PhoneCall.MakePhoneCallDirect"><code class="language-plaintext highlighter-rouge">MakePhoneCallDirect</code></a> 在不与用户
+ 交互的情况下直接发起电话呼叫。但是，使用该块的应用如果提交
+ 到 Play 商店，可能需要 Google 进一步审核，因此建议改用 <a href="#PhoneCall.MakePhoneCall"><code class="language-plaintext highlighter-rouge">MakePhoneCall</code></a>。</p>
+
+<p>该组件通常与 <a href="#ContactPicker"><code class="language-plaintext highlighter-rouge">ContactPicker</code></a> 组件配合使用，后者让用户
+ 从手机上存储的联系人中进行选择，并将
+ <a href="#PhoneCall.PhoneNumber"><code class="language-plaintext highlighter-rouge">PhoneNumber</code></a> 属性设为 <a href="#ContactPicker.PhoneNumber"><code class="language-plaintext highlighter-rouge">ContactPicker</code> 的 <code class="language-plaintext highlighter-rouge">PhoneNumber</code></a> 属性。</p>
+
+<p>要直接指定电话号码（例如 650-555-1212），请将 <a href="#PhoneCall.PhoneNumber"><code class="language-plaintext highlighter-rouge">PhoneNumber</code></a>
+ 属性设为一个包含指定数字的文本（例如“6505551212”）。可以包含连字符、点和括号
+ （例如“(650)-555-1212”），但它们会被忽略；不可以包含空格。</p>
+
+<h3 id="PhoneCall-Properties">属性</h3>
+
+<dl class="properties">
+  <dt id="PhoneCall.PhoneNumber" class="text"><em>PhoneNumber</em></dt>
+  <dd>指定要拨打的电话号码。</dd>
+</dl>
+
+<h3 id="PhoneCall-Events">事件</h3>
+
+<dl class="events">
+  <dt id="PhoneCall.IncomingCallAnswered">IncomingCallAnswered(<em class="text">phoneNumber</em>)</dt>
+  <dd>表示来电已被接听的事件。<code class="language-plaintext variable block highlighter-rouge">phoneNumber</code> 是
+ 来电的电话号码。</dd>
+  <dt id="PhoneCall.PhoneCallEnded">PhoneCallEnded(<em class="number">status</em>,<em class="text">phoneNumber</em>)</dt>
+  <dd>表示电话呼叫已结束的事件。<code class="language-plaintext variable block highlighter-rouge">status</code> 可以是以下任意值：
+
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">1</code>：来电未接或被拒接</li>
+      <li><code class="language-plaintext highlighter-rouge">2</code>：来电已接听并挂断</li>
+      <li><code class="language-plaintext highlighter-rouge">3</code>：去电已挂断。</li>
+    </ul>
+  </dd>
+  <dt id="PhoneCall.PhoneCallStarted">PhoneCallStarted(<em class="number">status</em>,<em class="text">phoneNumber</em>)</dt>
+  <dd>表示电话呼叫已开始的事件。<code class="language-plaintext variable block highlighter-rouge">status</code> 可以是以下任意值：
+
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">1</code>：来电正在响铃</li>
+      <li><code class="language-plaintext highlighter-rouge">2</code>：去电正在拨号</li>
+    </ul>
+  </dd>
+</dl>
+
+<h3 id="PhoneCall-Methods">方法</h3>
+
+<dl class="methods">
+  <dt id="PhoneCall.MakePhoneCall" class="method"><i></i> MakePhoneCall()</dt>
+  <dd>启动默认拨号应用，并设置为使用
+ <a href="#PhoneCall.PhoneNumber"><code class="language-plaintext highlighter-rouge">PhoneNumber</code></a> 属性中的号码发起电话呼叫。</dd>
+  <dt id="PhoneCall.MakePhoneCallDirect" class="method"><i></i> MakePhoneCallDirect()</dt>
+  <dd>使用 <a href="#PhoneCall.PhoneNumber"><code class="language-plaintext highlighter-rouge">PhoneNumber</code></a> 属性中的号码直接发起电话呼叫，
+ 绕过用户交互来开始呼叫。<strong>大多数应用应改用
+ <a href="#PhoneCall.MakePhoneCall"><code class="language-plaintext highlighter-rouge">MakePhoneCall</code></a>，它不需要任何权限。</strong></dd>
+</dl>
+
+<h2 id="PhoneNumberPicker">电话号选框（PhoneNumberPicker）</h2>
+
+<p>一个按钮，点击后会显示联系人的电话号码列表供选择。
+ 用户做出选择后，以下属性将被设为所选联系人的相关信息：</p>
+
+<ul>
+  <li><a href="#PhoneNumberPicker.ContactName"><code class="language-plaintext highlighter-rouge">ContactName</code></a>：联系人的姓名</li>
+  <li><a href="#PhoneNumberPicker.PhoneNumber"><code class="language-plaintext highlighter-rouge">PhoneNumber</code></a>：联系人的电话号码</li>
+  <li><a href="#PhoneNumberPicker.EmailAddress"><code class="language-plaintext highlighter-rouge">EmailAddress</code></a>：联系人的电子邮件地址</li>
+  <li><a href="#PhoneNumberPicker.Picture"><code class="language-plaintext highlighter-rouge">Picture</code></a>：包含联系人图像的文件名，可用作图像（Image）或图像精灵（ImageSprite）组件的图片属性值。</li>
+</ul>
+
+<p>其他属性会影响按钮的外观（<a href="#PhoneNumberPicker.TextAlignment"><code class="language-plaintext highlighter-rouge">TextAlignment</code></a>、
+ <a href="#PhoneNumberPicker.BackgroundColor"><code class="language-plaintext highlighter-rouge">BackgroundColor</code></a> 等）以及它是否可以被点击（<a href="#PhoneNumberPicker.Enabled"><code class="language-plaintext highlighter-rouge">Enabled</code></a>）。</p>
+
+<p><code class="language-plaintext highlighter-rouge">PhoneNumberPicker</code> 组件可能并非在所有 Android 设备上都能正常工作。例如，在 Android
+ 系统 3.0 之前的版本上，返回的电话号码列表和电子邮件地址列表将为空。</p>
+
+<h3 id="PhoneNumberPicker-Properties">属性</h3>
+
+<dl class="properties">
+  <dt id="PhoneNumberPicker.BackgroundColor" class="color"><em>BackgroundColor</em></dt>
+  <dd>以 alpha-red-green-blue（透明度-红-绿-蓝）整数指定 <code class="language-plaintext highlighter-rouge">PhoneNumberPicker</code> 的背景色。
+ 如果设置了 <a href="#PhoneNumberPicker.Image"><code class="language-plaintext highlighter-rouge">Image</code></a>，则在移除该
+ <a href="#PhoneNumberPicker.Image"><code class="language-plaintext highlighter-rouge">Image</code></a> 之前看不到颜色的变化。</dd>
+  <dt id="PhoneNumberPicker.ContactName" class="text ro bo"><em>ContactName</em></dt>
+  <dd>返回所选联系人的全名；如果姓名不可用，则返回空字符串。</dd>
+  <dt id="PhoneNumberPicker.ContactUri" class="text ro bo"><em>ContactUri</em></dt>
+  <dd>返回一个 URI，指定联系人在设备上的位置。</dd>
+  <dt id="PhoneNumberPicker.EmailAddress" class="text ro bo"><em>EmailAddress</em></dt>
+  <dd>返回所选联系人的主要电子邮件地址；如果电子邮件
+ 地址不可用，则返回空字符串。</dd>
+  <dt id="PhoneNumberPicker.EmailAddressList" class="list ro bo"><em>EmailAddressList</em></dt>
+  <dd>返回与所选联系人关联的电子邮件地址列表。</dd>
+  <dt id="PhoneNumberPicker.Enabled" class="boolean"><em>Enabled</em></dt>
+  <dd>指定 <code class="language-plaintext highlighter-rouge">PhoneNumberPicker</code> 是否处于活动状态且可点击。</dd>
+  <dt id="PhoneNumberPicker.FontBold" class="boolean"><em>FontBold</em></dt>
+  <dd>指定 <code class="language-plaintext highlighter-rouge">PhoneNumberPicker</code> 的文本是否使用粗体。
+ 有些字体不支持粗体。</dd>
+  <dt id="PhoneNumberPicker.FontItalic" class="boolean"><em>FontItalic</em></dt>
+  <dd>指定 <code class="language-plaintext highlighter-rouge">PhoneNumberPicker</code> 的文本是否使用斜体。
+ 有些字体不支持斜体。</dd>
+  <dt id="PhoneNumberPicker.FontSize" class="number"><em>FontSize</em></dt>
+  <dd>指定 <code class="language-plaintext highlighter-rouge">PhoneNumberPicker</code> 的文本字号，以 sp（缩放无关像素）为单位。</dd>
+  <dt id="PhoneNumberPicker.FontTypeface" class="text"><em>FontTypeface</em></dt>
+  <dd>以 default、serif、sans serif、monospace 或自定义字体指定 <code class="language-plaintext highlighter-rouge">PhoneNumberPicker</code> 的文本字体。要添加自定义字体，
+ 请将一个 .ttf 文件上传到项目的媒体资源中。</dd>
+  <dt id="PhoneNumberPicker.Height" class="number bo"><em>Height</em></dt>
+  <dd>指定 <code class="language-plaintext highlighter-rouge">PhoneNumberPicker</code> 的垂直高度，以像素为单位。</dd>
+  <dt id="PhoneNumberPicker.HeightPercent" class="number wo bo"><em>HeightPercent</em></dt>
+  <dd>以 <a href="userinterface.html#Screen.Height"><code class="language-plaintext highlighter-rouge">Screen</code> 的 <code class="language-plaintext highlighter-rouge">Height</code></a> 的百分比形式
+ 指定 <code class="language-plaintext highlighter-rouge">PhoneNumberPicker</code> 的垂直高度。</dd>
+  <dt id="PhoneNumberPicker.Image" class="text"><em>Image</em></dt>
+  <dd>指定 <code class="language-plaintext highlighter-rouge">PhoneNumberPicker</code> 图像的路径。如果同时指定了 <code class="language-plaintext highlighter-rouge">Image</code> 和
+ <a href="#PhoneNumberPicker.BackgroundColor"><code class="language-plaintext highlighter-rouge">BackgroundColor</code></a>，则只有 <code class="language-plaintext highlighter-rouge">Image</code> 可见。</dd>
+  <dt id="PhoneNumberPicker.Left" class="number"><em>Left</em></dt>
+  <dd>指定组件左边缘相对于
+ AbsoluteArrangement 的位置。</dd>
+  <dt id="PhoneNumberPicker.PhoneNumber" class="text ro bo"><em>PhoneNumber</em></dt>
+  <dd>返回与所选联系人关联的主要电话号码；如果
+ 该联系人没有关联电话号码，则返回空字符串。</dd>
+  <dt id="PhoneNumberPicker.PhoneNumberList" class="list ro bo"><em>PhoneNumberList</em></dt>
+  <dd>返回与所选联系人关联的电话号码列表。</dd>
+  <dt id="PhoneNumberPicker.Picture" class="text ro bo"><em>Picture</em></dt>
+  <dd>返回所选联系人的图片 URI，可用于
+ 获取联系人的照片及其他字段。</dd>
+  <dt id="PhoneNumberPicker.Shape" class="number"><em>Shape</em></dt>
+  <dd>指定 <code class="language-plaintext highlighter-rouge">PhoneNumberPicker</code> 的形状。本属性的有效取值为 <code class="language-plaintext highlighter-rouge">0</code>（默认）、
+ <code class="language-plaintext highlighter-rouge">1</code>（圆角）、<code class="language-plaintext highlighter-rouge">2</code>（矩形）和 <code class="language-plaintext highlighter-rouge">3</code>（椭圆）。若使用了
+ <a href="#PhoneNumberPicker.Image"><code class="language-plaintext highlighter-rouge">Image</code></a>，则 <code class="language-plaintext highlighter-rouge">Shape</code> 不可见。</dd>
+  <dt id="PhoneNumberPicker.ShowFeedback" class="boolean"><em>ShowFeedback</em></dt>
+  <dd>指定当按下带有指定
+ <a href="#PhoneNumberPicker.Image"><code class="language-plaintext highlighter-rouge">Image</code></a> 的 <code class="language-plaintext highlighter-rouge">PhoneNumberPicker</code> 时是否显示视觉反馈。</dd>
+  <dt id="PhoneNumberPicker.Text" class="text"><em>Text</em></dt>
+  <dd>指定 <code class="language-plaintext highlighter-rouge">PhoneNumberPicker</code> 显示的文本。</dd>
+  <dt id="PhoneNumberPicker.TextAlignment" class="number"><em>TextAlignment</em></dt>
+  <dd>指定 <code class="language-plaintext highlighter-rouge">PhoneNumberPicker</code> 文本的对齐方式。有效取值为：
+ <code class="language-plaintext highlighter-rouge">0</code>（正常；例如，当文字从左到右书写时为左对齐）、
+ <code class="language-plaintext highlighter-rouge">1</code>（居中），或
+ <code class="language-plaintext highlighter-rouge">2</code>（相反；例如，当文字从左到右书写时为右对齐）。</dd>
+  <dt id="PhoneNumberPicker.TextColor" class="color"><em>TextColor</em></dt>
+  <dd>以 alpha-red-green-blue（透明度-红-绿-蓝）整数指定 <code class="language-plaintext highlighter-rouge">PhoneNumberPicker</code> 的文本颜色。</dd>
+  <dt id="PhoneNumberPicker.Top" class="number"><em>Top</em></dt>
+  <dd>指定组件上边缘相对于
+ AbsoluteArrangement 的位置。</dd>
+  <dt id="PhoneNumberPicker.Visible" class="boolean"><em>Visible</em></dt>
+  <dd>指定 <code class="language-plaintext highlighter-rouge">PhoneNumberPicker</code> 是否在屏幕上可见。若 <code class="language-plaintext highlighter-rouge">PhoneNumberPicker</code> 正在显示，值为 <code class="language-plaintext logic block highlighter-rouge">true</code>；
+ 若已隐藏，值为 <code class="language-plaintext logic block highlighter-rouge">false</code>。</dd>
+  <dt id="PhoneNumberPicker.Width" class="number bo"><em>Width</em></dt>
+  <dd>指定 <code class="language-plaintext highlighter-rouge">PhoneNumberPicker</code> 的水平宽度，以像素为单位。</dd>
+  <dt id="PhoneNumberPicker.WidthPercent" class="number wo bo"><em>WidthPercent</em></dt>
+  <dd>以 <a href="userinterface.html#Screen.Width"><code class="language-plaintext highlighter-rouge">Screen</code> 的 <code class="language-plaintext highlighter-rouge">Width</code></a> 的百分比形式
+ 指定 <code class="language-plaintext highlighter-rouge">PhoneNumberPicker</code> 的水平宽度。</dd>
+</dl>
+
+<h3 id="PhoneNumberPicker-Events">事件</h3>
+
+<dl class="events">
+  <dt id="PhoneNumberPicker.AfterPicking">AfterPicking()</dt>
+  <dd>在 <code class="language-plaintext highlighter-rouge">PhoneNumberPicker</code> 活动返回其结果并填充完
+ 属性之后引发的事件。</dd>
+  <dt id="PhoneNumberPicker.BeforePicking">BeforePicking()</dt>
+  <dd>当点击 <code class="language-plaintext highlighter-rouge">PhoneNumberPicker</code>，或使用
+ <a href="#PhoneNumberPicker.Open"><code class="language-plaintext highlighter-rouge">Open</code></a> 方法显示选择框时引发的事件。该事件在选择框显示之前发生，
+ 可用于在显示之前准备选择框。</dd>
+  <dt id="PhoneNumberPicker.GotFocus">GotFocus()</dt>
+  <dd>表示光标移动到 <code class="language-plaintext highlighter-rouge">PhoneNumberPicker</code> 上方，现在可以
+ 点击它。</dd>
+  <dt id="PhoneNumberPicker.LostFocus">LostFocus()</dt>
+  <dd>表示光标从 <code class="language-plaintext highlighter-rouge">PhoneNumberPicker</code> 上移开，现在
+ 不能再点击它。</dd>
+  <dt id="PhoneNumberPicker.TouchDown">TouchDown()</dt>
+  <dd>表示 <code class="language-plaintext highlighter-rouge">PhoneNumberPicker</code> 被按下。</dd>
+  <dt id="PhoneNumberPicker.TouchUp">TouchUp()</dt>
+  <dd>表示 <code class="language-plaintext highlighter-rouge">PhoneNumberPicker</code> 已被松开。</dd>
+</dl>
+
+<h3 id="PhoneNumberPicker-Methods">方法</h3>
+
+<dl class="methods">
+  <dt id="PhoneNumberPicker.Open" class="method"><i></i> Open()</dt>
+  <dd>打开 <code class="language-plaintext highlighter-rouge">PhoneNumberPicker</code>，如同用户点击了它。</dd>
+  <dt id="PhoneNumberPicker.ViewContact" class="method"><i></i> ViewContact(<em class="text">uri</em>)</dt>
+  <dd>在设备的默认联系人应用中打开所选联系人的条目。</dd>
+</dl>
+
+<h2 id="Sharing">信息分享器（Sharing）</h2>
+
+<p>信息分享器是一个非可视组件，用于在您的应用与设备上安装的其他应用之间分享文件和/或消息。
+ 该组件将显示能够处理所提供信息的已安装应用列表，并允许用户选择其中一个来分享内容，
+ 例如邮件应用、社交网络应用、短信应用等。</p>
+
+<p>文件路径可以直接取自其他组件，例如
+ <a href="media.html#Camera"><code class="language-plaintext highlighter-rouge">Camera</code></a> 或 <a href="media.html#ImagePicker"><code class="language-plaintext highlighter-rouge">ImagePicker</code></a>，但也可以
+ 直接指定以从存储中读取。默认行为是分享与您的应用关联的私有
+ 数据目录中的文件。如果文件路径以斜杠（<code class="language-plaintext highlighter-rouge">/</code>）开头，则分享相对于 <code class="language-plaintext highlighter-rouge">/</code> 的文件。</p>
+
+<p>请注意，不同设备对存储的处理方式不同，因此，例如，如果您在文件夹 <code class="language-plaintext highlighter-rouge">Appinventor/assets</code> 中有一个
+ 名为 <code class="language-plaintext highlighter-rouge">arrow.gif</code> 的文件，可以尝试以下几种写法：</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">"file:///sdcard/Appinventor/assets/arrow.gif"</code>；或</li>
+  <li><code class="language-plaintext highlighter-rouge">"/storage/Appinventor/assets/arrow.gif"</code></li>
+</ul>
+
+<h3 id="Sharing-Properties">属性</h3>
+
+<p class="properties">无</p>
+
+<h3 id="Sharing-Events">事件</h3>
+
+<p class="events">无</p>
+
+<h3 id="Sharing-Methods">方法</h3>
+
+<dl class="methods">
+  <dt id="Sharing.CopyToClipboard" class="method"><i></i> CopyToClipboard(<em class="text">text</em>)</dt>
+  <dd>将给定的文本复制到系统剪贴板。</dd>
+  <dt id="Sharing.ShareFile" class="method"><i></i> ShareFile(<em class="text">file</em>)</dt>
+  <dd>通过显示可用应用的列表并允许用户从中选择一个，经由手机上安装的任意具备相应能力的应用分享文件。所选应用将打开并插入该文件。</dd>
+  <dt id="Sharing.ShareFileWithMessage" class="method"><i></i> ShareFileWithMessage(<em class="text">file</em>,<em class="text">message</em>)</dt>
+  <dd>通过显示可用应用的列表并允许用户从中选择一个，经由手机上安装的任意具备相应能力的应用分享文件和消息。所选应用将打开并插入该文件和消息。</dd>
+  <dt id="Sharing.ShareMessage" class="method"><i></i> ShareMessage(<em class="text">message</em>)</dt>
+  <dd>通过显示可用应用的列表并允许用户从中选择一个，经由手机上安装的任意具备相应能力的应用分享消息。所选应用将打开并插入该消息。</dd>
+</dl>
+
+<h2 id="Texting">短信收发器（Texting）</h2>
+
+<p><img src="images/texting.png" alt="短信收发器组件图标" /></p>
+
+<p>一种组件，当调用 <a href="#Texting.SendMessage"><code class="language-plaintext highlighter-rouge">SendMessage</code></a> 方法时，它会启动设备首选的
+ 短信应用，将 <a href="#Texting.SendMessage"><code class="language-plaintext highlighter-rouge">SendMessage</code></a> 属性中指定的文本消息
+ 发送到 <a href="#Texting.PhoneNumber"><code class="language-plaintext highlighter-rouge">PhoneNumber</code></a> 属性中指定的电话号码。您也可以改为
+ 调用 <a href="#Texting.SendMessageDirect"><code class="language-plaintext highlighter-rouge">SendMessageDirect</code></a> 在不与用户交互的情况下发送文本
+ 消息，但这会给最终应用添加危险权限。</p>
+
+<p>如果 <a href="#Texting.ReceivingEnabled"><code class="language-plaintext highlighter-rouge">ReceivingEnabled</code></a> 属性设为 1，将不会接收消息。如果
+ <a href="#Texting.ReceivingEnabled"><code class="language-plaintext highlighter-rouge">ReceivingEnabled</code></a> 设为 2，只有在应用运行时才会接收消息。最后，如果 <a href="#Texting.ReceivingEnabled"><code class="language-plaintext highlighter-rouge">ReceivingEnabled</code></a> 设为 3，
+ 应用运行时可以接收消息，而当应用未运行时，消息将进入队列，
+ 并向用户显示一条通知。</p>
+
+<p>当消息到达时，会引发 <a href="#Texting.MessageReceived"><code class="language-plaintext highlighter-rouge">MessageReceived</code></a> 事件，
+ 并提供发送方号码和消息。</p>
+
+<p>包含该组件的应用即使在后台运行时（即未显示在屏幕上时）也能接收消息，更有甚者，
+ 只要该应用已安装在手机上，即使应用未运行也能接收。如果手机在应用不处于
+ 前台时收到文本消息，手机会在通知栏中显示一条通知。选择该
+ 通知将调出该应用。作为应用开发者，您很可能希望让用户能够
+ 控制 ReceivingEnabled，以便他们可以让手机忽略文本消息。</p>
+
+<p>如果 <a href="#Texting.GoogleVoiceEnabled"><code class="language-plaintext highlighter-rouge">GoogleVoiceEnabled</code></a> 属性为 true，则可以使用 Google Voice 通过
+ WiFi 发送消息。该选项要求用户拥有 Google Voice 账户，并且手机上安装了移动版
+ Voice 应用。Google Voice 选项仅在支持
+ Android 2.0（Eclair）或更高版本的手机上可用。<strong>遗憾的是，由于
+ Google Voice 应用引入的变更，接收功能已无法在 Google Voice 中使用。</strong></p>
+
+<p>要指定电话号码（例如 650-555-1212），请将 PhoneNumber 属性设为一个文本字符串，
+ 其中包含指定的数字（例如 6505551212）。可以包含连字符、点和括号
+ （例如 (650)-555-1212），但它们会被忽略；不可以包含空格。</p>
+
+<p>应用指定电话号码的另一种方式是加入 <a href="#PhoneNumberPicker"><code class="language-plaintext highlighter-rouge">PhoneNumberPicker</code></a>
+ 组件，它让用户可以从手机联系人中存储的电话号码里选择一个。</p>
+
+<h3 id="Texting-Properties">属性</h3>
+
+<dl class="properties">
+  <dt id="Texting.GoogleVoiceEnabled" class="boolean"><em>GoogleVoiceEnabled</em></dt>
+  <dd>如果该属性为 true，则 SendMessage 将尝试通过
+ WiFi 使用 Google Voice 发送消息。</dd>
+  <dt id="Texting.Message" class="text"><em>Message</em></dt>
+  <dd>调用 <a href="#Texting.SendMessage"><code class="language-plaintext highlighter-rouge">SendMessage</code></a> 方法时将发送的消息。
+ 标准 SMS 消息的最大长度通常为 170。对于使用变音符号的语言，
+ 可能会更短。</dd>
+  <dt id="Texting.PhoneNumber" class="text"><em>PhoneNumber</em></dt>
+  <dd>调用 SendMessage 方法时消息将发送到的号码。
+ 该号码是包含指定数字的文本字符串（例如 6505551212）。可以包含连字符、点、
+ 和括号（例如 (650)-555-1212），但它们会被忽略；不应
+ 包含空格。如果以逗号分隔，可以包含多个号码。</dd>
+  <dt id="Texting.ReceivingEnabled" class="number"><em>ReceivingEnabled</em></dt>
+  <dd>如果设为 1（OFF），将不会接收任何消息。如果设为 2（FOREGROUND）或 3（ALWAYS），
+ 组件在运行时将响应消息。在 2（FOREGROUND）的情况下，应用
+ 未运行时收到的消息将被丢弃。在 3（ALWAYS）的情况下，应用
+ 未运行时收到的消息将显示一条通知。选择该通知
+ 将调出应用并发出 <a href="#Texting.MessageReceived"><code class="language-plaintext highlighter-rouge">MessageReceived</code></a> 事件信号。应用
+ 休眠时收到的消息将进入队列，因此当应用唤醒时可能会出现多个
+ <a href="#Texting.MessageReceived"><code class="language-plaintext highlighter-rouge">MessageReceived</code></a> 事件。作为应用
+ 开发者，让用户能够控制该属性是个好主意，这样
+ 当您的应用已安装时，他们可以让手机忽略文本消息。</dd>
+</dl>
+
+<h3 id="Texting-Events">事件</h3>
+
+<dl class="events">
+  <dt id="Texting.MessageReceived">MessageReceived(<em class="text">number</em>,<em class="text">messageText</em>)</dt>
+  <dd>当手机收到文本消息时引发的事件。<strong>使用该块会添加
+ <a href="//developer.android.com/guide/topics/permissions/overview#dangerous_permissions">危险权限</a>，
+ 如果您的应用提交到 Google Play 商店，将需要额外审批。</strong></dd>
+</dl>
+
+<h3 id="Texting-Methods">方法</h3>
+
+<dl class="methods">
+  <dt id="Texting.SendMessage" class="method"><i></i> SendMessage()</dt>
+  <dd>启动手机的默认短信应用，并预填好消息和电话号码。</dd>
+  <dt id="Texting.SendMessageDirect" class="method"><i></i> SendMessageDirect()</dt>
+  <dd>发送文本消息。<strong>使用该块会添加
+ <a href="https://developer.android.com/guide/topics/permissions/overview#dangerous_permissions">危险权限</a>，
+ 如果您的应用提交到 Google Play 商店，将需要额外审批。</strong></dd>
+</dl>
+
+</article>
+<script>
+  // Handle redirection to documentation based on locale query parameter (if specified)
+  (function() {
+      var locale = window.location.search.match('[&?]locale=([a-zA-Z-]*)');
+      if (locale) {
+          if (locale[1].indexOf('en') === 0) {
+              // English needs to stay at the top level to not break existing links
+              var page = window.location.pathname.split('/');
+              if (page.length === 5) {
+                  page.splice(2, 1);
+              } else {
+                  // already on english
+                  return;
+              }
+              window.location.href = page.join('/');
+          } else {
+              var page = window.location.pathname.split('/');
+              if (page.length === 4) {
+                  page.splice(2, 0, locale[1]);
+              } else if (page[2].toLowerCase() != locale[1].toLowerCase()) {
+                  page[2] = locale[1];
+              } else {
+                  return;  // already on the desired language
+              }
+              // Test that the page exists before redirecting.
+              var xhr = new XMLHttpRequest();
+              xhr.open('HEAD', page.join('/'), false);
+              xhr.onreadystatechange = function() {
+                  if (xhr.readyState == 4) {
+                      if ((xhr.status == 200 || xhr.status == 204)) {
+                          window.location.href = page.join('/');
+                      } else if (xhr.status  >= 400) {
+                          page.splice(2, 1);  // go to english version
+                          window.location.href = page.join('/');
+                      }
+                  }
+              };
+              xhr.send();
+          }
+      }
+  })();
+
+  // Handle embedded documentation in help by removing website template
+  if (window.self !== window.top) {
+      setTimeout(function() {
+          var videos = document.querySelectorAll('video');
+          for (var i = 0; i < videos.length; i++) {
+              if (parseInt(videos[i].getAttribute('width')) > 360) {
+                  var aspect = parseInt(videos[i].getAttribute('height')) / parseInt(videos[i].getAttribute('width'));
+                  videos[i].setAttribute('width', '360');
+                  videos[i].setAttribute('height', '' + (360 * aspect));
+              }
+          }
+          var h1 = document.querySelector('h1');
+          var article = document.querySelector('article');
+          article.insertBefore(h1, article.firstElementChild);
+          document.body.innerHTML = article.outerHTML;
+      });
+  }
+</script>
+
+            </div>
+<script src="../../../static/js/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="../../../static/js/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="../../../static/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+<script async src="../../../static/js/widgets.js" charset="utf-8"></script>
+</div>
+    </body>
+</html>

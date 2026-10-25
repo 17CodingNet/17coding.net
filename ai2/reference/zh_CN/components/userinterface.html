@@ -1,0 +1,1866 @@
+<!DOCTYPE html>
+
+     一一对应。
+     - 正文（标题/段落/列表/表格/图片 alt/视频说明）译为简体中文；
+     - 顶部导航（MIT logo、"Create Apps!" 按钮、About/Educators/News/Resources/Blogs
+       菜单、Donate 按钮、gcse 搜索框）与底部 MIT 版权页脚（© 声明、CC BY-SA、ToS、
+       Support/Twitter/GitHub/Accessibility）已整块删除：本项目是离线产品，帮助页只在
+       应用内新标签页打开，不应出现通往 MIT 主站的品牌链接与捐赠入口。head 里仅供
+       "Create Apps!" 按钮使用的 gotoappinventor() 脚本一并删除；<title> 与页面 <h1>
+       里的 "MIT " 字样已去掉，正文中作为产品名出现的 "MIT App Inventor" 已改为
+       "App Inventor蔻丁工坊"(zh_CN 语境带蔻丁工坊后缀;版权说明处的 MIT 保留)；
+     - 重定向脚本（<script> 块）按上游原文保留：本项目 blocklyeditor.js 的 _resolveHelpUrl
+       已把 href 直接写成 zh_CN 路径且不带 ?locale=，脚本不会触发；若日后有人手工拼了
+       ?locale=zh_CN 进 URL，file:// 下 sync XHR 会被浏览器拦截，脚本停在“已是目标语言”，
+       不会跳错位置；
+     - /static/ 绝对路径改为相对路径：offline webapp 支持以 file:// 打开，绝对路径会解析到
+       磁盘根目录（file:///static/...）从而 404；
+     - 本地图片/视频按上游同名相对路径复制到本目录，故 src 与上游完全一致；
+     - id= 锚点与块/组件/属性英文名保持上游原文，帮助链接里的 #fragment 才能定位。 -->
+<html lang="zh-CN"><head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="stylesheet" href="../../../static/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="../../../static/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
+    <link href="../../../static/css/fonts.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="../../../static/css/mit_app_inventor.css">
+    <title>用户界面</title></head>
+<body class="mit_app_inventor">
+<div class="default-page">
+            <div class="header">
+	        <h1 class="font-weight-bold text-center offset-xl-2 col-xl-8">用户界面</h1>
+            </div>
+            <div class="container-fluid">
+                <article class="documentation">
+<p><a href="index.html">« 返回目录</a></p>
+<h1 id="user-interface">用户界面</h1>
+
+<p>目录：</p>
+
+<ul>
+  <li><a href="#Button">按钮（Button）</a></li>
+  <li><a href="#CheckBox">复选框（CheckBox）</a></li>
+  <li><a href="#CircularProgress">进度环（CircularProgress）</a></li>
+  <li><a href="#DatePicker">日期选框（DatePicker）</a></li>
+  <li><a href="#Image">图片（Image）</a></li>
+  <li><a href="#Label">标签（Label）</a></li>
+  <li><a href="#LinearProgress">进度条（LinearProgress）</a></li>
+  <li><a href="#ListPicker">列表选框（ListPicker）</a></li>
+  <li><a href="#ListView">列表框（ListView）</a></li>
+  <li><a href="#Notifier">对话框（Notifier）</a></li>
+  <li><a href="#PasswordTextBox">密码框（PasswordTextBox）</a></li>
+  <li><a href="#Screen">屏幕（Screen）</a></li>
+  <li><a href="#Slider">滑动条（Slider）</a></li>
+  <li><a href="#Spinner">下拉框（Spinner）</a></li>
+  <li><a href="#Switch">开关（Switch）</a></li>
+  <li><a href="#TextBox">文本框（TextBox）</a></li>
+  <li><a href="#TimePicker">时间选框（TimePicker）</a></li>
+  <li><a href="#WebViewer">Web 浏览框（WebViewer）</a></li>
+</ul>
+
+<h2 id="Button">按钮（Button）</h2>
+
+<p>按钮能够感知用户的点击。它的许多外观特性都可以改变，它是否可被点击
+ （<code class="language-plaintext highlighter-rouge">Enabled</code>）也可以改变。它的属性可以在设计视图或
+ 编程视图中修改。</p>
+
+<h3 id="Button-Properties">属性</h3>
+
+<dl class="properties">
+  <dt id="Button.BackgroundColor" class="color"><em>BackgroundColor</em></dt>
+  <dd>以 alpha-red-green-blue（透明度-红-绿-蓝）整数指定 <code class="language-plaintext highlighter-rouge">Button</code> 的背景色。
+ 如果设置了 <a href="#Button.Image"><code class="language-plaintext highlighter-rouge">Image</code></a>，则在移除该
+ <a href="#Button.Image"><code class="language-plaintext highlighter-rouge">Image</code></a> 之前看不到颜色的变化。</dd>
+  <dt id="Button.Enabled" class="boolean"><em>Enabled</em></dt>
+  <dd>指定 <code class="language-plaintext highlighter-rouge">Button</code> 是否处于活动状态且可点击。</dd>
+  <dt id="Button.FontBold" class="boolean"><em>FontBold</em></dt>
+  <dd>指定 <code class="language-plaintext highlighter-rouge">Button</code> 的文本是否使用粗体。
+ 有些字体不支持粗体。</dd>
+  <dt id="Button.FontItalic" class="boolean"><em>FontItalic</em></dt>
+  <dd>指定 <code class="language-plaintext highlighter-rouge">Button</code> 的文本是否使用斜体。
+ 有些字体不支持斜体。</dd>
+  <dt id="Button.FontSize" class="number"><em>FontSize</em></dt>
+  <dd>指定 <code class="language-plaintext highlighter-rouge">Button</code> 的文本字号，以 sp（缩放无关像素）为单位。</dd>
+  <dt id="Button.FontTypeface" class="text"><em>FontTypeface</em></dt>
+  <dd>以 default、serif、sans serif、monospace 或自定义字体指定 <code class="language-plaintext highlighter-rouge">Button</code> 的文本字体。要添加自定义字体，
+ 请将一个 .ttf 文件上传到项目的媒体资源中。</dd>
+  <dt id="Button.Height" class="number bo"><em>Height</em></dt>
+  <dd>指定 <code class="language-plaintext highlighter-rouge">Button</code> 的垂直高度，以像素为单位。</dd>
+  <dt id="Button.HeightPercent" class="number wo bo"><em>HeightPercent</em></dt>
+  <dd>以 <a href="userinterface.html#Screen.Height"><code class="language-plaintext highlighter-rouge">Screen</code> 的 <code class="language-plaintext highlighter-rouge">Height</code></a> 的百分比形式
+ 指定 <code class="language-plaintext highlighter-rouge">Button</code> 的垂直高度。</dd>
+  <dt id="Button.Image" class="text"><em>Image</em></dt>
+  <dd>指定 <code class="language-plaintext highlighter-rouge">Button</code> 图像的路径。如果同时指定了 <code class="language-plaintext highlighter-rouge">Image</code> 和
+ <a href="#Button.BackgroundColor"><code class="language-plaintext highlighter-rouge">BackgroundColor</code></a>，则只有 <code class="language-plaintext highlighter-rouge">Image</code> 可见。</dd>
+  <dt id="Button.Left" class="number"><em>Left</em></dt>
+  <dd>指定组件左边缘相对于
+ AbsoluteArrangement 的位置。</dd>
+  <dt id="Button.Shape" class="number"><em>Shape</em></dt>
+  <dd>指定 <code class="language-plaintext highlighter-rouge">Button</code> 的形状。本属性的有效取值为 <code class="language-plaintext highlighter-rouge">0</code>（默认）、
+ <code class="language-plaintext highlighter-rouge">1</code>（圆角）、<code class="language-plaintext highlighter-rouge">2</code>（矩形）和 <code class="language-plaintext highlighter-rouge">3</code>（椭圆）。若使用了
+ <a href="#Button.Image"><code class="language-plaintext highlighter-rouge">Image</code></a>，则 <code class="language-plaintext highlighter-rouge">Shape</code> 不可见。</dd>
+  <dt id="Button.ShowFeedback" class="boolean"><em>ShowFeedback</em></dt>
+  <dd>指定当按下带有指定
+ <a href="#Button.Image"><code class="language-plaintext highlighter-rouge">Image</code></a> 的 <code class="language-plaintext highlighter-rouge">Button</code> 时是否显示视觉反馈。</dd>
+  <dt id="Button.Text" class="text"><em>Text</em></dt>
+  <dd>指定 <code class="language-plaintext highlighter-rouge">Button</code> 显示的文本。</dd>
+  <dt id="Button.TextAlignment" class="number"><em>TextAlignment</em></dt>
+  <dd>指定 <code class="language-plaintext highlighter-rouge">Button</code> 文本的对齐方式。有效取值为：
+ <code class="language-plaintext highlighter-rouge">0</code>（正常；例如，当文字从左到右书写时为左对齐）、
+ <code class="language-plaintext highlighter-rouge">1</code>（居中），或
+ <code class="language-plaintext highlighter-rouge">2</code>（相反；例如，当文字从左到右书写时为右对齐）。</dd>
+  <dt id="Button.TextColor" class="color"><em>TextColor</em></dt>
+  <dd>以 alpha-red-green-blue（透明度-红-绿-蓝）整数指定 <code class="language-plaintext highlighter-rouge">Button</code> 的文本颜色。</dd>
+  <dt id="Button.Top" class="number"><em>Top</em></dt>
+  <dd>指定组件上边缘相对于
+ AbsoluteArrangement 的位置。</dd>
+  <dt id="Button.Visible" class="boolean"><em>Visible</em></dt>
+  <dd>指定 <code class="language-plaintext highlighter-rouge">Button</code> 是否在屏幕上可见。若 <code class="language-plaintext highlighter-rouge">Button</code> 正在显示，值为
+ <code class="language-plaintext logic block highlighter-rouge">true</code>；若已隐藏，值为 <code class="language-plaintext logic block highlighter-rouge">false</code>。</dd>
+  <dt id="Button.Width" class="number bo"><em>Width</em></dt>
+  <dd>指定 <code class="language-plaintext highlighter-rouge">Button</code> 的水平宽度，以像素为单位。</dd>
+  <dt id="Button.WidthPercent" class="number wo bo"><em>WidthPercent</em></dt>
+  <dd>以 <a href="userinterface.html#Screen.Width"><code class="language-plaintext highlighter-rouge">Screen</code> 的 <code class="language-plaintext highlighter-rouge">Width</code></a> 的百分比形式
+ 指定 <code class="language-plaintext highlighter-rouge">Button</code> 的水平宽度。</dd>
+</dl>
+
+<h3 id="Button-Events">事件</h3>
+
+<dl class="events">
+  <dt id="Button.Click">Click()</dt>
+  <dd>表示用户点击并松开了 <code class="language-plaintext highlighter-rouge">Button</code>。</dd>
+  <dt id="Button.GotFocus">GotFocus()</dt>
+  <dd>表示光标移动到 <code class="language-plaintext highlighter-rouge">Button</code> 上方，现在可以
+ 点击它。</dd>
+  <dt id="Button.LongClick">LongClick()</dt>
+  <dd>表示用户按住 <code class="language-plaintext highlighter-rouge">Button</code> 不放。</dd>
+  <dt id="Button.LostFocus">LostFocus()</dt>
+  <dd>表示光标从 <code class="language-plaintext highlighter-rouge">Button</code> 上移开，现在
+ 不能再点击它。</dd>
+  <dt id="Button.TouchDown">TouchDown()</dt>
+  <dd>表示 <code class="language-plaintext highlighter-rouge">Button</code> 被按下。</dd>
+  <dt id="Button.TouchUp">TouchUp()</dt>
+  <dd>表示 <code class="language-plaintext highlighter-rouge">Button</code> 已被松开。</dd>
+</dl>
+
+<h3 id="Button-Methods">方法</h3>
+
+<p class="methods">无</p>
+
+<h2 id="CheckBox">复选框（CheckBox）</h2>
+
+<p><img src="images/checkbox.png" alt="复选框示例" /></p>
+
+<p><code class="language-plaintext highlighter-rouge">CheckBox</code> 组件能够感知用户的点击，并可据此改变其布尔状态。</p>
+
+<p><code class="language-plaintext highlighter-rouge">CheckBox</code> 组件在用户点击它时引发事件。有许多影响
+ 其外观的属性，可以在设计视图或编程视图中设置。</p>
+
+<h3 id="CheckBox-Properties">属性</h3>
+
+<dl class="properties">
+  <dt id="CheckBox.BackgroundColor" class="color"><em>BackgroundColor</em></dt>
+  <dd>以 alpha-red-green-blue（透明度-红-绿-蓝）整数指定 <code class="language-plaintext highlighter-rouge">CheckBox</code> 的背景色。</dd>
+  <dt id="CheckBox.Checked" class="boolean"><em>Checked</em></dt>
+  <dd>若复选框已勾选，则设为 <code class="language-plaintext logic block highlighter-rouge">true</code>，否则为 <code class="language-plaintext logic block highlighter-rouge">false</code>。</dd>
+  <dt id="CheckBox.Enabled" class="boolean"><em>Enabled</em></dt>
+  <dd>指定 <code class="language-plaintext highlighter-rouge">CheckBox</code> 是否处于活动状态且可点击。</dd>
+  <dt id="CheckBox.FontBold" class="boolean"><em>FontBold</em></dt>
+  <dd>指定 <code class="language-plaintext highlighter-rouge">CheckBox</code> 的文本是否使用粗体。
+ 有些字体不支持粗体。</dd>
+  <dt id="CheckBox.FontItalic" class="boolean"><em>FontItalic</em></dt>
+  <dd>指定 <code class="language-plaintext highlighter-rouge">CheckBox</code> 的文本是否使用斜体。
+ 有些字体不支持斜体。</dd>
+  <dt id="CheckBox.FontSize" class="number"><em>FontSize</em></dt>
+  <dd>指定 <code class="language-plaintext highlighter-rouge">CheckBox</code> 的文本字号，以 sp（缩放无关像素）为单位。</dd>
+  <dt id="CheckBox.FontTypeface" class="text"><em>FontTypeface</em></dt>
+  <dd>以 default、serif、sans serif 或 monospace 指定 <code class="language-plaintext highlighter-rouge">CheckBox</code> 的文本字体。</dd>
+  <dt id="CheckBox.Height" class="number bo"><em>Height</em></dt>
+  <dd>指定 <code class="language-plaintext highlighter-rouge">CheckBox</code> 的垂直高度，以像素为单位。</dd>
+  <dt id="CheckBox.HeightPercent" class="number wo bo"><em>HeightPercent</em></dt>
+  <dd>以 <a href="userinterface.html#Screen.Height"><code class="language-plaintext highlighter-rouge">Screen</code> 的 <code class="language-plaintext highlighter-rouge">Height</code></a> 的百分比形式
+ 指定 <code class="language-plaintext highlighter-rouge">CheckBox</code> 的垂直高度。</dd>
+  <dt id="CheckBox.Left" class="number"><em>Left</em></dt>
+  <dd>指定组件左边缘相对于
+ AbsoluteArrangement 的位置。</dd>
+  <dt id="CheckBox.Text" class="text"><em>Text</em></dt>
+  <dd>指定 <code class="language-plaintext highlighter-rouge">CheckBox</code> 显示的文本。</dd>
+  <dt id="CheckBox.TextColor" class="color"><em>TextColor</em></dt>
+  <dd>以 alpha-red-green-blue（透明度-红-绿-蓝）整数指定 <code class="language-plaintext highlighter-rouge">CheckBox</code> 的文本颜色。</dd>
+  <dt id="CheckBox.Top" class="number"><em>Top</em></dt>
+  <dd>指定组件上边缘相对于
+ AbsoluteArrangement 的位置。</dd>
+  <dt id="CheckBox.Visible" class="boolean"><em>Visible</em></dt>
+  <dd>指定 <code class="language-plaintext highlighter-rouge">CheckBox</code> 是否在屏幕上可见。若 <code class="language-plaintext highlighter-rouge">CheckBox</code> 正在显示，值为
+ <code class="language-plaintext logic block highlighter-rouge">true</code>；若已隐藏，值为 <code class="language-plaintext logic block highlighter-rouge">false</code>。</dd>
+  <dt id="CheckBox.Width" class="number bo"><em>Width</em></dt>
+  <dd>指定 <code class="language-plaintext highlighter-rouge">CheckBox</code> 的水平宽度，以像素为单位。</dd>
+  <dt id="CheckBox.WidthPercent" class="number wo bo"><em>WidthPercent</em></dt>
+  <dd>以 <a href="userinterface.html#Screen.Width"><code class="language-plaintext highlighter-rouge">Screen</code> 的 <code class="language-plaintext highlighter-rouge">Width</code></a> 的百分比形式
+ 指定 <code class="language-plaintext highlighter-rouge">CheckBox</code> 的水平宽度。</dd>
+</dl>
+
+<h3 id="CheckBox-Events">事件</h3>
+
+<dl class="events">
+  <dt id="CheckBox.Changed">Changed()</dt>
+  <dd>用户点击并松开了 <code class="language-plaintext highlighter-rouge">CheckBox</code>。</dd>
+  <dt id="CheckBox.GotFocus">GotFocus()</dt>
+  <dd><code class="language-plaintext highlighter-rouge">CheckBox</code> 成为获得焦点的组件。</dd>
+  <dt id="CheckBox.LostFocus">LostFocus()</dt>
+  <dd><code class="language-plaintext highlighter-rouge">CheckBox</code> 不再是获得焦点的组件。</dd>
+</dl>
+
+<h3 id="CheckBox-Methods">方法</h3>
+
+<p class="methods">无</p>
+
+<h2 id="CircularProgress">进度环（CircularProgress）</h2>
+
+<p>CircularProgress 组件。</p>
+
+<h3 id="CircularProgress-Properties">属性</h3>
+
+<dl class="properties">
+  <dt id="CircularProgress.Color" class="color"><em>Color</em></dt>
+  <dd>更改圆形进度条在不确定模式下的颜色。</dd>
+  <dt id="CircularProgress.Height" class="number bo"><em>Height</em></dt>
+  <dd>指定 <code class="language-plaintext highlighter-rouge">CircularProgress</code> 的垂直高度，以像素为单位。</dd>
+  <dt id="CircularProgress.HeightPercent" class="number wo bo"><em>HeightPercent</em></dt>
+  <dd>以 <a href="userinterface.html#Screen.Height"><code class="language-plaintext highlighter-rouge">Screen</code> 的 <code class="language-plaintext highlighter-rouge">Height</code></a> 的百分比形式
+ 指定 <code class="language-plaintext highlighter-rouge">CircularProgress</code> 的垂直高度。</dd>
+  <dt id="CircularProgress.Left" class="number"><em>Left</em></dt>
+  <dd>指定组件左边缘相对于
+ AbsoluteArrangement 的位置。</dd>
+  <dt id="CircularProgress.Top" class="number"><em>Top</em></dt>
+  <dd>指定组件上边缘相对于
+ AbsoluteArrangement 的位置。</dd>
+  <dt id="CircularProgress.Visible" class="boolean"><em>Visible</em></dt>
+  <dd>指定 <code class="language-plaintext highlighter-rouge">CircularProgress</code> 是否在屏幕上可见。若 <code class="language-plaintext highlighter-rouge">CircularProgress</code> 正在显示，值为
+ <code class="language-plaintext logic block highlighter-rouge">true</code>；若已隐藏，值为 <code class="language-plaintext logic block highlighter-rouge">false</code>。</dd>
+  <dt id="CircularProgress.Width" class="number bo"><em>Width</em></dt>
+  <dd>指定 <code class="language-plaintext highlighter-rouge">CircularProgress</code> 的水平宽度，以像素为单位。</dd>
+  <dt id="CircularProgress.WidthPercent" class="number wo bo"><em>WidthPercent</em></dt>
+  <dd>以 <a href="userinterface.html#Screen.Width"><code class="language-plaintext highlighter-rouge">Screen</code> 的 <code class="language-plaintext highlighter-rouge">Width</code></a> 的百分比形式
+ 指定 <code class="language-plaintext highlighter-rouge">CircularProgress</code> 的水平宽度。</dd>
+</dl>
+
+<h3 id="CircularProgress-Events">事件</h3>
+
+<p class="events">无</p>
+
+<h3 id="CircularProgress-Methods">方法</h3>
+
+<p class="methods">无</p>
+
+<h2 id="DatePicker">日期选框（DatePicker）</h2>
+
+<p>一个按钮，点击后会弹出对话框，让用户从公历（Gregorian Calendar）中选择日期。</p>
+
+<p>注意：日期和时间通过 <a href="sensors.html#Clock">Clock</a> 组件的方法来操作。</p>
+
+<h3 id="DatePicker-Properties">属性</h3>
+
+<dl class="properties">
+  <dt id="DatePicker.BackgroundColor" class="color"><em>BackgroundColor</em></dt>
+  <dd>以 alpha-red-green-blue（透明度-红-绿-蓝）整数指定 <code class="language-plaintext highlighter-rouge">DatePicker</code> 的背景色。
+ 如果设置了 <a href="#DatePicker.Image"><code class="language-plaintext highlighter-rouge">Image</code></a>，则在移除该
+ <a href="#DatePicker.Image"><code class="language-plaintext highlighter-rouge">Image</code></a> 之前看不到颜色的变化。</dd>
+  <dt id="DatePicker.Day" class="number ro bo"><em>Day</em></dt>
+  <dd>返回通过 DatePicker 最后选择的日期中的「日」。</dd>
+  <dt id="DatePicker.Enabled" class="boolean"><em>Enabled</em></dt>
+  <dd>指定 <code class="language-plaintext highlighter-rouge">DatePicker</code> 是否处于活动状态且可点击。</dd>
+  <dt id="DatePicker.FontBold" class="boolean"><em>FontBold</em></dt>
+  <dd>指定 <code class="language-plaintext highlighter-rouge">DatePicker</code> 的文本是否使用粗体。
+ 有些字体不支持粗体。</dd>
+  <dt id="DatePicker.FontItalic" class="boolean"><em>FontItalic</em></dt>
+  <dd>指定 <code class="language-plaintext highlighter-rouge">DatePicker</code> 的文本是否使用斜体。
+ 有些字体不支持斜体。</dd>
+  <dt id="DatePicker.FontSize" class="number"><em>FontSize</em></dt>
+  <dd>指定 <code class="language-plaintext highlighter-rouge">DatePicker</code> 的文本字号，以 sp（缩放无关像素）为单位。</dd>
+  <dt id="DatePicker.FontTypeface" class="text"><em>FontTypeface</em></dt>
+  <dd>以 default、serif、sans serif、monospace 或自定义字体指定 <code class="language-plaintext highlighter-rouge">DatePicker</code> 的文本字体。要添加自定义字体，
+ 请将一个 .ttf 文件上传到项目的媒体资源中。</dd>
+  <dt id="DatePicker.Height" class="number bo"><em>Height</em></dt>
+  <dd>指定 <code class="language-plaintext highlighter-rouge">DatePicker</code> 的垂直高度，以像素为单位。</dd>
+  <dt id="DatePicker.HeightPercent" class="number wo bo"><em>HeightPercent</em></dt>
+  <dd>以 <a href="userinterface.html#Screen.Height"><code class="language-plaintext highlighter-rouge">Screen</code> 的 <code class="language-plaintext highlighter-rouge">Height</code></a> 的百分比形式
+ 指定 <code class="language-plaintext highlighter-rouge">DatePicker</code> 的垂直高度。</dd>
+  <dt id="DatePicker.Image" class="text"><em>Image</em></dt>
+  <dd>指定 <code class="language-plaintext highlighter-rouge">DatePicker</code> 图像的路径。如果同时指定了 <code class="language-plaintext highlighter-rouge">Image</code> 和
+ <a href="#DatePicker.BackgroundColor"><code class="language-plaintext highlighter-rouge">BackgroundColor</code></a>，则只有 <code class="language-plaintext highlighter-rouge">Image</code> 可见。</dd>
+  <dt id="DatePicker.Instant" class="InstantInTime ro bo"><em>Instant</em></dt>
+  <dd>返回通过 DatePicker 最后选择的日期所对应的时刻（instant）。</dd>
+  <dt id="DatePicker.Left" class="number"><em>Left</em></dt>
+  <dd>指定组件左边缘相对于
+ AbsoluteArrangement 的位置。</dd>
+  <dt id="DatePicker.Month" class="number ro bo"><em>Month</em></dt>
+  <dd>返回通过 DatePicker 最后选择的月份数字。</dd>
+  <dt id="DatePicker.MonthInText" class="text ro bo"><em>MonthInText</em></dt>
+  <dd>返回通过 DatePicker 最后选择的月份名称。</dd>
+  <dt id="DatePicker.Shape" class="number"><em>Shape</em></dt>
+  <dd>指定 <code class="language-plaintext highlighter-rouge">DatePicker</code> 的形状。本属性的有效取值为 <code class="language-plaintext highlighter-rouge">0</code>（默认）、
+ <code class="language-plaintext highlighter-rouge">1</code>（圆角）、<code class="language-plaintext highlighter-rouge">2</code>（矩形）和 <code class="language-plaintext highlighter-rouge">3</code>（椭圆）。若使用了
+ <a href="#DatePicker.Image"><code class="language-plaintext highlighter-rouge">Image</code></a>，则 <code class="language-plaintext highlighter-rouge">Shape</code> 不可见。</dd>
+  <dt id="DatePicker.ShowFeedback" class="boolean"><em>ShowFeedback</em></dt>
+  <dd>指定当按下带有指定
+ <a href="#DatePicker.Image"><code class="language-plaintext highlighter-rouge">Image</code></a> 的 <code class="language-plaintext highlighter-rouge">DatePicker</code> 时是否显示视觉反馈。</dd>
+  <dt id="DatePicker.Text" class="text"><em>Text</em></dt>
+  <dd>指定 <code class="language-plaintext highlighter-rouge">DatePicker</code> 显示的文本。</dd>
+  <dt id="DatePicker.TextAlignment" class="number"><em>TextAlignment</em></dt>
+  <dd>指定 <code class="language-plaintext highlighter-rouge">DatePicker</code> 文本的对齐方式。有效取值为：
+ <code class="language-plaintext highlighter-rouge">0</code>（正常；例如，当文字从左到右书写时为左对齐）、
+ <code class="language-plaintext highlighter-rouge">1</code>（居中），或
+ <code class="language-plaintext highlighter-rouge">2</code>（相反；例如，当文字从左到右书写时为右对齐）。</dd>
+  <dt id="DatePicker.TextColor" class="color"><em>TextColor</em></dt>
+  <dd>以 alpha-red-green-blue（透明度-红-绿-蓝）整数指定 <code class="language-plaintext highlighter-rouge">DatePicker</code> 的文本颜色。</dd>
+  <dt id="DatePicker.Top" class="number"><em>Top</em></dt>
+  <dd>指定组件上边缘相对于
+ AbsoluteArrangement 的位置。</dd>
+  <dt id="DatePicker.Visible" class="boolean"><em>Visible</em></dt>
+  <dd>指定 <code class="language-plaintext highlighter-rouge">DatePicker</code> 是否在屏幕上可见。若 <code class="language-plaintext highlighter-rouge">DatePicker</code> 正在显示，值为
+ <code class="language-plaintext logic block highlighter-rouge">true</code>；若已隐藏，值为 <code class="language-plaintext logic block highlighter-rouge">false</code>。</dd>
+  <dt id="DatePicker.Width" class="number bo"><em>Width</em></dt>
+  <dd>指定 <code class="language-plaintext highlighter-rouge">DatePicker</code> 的水平宽度，以像素为单位。</dd>
+  <dt id="DatePicker.WidthPercent" class="number wo bo"><em>WidthPercent</em></dt>
+  <dd>以 <a href="userinterface.html#Screen.Width"><code class="language-plaintext highlighter-rouge">Screen</code> 的 <code class="language-plaintext highlighter-rouge">Width</code></a> 的百分比形式
+ 指定 <code class="language-plaintext highlighter-rouge">DatePicker</code> 的水平宽度。</dd>
+  <dt id="DatePicker.Year" class="number ro bo"><em>Year</em></dt>
+  <dd>返回通过 DatePicker 最后选择的年份。</dd>
+</dl>
+
+<h3 id="DatePicker-Events">事件</h3>
+
+<dl class="events">
+  <dt id="DatePicker.AfterDateSet">AfterDateSet()</dt>
+  <dd>用户在对话框中选定日期后运行的事件。</dd>
+  <dt id="DatePicker.GotFocus">GotFocus()</dt>
+  <dd>表示光标移动到 <code class="language-plaintext highlighter-rouge">DatePicker</code> 上方，现在可以
+ 点击它。</dd>
+  <dt id="DatePicker.LostFocus">LostFocus()</dt>
+  <dd>表示光标从 <code class="language-plaintext highlighter-rouge">DatePicker</code> 上移开，现在
+ 不能再点击它。</dd>
+  <dt id="DatePicker.TouchDown">TouchDown()</dt>
+  <dd>表示 <code class="language-plaintext highlighter-rouge">DatePicker</code> 被按下。</dd>
+  <dt id="DatePicker.TouchUp">TouchUp()</dt>
+  <dd>表示 <code class="language-plaintext highlighter-rouge">DatePicker</code> 已被松开。</dd>
+</dl>
+
+<h3 id="DatePicker-Methods">方法</h3>
+
+<dl class="methods">
+  <dt id="DatePicker.LaunchPicker" class="method"><i></i> LaunchPicker()</dt>
+  <dd>启动 DatePicker 对话框。用户确认选择后，将运行
+ <a href="#DatePicker.AfterDateSet"><code class="language-plaintext highlighter-rouge">AfterDateSet</code></a> 事件。</dd>
+  <dt id="DatePicker.SetDateToDisplay" class="method"><i></i> SetDateToDisplay(<em class="number">year</em>,<em class="number">month</em>,<em class="number">day</em>)</dt>
+  <dd>允许用户设置日期选择框打开时要显示的日期。
+month 字段的有效取值为 1-12，day 字段的有效取值为 1-31。</dd>
+  <dt id="DatePicker.SetDateToDisplayFromInstant" class="method"><i></i> SetDateToDisplayFromInstant(<em class="InstantInTime">instant</em>)</dt>
+  <dd>允许用户根据 instant 设置日期选择框打开时要显示的日期。</dd>
+</dl>
+
+<h2 id="Image">图片（Image）</h2>
+
+<p>用于显示图像和基本动画的组件。</p>
+
+<p>要显示的图片以及图像外观的其他方面，可以在
+ 设计视图或编程视图中指定。</p>
+
+<h3 id="Image-Properties">属性</h3>
+
+<dl class="properties">
+  <dt id="Image.AlternateText" class="text wo"><em>AlternateText</em></dt>
+  <dd>对图像外观的文字描述。</dd>
+  <dt id="Image.Animated" class="boolean"><em>Animated</em></dt>
+  <dd>控制动画 GIF 图像是否正在播放。设为 true 会从当前帧继续播放；设为 false 会在当前帧暂停。对非动画图像没有影响。</dd>
+  <dt id="Image.Animation" class="text wo bo"><em>Animation</em></dt>
+  <dd>这是一种受限的动画形式，可以为图像附加少量运动类型。
+ 允许的运动类型有 <code class="language-plaintext highlighter-rouge">ScrollRightSlow</code>、<code class="language-plaintext highlighter-rouge">ScrollRight</code>、<code class="language-plaintext highlighter-rouge">ScrollRightFast</code>、
+ <code class="language-plaintext highlighter-rouge">ScrollLeftSlow</code>、<code class="language-plaintext highlighter-rouge">ScrollLeft</code>、<code class="language-plaintext highlighter-rouge">ScrollLeftFast</code> 和 <code class="language-plaintext highlighter-rouge">Stop</code>。</dd>
+  <dt id="Image.Clickable" class="boolean"><em>Clickable</em></dt>
+  <dd>指定图像是否可点击。</dd>
+  <dt id="Image.Height" class="number bo"><em>Height</em></dt>
+  <dd>指定 <code class="language-plaintext highlighter-rouge">Image</code> 的垂直高度，以像素为单位。</dd>
+  <dt id="Image.HeightPercent" class="number wo bo"><em>HeightPercent</em></dt>
+  <dd>以 <a href="userinterface.html#Screen.Height"><code class="language-plaintext highlighter-rouge">Screen</code> 的 <code class="language-plaintext highlighter-rouge">Height</code></a> 的百分比形式
+ 指定 <code class="language-plaintext highlighter-rouge">Image</code> 的垂直高度。</dd>
+  <dt id="Image.Left" class="number"><em>Left</em></dt>
+  <dd>指定组件左边缘相对于
+ AbsoluteArrangement 的位置。</dd>
+  <dt id="Image.Picture" class="text"><em>Picture</em></dt>
+  <dd>指定 <code class="language-plaintext highlighter-rouge">Image</code> 的 <code class="language-plaintext highlighter-rouge">Picture</code> 的路径。</dd>
+  <dt id="Image.RotationAngle" class="number"><em>RotationAngle</em></dt>
+  <dd>图像图片呈现的旋转角度。此旋转不会显示在设计视图中，只会在设备上显示。</dd>
+  <dt id="Image.ScalePictureToFit" class="boolean"><em>ScalePictureToFit</em></dt>
+  <dd>指定是否调整图像大小以匹配 ImageView 的尺寸。</dd>
+  <dt id="Image.Scaling" class="number bo"><em>Scaling</em></dt>
+  <dd>本属性决定图片如何根据 Image 的 Height 或 Width 进行缩放。按比例缩放（0）会保持图片的宽高比。按尺寸缩放（1）会匹配 Image 区域，即使宽高比发生变化。</dd>
+  <dt id="Image.Top" class="number"><em>Top</em></dt>
+  <dd>指定组件上边缘相对于
+ AbsoluteArrangement 的位置。</dd>
+  <dt id="Image.Visible" class="boolean"><em>Visible</em></dt>
+  <dd>指定 <code class="language-plaintext highlighter-rouge">Image</code> 是否在屏幕上可见。若 <code class="language-plaintext highlighter-rouge">Image</code> 正在显示，值为
+ <code class="language-plaintext logic block highlighter-rouge">true</code>；若已隐藏，值为 <code class="language-plaintext logic block highlighter-rouge">false</code>。</dd>
+  <dt id="Image.Width" class="number bo"><em>Width</em></dt>
+  <dd>指定 <code class="language-plaintext highlighter-rouge">Image</code> 的水平宽度，以像素为单位。</dd>
+  <dt id="Image.WidthPercent" class="number wo bo"><em>WidthPercent</em></dt>
+  <dd>以 <a href="userinterface.html#Screen.Width"><code class="language-plaintext highlighter-rouge">Screen</code> 的 <code class="language-plaintext highlighter-rouge">Width</code></a> 的百分比形式
+ 指定 <code class="language-plaintext highlighter-rouge">Image</code> 的水平宽度。</dd>
+</dl>
+
+<h3 id="Image-Events">事件</h3>
+
+<dl class="events">
+  <dt id="Image.Click">Click()</dt>
+  <dd>当图像被点击时发生的事件。</dd>
+</dl>
+
+<h3 id="Image-Methods">方法</h3>
+
+<dl class="methods">
+  <dt id="Image.ResetAnimation" class="method"><i></i> ResetAnimation()</dt>
+  <dd>将动画 GIF 图像的动画重置到第一帧。如果动画正在播放，它会从头继续播放；如果已暂停，则保持暂停在第一帧。</dd>
+</dl>
+
+<h2 id="Label">标签（Label）</h2>
+
+<p>标签是用于显示文本的组件。</p>
+
+<p><img src="images/label.png" alt="标签示例" /></p>
+
+<p>标签显示由 <code class="language-plaintext highlighter-rouge">Text</code> 属性指定的文本。其他属性用于控制文本的外观和位置，
+ 它们都可以在设计视图或编程视图中设置。</p>
+
+<h3 id="Label-Properties">属性</h3>
+
+<dl class="properties">
+  <dt id="Label.BackgroundColor" class="color"><em>BackgroundColor</em></dt>
+  <dd>以 alpha-red-green-blue（透明度-红-绿-蓝）整数指定标签的背景色。</dd>
+  <dt id="Label.FontBold" class="boolean"><em>FontBold</em></dt>
+  <dd>指定标签的文本是否使用粗体。
+ 有些字体不支持粗体。</dd>
+  <dt id="Label.FontItalic" class="boolean"><em>FontItalic</em></dt>
+  <dd>指定标签的文本是否使用斜体。
+ 有些字体不支持斜体。</dd>
+  <dt id="Label.FontSize" class="number"><em>FontSize</em></dt>
+  <dd>指定标签文本的字号，以 sp（缩放无关像素）为单位。</dd>
+  <dt id="Label.FontTypeface" class="text"><em>FontTypeface</em></dt>
+  <dd>以 default、serif、sans serif 或 monospace 指定标签文本的字体。</dd>
+  <dt id="Label.HTMLContent" class="text ro bo"><em>HTMLContent</em></dt>
+  <dd>以 HTML 形式返回 Label 的内容。仅当
+ HTMLFormat 属性为 true 时才有用。</dd>
+  <dt id="Label.HTMLFormat" class="boolean"><em>HTMLFormat</em></dt>
+  <dd>指定标签文本的格式</dd>
+  <dt id="Label.HasMargins" class="boolean"><em>HasMargins</em></dt>
+  <dd>指定标签是否应有外边距。
+ 该外边距值与设计视图配合得并不理想，因为在设计视图中，
+ 外边距是为布局定义的，而不只是为单个标签定义的。</dd>
+  <dt id="Label.Height" class="number bo"><em>Height</em></dt>
+  <dd>指定 <code class="language-plaintext highlighter-rouge">Label</code> 的垂直高度，以像素为单位。</dd>
+  <dt id="Label.HeightPercent" class="number wo bo"><em>HeightPercent</em></dt>
+  <dd>以 <a href="userinterface.html#Screen.Height"><code class="language-plaintext highlighter-rouge">Screen</code> 的 <code class="language-plaintext highlighter-rouge">Height</code></a> 的百分比形式
+ 指定 <code class="language-plaintext highlighter-rouge">Label</code> 的垂直高度。</dd>
+  <dt id="Label.Left" class="number"><em>Left</em></dt>
+  <dd>指定组件左边缘相对于
+ AbsoluteArrangement 的位置。</dd>
+  <dt id="Label.Text" class="text"><em>Text</em></dt>
+  <dd>指定标签显示的文本。</dd>
+  <dt id="Label.TextAlignment" class="number"><em>TextAlignment</em></dt>
+  <dd>指定标签文本的对齐方式：居中、正常
+ （例如，当文字从左到右书写时为左对齐），或
+ 相反（例如，当文字从左到右书写时为右对齐）。</dd>
+  <dt id="Label.TextColor" class="color"><em>TextColor</em></dt>
+  <dd>以 alpha-red-green-blue（透明度-红-绿-蓝）整数指定标签的文本颜色。</dd>
+  <dt id="Label.Top" class="number"><em>Top</em></dt>
+  <dd>指定组件上边缘相对于
+ AbsoluteArrangement 的位置。</dd>
+  <dt id="Label.Visible" class="boolean"><em>Visible</em></dt>
+  <dd>指定 <code class="language-plaintext highlighter-rouge">Label</code> 是否在屏幕上可见。若 <code class="language-plaintext highlighter-rouge">Label</code> 正在显示，值为
+ <code class="language-plaintext logic block highlighter-rouge">true</code>；若已隐藏，值为 <code class="language-plaintext logic block highlighter-rouge">false</code>。</dd>
+  <dt id="Label.Width" class="number bo"><em>Width</em></dt>
+  <dd>指定 <code class="language-plaintext highlighter-rouge">Label</code> 的水平宽度，以像素为单位。</dd>
+  <dt id="Label.WidthPercent" class="number wo bo"><em>WidthPercent</em></dt>
+  <dd>以 <a href="userinterface.html#Screen.Width"><code class="language-plaintext highlighter-rouge">Screen</code> 的 <code class="language-plaintext highlighter-rouge">Width</code></a> 的百分比形式
+ 指定 <code class="language-plaintext highlighter-rouge">Label</code> 的水平宽度。</dd>
+</dl>
+
+<h3 id="Label-Events">事件</h3>
+
+<p class="events">无</p>
+
+<h3 id="Label-Methods">方法</h3>
+
+<p class="methods">无</p>
+
+<h2 id="LinearProgress">进度条（LinearProgress）</h2>
+
+<p>LinearProgress 组件。</p>
+
+<h3 id="LinearProgress-Properties">属性</h3>
+
+<dl class="properties">
+  <dt id="LinearProgress.Indeterminate" class="boolean"><em>Indeterminate</em></dt>
+  <dd>指示此进度条是否处于不确定模式。</dd>
+  <dt id="LinearProgress.IndeterminateColor" class="color"><em>IndeterminateColor</em></dt>
+  <dd>更改进度条在不确定模式下的颜色。</dd>
+  <dt id="LinearProgress.Left" class="number"><em>Left</em></dt>
+  <dd>指定组件左边缘相对于
+ AbsoluteArrangement 的位置。</dd>
+  <dt id="LinearProgress.Maximum" class="number"><em>Maximum</em></dt>
+  <dd>设置进度条的上限最大值。</dd>
+  <dt id="LinearProgress.Minimum" class="number"><em>Minimum</em></dt>
+  <dd>将进度条的下限设置为 min。此功能仅适用于 API &gt;= 26 的设备</dd>
+  <dt id="LinearProgress.Progress" class="number bo"><em>Progress</em></dt>
+  <dd>获取进度条当前的进度值。</dd>
+  <dt id="LinearProgress.ProgressColor" class="color"><em>ProgressColor</em></dt>
+  <dd>更改进度条的进度颜色。</dd>
+  <dt id="LinearProgress.Top" class="number"><em>Top</em></dt>
+  <dd>指定组件上边缘相对于
+ AbsoluteArrangement 的位置。</dd>
+  <dt id="LinearProgress.Visible" class="boolean"><em>Visible</em></dt>
+  <dd>指定 <code class="language-plaintext highlighter-rouge">LinearProgress</code> 是否在屏幕上可见。若 <code class="language-plaintext highlighter-rouge">LinearProgress</code> 正在显示，值为
+ <code class="language-plaintext logic block highlighter-rouge">true</code>；若已隐藏，值为 <code class="language-plaintext logic block highlighter-rouge">false</code>。</dd>
+  <dt id="LinearProgress.Width" class="number bo"><em>Width</em></dt>
+  <dd>指定 <code class="language-plaintext highlighter-rouge">LinearProgress</code> 的水平宽度，以像素为单位。</dd>
+  <dt id="LinearProgress.WidthPercent" class="number wo bo"><em>WidthPercent</em></dt>
+  <dd>以 <a href="userinterface.html#Screen.Width"><code class="language-plaintext highlighter-rouge">Screen</code> 的 <code class="language-plaintext highlighter-rouge">Width</code></a> 的百分比形式
+ 指定 <code class="language-plaintext highlighter-rouge">LinearProgress</code> 的水平宽度。</dd>
+</dl>
+
+<h3 id="LinearProgress-Events">事件</h3>
+
+<dl class="events">
+  <dt id="LinearProgress.ProgressChanged">ProgressChanged(<em class="number">progress</em>)</dt>
+  <dd>表示进度条的进度已改变的事件。返回当前进度值。如果「Indeterminate」设为 true，则返回「0」。</dd>
+</dl>
+
+<h3 id="LinearProgress-Methods">方法</h3>
+
+<dl class="methods">
+  <dt id="LinearProgress.IncrementProgressBy" class="method"><i></i> IncrementProgressBy(<em class="number">value</em>)</dt>
+  <dd>将进度条的进度增加指定的数量。</dd>
+</dl>
+
+<h2 id="ListPicker">列表选框（ListPicker）</h2>
+
+<p>一个按钮，点击后会显示一组文本供用户选择。这些文本
+ 可以在设计视图或编程视图中指定：把
+ <a href="#ListPicker.ElementsFromString"><code class="language-plaintext highlighter-rouge">ElementsFromString</code></a> 属性设置为以字符串分隔的文本拼接
+ （例如 <code class="language-plaintext highlighter-rouge">choice 1, choice 2, choice 3</code>），或者在编程视图中把 <a href="#ListPicker.Elements"><code class="language-plaintext highlighter-rouge">Elements</code></a>
+ 属性设置为一个列表。</p>
+
+<p>把 <a href="#ListPicker.ShowFilterBar"><code class="language-plaintext highlighter-rouge">ShowFilterBar</code></a> 属性设为 <code class="language-plaintext logic block highlighter-rouge">true</code>，可以让列表
+ 可搜索。其他属性会影响按钮的外观（<a href="#ListPicker.TextAlignment"><code class="language-plaintext highlighter-rouge">TextAlignment</code></a>、
+ <a href="#ListPicker.BackgroundColor"><code class="language-plaintext highlighter-rouge">BackgroundColor</code></a> 等）以及它是否可被点击
+ （<a href="#ListPicker.Enabled"><code class="language-plaintext highlighter-rouge">Enabled</code></a>）。</p>
+
+<h3 id="ListPicker-Properties">属性</h3>
+
+<dl class="properties">
+  <dt id="ListPicker.BackgroundColor" class="color"><em>BackgroundColor</em></dt>
+  <dd>以 alpha-red-green-blue（透明度-红-绿-蓝）整数指定 <code class="language-plaintext highlighter-rouge">ListPicker</code> 的背景色。
+ 如果设置了 <a href="#ListPicker.Image"><code class="language-plaintext highlighter-rouge">Image</code></a>，则在移除该
+ <a href="#ListPicker.Image"><code class="language-plaintext highlighter-rouge">Image</code></a> 之前看不到颜色的变化。</dd>
+  <dt id="ListPicker.Elements" class="list bo"><em>Elements</em></dt>
+  <dd>指定要显示的选项列表。</dd>
+  <dt id="ListPicker.ElementsFromString" class="text wo"><em>ElementsFromString</em></dt>
+  <dd>用逗号分隔的字符串设置选项列表。</dd>
+  <dt id="ListPicker.Enabled" class="boolean"><em>Enabled</em></dt>
+  <dd>指定 <code class="language-plaintext highlighter-rouge">ListPicker</code> 是否处于活动状态且可点击。</dd>
+  <dt id="ListPicker.FontBold" class="boolean"><em>FontBold</em></dt>
+  <dd>指定 <code class="language-plaintext highlighter-rouge">ListPicker</code> 的文本是否使用粗体。
+ 有些字体不支持粗体。</dd>
+  <dt id="ListPicker.FontItalic" class="boolean"><em>FontItalic</em></dt>
+  <dd>指定 <code class="language-plaintext highlighter-rouge">ListPicker</code> 的文本是否使用斜体。
+ 有些字体不支持斜体。</dd>
+  <dt id="ListPicker.FontSize" class="number"><em>FontSize</em></dt>
+  <dd>指定 <code class="language-plaintext highlighter-rouge">ListPicker</code> 的文本字号，以 sp（缩放无关像素）为单位。</dd>
+  <dt id="ListPicker.FontTypeface" class="text"><em>FontTypeface</em></dt>
+  <dd>以 default、serif、sans serif、monospace 或自定义字体指定 <code class="language-plaintext highlighter-rouge">ListPicker</code> 的文本字体。要添加自定义字体，
+ 请将一个 .ttf 文件上传到项目的媒体资源中。</dd>
+  <dt id="ListPicker.Height" class="number bo"><em>Height</em></dt>
+  <dd>指定 <code class="language-plaintext highlighter-rouge">ListPicker</code> 的垂直高度，以像素为单位。</dd>
+  <dt id="ListPicker.HeightPercent" class="number wo bo"><em>HeightPercent</em></dt>
+  <dd>以 <a href="userinterface.html#Screen.Height"><code class="language-plaintext highlighter-rouge">Screen</code> 的 <code class="language-plaintext highlighter-rouge">Height</code></a> 的百分比形式
+ 指定 <code class="language-plaintext highlighter-rouge">ListPicker</code> 的垂直高度。</dd>
+  <dt id="ListPicker.Image" class="text"><em>Image</em></dt>
+  <dd>指定 <code class="language-plaintext highlighter-rouge">ListPicker</code> 图像的路径。如果同时指定了 <code class="language-plaintext highlighter-rouge">Image</code> 和
+ <a href="#ListPicker.BackgroundColor"><code class="language-plaintext highlighter-rouge">BackgroundColor</code></a>，则只有 <code class="language-plaintext highlighter-rouge">Image</code> 可见。</dd>
+  <dt id="ListPicker.ItemBackgroundColor" class="color"><em>ItemBackgroundColor</em></dt>
+  <dd><code class="language-plaintext highlighter-rouge">ListPicker</code> 各项的背景色。</dd>
+  <dt id="ListPicker.ItemTextColor" class="color"><em>ItemTextColor</em></dt>
+  <dd>ListPicker 各项的文本颜色。</dd>
+  <dt id="ListPicker.Left" class="number"><em>Left</em></dt>
+  <dd>指定组件左边缘相对于
+ AbsoluteArrangement 的位置。</dd>
+  <dt id="ListPicker.Selection" class="text"><em>Selection</em></dt>
+  <dd>选中项。当由程序员直接修改时，<a href="#ListPicker.SelectionIndex"><code class="language-plaintext highlighter-rouge">SelectionIndex</code></a>
+ 属性也会改为 <a href="#ListPicker"><code class="language-plaintext highlighter-rouge">ListPicker</code></a> 中第一个具有该值的项。
+ 如果该值不在 <a href="#ListPicker.Elements"><code class="language-plaintext highlighter-rouge">Elements</code></a> 中，<a href="#ListPicker.SelectionIndex"><code class="language-plaintext highlighter-rouge">SelectionIndex</code></a> 将被设为 0。</dd>
+  <dt id="ListPicker.SelectionIndex" class="number bo"><em>SelectionIndex</em></dt>
+  <dd>选中项索引属性的设置方法。</dd>
+  <dt id="ListPicker.Shape" class="number"><em>Shape</em></dt>
+  <dd>指定 <code class="language-plaintext highlighter-rouge">ListPicker</code> 的形状。本属性的有效取值为 <code class="language-plaintext highlighter-rouge">0</code>（默认）、
+ <code class="language-plaintext highlighter-rouge">1</code>（圆角）、<code class="language-plaintext highlighter-rouge">2</code>（矩形）和 <code class="language-plaintext highlighter-rouge">3</code>（椭圆）。若使用了
+ <a href="#ListPicker.Image"><code class="language-plaintext highlighter-rouge">Image</code></a>，则 <code class="language-plaintext highlighter-rouge">Shape</code> 不可见。</dd>
+  <dt id="ListPicker.ShowFeedback" class="boolean"><em>ShowFeedback</em></dt>
+  <dd>指定当按下带有指定
+ <a href="#ListPicker.Image"><code class="language-plaintext highlighter-rouge">Image</code></a> 的 <code class="language-plaintext highlighter-rouge">ListPicker</code> 时是否显示视觉反馈。</dd>
+  <dt id="ListPicker.ShowFilterBar" class="boolean"><em>ShowFilterBar</em></dt>
+  <dd>若为 <code class="language-plaintext logic block highlighter-rouge">true</code>，ListPicker 将显示搜索过滤栏。</dd>
+  <dt id="ListPicker.Text" class="text"><em>Text</em></dt>
+  <dd>指定 <code class="language-plaintext highlighter-rouge">ListPicker</code> 显示的文本。</dd>
+  <dt id="ListPicker.TextAlignment" class="number"><em>TextAlignment</em></dt>
+  <dd>指定 <code class="language-plaintext highlighter-rouge">ListPicker</code> 文本的对齐方式。有效取值为：
+ <code class="language-plaintext highlighter-rouge">0</code>（正常；例如，当文字从左到右书写时为左对齐）、
+ <code class="language-plaintext highlighter-rouge">1</code>（居中），或
+ <code class="language-plaintext highlighter-rouge">2</code>（相反；例如，当文字从左到右书写时为右对齐）。</dd>
+  <dt id="ListPicker.TextColor" class="color"><em>TextColor</em></dt>
+  <dd>以 alpha-red-green-blue（透明度-红-绿-蓝）整数指定 <code class="language-plaintext highlighter-rouge">ListPicker</code> 的文本颜色。</dd>
+  <dt id="ListPicker.Title" class="text"><em>Title</em></dt>
+  <dd>显示在选项列表顶部的可选标题。</dd>
+  <dt id="ListPicker.Top" class="number"><em>Top</em></dt>
+  <dd>指定组件上边缘相对于
+ AbsoluteArrangement 的位置。</dd>
+  <dt id="ListPicker.Visible" class="boolean"><em>Visible</em></dt>
+  <dd>指定 <code class="language-plaintext highlighter-rouge">ListPicker</code> 是否在屏幕上可见。若 <code class="language-plaintext highlighter-rouge">ListPicker</code> 正在显示，值为
+ <code class="language-plaintext logic block highlighter-rouge">true</code>；若已隐藏，值为 <code class="language-plaintext logic block highlighter-rouge">false</code>。</dd>
+  <dt id="ListPicker.Width" class="number bo"><em>Width</em></dt>
+  <dd>指定 <code class="language-plaintext highlighter-rouge">ListPicker</code> 的水平宽度，以像素为单位。</dd>
+  <dt id="ListPicker.WidthPercent" class="number wo bo"><em>WidthPercent</em></dt>
+  <dd>以 <a href="userinterface.html#Screen.Width"><code class="language-plaintext highlighter-rouge">Screen</code> 的 <code class="language-plaintext highlighter-rouge">Width</code></a> 的百分比形式
+ 指定 <code class="language-plaintext highlighter-rouge">ListPicker</code> 的水平宽度。</dd>
+</dl>
+
+<h3 id="ListPicker-Events">事件</h3>
+
+<dl class="events">
+  <dt id="ListPicker.AfterPicking">AfterPicking()</dt>
+  <dd>在 <code class="language-plaintext highlighter-rouge">ListPicker</code> 活动返回其
+ 结果且相关属性已填写之后引发的事件。</dd>
+  <dt id="ListPicker.BeforePicking">BeforePicking()</dt>
+  <dd>当 <code class="language-plaintext highlighter-rouge">ListPicker</code> 被点击，或使用
+ <a href="#ListPicker.Open"><code class="language-plaintext highlighter-rouge">Open</code></a> 方法显示选择框时引发的事件。此事件在选择框显示之前发生，
+ 可用于在显示之前准备选择框。</dd>
+  <dt id="ListPicker.GotFocus">GotFocus()</dt>
+  <dd>表示光标移动到 <code class="language-plaintext highlighter-rouge">ListPicker</code> 上方，现在可以
+ 点击它。</dd>
+  <dt id="ListPicker.LostFocus">LostFocus()</dt>
+  <dd>表示光标从 <code class="language-plaintext highlighter-rouge">ListPicker</code> 上移开，现在
+ 不能再点击它。</dd>
+  <dt id="ListPicker.TouchDown">TouchDown()</dt>
+  <dd>表示 <code class="language-plaintext highlighter-rouge">ListPicker</code> 被按下。</dd>
+  <dt id="ListPicker.TouchUp">TouchUp()</dt>
+  <dd>表示 <code class="language-plaintext highlighter-rouge">ListPicker</code> 已被松开。</dd>
+</dl>
+
+<h3 id="ListPicker-Methods">方法</h3>
+
+<dl class="methods">
+  <dt id="ListPicker.Open" class="method"><i></i> Open()</dt>
+  <dd>打开 <code class="language-plaintext highlighter-rouge">ListPicker</code>，如同用户点击了它。</dd>
+</dl>
+
+<h2 id="ListView">列表框（ListView）</h2>
+
+<p>这是一个可视组件，用于在 <a href="#Screen"><code class="language-plaintext highlighter-rouge">Screen</code></a> 中
+ 显示由文本和图像元素组成的列表。简单的字符串列表可以用 <a href="#ListView.ElementsFromString"><code class="language-plaintext highlighter-rouge">ElementsFromString</code></a> 属性设置。
+ 包含多个字符串和/或图像的更复杂元素列表，可以用
+ <a href="#ListView.ListData"><code class="language-plaintext highlighter-rouge">ListData</code></a> 和 <a href="#ListView.ListViewLayout"><code class="language-plaintext highlighter-rouge">ListViewLayout</code></a> 属性创建。</p>
+
+<p><a href="../other/advanced-listview.html">布局相关信息</a></p>
+
+<p>警告：如果此组件的
+ <a href="#ListView.Height"><code class="language-plaintext highlighter-rouge">Height</code></a> 设为「填充父容器」（Fill Parent），则它在可滚动的屏幕上无法正常工作。</p>
+
+<h3 id="ListView-Properties">属性</h3>
+
+<dl class="properties">
+  <dt id="ListView.BackgroundColor" class="color"><em>BackgroundColor</em></dt>
+  <dd><code class="language-plaintext highlighter-rouge">ListView</code> 背景的颜色。</dd>
+  <dt id="ListView.BounceEdgeEffect" class="boolean"><em>BounceEdgeEffect</em></dt>
+  <dd>设置边缘回弹效果。 <code class="language-plaintext logic block highlighter-rouge">true</code> 会启用该功能，
+ <code class="language-plaintext logic block highlighter-rouge">false</code> 会禁用它。</dd>
+  <dt id="ListView.DividerColor" class="color"><em>DividerColor</em></dt>
+  <dd><code class="language-plaintext highlighter-rouge">ListView</code> 分隔线的颜色。</dd>
+  <dt id="ListView.DividerThickness" class="number"><em>DividerThickness</em></dt>
+  <dd>指定列表框分隔线的粗细。
+ 如果粗细为 0，则分隔线不可见。</dd>
+  <dt id="ListView.ElementColor" class="color"><em>ElementColor</em></dt>
+  <dd><code class="language-plaintext highlighter-rouge">ListView</code> 元素的颜色。</dd>
+  <dt id="ListView.ElementCornerRadius" class="number"><em>ElementCornerRadius</em></dt>
+  <dd>指定列表框元素的圆角半径。</dd>
+  <dt id="ListView.ElementMarginsWidth" class="number"><em>ElementMarginsWidth</em></dt>
+  <dd>指定列表框元素外边距的宽度。
+ 如果外边距宽度 &gt; 0，则不显示分隔线。</dd>
+  <dt id="ListView.Elements" class="list bo"><em>Elements</em></dt>
+  <dd>指定要显示的选项列表。</dd>
+  <dt id="ListView.ElementsFromString" class="text wo"><em>ElementsFromString</em></dt>
+  <dd>用逗号分隔元素的字符串设置选项列表，
+ 例如：Cheese,Fruit,Bacon,Radish。</dd>
+  <dt id="ListView.FontSize" class="number"><em>FontSize</em></dt>
+  <dd>指定元素主文本的字号。</dd>
+  <dt id="ListView.FontSizeDetail" class="number"><em>FontSizeDetail</em></dt>
+  <dd>指定元素细项文本的字号。</dd>
+  <dt id="ListView.FontTypeface" class="text do"><em>FontTypeface</em></dt>
+  <dd>以 default、serif、sans serif 或 monospace 指定文本的字体。</dd>
+  <dt id="ListView.FontTypefaceDetail" class="text do"><em>FontTypefaceDetail</em></dt>
+  <dd>以 default、serif、sans serif 或 monospace 指定文本的字体。</dd>
+  <dt id="ListView.Height" class="number bo"><em>Height</em></dt>
+  <dd>指定 <code class="language-plaintext highlighter-rouge">ListView</code> 的垂直高度，以像素为单位。</dd>
+  <dt id="ListView.HeightPercent" class="number wo bo"><em>HeightPercent</em></dt>
+  <dd>以 <a href="userinterface.html#Screen.Height"><code class="language-plaintext highlighter-rouge">Screen</code> 的 <code class="language-plaintext highlighter-rouge">Height</code></a> 的百分比形式
+ 指定 <code class="language-plaintext highlighter-rouge">ListView</code> 的垂直高度。</dd>
+  <dt id="ListView.HintText" class="text"><em>HintText</em></dt>
+  <dd>设置过滤栏上的提示文字。</dd>
+  <dt id="ListView.ImageHeight" class="number"><em>ImageHeight</em></dt>
+  <dd>指定包含图像的 ListView 布局的图像高度</dd>
+  <dt id="ListView.ImageWidth" class="number"><em>ImageWidth</em></dt>
+  <dd>指定包含图像的 ListView 布局的图像宽度</dd>
+  <dt id="ListView.Left" class="number"><em>Left</em></dt>
+  <dd>指定组件左边缘相对于
+ AbsoluteArrangement 的位置。</dd>
+  <dt id="ListView.ListData" class="text do"><em>ListData</em></dt>
+  <dd>指定要在 ListView 元素中显示的数据。本属性用于设置
+ <a href="#ListView.ListViewLayout"><code class="language-plaintext highlighter-rouge">ListViewLayout</code></a> 所指定的元素。例如，如果选择的
+ 布局是 <code class="language-plaintext highlighter-rouge">Image,MainText</code>，本属性允许定义任意数量的元素，
+ 每个元素包含一个 Image 文件名和一个 MainText 字符串。
+ 仅设计视图可设置的属性。</dd>
+  <dt id="ListView.ListViewLayout" class="number"><em>ListViewLayout</em></dt>
+  <dd>指定 ListView 行的布局类型。</dd>
+  <dt id="ListView.Orientation" class="number"><em>Orientation</em></dt>
+  <dd>指定布局的方向。可以是：<code class="language-plaintext highlighter-rouge">Vertical</code>，即把元素
+ 逐行依次显示；或 <code class="language-plaintext highlighter-rouge">Horizontal</code>，即一次显示一个元素，并
+ 允许用户左右滑动浏览元素。</dd>
+  <dt id="ListView.Selection" class="text"><em>Selection</em></dt>
+  <dd>返回 <code class="language-plaintext highlighter-rouge">ListView</code> 中位于 <a href="#ListView.SelectionIndex"><code class="language-plaintext highlighter-rouge">SelectionIndex</code></a> 位置的文本。</dd>
+  <dt id="ListView.SelectionColor" class="color"><em>SelectionColor</em></dt>
+  <dd>项被选中时的颜色。</dd>
+  <dt id="ListView.SelectionDetailText" class="text ro bo"><em>SelectionDetailText</em></dt>
+  <dd>返回 ListView 中由 SelectionIndex 设定位置的次级文本或细项文本</dd>
+  <dt id="ListView.SelectionIndex" class="number bo"><em>SelectionIndex</em></dt>
+  <dd>当前选中项的索引，从 <code class="language-plaintext highlighter-rouge">1</code> 开始。若没有选中项，该值
+ 为 <code class="language-plaintext highlighter-rouge">0</code>。若试图将其设置为小于 <code class="language-plaintext highlighter-rouge">1</code> 或大于
+ <code class="language-plaintext highlighter-rouge">ListView</code> 项数的数字，则 <code class="language-plaintext highlighter-rouge">SelectionIndex</code> 会被设为 <code class="language-plaintext highlighter-rouge">0</code>，
+ 而 <a href="#ListView.Selection"><code class="language-plaintext highlighter-rouge">Selection</code></a> 会被设为空文本。</dd>
+  <dt id="ListView.ShowFilterBar" class="boolean"><em>ShowFilterBar</em></dt>
+  <dd>设置过滤栏的可见性。<code class="language-plaintext logic block highlighter-rouge">true</code> 会显示该栏，
+ <code class="language-plaintext logic block highlighter-rouge">false</code> 会隐藏它。</dd>
+  <dt id="ListView.TextAlignmentDetail" class="number"><em>TextAlignmentDetail</em></dt>
+  <dd>指定 ListView 元素中细项文本的对齐方式：居中、正常
+ （例如，当文字从左到右书写时为左对齐），或相反
+ （例如，当文字从左到右书写时为右对齐）。</dd>
+  <dt id="ListView.TextAlignmentMain" class="number"><em>TextAlignmentMain</em></dt>
+  <dd>指定 ListView 元素中主项文本的对齐方式：居中、正常
+ （例如，当文字从左到右书写时为左对齐），或相反
+ （例如，当文字从左到右书写时为右对齐）。</dd>
+  <dt id="ListView.TextColor" class="color"><em>TextColor</em></dt>
+  <dd><code class="language-plaintext highlighter-rouge">ListView</code> 各项的文本颜色。</dd>
+  <dt id="ListView.TextColorDetail" class="color"><em>TextColorDetail</em></dt>
+  <dd>指定 ListView 布局中次级文本的颜色</dd>
+  <dt id="ListView.Top" class="number"><em>Top</em></dt>
+  <dd>指定组件上边缘相对于
+ AbsoluteArrangement 的位置。</dd>
+  <dt id="ListView.Visible" class="boolean"><em>Visible</em></dt>
+  <dd>指定 <code class="language-plaintext highlighter-rouge">ListView</code> 是否在屏幕上可见。若 <code class="language-plaintext highlighter-rouge">ListView</code> 正在显示，值为
+ <code class="language-plaintext logic block highlighter-rouge">true</code>；若已隐藏，值为 <code class="language-plaintext logic block highlighter-rouge">false</code>。</dd>
+  <dt id="ListView.Width" class="number bo"><em>Width</em></dt>
+  <dd>指定 <code class="language-plaintext highlighter-rouge">ListView</code> 的水平宽度，以像素为单位。</dd>
+  <dt id="ListView.WidthPercent" class="number wo bo"><em>WidthPercent</em></dt>
+  <dd>以 <a href="userinterface.html#Screen.Width"><code class="language-plaintext highlighter-rouge">Screen</code> 的 <code class="language-plaintext highlighter-rouge">Width</code></a> 的百分比形式
+ 指定 <code class="language-plaintext highlighter-rouge">ListView</code> 的水平宽度。</dd>
+</dl>
+
+<h3 id="ListView-Events">事件</h3>
+
+<dl class="events">
+  <dt id="ListView.AfterPicking">AfterPicking()</dt>
+  <dd>在列表中选中某个元素之后引发的简单事件。
+ 选中的元素可通过 <a href="#ListView.Selection"><code class="language-plaintext highlighter-rouge">Selection</code></a> 属性获取。</dd>
+</dl>
+
+<h3 id="ListView-Methods">方法</h3>
+
+<dl class="methods">
+  <dt id="ListView.AddItem" class="method"><i></i> AddItem(<em class="text">mainText</em>,<em class="text">detailText</em>,<em class="text">imageName</em>)</dt>
+  <dd>向列表中添加新项</dd>
+  <dt id="ListView.AddItemAtIndex" class="method"><i></i> AddItemAtIndex(<em class="number">index</em>,<em class="text">mainText</em>,<em class="text">detailText</em>,<em class="text">imageName</em>)</dt>
+  <dd>在给定索引处向列表中添加新项</dd>
+  <dt id="ListView.AddItems" class="method"><i></i> AddItems(<em class="list">itemsList</em>)</dt>
+  <dd>向列表中添加新项</dd>
+  <dt id="ListView.AddItemsAtIndex" class="method"><i></i> AddItemsAtIndex(<em class="number">index</em>,<em class="list">itemsList</em>)</dt>
+  <dd>在指定索引处向列表中添加新项</dd>
+  <dt id="ListView.CreateElement" class="method returns dictionary"><i></i> CreateElement(<em class="text">mainText</em>,<em class="text">detailText</em>,<em class="text">imageName</em>)</dt>
+  <dd>创建一个</dd>
+  <dt id="ListView.GetDetailText" class="method returns text"><i></i> GetDetailText(<em class="dictionary">listElement</em>)</dt>
+  <dd>获取 ListView 元素的细项文本。</dd>
+  <dt id="ListView.GetImageName" class="method returns text"><i></i> GetImageName(<em class="dictionary">listElement</em>)</dt>
+  <dd>获取已上传到媒体的 ListView 元素图像的文件名。</dd>
+  <dt id="ListView.GetMainText" class="method returns text"><i></i> GetMainText(<em class="dictionary">listElement</em>)</dt>
+  <dd>获取 ListView 元素的主文本。</dd>
+  <dt id="ListView.RemoveItemAtIndex" class="method"><i></i> RemoveItemAtIndex(<em class="number">index</em>)</dt>
+  <dd>从列表中删除给定索引处的项</dd>
+</dl>
+
+<h2 id="Notifier">对话框（Notifier）</h2>
+
+<p>对话框（Notifier）组件通过各种方法显示警告消息并创建 Android 日志记录。</p>
+
+<h3 id="Notifier-Properties">属性</h3>
+
+<dl class="properties">
+  <dt id="Notifier.BackgroundColor" class="color"><em>BackgroundColor</em></dt>
+  <dd>指定警告（不是对话框）的背景色。</dd>
+  <dt id="Notifier.NotifierLength" class="number"><em>NotifierLength</em></dt>
+  <dd>指定警告显示的时长——可以是「short」或「long」。</dd>
+  <dt id="Notifier.TextColor" class="color"><em>TextColor</em></dt>
+  <dd>指定警告（不是对话框）的文本颜色。</dd>
+</dl>
+
+<h3 id="Notifier-Events">事件</h3>
+
+<dl class="events">
+  <dt id="Notifier.AfterChoosing">AfterChoosing(<em class="text">choice</em>)</dt>
+  <dd>用户在
+ <a href="#Notifier.ShowChooseDialog"><code class="language-plaintext highlighter-rouge">ShowChooseDialog</code></a> 中做出选择后的事件。</dd>
+  <dt id="Notifier.AfterTextInput">AfterTextInput(<em class="text">response</em>)</dt>
+  <dd>用户对 <a href="#Notifier.ShowTextDialog"><code class="language-plaintext highlighter-rouge">ShowTextDialog</code></a> 做出应答后引发的事件。</dd>
+  <dt id="Notifier.ChoosingCanceled">ChoosingCanceled()</dt>
+  <dd>用户取消选择某个选项时引发的事件。
+ <a href="#Notifier.ShowChooseDialog"><code class="language-plaintext highlighter-rouge">ShowChooseDialog</code></a>。</dd>
+  <dt id="Notifier.TextInputCanceled">TextInputCanceled()</dt>
+  <dd>用户取消
+ <a href="#Notifier.ShowPasswordDialog"><code class="language-plaintext highlighter-rouge">ShowPasswordDialog</code></a> 或
+ <a href="#Notifier.ShowTextDialog"><code class="language-plaintext highlighter-rouge">ShowTextDialog</code></a> 时引发的事件。</dd>
+</dl>
+
+<h3 id="Notifier-Methods">方法</h3>
+
+<dl class="methods">
+  <dt id="Notifier.DismissProgressDialog" class="method"><i></i> DismissProgressDialog()</dt>
+  <dd>关闭由 ShowProgressDialog 块创建的警告</dd>
+  <dt id="Notifier.LogError" class="method"><i></i> LogError(<em class="text">message</em>)</dt>
+  <dd>向 Android 系统日志写入一条错误消息。有关如何访问日志，
+ 请参阅 Google Android 文档。</dd>
+  <dt id="Notifier.LogInfo" class="method"><i></i> LogInfo(<em class="text">message</em>)</dt>
+  <dd>向 Android 日志写入一条信息消息。</dd>
+  <dt id="Notifier.LogWarning" class="method"><i></i> LogWarning(<em class="text">message</em>)</dt>
+  <dd>向 Android 日志写入一条警告消息。有关如何访问日志，
+ 请参阅 Google Android 文档。</dd>
+  <dt id="Notifier.ShowAlert" class="method"><i></i> ShowAlert(<em class="text">notice</em>)</dt>
+  <dd>显示一条临时通知。</dd>
+  <dt id="Notifier.ShowChooseDialog" class="method"><i></i> ShowChooseDialog(<em class="text">message</em>,<em class="text">title</em>,<em class="text">button1Text</em>,<em class="text">button2Text</em>,<em class="boolean">cancelable</em>)</dt>
+  <dd>显示一个带有两个按钮的对话框，供用户选择。如果 <code class="language-plaintext highlighter-rouge">cancelable</code> 为
+ <code class="language-plaintext logic block highlighter-rouge">true</code>，则会额外显示一个 CANCEL 按钮。按下按钮会引发
+ <a href="#Notifier.AfterChoosing"><code class="language-plaintext highlighter-rouge">AfterChoosing</code></a> 事件。传给
+ <a href="#Notifier.AfterChoosing"><code class="language-plaintext highlighter-rouge">AfterChoosing</code></a> 的「choice」参数将是所按按钮上的文本；如果按下的是
+ CANCEL 按钮，则为「Cancel」。如果取消，还会运行 <a href="#Notifier.TextInputCanceled"><code class="language-plaintext highlighter-rouge">TextInputCanceled</code></a>
+ 事件。</dd>
+  <dt id="Notifier.ShowMessageDialog" class="method"><i></i> ShowMessageDialog(<em class="text">message</em>,<em class="text">title</em>,<em class="text">buttonText</em>)</dt>
+  <dd>显示一个带单个按钮的警告对话框，按下按钮即关闭该警告。</dd>
+  <dt id="Notifier.ShowPasswordDialog" class="method"><i></i> ShowPasswordDialog(<em class="text">message</em>,<em class="text">title</em>,<em class="boolean">cancelable</em>)</dt>
+  <dd>显示一个对话框，用户可在其中输入密码（输入内容会被遮盖），之后将引发
+ <a href="#Notifier.AfterTextInput"><code class="language-plaintext highlighter-rouge">AfterTextInput</code></a> 事件。如果 <code class="language-plaintext highlighter-rouge">cancelable</code> 为 <code class="language-plaintext logic block highlighter-rouge">true</code>，
+ 则会额外显示一个 CANCEL 按钮。<a href="#Notifier.AfterTextInput"><code class="language-plaintext highlighter-rouge">AfterTextInput</code></a> 和
+ <a href="#Notifier.TextInputCanceled"><code class="language-plaintext highlighter-rouge">TextInputCanceled</code></a> 事件的行为与 <a href="#Notifier.ShowTextDialog"><code class="language-plaintext highlighter-rouge">ShowTextDialog</code></a>
+ 中描述的一致。</dd>
+  <dt id="Notifier.ShowProgressDialog" class="method"><i></i> ShowProgressDialog(<em class="text">message</em>,<em class="text">title</em>)</dt>
+  <dd>显示一个带有可选标题和消息的对话框（如果不需要可以传入空字符串）。
+ 该对话框包含一个旋转指示器，表示程序正在运行。
+ 用户无法取消它，必须由 App Inventor 程序调用
+ <a href="#Notifier.DismissProgressDialog"><code class="language-plaintext highlighter-rouge">DismissProgressDialog</code></a> 方法来关闭。</dd>
+  <dt id="Notifier.ShowTextDialog" class="method"><i></i> ShowTextDialog(<em class="text">message</em>,<em class="text">title</em>,<em class="boolean">cancelable</em>)</dt>
+  <dd>显示一个对话框，用户可在其中输入文本，之后将引发
+ <a href="#Notifier.AfterTextInput"><code class="language-plaintext highlighter-rouge">AfterTextInput</code></a> 事件。如果 <code class="language-plaintext highlighter-rouge">cancelable</code> 为 <code class="language-plaintext logic block highlighter-rouge">true</code>，
+ 则会额外显示一个 CANCEL 按钮。输入文本会引发
+ <a href="#Notifier.AfterTextInput"><code class="language-plaintext highlighter-rouge">AfterTextInput</code></a> 事件。传给
+ <a href="#Notifier.AfterTextInput"><code class="language-plaintext highlighter-rouge">AfterTextInput</code></a> 的「response」参数将是所输入的文本；如果按下的是 CANCEL
+ 按钮，则为「Cancel」。如果取消，还会运行 <a href="#Notifier.TextInputCanceled"><code class="language-plaintext highlighter-rouge">TextInputCanceled</code></a> 事件。</dd>
+</dl>
+
+<h2 id="PasswordTextBox">密码框（PasswordTextBox）</h2>
+
+<p>用户在密码框组件中输入密码，它会隐藏已键入的文本。</p>
+
+<p><img src="images/passwordtextbox.png" alt="密码框示例" /></p>
+
+<p>密码框与普通的 <a href="#TextBox"><code class="language-plaintext highlighter-rouge">TextBox</code></a> 组件相同，只是它不
+ 显示用户键入的字符。</p>
+
+<p>您可以用 <a href="#PasswordTextBox.Text"><code class="language-plaintext highlighter-rouge">Text</code></a> 属性读取或设置框中的文本值。如果
+ <a href="#PasswordTextBox.Text"><code class="language-plaintext highlighter-rouge">Text</code></a> 为空，您可以用 <a href="#PasswordTextBox.Hint"><code class="language-plaintext highlighter-rouge">Hint</code></a> 属性
+ 向用户提示应输入的内容。<a href="#PasswordTextBox.Hint"><code class="language-plaintext highlighter-rouge">Hint</code></a> 在框中以浅色文本显示。</p>
+
+<p>密码框组件通常与 <a href="#Button"><code class="language-plaintext highlighter-rouge">Button</code></a> 组件配合使用。用户
+ 输入文本后点击 <code class="language-plaintext highlighter-rouge">Button</code>。</p>
+
+<h3 id="PasswordTextBox-Properties">属性</h3>
+
+<dl class="properties">
+  <dt id="PasswordTextBox.BackgroundColor" class="color"><em>BackgroundColor</em></dt>
+  <dd><code class="language-plaintext highlighter-rouge">PasswordTextBox</code>` 的背景色。您可以在设计视图或
+ 编程视图中按名称选择颜色。默认背景色为「default」（带阴影的 3-D 外观）。</dd>
+  <dt id="PasswordTextBox.Enabled" class="boolean"><em>Enabled</em></dt>
+  <dd>若选中，用户可以在 <code class="language-plaintext highlighter-rouge">PasswordTextBox</code> 中输入文本。</dd>
+  <dt id="PasswordTextBox.FontBold" class="boolean"><em>FontBold</em></dt>
+  <dd>指定 <code class="language-plaintext highlighter-rouge">PasswordTextBox</code> 的文本是否使用粗体。
+ 有些字体不支持粗体。</dd>
+  <dt id="PasswordTextBox.FontItalic" class="boolean"><em>FontItalic</em></dt>
+  <dd>指定 <code class="language-plaintext highlighter-rouge">PasswordTextBox</code> 的文本是否使用斜体。
+ 有些字体不支持斜体。</dd>
+  <dt id="PasswordTextBox.FontSize" class="number"><em>FontSize</em></dt>
+  <dd>指定 <code class="language-plaintext highlighter-rouge">PasswordTextBox</code> 的文本字号，以 sp（缩放无关像素）为单位。</dd>
+  <dt id="PasswordTextBox.FontTypeface" class="text"><em>FontTypeface</em></dt>
+  <dd><code class="language-plaintext highlighter-rouge">PasswordTextBox</code> 的文本字体。有效取值为 <code class="language-plaintext highlighter-rouge">0</code>（默认）、<code class="language-plaintext highlighter-rouge">1</code>（serif）、<code class="language-plaintext highlighter-rouge">2</code>（sans
+ serif）或 <code class="language-plaintext highlighter-rouge">3</code>（monospace）。</dd>
+  <dt id="PasswordTextBox.Height" class="number bo"><em>Height</em></dt>
+  <dd>指定 <code class="language-plaintext highlighter-rouge">PasswordTextBox</code> 的垂直高度，以像素为单位。</dd>
+  <dt id="PasswordTextBox.HeightPercent" class="number wo bo"><em>HeightPercent</em></dt>
+  <dd>以 <a href="userinterface.html#Screen.Height"><code class="language-plaintext highlighter-rouge">Screen</code> 的 <code class="language-plaintext highlighter-rouge">Height</code></a> 的百分比形式
+ 指定 <code class="language-plaintext highlighter-rouge">PasswordTextBox</code> 的垂直高度。</dd>
+  <dt id="PasswordTextBox.Hint" class="text"><em>Hint</em></dt>
+  <dd>给用户的 <code class="language-plaintext highlighter-rouge">PasswordTextBox</code> 提示。</dd>
+  <dt id="PasswordTextBox.HintColor" class="color"><em>HintColor</em></dt>
+  <dd>指定 PasswordTextBox 提示文本的颜色。</dd>
+  <dt id="PasswordTextBox.Left" class="number"><em>Left</em></dt>
+  <dd>指定组件左边缘相对于
+ AbsoluteArrangement 的位置。</dd>
+  <dt id="PasswordTextBox.NumbersOnly" class="boolean"><em>NumbersOnly</em></dt>
+  <dd>若为 true，则此 <code class="language-plaintext highlighter-rouge">PasswordTextBox</code><code class="language-plaintext highlighter-rouge"> 只接受数字作为键盘输入。数字可以包含
+ 小数点和可选的前导负号。这仅适用于键盘输入。即使
+ </code>NumbersOnly<code class="language-plaintext highlighter-rouge"> 为 true，您仍可以使用
+ [</code>Text`](#PasswordTextBox.Text) 属性将文本设置为任意内容。</dd>
+  <dt id="PasswordTextBox.PasswordVisible" class="boolean bo"><em>PasswordVisible</em></dt>
+  <dd>指定密码是隐藏（默认）还是显示。</dd>
+  <dt id="PasswordTextBox.Text" class="text"><em>Text</em></dt>
+  <dd><code class="language-plaintext highlighter-rouge">PasswordTextBox</code> 中的文本，可以由程序员在设计视图或编程视图中设置，
+ 也可以由用户输入（除非 <a href="#PasswordTextBox.Enabled"><code class="language-plaintext highlighter-rouge">Enabled</code></a> 属性为 false）。</dd>
+  <dt id="PasswordTextBox.TextAlignment" class="number"><em>TextAlignment</em></dt>
+  <dd>指定 <code class="language-plaintext highlighter-rouge">PasswordTextBox</code> 文本的对齐方式。有效取值为：
+ <code class="language-plaintext highlighter-rouge">0</code>（正常；例如，当文字从左到右书写时为左对齐）、
+ <code class="language-plaintext highlighter-rouge">1</code>（居中），或
+ <code class="language-plaintext highlighter-rouge">2</code>（相反；例如，当文字从左到右书写时为右对齐）。</dd>
+  <dt id="PasswordTextBox.TextColor" class="color"><em>TextColor</em></dt>
+  <dd>以 alpha-red-green-blue（透明度-红-绿-蓝）整数指定 <code class="language-plaintext highlighter-rouge">PasswordTextBox</code> 的文本颜色。</dd>
+  <dt id="PasswordTextBox.Top" class="number"><em>Top</em></dt>
+  <dd>指定组件上边缘相对于
+ AbsoluteArrangement 的位置。</dd>
+  <dt id="PasswordTextBox.Visible" class="boolean"><em>Visible</em></dt>
+  <dd>指定 <code class="language-plaintext highlighter-rouge">PasswordTextBox</code> 是否在屏幕上可见。若 <code class="language-plaintext highlighter-rouge">PasswordTextBox</code> 正在显示，值为
+ <code class="language-plaintext logic block highlighter-rouge">true</code>；若已隐藏，值为 <code class="language-plaintext logic block highlighter-rouge">false</code>。</dd>
+  <dt id="PasswordTextBox.Width" class="number bo"><em>Width</em></dt>
+  <dd>指定 <code class="language-plaintext highlighter-rouge">PasswordTextBox</code> 的水平宽度，以像素为单位。</dd>
+  <dt id="PasswordTextBox.WidthPercent" class="number wo bo"><em>WidthPercent</em></dt>
+  <dd>以 <a href="userinterface.html#Screen.Width"><code class="language-plaintext highlighter-rouge">Screen</code> 的 <code class="language-plaintext highlighter-rouge">Width</code></a> 的百分比形式
+ 指定 <code class="language-plaintext highlighter-rouge">PasswordTextBox</code> 的水平宽度。</dd>
+</dl>
+
+<h3 id="PasswordTextBox-Events">事件</h3>
+
+<dl class="events">
+  <dt id="PasswordTextBox.GotFocus">GotFocus()</dt>
+  <dd>当 <code class="language-plaintext highlighter-rouge">PasswordTextBox</code> 被选中以进行输入时引发的事件，例如
+ 用户触摸它。</dd>
+  <dt id="PasswordTextBox.LostFocus">LostFocus()</dt>
+  <dd>当 <code class="language-plaintext highlighter-rouge">PasswordTextBox</code> 不再被选中以进行输入时引发的事件，
+ 例如用户触摸了另一个文本框。</dd>
+  <dt id="PasswordTextBox.TextChanged">TextChanged()</dt>
+  <dd>当 PasswordTextBox 的文本发生变化时引发的事件，无论是用户还是程序更改的。</dd>
+</dl>
+
+<h3 id="PasswordTextBox-Methods">方法</h3>
+
+<dl class="methods">
+  <dt id="PasswordTextBox.MoveCursorTo" class="method"><i></i> MoveCursorTo(<em class="number">position</em>)</dt>
+  <dd>将 PasswordTextBox 的光标重新定位到给定 1 起始索引位置字符之前。如果给定位置大于 PasswordTextBox 的长度，光标将移到文本末尾；如果给定位置小于或等于 1，光标将移到文本开头。</dd>
+  <dt id="PasswordTextBox.MoveCursorToEnd" class="method"><i></i> MoveCursorToEnd()</dt>
+  <dd>将光标重新定位到 PasswordTextBox 文本的末尾。</dd>
+  <dt id="PasswordTextBox.MoveCursorToStart" class="method"><i></i> MoveCursorToStart()</dt>
+  <dd>将光标重新定位到 PasswordTextBox 文本的开头。</dd>
+  <dt id="PasswordTextBox.RequestFocus" class="method"><i></i> RequestFocus()</dt>
+  <dd>请求将焦点设置到当前 <code class="language-plaintext highlighter-rouge">PasswordTextBox</code>。</dd>
+</dl>
+
+<h2 id="Screen">屏幕（Screen）</h2>
+
+<p>程序中包含所有其他组件的顶层组件。</p>
+
+<h3 id="Screen-Properties">属性</h3>
+
+<dl class="properties">
+  <dt id="Screen.AboutScreen" class="text"><em>AboutScreen</em></dt>
+  <dd>关于屏幕的信息。当从系统菜单中选择「About this Application」时显示。
+ 用它向用户介绍您的应用。在多屏幕应用中，每个屏幕都有自己的
+ <code class="language-plaintext highlighter-rouge">AboutScreen</code> 信息。</dd>
+  <dt id="Screen.AccentColor" class="color do"><em>AccentColor</em></dt>
+  <dd>这是较新版本 Android 中用于高亮和其他用户界面点缀的强调色。
+ 受此属性影响的组件包括由
+ <a href="#Notifier"><code class="language-plaintext highlighter-rouge">Notifier</code></a>、<a href="#DatePicker"><code class="language-plaintext highlighter-rouge">DatePicker</code></a> 等创建的对话框。</dd>
+  <dt id="Screen.AlignHorizontal" class="number"><em>AlignHorizontal</em></dt>
+  <dd>一个数字，表示屏幕内容如何水平对齐。可选值有：
+ <code class="language-plaintext highlighter-rouge">1</code>（左对齐）、<code class="language-plaintext highlighter-rouge">3</code>（水平居中）、<code class="language-plaintext highlighter-rouge">2</code>（右对齐）。</dd>
+  <dt id="Screen.AlignVertical" class="number"><em>AlignVertical</em></dt>
+  <dd>一个数字，表示布局内容如何垂直对齐。可选值
+ 有：<code class="language-plaintext highlighter-rouge">1</code>（顶部对齐）、<code class="language-plaintext highlighter-rouge">2</code>（垂直居中）、<code class="language-plaintext highlighter-rouge">3</code>（底部对齐）。如果
+ 屏幕可滚动，垂直对齐不起作用。</dd>
+  <dt id="Screen.AndroidMinSdk" class="text wo do"><em>AndroidMinSdk</em></dt>
+  <dd>安装此应用所需的最低 Android API 级别。如果所选组件需要更高的 API 级别，构建系统可能会自动提高此值。</dd>
+  <dt id="Screen.AppName" class="text wo do"><em>AppName</em></dt>
+  <dd>这是已安装应用在手机上的显示名称。如果 <code class="language-plaintext highlighter-rouge">AppName</code> 为空，
+ 则在构建项目时会被设为项目名称。</dd>
+  <dt id="Screen.BackgroundColor" class="color"><em>BackgroundColor</em></dt>
+  <dd>以 alpha-red-green-blue（透明度-红-绿-蓝）整数指定 <code class="language-plaintext highlighter-rouge">Screen</code> 的背景色。
+ 如果设置了 <a href="#Screen.BackgroundImage"><code class="language-plaintext highlighter-rouge">BackgroundImage</code></a>，则在移除该
+ <a href="#Screen.BackgroundImage"><code class="language-plaintext highlighter-rouge">BackgroundImage</code></a> 之前看不到颜色的变化。</dd>
+  <dt id="Screen.BackgroundImage" class="text"><em>BackgroundImage</em></dt>
+  <dd>指定 <code class="language-plaintext highlighter-rouge">Screen</code> 背景图像的路径。如果同时指定了 <code class="language-plaintext highlighter-rouge">BackgroundImage</code>
+ 和 <a href="#Screen.BackgroundColor"><code class="language-plaintext highlighter-rouge">BackgroundColor</code></a>，则只有 <code class="language-plaintext highlighter-rouge">BackgroundImage</code> 可见。</dd>
+  <dt id="Screen.BigDefaultText" class="boolean"><em>BigDefaultText</em></dt>
+  <dd>选中后，所有默认大小的文本都会增大字号。</dd>
+  <dt id="Screen.BlocksToolkit" class="text wo do"><em>BlocksToolkit</em></dt>
+  <dd>选择项目所需的组件集合。较小的集合适合初学者项目，而专家可以使用所有选项来构建复杂的应用。例如，初学者工具包（Beginner Toolkit）提供了我们的新手教程和课程所需的全部功能。&lt;/p&gt;&lt;p&gt;您可以随时在「项目属性」中更改工具包，因此现在所做的选择不会限制应用未来的可能性。&lt;/p&gt;</dd>
+  <dt id="Screen.CloseScreenAnimation" class="text"><em>CloseScreenAnimation</em></dt>
+  <dd>设置此窗体关闭并返回
+ 活动堆栈中其下方窗体时的转场动画类型。</dd>
+  <dt id="Screen.DefaultFileScope" class="com google appinventor components common FileScopeEnum wo do"><em>DefaultFileScope</em></dt>
+  <dd>指定组件访问文件时使用的默认作用域。请注意，
+ <a href="storage.html#File" target="_blank">File</a>
+ 组件有自己的属性来控制文件作用域。</dd>
+  <dt id="Screen.Height" class="number ro bo"><em>Height</em></dt>
+  <dd>返回屏幕高度（y 尺寸），以像素为单位。</dd>
+  <dt id="Screen.HighContrast" class="boolean"><em>HighContrast</em></dt>
+  <dd>选中后，将开启高对比度模式。</dd>
+  <dt id="Screen.Icon" class="text wo do"><em>Icon</em></dt>
+  <dd>用于应用显示图标的图像应为正方形 png 或 jpeg 图像，尺寸
+ 不超过 1024x1024 像素。更大的图像可能导致应用编译或安装失败。
+ 构建服务器将为 Android 设备生成标准尺寸的图像。</dd>
+  <dt id="Screen.IosMinSdk" class="text wo do"><em>IosMinSdk</em></dt>
+  <dd>指定运行应用所需的最低 iOS SDK 版本。</dd>
+  <dt id="Screen.NSBluetoothAlwaysUsageDescription" class="text wo do"><em>NSBluetoothAlwaysUsageDescription</em></dt>
+  <dd>指定 iOS 隐私说明，解释应用为何需要在
+ iOS 13 及更高版本上访问蓝牙。</dd>
+  <dt id="Screen.NSBluetoothPeripheralUsageDescription" class="text wo do"><em>NSBluetoothPeripheralUsageDescription</em></dt>
+  <dd>指定 iOS 隐私说明，解释应用为何需要在
+ iOS 13 之前访问蓝牙外设。</dd>
+  <dt id="Screen.NSCameraUsageDescription" class="text wo do"><em>NSCameraUsageDescription</em></dt>
+  <dd>指定 iOS 隐私说明，解释应用为何需要访问摄像头。</dd>
+  <dt id="Screen.NSContactsUsageDescription" class="text wo do"><em>NSContactsUsageDescription</em></dt>
+  <dd>指定 iOS 隐私说明，解释应用为何需要访问联系人。</dd>
+  <dt id="Screen.NSLocationWhenInUseUsageDescription" class="text wo do"><em>NSLocationWhenInUseUsageDescription</em></dt>
+  <dd>指定 iOS 隐私说明，解释应用为何需要访问用户位置。</dd>
+  <dt id="Screen.NSMicrophoneUsageDescription" class="text wo do"><em>NSMicrophoneUsageDescription</em></dt>
+  <dd>指定 iOS 隐私说明，解释应用为何需要访问麦克风。</dd>
+  <dt id="Screen.NSSpeechRecognitionUsageDescription" class="text wo do"><em>NSSpeechRecognitionUsageDescription</em></dt>
+  <dd>指定 iOS 隐私说明，解释应用为何需要访问语音识别。</dd>
+  <dt id="Screen.OpenScreenAnimation" class="text"><em>OpenScreenAnimation</em></dt>
+  <dd>设置此窗体打开时的转场动画类型。</dd>
+  <dt id="Screen.Platform" class="text ro bo"><em>Platform</em></dt>
+  <dd>获取运行应用的底层平台名称。目前该文本
+ 为「Android」。将来可能会支持其他平台。</dd>
+  <dt id="Screen.PlatformVersion" class="text ro bo"><em>PlatformVersion</em></dt>
+  <dd>获取运行应用的平台版本号。这通常是一个带点的版本
+ 号，例如 10.0。不过任何值都可能被返回，因此您应注意处理
+ 意外数据。如果平台版本不可用，将返回空文本。</dd>
+  <dt id="Screen.PrimaryColor" class="color do"><em>PrimaryColor</em></dt>
+  <dd>这是作为 Android 主题一部分使用的主色，包括为 <code class="language-plaintext highlighter-rouge">Screen</code>
+ 的标题栏着色。</dd>
+  <dt id="Screen.PrimaryColorDark" class="color do"><em>PrimaryColorDark</em></dt>
+  <dd>这是 Theme 属性指定为 Dark 时使用的主色。它应用于
+ 多个元素，包括 <code class="language-plaintext highlighter-rouge">Screen</code> 的标题栏。</dd>
+  <dt id="Screen.ScreenOrientation" class="text"><em>ScreenOrientation</em></dt>
+  <dd>声明请求的屏幕方向，以文本值指定。常用的值有
+ <code class="language-plaintext highlighter-rouge">landscape</code>、<code class="language-plaintext highlighter-rouge">portrait</code>、<code class="language-plaintext highlighter-rouge">sensor</code>、<code class="language-plaintext highlighter-rouge">user</code> 和 <code class="language-plaintext highlighter-rouge">unspecified</code>。完整可选列表请参阅 Android 开发者
+ 文档中的
+ <a href="https://developer.android.com/reference/android/R.attr.html#screenOrientation">options</a>。</dd>
+  <dt id="Screen.Scrollable" class="boolean"><em>Scrollable</em></dt>
+  <dd>选中后，屏幕上会出现垂直滚动条，应用的高度
+ 可以超过设备的物理高度。未选中时，应用
+ 高度被限制为设备的高度。</dd>
+  <dt id="Screen.ShowListsAsJson" class="boolean do"><em>ShowListsAsJson</em></dt>
+  <dd>如果为 <code class="language-plaintext logic block highlighter-rouge">true</code>（默认），列表将以 JSON/Python 表示法显示为字符串，
+ 例如 [1, “a”, true]。如果为 <code class="language-plaintext logic block highlighter-rouge">false</code>，列表将以 LISP
+ 表示法显示，例如 (1 a true)。
+
+    <p><strong>注意：</strong>本属性仅出现在 Screen1 中，Screen1 的值决定
+ 应用中所有屏幕的行为。</p>
+  </dd>
+  <dt id="Screen.ShowStatusBar" class="boolean"><em>ShowStatusBar</em></dt>
+  <dd>状态栏是屏幕上最顶部的栏。本属性报告状态栏
+ 是否可见。</dd>
+  <dt id="Screen.Sizing" class="text wo do"><em>Sizing</em></dt>
+  <dd>如果设为 responsive（默认），屏幕布局将使用
+ 设备的实际分辨率。更多信息请参阅 App Inventor 中
+ <a href="../other/responsiveDesign.html">关于响应式设计的文档</a>。
+ 如果设为 fixed，屏幕布局将按单个固定尺寸的屏幕创建并自动缩放。
+
+    <p><strong>注意：</strong>本属性仅出现在 Screen1 上，并控制应用中所有屏幕
+ 的尺寸设置。</p>
+  </dd>
+  <dt id="Screen.Theme" class="text wo do"><em>Theme</em></dt>
+  <dd>为应用选择主题。主题只能在编译时设置，在实时开发过程中 AI 伴侣（Companion）
+ 会近似呈现更改效果。可选项有：
+
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">Classic</code>，与旧版 App Inventor 相同；</li>
+      <li><code class="language-plaintext highlighter-rouge">Device Default</code>，与设备上运行的 Android 版本具有相同主题，
+操作栏使用 PrimaryColor，按钮为浅色；</li>
+      <li><code class="language-plaintext highlighter-rouge">Black Title Text</code>，即 <code class="language-plaintext highlighter-rouge">Device Default</code> 主题，但标题文本为黑色；以及</li>
+      <li><code class="language-plaintext highlighter-rouge">Dark</code>，即 <code class="language-plaintext highlighter-rouge">Device Default</code> 主题的深色版本，使用 <code class="language-plaintext highlighter-rouge">PrimaryColorDark</code> 并
+具有深灰色组件。</li>
+    </ul>
+  </dd>
+  <dt id="Screen.Title" class="text"><em>Title</em></dt>
+  <dd>标题属性的设置方法：为窗体在其
+ 标题栏中设置新的标题文字。</dd>
+  <dt id="Screen.TitleVisible" class="boolean"><em>TitleVisible</em></dt>
+  <dd>标题栏是屏幕上顶部的灰色栏。本属性报告标题栏
+ 是否可见。</dd>
+  <dt id="Screen.TutorialURL" class="text wo do"><em>TutorialURL</em></dt>
+  <dd>一个将在左侧面板中打开的 URL（面板打开后可以切换）。这
+ 适用于把内联教程作为项目一部分的项目。出于安全
+ 考虑，此处只能使用托管在 http://appinventor.mit.edu 上的教程，或通过我们的网址
+ 缩短服务（http://appinv.us）链接的教程。其他 URL 会被静默忽略。</dd>
+  <dt id="Screen.VersionCode" class="number wo do"><em>VersionCode</em></dt>
+  <dd>一个整数值，每次为 Google Play 商店创建新的 Android 应用包文件
+ （APK）时都必须递增。</dd>
+  <dt id="Screen.VersionName" class="text wo do"><em>VersionName</em></dt>
+  <dd>一个字符串，可以修改它以便 Google Play 商店用户区分
+ 应用的不同版本。</dd>
+  <dt id="Screen.Width" class="number ro bo"><em>Width</em></dt>
+  <dd>返回屏幕宽度（x 尺寸），以像素为单位。</dd>
+</dl>
+
+<h3 id="Screen-Events">事件</h3>
+
+<dl class="events">
+  <dt id="Screen.BackPressed">BackPressed()</dt>
+  <dd>设备返回按钮被按下。</dd>
+  <dt id="Screen.ErrorOccurred">ErrorOccurred(<em class="component">component</em>,<em class="text">functionName</em>,<em class="number">errorNumber</em>,<em class="text">message</em>)</dt>
+  <dd>发生错误时引发的事件。只有部分错误会引发此条件。对于这些错误，系统默认会显示一条通知。您可以用此事件处理程序规定不同于默认的错误行为。</dd>
+  <dt id="Screen.Initialize">Initialize()</dt>
+  <dd>Initialize 事件在屏幕启动时运行，且每个屏幕只运行一次。</dd>
+  <dt id="Screen.OtherScreenClosed">OtherScreenClosed(<em class="text">otherScreenName</em>,<em class="any">result</em>)</dt>
+  <dd>另一个屏幕已关闭且控制权返回此屏幕时引发的事件。</dd>
+  <dt id="Screen.PermissionDenied">PermissionDenied(<em class="component">component</em>,<em class="text">functionName</em>,<em class="text">permissionName</em>)</dt>
+  <dd>应用用户拒绝了所需权限时处理的事件。</dd>
+  <dt id="Screen.PermissionGranted">PermissionGranted(<em class="text">permissionName</em>)</dt>
+  <dd>应用用户授予了所需权限时处理的事件。仅当权限是
+ 响应 <a href="#Screen.AskForPermission"><code class="language-plaintext highlighter-rouge">AskForPermission</code></a> 方法而被授予时，才会运行此事件。</dd>
+  <dt id="Screen.ScreenOrientationChanged">ScreenOrientationChanged()</dt>
+  <dd>屏幕方向已改变</dd>
+</dl>
+
+<h3 id="Screen-Methods">方法</h3>
+
+<dl class="methods">
+  <dt id="Screen.AskForPermission" class="method"><i></i> AskForPermission(<em class="text">permissionName</em>)</dt>
+  <dd>请求用户授予敏感权限，例如 <code class="language-plaintext highlighter-rouge">ACCESS_FINE_LOCATION</code>。此
+ 块通常作为 <a href="#Screen.PermissionDenied"><code class="language-plaintext highlighter-rouge">PermissionDenied</code></a>
+ 事件的一部分来请求权限。如果用户授予权限，将
+ 运行 <a href="#Screen.PermissionGranted"><code class="language-plaintext highlighter-rouge">PermissionGranted</code></a> 事件。如果用户拒绝权限，将
+ 运行 <a href="#Screen.PermissionDenied"><code class="language-plaintext highlighter-rouge">PermissionDenied</code></a> 事件。
+
+    <p><strong>注意：</strong>最佳实践是只在需要时才请求权限，
+ App Inventor 组件会在必要时这样做。您不应在
+ <a href="#Screen.Initialize"><code class="language-plaintext highlighter-rouge">Initialize</code></a> 事件中使用 <code class="language-plaintext highlighter-rouge">AskForPermission</code>，
+ 除非访问该权限对应用的行为至关重要且需要预先获取，例如导航应用的位置服务。</p>
+  </dd>
+  <dt id="Screen.HideKeyboard" class="method"><i></i> HideKeyboard()</dt>
+  <dd>隐藏软键盘</dd>
+</dl>
+
+<h2 id="Slider">滑动条（Slider）</h2>
+
+<p>本类用于显示 <code class="language-plaintext highlighter-rouge">Slider</code>。</p>
+
+<p><img src="images/slider.png" alt="滑动条图标示例" /></p>
+
+<p><code class="language-plaintext highlighter-rouge">Slider</code> 是一个带有可拖动滑块的进度条。您可以触摸滑块并左右
+ 拖动来设置滑块位置。拖动滑块时会触发
+ <a href="#Slider.PositionChanged"><code class="language-plaintext highlighter-rouge">PositionChanged</code></a> 事件，报告 <code class="language-plaintext highlighter-rouge">Slider</code> 滑块的位置。报告的
+ 滑块位置可用于动态更新其他组件的属性，
+ 例如某个 <code class="language-plaintext highlighter-rouge">TextBox</code> 的 <a href="#TextBox.FontSize"><code class="language-plaintext highlighter-rouge">TextBox</code> 的 <code class="language-plaintext highlighter-rouge">FontSize</code></a>，或者
+ <code class="language-plaintext highlighter-rouge">Ball</code> 的 <a href="animation.html#Ball.Radius">Radius</a>。</p>
+
+<p><code class="language-plaintext highlighter-rouge">Slider</code> 使用以下默认值。不过这些值可以通过
+ 设计视图或编程视图更改：</p>
+
+<ul>
+  <li><a href="#Slider.MinValue"><code class="language-plaintext highlighter-rouge">MinValue</code></a> = 10</li>
+  <li><a href="#Slider.MaxValue"><code class="language-plaintext highlighter-rouge">MaxValue</code></a> = 50</li>
+  <li><a href="#Slider.ThumbPosition"><code class="language-plaintext highlighter-rouge">ThumbPosition</code></a> = 30</li>
+</ul>
+
+<h3 id="Slider-Properties">属性</h3>
+
+<dl class="properties">
+  <dt id="Slider.ColorLeft" class="color"><em>ColorLeft</em></dt>
+  <dd>以 alpha-red-green-blue（透明度-红-绿-蓝）整数（即 <code class="language-plaintext highlighter-rouge">0xAARRGGBB</code>）指定滑块左侧滑条的颜色。alpha 为 <code class="language-plaintext highlighter-rouge">00</code>
+ 表示完全透明，<code class="language-plaintext highlighter-rouge">FF</code> 表示不透明。</dd>
+  <dt id="Slider.ColorRight" class="color"><em>ColorRight</em></dt>
+  <dd>以 alpha-red-green-blue（透明度-红-绿-蓝）整数（即 <code class="language-plaintext highlighter-rouge">0xAARRGGBB</code>）指定滑块右侧滑条的颜色。alpha 为 <code class="language-plaintext highlighter-rouge">00</code>
+ 表示完全透明，<code class="language-plaintext highlighter-rouge">FF</code> 表示不透明。</dd>
+  <dt id="Slider.HeightPercent" class="number wo bo"><em>HeightPercent</em></dt>
+  <dd>以 <a href="userinterface.html#Screen.Height"><code class="language-plaintext highlighter-rouge">Screen</code> 的 <code class="language-plaintext highlighter-rouge">Height</code></a> 的百分比形式
+ 指定 <code class="language-plaintext highlighter-rouge">Slider</code> 的垂直高度。</dd>
+  <dt id="Slider.Left" class="number"><em>Left</em></dt>
+  <dd>指定组件左边缘相对于
+ AbsoluteArrangement 的位置。</dd>
+  <dt id="Slider.MaxValue" class="number"><em>MaxValue</em></dt>
+  <dd>设置滑动条的最大值。如果新的最大值小于当前
+ 的最小值，则最小值和最大值都会被设为该值。</dd>
+  <dt id="Slider.MinValue" class="number"><em>MinValue</em></dt>
+  <dd>设置滑动条的最小值。如果新的最小值大于当前
+ 的最大值，则最小值和最大值都会被设为该值。</dd>
+  <dt id="Slider.NumberOfSteps" class="number"><em>NumberOfSteps</em></dt>
+  <dd>设置滑动条刻度上的点数。
+ 结合 MinValue 和 MaxValue，可以让您获得想要的滑动条精度，
+ 例如 MinValue = 0、MaxValue = 150、NumberOfSteps = 1000。滑动条将每隔 0.15 改变一次位置。</dd>
+  <dt id="Slider.ThumbColor" class="color"><em>ThumbColor</em></dt>
+  <dd>以 alpha-red-green-blue（透明度-红-绿-蓝）整数（即 <code class="language-plaintext highlighter-rouge">0xAARRGGBB</code>）指定滑块的颜色。alpha 为 <code class="language-plaintext highlighter-rouge">00</code>
+ 表示完全透明，<code class="language-plaintext highlighter-rouge">FF</code> 表示不透明。</dd>
+  <dt id="Slider.ThumbEnabled" class="boolean"><em>ThumbEnabled</em></dt>
+  <dd>是否显示滑动条滑块。</dd>
+  <dt id="Slider.ThumbPosition" class="number"><em>ThumbPosition</em></dt>
+  <dd>设置滑动条滑块的位置。如果该值大于 <a href="#Slider.MaxValue"><code class="language-plaintext highlighter-rouge">MaxValue</code></a>，
+ 则会被设为与 <a href="#Slider.MaxValue"><code class="language-plaintext highlighter-rouge">MaxValue</code></a> 相同的值。如果该值小于
+ <a href="#Slider.MinValue"><code class="language-plaintext highlighter-rouge">MinValue</code></a>，则会被设为与 <a href="#Slider.MinValue"><code class="language-plaintext highlighter-rouge">MinValue</code></a> 相同的值。</dd>
+  <dt id="Slider.Top" class="number"><em>Top</em></dt>
+  <dd>指定组件上边缘相对于
+ AbsoluteArrangement 的位置。</dd>
+  <dt id="Slider.Visible" class="boolean"><em>Visible</em></dt>
+  <dd>指定 <code class="language-plaintext highlighter-rouge">Slider</code> 是否在屏幕上可见。若 <code class="language-plaintext highlighter-rouge">Slider</code> 正在显示，值为
+ <code class="language-plaintext logic block highlighter-rouge">true</code>；若已隐藏，值为 <code class="language-plaintext logic block highlighter-rouge">false</code>。</dd>
+  <dt id="Slider.Width" class="number bo"><em>Width</em></dt>
+  <dd>指定 <code class="language-plaintext highlighter-rouge">Slider</code> 的水平宽度，以像素为单位。</dd>
+  <dt id="Slider.WidthPercent" class="number wo bo"><em>WidthPercent</em></dt>
+  <dd>以 <a href="userinterface.html#Screen.Width"><code class="language-plaintext highlighter-rouge">Screen</code> 的 <code class="language-plaintext highlighter-rouge">Width</code></a> 的百分比形式
+ 指定 <code class="language-plaintext highlighter-rouge">Slider</code> 的水平宽度。</dd>
+</dl>
+
+<h3 id="Slider-Events">事件</h3>
+
+<dl class="events">
+  <dt id="Slider.PositionChanged">PositionChanged(<em class="number">thumbPosition</em>)</dt>
+  <dd>表示滑动条滑块的位置已改变。</dd>
+  <dt id="Slider.TouchDown">TouchDown()</dt>
+  <dd>表示用户已开始触摸手势。</dd>
+  <dt id="Slider.TouchUp">TouchUp()</dt>
+  <dd>表示用户已完成触摸手势。</dd>
+</dl>
+
+<h3 id="Slider-Methods">方法</h3>
+
+<p class="methods">无</p>
+
+<h2 id="Spinner">下拉框（Spinner）</h2>
+
+<p><code class="language-plaintext highlighter-rouge">Spinner</code> 组件会显示一个带元素列表的对话框。这些元素可以在
+ 设计视图或编程视图中设置：把 <a href="#Spinner.ElementsFromString"><code class="language-plaintext highlighter-rouge">ElementsFromString</code></a> 属性
+ 设为由逗号分隔的取值列表（例如 <code class="language-plaintext highlighter-rouge">choice 1, choice 2, choice 3</code>），或者把
+ <a href="#Spinner.Elements"><code class="language-plaintext highlighter-rouge">Elements</code></a> 属性设为一个列表。创建下拉框时会预先选中
+ 第一项，因此选中它不会引发
+ <a href="#Spinner.AfterSelecting"><code class="language-plaintext highlighter-rouge">AfterSelecting</code></a> 事件。所以，把第一个 <code class="language-plaintext highlighter-rouge">Spinner</code> 项
+ 设为「请从下方选择…」这样的非选项是很有用的。</p>
+
+<h3 id="Spinner-Properties">属性</h3>
+
+<dl class="properties">
+  <dt id="Spinner.BackgroundColor" class="color"><em>BackgroundColor</em></dt>
+  <dd>以 alpha-red-green-blue（透明度-红-绿-蓝）整数指定 <code class="language-plaintext highlighter-rouge">Spinner</code> 的背景色。
+ 如果设置了 <a href="#Spinner.Image"><code class="language-plaintext highlighter-rouge">Image</code></a>，则在移除该
+ <a href="#Spinner.Image"><code class="language-plaintext highlighter-rouge">Image</code></a> 之前看不到颜色的变化。</dd>
+  <dt id="Spinner.Elements" class="list bo"><em>Elements</em></dt>
+  <dd>指定要显示的选项列表。</dd>
+  <dt id="Spinner.ElementsFromString" class="text wo"><em>ElementsFromString</em></dt>
+  <dd>用逗号分隔的字符串设置选项列表。</dd>
+  <dt id="Spinner.Enabled" class="boolean"><em>Enabled</em></dt>
+  <dd>指定 <code class="language-plaintext highlighter-rouge">Spinner</code> 是否处于活动状态且可点击。</dd>
+  <dt id="Spinner.FontBold" class="boolean"><em>FontBold</em></dt>
+  <dd>指定下拉框的文本是否使用粗体。
+ 有些字体不支持粗体。</dd>
+  <dt id="Spinner.FontItalic" class="boolean"><em>FontItalic</em></dt>
+  <dd>指定下拉框的文本是否使用斜体。
+ 有些字体不支持斜体。</dd>
+  <dt id="Spinner.FontSize" class="number"><em>FontSize</em></dt>
+  <dd>指定下拉框文本的字号，以 sp（缩放无关像素）为单位。</dd>
+  <dt id="Spinner.FontTypeface" class="text do"><em>FontTypeface</em></dt>
+  <dd>以 default、serif、sans serif 或 monospace 指定下拉框文本的字体。</dd>
+  <dt id="Spinner.Height" class="number bo"><em>Height</em></dt>
+  <dd>指定 <code class="language-plaintext highlighter-rouge">Spinner</code> 的垂直高度，以像素为单位。</dd>
+  <dt id="Spinner.HeightPercent" class="number wo bo"><em>HeightPercent</em></dt>
+  <dd>以 <a href="userinterface.html#Screen.Height"><code class="language-plaintext highlighter-rouge">Screen</code> 的 <code class="language-plaintext highlighter-rouge">Height</code></a> 的百分比形式
+ 指定 <code class="language-plaintext highlighter-rouge">Spinner</code> 的垂直高度。</dd>
+  <dt id="Spinner.Image" class="text"><em>Image</em></dt>
+  <dd>指定 <code class="language-plaintext highlighter-rouge">Spinner</code> 图像的路径。如果同时指定了 <code class="language-plaintext highlighter-rouge">Image</code> 和
+ <a href="#Spinner.BackgroundColor"><code class="language-plaintext highlighter-rouge">BackgroundColor</code></a>，则只有 <code class="language-plaintext highlighter-rouge">Image</code> 可见。</dd>
+  <dt id="Spinner.Left" class="number"><em>Left</em></dt>
+  <dd>指定组件左边缘相对于
+ AbsoluteArrangement 的位置。</dd>
+  <dt id="Spinner.Prompt" class="text"><em>Prompt</em></dt>
+  <dd>指定用作 Spinner 窗口标题的文本。</dd>
+  <dt id="Spinner.Selection" class="text"><em>Selection</em></dt>
+  <dd>指定 <code class="language-plaintext highlighter-rouge">Spinner</code> 中当前选中的项。</dd>
+  <dt id="Spinner.SelectionIndex" class="number bo"><em>SelectionIndex</em></dt>
+  <dd>把 <code class="language-plaintext highlighter-rouge">Spinner</code> 的选中项设为给定索引处的元素。
+ 若试图将其设置为小于 <code class="language-plaintext highlighter-rouge">1</code> 或大于 <code class="language-plaintext highlighter-rouge">Spinner</code> 项数的
+ 数字，则 <code class="language-plaintext highlighter-rouge">SelectionIndex</code> 会被设为 <code class="language-plaintext highlighter-rouge">0</code>，而 <a href="#Spinner.Selection"><code class="language-plaintext highlighter-rouge">Selection</code></a>
+ 会被设为空文本。</dd>
+  <dt id="Spinner.ShowFeedback" class="boolean"><em>ShowFeedback</em></dt>
+  <dd>指定当按下带有指定
+ <a href="#Spinner.Image"><code class="language-plaintext highlighter-rouge">Image</code></a> 的 <code class="language-plaintext highlighter-rouge">Spinner</code> 时是否显示视觉反馈。</dd>
+  <dt id="Spinner.TextAlignment" class="number do"><em>TextAlignment</em></dt>
+  <dd>指定下拉框文本的对齐方式：居中、正常
+ （例如，当文字从左到右书写时为左对齐），或
+ 相反（例如，当文字从左到右书写时为右对齐）。</dd>
+  <dt id="Spinner.TextColor" class="color"><em>TextColor</em></dt>
+  <dd>以 alpha-red-green-blue（透明度-红-绿-蓝）整数指定下拉框的文本颜色。</dd>
+  <dt id="Spinner.Top" class="number"><em>Top</em></dt>
+  <dd>指定组件上边缘相对于
+ AbsoluteArrangement 的位置。</dd>
+  <dt id="Spinner.Visible" class="boolean"><em>Visible</em></dt>
+  <dd>指定 <code class="language-plaintext highlighter-rouge">Spinner</code> 是否在屏幕上可见。若 <code class="language-plaintext highlighter-rouge">Spinner</code> 正在显示，值为
+ <code class="language-plaintext logic block highlighter-rouge">true</code>；若已隐藏，值为 <code class="language-plaintext logic block highlighter-rouge">false</code>。</dd>
+  <dt id="Spinner.Width" class="number bo"><em>Width</em></dt>
+  <dd>指定 <code class="language-plaintext highlighter-rouge">Spinner</code> 的水平宽度，以像素为单位。</dd>
+  <dt id="Spinner.WidthPercent" class="number wo bo"><em>WidthPercent</em></dt>
+  <dd>以 <a href="userinterface.html#Screen.Width"><code class="language-plaintext highlighter-rouge">Screen</code> 的 <code class="language-plaintext highlighter-rouge">Width</code></a> 的百分比形式
+ 指定 <code class="language-plaintext highlighter-rouge">Spinner</code> 的水平宽度。</dd>
+</dl>
+
+<h3 id="Spinner-Events">事件</h3>
+
+<dl class="events">
+  <dt id="Spinner.AfterSelecting">AfterSelecting(<em class="text">selection</em>)</dt>
+  <dd>用户从下拉列表中选中某项后调用的事件。</dd>
+  <dt id="Spinner.TouchDown">TouchDown()</dt>
+  <dd>表示 <code class="language-plaintext highlighter-rouge">Spinner</code> 被按下。</dd>
+  <dt id="Spinner.TouchUp">TouchUp()</dt>
+  <dd>表示 <code class="language-plaintext highlighter-rouge">Spinner</code> 已被松开。</dd>
+</dl>
+
+<h3 id="Spinner-Methods">方法</h3>
+
+<dl class="methods">
+  <dt id="Spinner.DisplayDropdown" class="method"><i></i> DisplayDropdown()</dt>
+  <dd>显示用于选择的下拉列表，效果与用户点击下拉框相同。</dd>
+</dl>
+
+<h2 id="Switch">开关（Switch）</h2>
+
+<p><code class="language-plaintext highlighter-rouge">Switch</code> 组件能够感知用户的点击，并可据此改变其布尔状态。它们
+ 除了外观之外，与 <a href="#CheckBox"><code class="language-plaintext highlighter-rouge">CheckBox</code></a> 完全相同。</p>
+
+<p>开关有开（true）状态和关（false）状态。当用户点击 <code class="language-plaintext highlighter-rouge">Switch</code> 组件
+ 以在两种状态之间切换时，它会引发事件。</p>
+
+<h3 id="Switch-Properties">属性</h3>
+
+<dl class="properties">
+  <dt id="Switch.BackgroundColor" class="color"><em>BackgroundColor</em></dt>
+  <dd>以 alpha-red-green-blue（透明度-红-绿-蓝）整数指定 <code class="language-plaintext highlighter-rouge">Switch</code> 的背景色。</dd>
+  <dt id="Switch.Enabled" class="boolean"><em>Enabled</em></dt>
+  <dd>指定 <code class="language-plaintext highlighter-rouge">Switch</code> 是否处于活动状态且可点击。</dd>
+  <dt id="Switch.FontBold" class="boolean"><em>FontBold</em></dt>
+  <dd>指定 <code class="language-plaintext highlighter-rouge">Switch</code> 的文本是否使用粗体。
+ 有些字体不支持粗体。</dd>
+  <dt id="Switch.FontItalic" class="boolean"><em>FontItalic</em></dt>
+  <dd>指定 <code class="language-plaintext highlighter-rouge">Switch</code> 的文本是否使用斜体。
+ 有些字体不支持斜体。</dd>
+  <dt id="Switch.FontSize" class="number"><em>FontSize</em></dt>
+  <dd>指定 <code class="language-plaintext highlighter-rouge">Switch</code> 的文本字号，以 sp（缩放无关像素）为单位。</dd>
+  <dt id="Switch.FontTypeface" class="text"><em>FontTypeface</em></dt>
+  <dd>以 default、serif、sans serif 或 monospace 指定 <code class="language-plaintext highlighter-rouge">Switch</code> 的文本字体。</dd>
+  <dt id="Switch.Height" class="number bo"><em>Height</em></dt>
+  <dd>指定 <code class="language-plaintext highlighter-rouge">Switch</code> 的垂直高度，以像素为单位。</dd>
+  <dt id="Switch.HeightPercent" class="number wo bo"><em>HeightPercent</em></dt>
+  <dd>以 <a href="userinterface.html#Screen.Height"><code class="language-plaintext highlighter-rouge">Screen</code> 的 <code class="language-plaintext highlighter-rouge">Height</code></a> 的百分比形式
+ 指定 <code class="language-plaintext highlighter-rouge">Switch</code> 的垂直高度。</dd>
+  <dt id="Switch.Left" class="number"><em>Left</em></dt>
+  <dd>指定组件左边缘相对于
+ AbsoluteArrangement 的位置。</dd>
+  <dt id="Switch.On" class="boolean"><em>On</em></dt>
+  <dd>若开关处于开状态则为 true，否则为 false。</dd>
+  <dt id="Switch.Text" class="text"><em>Text</em></dt>
+  <dd>指定 <code class="language-plaintext highlighter-rouge">Switch</code> 显示的文本。</dd>
+  <dt id="Switch.TextColor" class="color"><em>TextColor</em></dt>
+  <dd>以 alpha-red-green-blue（透明度-红-绿-蓝）整数指定 <code class="language-plaintext highlighter-rouge">Switch</code> 的文本颜色。</dd>
+  <dt id="Switch.ThumbColorActive" class="color"><em>ThumbColorActive</em></dt>
+  <dd>指定开关处于开状态时 <code class="language-plaintext highlighter-rouge">Switch</code> 的滑块颜色。</dd>
+  <dt id="Switch.ThumbColorInactive" class="color"><em>ThumbColorInactive</em></dt>
+  <dd>指定开关处于关状态时 <code class="language-plaintext highlighter-rouge">Switch</code> 的滑块颜色。</dd>
+  <dt id="Switch.Top" class="number"><em>Top</em></dt>
+  <dd>指定组件上边缘相对于
+ AbsoluteArrangement 的位置。</dd>
+  <dt id="Switch.TrackColorActive" class="color"><em>TrackColorActive</em></dt>
+  <dd>指定处于开状态时 <code class="language-plaintext highlighter-rouge">Switch</code> 的轨道颜色。</dd>
+  <dt id="Switch.TrackColorInactive" class="color"><em>TrackColorInactive</em></dt>
+  <dd>指定处于关状态时 <code class="language-plaintext highlighter-rouge">Switch</code> 的轨道颜色。</dd>
+  <dt id="Switch.Visible" class="boolean"><em>Visible</em></dt>
+  <dd>指定 <code class="language-plaintext highlighter-rouge">Switch</code> 是否在屏幕上可见。若 <code class="language-plaintext highlighter-rouge">Switch</code> 正在显示，值为
+ <code class="language-plaintext logic block highlighter-rouge">true</code>；若已隐藏，值为 <code class="language-plaintext logic block highlighter-rouge">false</code>。</dd>
+  <dt id="Switch.Width" class="number bo"><em>Width</em></dt>
+  <dd>指定 <code class="language-plaintext highlighter-rouge">Switch</code> 的水平宽度，以像素为单位。</dd>
+  <dt id="Switch.WidthPercent" class="number wo bo"><em>WidthPercent</em></dt>
+  <dd>以 <a href="userinterface.html#Screen.Width"><code class="language-plaintext highlighter-rouge">Screen</code> 的 <code class="language-plaintext highlighter-rouge">Width</code></a> 的百分比形式
+ 指定 <code class="language-plaintext highlighter-rouge">Switch</code> 的水平宽度。</dd>
+</dl>
+
+<h3 id="Switch-Events">事件</h3>
+
+<dl class="events">
+  <dt id="Switch.Changed">Changed()</dt>
+  <dd>用户把 <code class="language-plaintext highlighter-rouge">Switch</code> 的状态从开改为关，或从关改为开。</dd>
+  <dt id="Switch.GotFocus">GotFocus()</dt>
+  <dd><code class="language-plaintext highlighter-rouge">Switch</code> 成为获得焦点的组件。</dd>
+  <dt id="Switch.LostFocus">LostFocus()</dt>
+  <dd><code class="language-plaintext highlighter-rouge">Switch</code> 不再是获得焦点的组件。</dd>
+</dl>
+
+<h3 id="Switch-Methods">方法</h3>
+
+<p class="methods">无</p>
+
+<h2 id="TextBox">文本框（TextBox）</h2>
+
+<p>用户在文本框中输入文本。</p>
+
+<p><img src="images/textbox.png" alt="文本框示例" /></p>
+
+<p>文本框中初始的或用户输入的文本值保存在 <a href="#TextBox.Text"><code class="language-plaintext highlighter-rouge">Text</code></a>
+ 属性中。如果 <a href="#TextBox.Text"><code class="language-plaintext highlighter-rouge">Text</code></a> 为空，您可以用 <a href="#TextBox.Hint"><code class="language-plaintext highlighter-rouge">Hint</code></a> 属性向
+ 用户提示应输入的内容。<a href="#TextBox.Hint"><code class="language-plaintext highlighter-rouge">Hint</code></a> 在框中以浅色文本显示。</p>
+
+<p><a href="#TextBox.MultiLine"><code class="language-plaintext highlighter-rouge">MultiLine</code></a> 属性决定文本是否可以有多行。
+ 对于单行文本框，用户按「完成」键时键盘会自动关闭。对于
+ 多行文本框，应用应使用 <a href="#TextBox.HideKeyboard"><code class="language-plaintext highlighter-rouge">HideKeyboard</code></a> 方法
+ 来关闭键盘，或者依赖用户按返回键。</p>
+
+<p><a href="#TextBox.NumbersOnly"><code class="language-plaintext highlighter-rouge">NumbersOnly</code></a> 属性限制键盘只接受数字输入。</p>
+
+<p>其他属性会影响文本框的外观
+ （<a href="#TextBox.TextAlignment"><code class="language-plaintext highlighter-rouge">TextAlignment</code></a>、<a href="#TextBox.BackgroundColor"><code class="language-plaintext highlighter-rouge">BackgroundColor</code></a> 等）以及它是否可用
+ （<a href="#TextBox.Enabled"><code class="language-plaintext highlighter-rouge">Enabled</code></a>）。</p>
+
+<p>文本框通常与 <a href="#Button"><code class="language-plaintext highlighter-rouge">Button</code></a> 组件配合使用，用户完成
+ 文本输入后点击 <code class="language-plaintext highlighter-rouge">Button</code>。</p>
+
+<p>如果用户输入的文本不应显示出来，请改用 <a href="#PasswordTextBox"><code class="language-plaintext highlighter-rouge">PasswordTextBox</code></a>。</p>
+
+<h3 id="TextBox-Properties">属性</h3>
+
+<dl class="properties">
+  <dt id="TextBox.BackgroundColor" class="color"><em>BackgroundColor</em></dt>
+  <dd><code class="language-plaintext highlighter-rouge">TextBox</code>` 的背景色。您可以在设计视图或
+ 编程视图中按名称选择颜色。默认背景色为「default」（带阴影的 3-D 外观）。</dd>
+  <dt id="TextBox.Enabled" class="boolean"><em>Enabled</em></dt>
+  <dd>若选中，用户可以在 <code class="language-plaintext highlighter-rouge">TextBox</code> 中输入文本。</dd>
+  <dt id="TextBox.FontBold" class="boolean"><em>FontBold</em></dt>
+  <dd>指定 <code class="language-plaintext highlighter-rouge">TextBox</code> 的文本是否使用粗体。
+ 有些字体不支持粗体。</dd>
+  <dt id="TextBox.FontItalic" class="boolean"><em>FontItalic</em></dt>
+  <dd>指定 <code class="language-plaintext highlighter-rouge">TextBox</code> 的文本是否使用斜体。
+ 有些字体不支持斜体。</dd>
+  <dt id="TextBox.FontSize" class="number"><em>FontSize</em></dt>
+  <dd>指定 <code class="language-plaintext highlighter-rouge">TextBox</code> 的文本字号，以 sp（缩放无关像素）为单位。</dd>
+  <dt id="TextBox.FontTypeface" class="text"><em>FontTypeface</em></dt>
+  <dd><code class="language-plaintext highlighter-rouge">TextBox</code> 的文本字体。有效取值为 <code class="language-plaintext highlighter-rouge">0</code>（默认）、<code class="language-plaintext highlighter-rouge">1</code>（serif）、<code class="language-plaintext highlighter-rouge">2</code>（sans
+ serif）或 <code class="language-plaintext highlighter-rouge">3</code>（monospace）。</dd>
+  <dt id="TextBox.Height" class="number bo"><em>Height</em></dt>
+  <dd>指定 <code class="language-plaintext highlighter-rouge">TextBox</code> 的垂直高度，以像素为单位。</dd>
+  <dt id="TextBox.HeightPercent" class="number wo bo"><em>HeightPercent</em></dt>
+  <dd>以 <a href="userinterface.html#Screen.Height"><code class="language-plaintext highlighter-rouge">Screen</code> 的 <code class="language-plaintext highlighter-rouge">Height</code></a> 的百分比形式
+ 指定 <code class="language-plaintext highlighter-rouge">TextBox</code> 的垂直高度。</dd>
+  <dt id="TextBox.Hint" class="text"><em>Hint</em></dt>
+  <dd>给用户的 <code class="language-plaintext highlighter-rouge">TextBox</code> 提示。</dd>
+  <dt id="TextBox.HintColor" class="color"><em>HintColor</em></dt>
+  <dd>指定 TextBox 提示文本的颜色。</dd>
+  <dt id="TextBox.Left" class="number"><em>Left</em></dt>
+  <dd>指定组件左边缘相对于
+ AbsoluteArrangement 的位置。</dd>
+  <dt id="TextBox.MultiLine" class="boolean"><em>MultiLine</em></dt>
+  <dd>若为 true，则此 <code class="language-plaintext highlighter-rouge">TextBox</code> 接受多行输入，输入时使用
+ 回车键换行。对于单行文本框，键盘上显示的是「完成」键而不是回车键，
+ 按「完成」键会隐藏键盘。对于多行文本框，应用应调用 HideKeyboard 方法
+ 来隐藏键盘。</dd>
+  <dt id="TextBox.NumbersOnly" class="boolean"><em>NumbersOnly</em></dt>
+  <dd>若为 true，则此 <code class="language-plaintext highlighter-rouge">TextBox</code><code class="language-plaintext highlighter-rouge"> 只接受数字作为键盘输入。数字可以包含
+ 小数点和可选的前导负号。这仅适用于键盘输入。即使
+ </code>NumbersOnly<code class="language-plaintext highlighter-rouge"> 为 true，您仍可以使用
+ [</code>Text`](#TextBox.Text) 属性将文本设置为任意内容。</dd>
+  <dt id="TextBox.ReadOnly" class="boolean"><em>ReadOnly</em></dt>
+  <dd>TextBox 是否为只读。默认值为 <code class="language-plaintext logic block highlighter-rouge">false</code>。</dd>
+  <dt id="TextBox.Text" class="text"><em>Text</em></dt>
+  <dd><code class="language-plaintext highlighter-rouge">TextBox</code> 中的文本，可以由程序员在设计视图或编程视图中设置，
+ 也可以由用户输入（除非 <a href="#TextBox.Enabled"><code class="language-plaintext highlighter-rouge">Enabled</code></a> 属性为 false）。</dd>
+  <dt id="TextBox.TextAlignment" class="number"><em>TextAlignment</em></dt>
+  <dd>指定 <code class="language-plaintext highlighter-rouge">TextBox</code> 文本的对齐方式。有效取值为：
+ <code class="language-plaintext highlighter-rouge">0</code>（正常；例如，当文字从左到右书写时为左对齐）、
+ <code class="language-plaintext highlighter-rouge">1</code>（居中），或
+ <code class="language-plaintext highlighter-rouge">2</code>（相反；例如，当文字从左到右书写时为右对齐）。</dd>
+  <dt id="TextBox.TextColor" class="color"><em>TextColor</em></dt>
+  <dd>以 alpha-red-green-blue（透明度-红-绿-蓝）整数指定 <code class="language-plaintext highlighter-rouge">TextBox</code> 的文本颜色。</dd>
+  <dt id="TextBox.Top" class="number"><em>Top</em></dt>
+  <dd>指定组件上边缘相对于
+ AbsoluteArrangement 的位置。</dd>
+  <dt id="TextBox.Visible" class="boolean"><em>Visible</em></dt>
+  <dd>指定 <code class="language-plaintext highlighter-rouge">TextBox</code> 是否在屏幕上可见。若 <code class="language-plaintext highlighter-rouge">TextBox</code> 正在显示，值为
+ <code class="language-plaintext logic block highlighter-rouge">true</code>；若已隐藏，值为 <code class="language-plaintext logic block highlighter-rouge">false</code>。</dd>
+  <dt id="TextBox.Width" class="number bo"><em>Width</em></dt>
+  <dd>指定 <code class="language-plaintext highlighter-rouge">TextBox</code> 的水平宽度，以像素为单位。</dd>
+  <dt id="TextBox.WidthPercent" class="number wo bo"><em>WidthPercent</em></dt>
+  <dd>以 <a href="userinterface.html#Screen.Width"><code class="language-plaintext highlighter-rouge">Screen</code> 的 <code class="language-plaintext highlighter-rouge">Width</code></a> 的百分比形式
+ 指定 <code class="language-plaintext highlighter-rouge">TextBox</code> 的水平宽度。</dd>
+</dl>
+
+<h3 id="TextBox-Events">事件</h3>
+
+<dl class="events">
+  <dt id="TextBox.GotFocus">GotFocus()</dt>
+  <dd>当 <code class="language-plaintext highlighter-rouge">TextBox</code> 被选中以进行输入时引发的事件，例如
+ 用户触摸它。</dd>
+  <dt id="TextBox.LostFocus">LostFocus()</dt>
+  <dd>当 <code class="language-plaintext highlighter-rouge">TextBox</code> 不再被选中以进行输入时引发的事件，
+ 例如用户触摸了另一个文本框。</dd>
+  <dt id="TextBox.TextChanged">TextChanged()</dt>
+  <dd>当 TextBox 的文本发生变化时引发的事件，无论是用户还是程序更改的。</dd>
+</dl>
+
+<h3 id="TextBox-Methods">方法</h3>
+
+<dl class="methods">
+  <dt id="TextBox.HideKeyboard" class="method"><i></i> HideKeyboard()</dt>
+  <dd>隐藏键盘。只有多行文本框需要此方法。单行文本框在用户
+ 按「完成」键时会关闭键盘。</dd>
+  <dt id="TextBox.MoveCursorTo" class="method"><i></i> MoveCursorTo(<em class="number">position</em>)</dt>
+  <dd>将 TextBox 的光标重新定位到给定 1 起始索引位置字符之前。如果给定位置大于 TextBox 的长度，光标将移到文本末尾；如果给定位置小于或等于 1，光标将移到文本开头。</dd>
+  <dt id="TextBox.MoveCursorToEnd" class="method"><i></i> MoveCursorToEnd()</dt>
+  <dd>将光标重新定位到 TextBox 文本的末尾。</dd>
+  <dt id="TextBox.MoveCursorToStart" class="method"><i></i> MoveCursorToStart()</dt>
+  <dd>将光标重新定位到 TextBox 文本的开头。</dd>
+  <dt id="TextBox.RequestFocus" class="method"><i></i> RequestFocus()</dt>
+  <dd>请求将焦点设置到当前 <code class="language-plaintext highlighter-rouge">TextBox</code>。</dd>
+</dl>
+
+<h2 id="TimePicker">时间选框（TimePicker）</h2>
+
+<p>一个按钮，点击后会打开对话框，让用户选择时间。</p>
+
+<p>注意：日期和时间通过 <a href="sensors.html#Clock"><code class="language-plaintext highlighter-rouge">Clock</code></a> 组件的方法来操作。</p>
+
+<h3 id="TimePicker-Properties">属性</h3>
+
+<dl class="properties">
+  <dt id="TimePicker.BackgroundColor" class="color"><em>BackgroundColor</em></dt>
+  <dd>以 alpha-red-green-blue（透明度-红-绿-蓝）整数指定 <code class="language-plaintext highlighter-rouge">TimePicker</code> 的背景色。
+ 如果设置了 <a href="#TimePicker.Image"><code class="language-plaintext highlighter-rouge">Image</code></a>，则在移除该
+ <a href="#TimePicker.Image"><code class="language-plaintext highlighter-rouge">Image</code></a> 之前看不到颜色的变化。</dd>
+  <dt id="TimePicker.Enabled" class="boolean"><em>Enabled</em></dt>
+  <dd>指定 <code class="language-plaintext highlighter-rouge">TimePicker</code> 是否处于活动状态且可点击。</dd>
+  <dt id="TimePicker.FontBold" class="boolean"><em>FontBold</em></dt>
+  <dd>指定 <code class="language-plaintext highlighter-rouge">TimePicker</code> 的文本是否使用粗体。
+ 有些字体不支持粗体。</dd>
+  <dt id="TimePicker.FontItalic" class="boolean"><em>FontItalic</em></dt>
+  <dd>指定 <code class="language-plaintext highlighter-rouge">TimePicker</code> 的文本是否使用斜体。
+ 有些字体不支持斜体。</dd>
+  <dt id="TimePicker.FontSize" class="number"><em>FontSize</em></dt>
+  <dd>指定 <code class="language-plaintext highlighter-rouge">TimePicker</code> 的文本字号，以 sp（缩放无关像素）为单位。</dd>
+  <dt id="TimePicker.FontTypeface" class="text"><em>FontTypeface</em></dt>
+  <dd>以 default、serif、sans serif、monospace 或自定义字体指定 <code class="language-plaintext highlighter-rouge">TimePicker</code> 的文本字体。要添加自定义字体，
+ 请将一个 .ttf 文件上传到项目的媒体资源中。</dd>
+  <dt id="TimePicker.Height" class="number bo"><em>Height</em></dt>
+  <dd>指定 <code class="language-plaintext highlighter-rouge">TimePicker</code> 的垂直高度，以像素为单位。</dd>
+  <dt id="TimePicker.HeightPercent" class="number wo bo"><em>HeightPercent</em></dt>
+  <dd>以 <a href="userinterface.html#Screen.Height"><code class="language-plaintext highlighter-rouge">Screen</code> 的 <code class="language-plaintext highlighter-rouge">Height</code></a> 的百分比形式
+ 指定 <code class="language-plaintext highlighter-rouge">TimePicker</code> 的垂直高度。</dd>
+  <dt id="TimePicker.Hour" class="number ro bo"><em>Hour</em></dt>
+  <dd>返回通过 <code class="language-plaintext highlighter-rouge">TimePicker</code>` 最后选择的时间中的「时」。
+ 返回的时间始终为 24 小时制格式。</dd>
+  <dt id="TimePicker.Image" class="text"><em>Image</em></dt>
+  <dd>指定 <code class="language-plaintext highlighter-rouge">TimePicker</code> 图像的路径。如果同时指定了 <code class="language-plaintext highlighter-rouge">Image</code> 和
+ <a href="#TimePicker.BackgroundColor"><code class="language-plaintext highlighter-rouge">BackgroundColor</code></a>，则只有 <code class="language-plaintext highlighter-rouge">Image</code> 可见。</dd>
+  <dt id="TimePicker.Instant" class="InstantInTime ro bo"><em>Instant</em></dt>
+  <dd>返回通过 <code class="language-plaintext highlighter-rouge">TimePicker</code> 最后选择的时刻（instant）。</dd>
+  <dt id="TimePicker.Left" class="number"><em>Left</em></dt>
+  <dd>指定组件左边缘相对于
+ AbsoluteArrangement 的位置。</dd>
+  <dt id="TimePicker.Minute" class="number ro bo"><em>Minute</em></dt>
+  <dd>返回通过 <code class="language-plaintext highlighter-rouge">TimePicker</code> 最后选择的时间中的「时」。
+ 返回的时间始终为 24 小时制格式。</dd>
+  <dt id="TimePicker.Shape" class="number"><em>Shape</em></dt>
+  <dd>指定 <code class="language-plaintext highlighter-rouge">TimePicker</code> 的形状。本属性的有效取值为 <code class="language-plaintext highlighter-rouge">0</code>（默认）、
+ <code class="language-plaintext highlighter-rouge">1</code>（圆角）、<code class="language-plaintext highlighter-rouge">2</code>（矩形）和 <code class="language-plaintext highlighter-rouge">3</code>（椭圆）。若使用了
+ <a href="#TimePicker.Image"><code class="language-plaintext highlighter-rouge">Image</code></a>，则 <code class="language-plaintext highlighter-rouge">Shape</code> 不可见。</dd>
+  <dt id="TimePicker.ShowFeedback" class="boolean"><em>ShowFeedback</em></dt>
+  <dd>指定当按下带有指定
+ <a href="#TimePicker.Image"><code class="language-plaintext highlighter-rouge">Image</code></a> 的 <code class="language-plaintext highlighter-rouge">TimePicker</code> 时是否显示视觉反馈。</dd>
+  <dt id="TimePicker.Text" class="text"><em>Text</em></dt>
+  <dd>指定 <code class="language-plaintext highlighter-rouge">TimePicker</code> 显示的文本。</dd>
+  <dt id="TimePicker.TextAlignment" class="number"><em>TextAlignment</em></dt>
+  <dd>指定 <code class="language-plaintext highlighter-rouge">TimePicker</code> 文本的对齐方式。有效取值为：
+ <code class="language-plaintext highlighter-rouge">0</code>（正常；例如，当文字从左到右书写时为左对齐）、
+ <code class="language-plaintext highlighter-rouge">1</code>（居中），或
+ <code class="language-plaintext highlighter-rouge">2</code>（相反；例如，当文字从左到右书写时为右对齐）。</dd>
+  <dt id="TimePicker.TextColor" class="color"><em>TextColor</em></dt>
+  <dd>以 alpha-red-green-blue（透明度-红-绿-蓝）整数指定 <code class="language-plaintext highlighter-rouge">TimePicker</code> 的文本颜色。</dd>
+  <dt id="TimePicker.Top" class="number"><em>Top</em></dt>
+  <dd>指定组件上边缘相对于
+ AbsoluteArrangement 的位置。</dd>
+  <dt id="TimePicker.Visible" class="boolean"><em>Visible</em></dt>
+  <dd>指定 <code class="language-plaintext highlighter-rouge">TimePicker</code> 是否在屏幕上可见。若 <code class="language-plaintext highlighter-rouge">TimePicker</code> 正在显示，值为
+ <code class="language-plaintext logic block highlighter-rouge">true</code>；若已隐藏，值为 <code class="language-plaintext logic block highlighter-rouge">false</code>。</dd>
+  <dt id="TimePicker.Width" class="number bo"><em>Width</em></dt>
+  <dd>指定 <code class="language-plaintext highlighter-rouge">TimePicker</code> 的水平宽度，以像素为单位。</dd>
+  <dt id="TimePicker.WidthPercent" class="number wo bo"><em>WidthPercent</em></dt>
+  <dd>以 <a href="userinterface.html#Screen.Width"><code class="language-plaintext highlighter-rouge">Screen</code> 的 <code class="language-plaintext highlighter-rouge">Width</code></a> 的百分比形式
+ 指定 <code class="language-plaintext highlighter-rouge">TimePicker</code> 的水平宽度。</dd>
+</dl>
+
+<h3 id="TimePicker-Events">事件</h3>
+
+<dl class="events">
+  <dt id="TimePicker.AfterTimeSet">AfterTimeSet()</dt>
+  <dd>当用户在弹出对话框中设置时间后运行此事件。</dd>
+  <dt id="TimePicker.GotFocus">GotFocus()</dt>
+  <dd>表示光标移动到 <code class="language-plaintext highlighter-rouge">TimePicker</code> 上方，现在可以
+ 点击它。</dd>
+  <dt id="TimePicker.LostFocus">LostFocus()</dt>
+  <dd>表示光标从 <code class="language-plaintext highlighter-rouge">TimePicker</code> 上移开，现在
+ 不能再点击它。</dd>
+  <dt id="TimePicker.TouchDown">TouchDown()</dt>
+  <dd>表示 <code class="language-plaintext highlighter-rouge">TimePicker</code> 被按下。</dd>
+  <dt id="TimePicker.TouchUp">TouchUp()</dt>
+  <dd>表示 <code class="language-plaintext highlighter-rouge">TimePicker</code> 已被松开。</dd>
+</dl>
+
+<h3 id="TimePicker-Methods">方法</h3>
+
+<dl class="methods">
+  <dt id="TimePicker.LaunchPicker" class="method"><i></i> LaunchPicker()</dt>
+  <dd>启动 <code class="language-plaintext highlighter-rouge">TimePicker</code> 对话框。</dd>
+  <dt id="TimePicker.SetTimeToDisplay" class="method"><i></i> SetTimeToDisplay(<em class="number">hour</em>,<em class="number">minute</em>)</dt>
+  <dd>允许用户设置 <code class="language-plaintext highlighter-rouge">TimePicker</code> 打开时要显示的时间。hour 字段
+ 的有效取值为 0-23，minute 字段的有效取值为 0-59。</dd>
+  <dt id="TimePicker.SetTimeToDisplayFromInstant" class="method"><i></i> SetTimeToDisplayFromInstant(<em class="InstantInTime">instant</em>)</dt>
+  <dd>允许根据 instant 设置 <code class="language-plaintext highlighter-rouge">TimePicker</code> 打开时要显示的小时和分钟。
+ instant 用于 <a href="sensors.html#Clock"><code class="language-plaintext highlighter-rouge">Clock</code></a>、<a href="#DatePicker"><code class="language-plaintext highlighter-rouge">DatePicker</code></a> 和 <a href="#TimePicker"><code class="language-plaintext highlighter-rouge">TimePicker</code></a>
+ 组件。</dd>
+</dl>
+
+<h2 id="WebViewer">Web 浏览框（WebViewer）</h2>
+
+<p>用于浏览网页的组件。</p>
+
+<p><img src="images/webviewer.png" alt="WebViewer 图标" /></p>
+
+<p><a href="#WebViewer.HomeUrl"><code class="language-plaintext highlighter-rouge">HomeUrl</code></a> 可以在设计视图或编程视图中指定。可以
+ 设置视图在被点击时是否跟随链接，用户还可以填写网页表单。</p>
+
+<p><strong>警告：</strong>这不是一个完整的浏览器。例如，按下手机的硬件返回键
+ 会退出应用，而不是在浏览器历史中后退。</p>
+
+<p>您可以用 <a href="#WebViewer.WebViewString"><code class="language-plaintext highlighter-rouge">WebViewString</code></a> 属性在应用与
+ 运行于 <code class="language-plaintext highlighter-rouge">WebViewer</code> 页面中的 Javascript 代码之间通信。在应用中，您读取和设置
+ <a href="#WebViewer.WebViewString"><code class="language-plaintext highlighter-rouge">WebViewString</code></a>。在 <code class="language-plaintext highlighter-rouge">WebViewer</code> 中，您引入引用
+ <code class="language-plaintext highlighter-rouge">window.AppInventor</code> 对象的 Javascript，并使用 <code class="language-plaintext highlighter-rouge">getWebViewString()</code> 和 <code class="language-plaintext highlighter-rouge">setWebViewString(text)</code> 方法。</p>
+
+<p>例如，如果 <code class="language-plaintext highlighter-rouge">WebViewer</code> 打开的页面包含以下 Javascript 命令</p>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nb">document</span><span class="p">.</span><span class="nf">write</span><span class="p">(</span><span class="dl">"</span><span class="s2">The answer is</span><span class="dl">"</span> <span class="o">+</span> <span class="nb">window</span><span class="p">.</span><span class="nx">AppInventor</span><span class="p">.</span><span class="nf">getWebViewString</span><span class="p">());</span>
+</code></pre></div></div>
+<p>并且您把 <a href="#WebViewer.WebViewString"><code class="language-plaintext highlighter-rouge">WebViewString</code></a> 设为「hello」，那么网页将显示</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code> The answer is hello.
+</code></pre></div></div>
+<p>而如果该网页包含执行以下命令的 Javascript</p>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nx">windowAppInventor</span><span class="p">.</span><span class="nf">setWebViewString</span><span class="p">(</span><span class="dl">"</span><span class="s2">hello from Javascript</span><span class="dl">"</span><span class="p">),</span>
+</code></pre></div></div>
+<p>那么 <a href="#WebViewer.WebViewString"><code class="language-plaintext highlighter-rouge">WebViewString</code></a> 属性的值将是</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code> hello from Javascript.
+</code></pre></div></div>
+<p>从 JavaScript 调用 <code class="language-plaintext highlighter-rouge">setWebViewString</code> 还会运行 <a href="#WebViewer.WebViewStringChange"><code class="language-plaintext highlighter-rouge">WebViewStringChange</code></a>
+ 事件，以便块可以处理 <a href="#WebViewer.WebViewString"><code class="language-plaintext highlighter-rouge">WebViewString</code></a> 属性发生变化的情况。</p>
+
+<p>从 nb184a 版本开始，您可以指定以 <code class="language-plaintext highlighter-rouge">http://localhost/</code>
+ 开头的 HomeUrl，以便在 AI 伴侣（Companion）和编译后的应用中引用资源。以前，应用在编译后的应用中需要使用
+ <code class="language-plaintext highlighter-rouge">file:///android_asset/</code>，在 AI 伴侣中需要使用 <code class="language-plaintext highlighter-rouge">/sdcard/AppInventor/assets/</code>。
+ 这两种方式都仍然可用，但 <code class="language-plaintext highlighter-rouge">http://localhost/</code> 这种方式在
+ 两种场景下都能用。您也可以使用「file:///appinventor_asset/」，它提供了更高的安全性，
+ 可防止资源中 JavaScript 的异步请求外发到
+ 网络。</p>
+
+<h3 id="WebViewer-Properties">属性</h3>
+
+<dl class="properties">
+  <dt id="WebViewer.CurrentPageTitle" class="text ro bo"><em>CurrentPageTitle</em></dt>
+  <dd>返回当前正在查看的页面标题</dd>
+  <dt id="WebViewer.CurrentUrl" class="text ro bo"><em>CurrentUrl</em></dt>
+  <dd>返回当前正在查看的 URL。如果通过跟随链接访问了新页面，它可能与 <a href="#WebViewer.HomeUrl"><code class="language-plaintext highlighter-rouge">HomeUrl</code></a>
+ 不同。</dd>
+  <dt id="WebViewer.FollowLinks" class="boolean"><em>FollowLinks</em></dt>
+  <dd>决定在 <code class="language-plaintext highlighter-rouge">WebViewer</code> 中点击链接时是否跟随。如果跟随
+ 链接，您可以使用 <a href="#WebViewer.GoBack"><code class="language-plaintext highlighter-rouge">GoBack</code></a> 和 <a href="#WebViewer.GoForward"><code class="language-plaintext highlighter-rouge">GoForward</code></a> 来浏览浏览器历史。</dd>
+  <dt id="WebViewer.Height" class="number bo"><em>Height</em></dt>
+  <dd>指定 <code class="language-plaintext highlighter-rouge">WebViewer</code> 的垂直高度，以像素为单位。</dd>
+  <dt id="WebViewer.HeightPercent" class="number wo bo"><em>HeightPercent</em></dt>
+  <dd>以 <a href="userinterface.html#Screen.Height"><code class="language-plaintext highlighter-rouge">Screen</code> 的 <code class="language-plaintext highlighter-rouge">Height</code></a> 的百分比形式
+ 指定 <code class="language-plaintext highlighter-rouge">WebViewer</code> 的垂直高度。</dd>
+  <dt id="WebViewer.HomeUrl" class="text"><em>HomeUrl</em></dt>
+  <dd>指定 <code class="language-plaintext highlighter-rouge">WebViewer</code> 最初应打开的页面 URL。设置它会
+ 加载该页面。</dd>
+  <dt id="WebViewer.IgnoreSslErrors" class="boolean"><em>IgnoreSslErrors</em></dt>
+  <dd>决定是否忽略 SSL 错误。设为 <code class="language-plaintext logic block highlighter-rouge">true</code> 可忽略错误。
+ 用它来接受网站的自签名证书。</dd>
+  <dt id="WebViewer.Left" class="number"><em>Left</em></dt>
+  <dd>指定组件左边缘相对于
+ AbsoluteArrangement 的位置。</dd>
+  <dt id="WebViewer.PromptforPermission" class="boolean"><em>PromptforPermission</em></dt>
+  <dd>决定在 <code class="language-plaintext highlighter-rouge">WebViewer</code> 中是否应提示用户授予使用
+ 地理定位 API 的权限。如果为 <code class="language-plaintext logic block highlighter-rouge">true</code>，则提示 <code class="language-plaintext highlighter-rouge">WebViewer</code> 的用户授予
+ 访问地理定位 API 的权限。如果为 <code class="language-plaintext logic block highlighter-rouge">false</code>，则视为已授予权限。</dd>
+  <dt id="WebViewer.Top" class="number"><em>Top</em></dt>
+  <dd>指定组件上边缘相对于
+ AbsoluteArrangement 的位置。</dd>
+  <dt id="WebViewer.UsesCamera" class="boolean wo do"><em>UsesCamera</em></dt>
+  <dd>指定此 <code class="language-plaintext highlighter-rouge">WebViewer</code> 是否可以访问摄像头。</dd>
+  <dt id="WebViewer.UsesLocation" class="boolean wo do"><em>UsesLocation</em></dt>
+  <dd>指定此 <code class="language-plaintext highlighter-rouge">WebViewer</code> 是否可以访问 JavaScript
+ 地理定位 API。</dd>
+  <dt id="WebViewer.UsesMicrophone" class="boolean wo do"><em>UsesMicrophone</em></dt>
+  <dd>指定此 <code class="language-plaintext highlighter-rouge">WebViewer</code> 是否可以访问麦克风。</dd>
+  <dt id="WebViewer.Visible" class="boolean"><em>Visible</em></dt>
+  <dd>指定 <code class="language-plaintext highlighter-rouge">WebViewer</code> 是否在屏幕上可见。若 <code class="language-plaintext highlighter-rouge">WebViewer</code> 正在显示，值为
+ <code class="language-plaintext logic block highlighter-rouge">true</code>；若已隐藏，值为 <code class="language-plaintext logic block highlighter-rouge">false</code>。</dd>
+  <dt id="WebViewer.WebViewString" class="text bo"><em>WebViewString</em></dt>
+  <dd>获取 <code class="language-plaintext highlighter-rouge">WebView</code> 的字符串，它可以在 <code class="language-plaintext highlighter-rouge">WebView</code> 中通过 Javascript 作为
+ <code class="language-plaintext highlighter-rouge">window.AppInventor</code> 对象访问。</dd>
+  <dt id="WebViewer.Width" class="number bo"><em>Width</em></dt>
+  <dd>指定 <code class="language-plaintext highlighter-rouge">WebViewer</code> 的水平宽度，以像素为单位。</dd>
+  <dt id="WebViewer.WidthPercent" class="number wo bo"><em>WidthPercent</em></dt>
+  <dd>以 <a href="userinterface.html#Screen.Width"><code class="language-plaintext highlighter-rouge">Screen</code> 的 <code class="language-plaintext highlighter-rouge">Width</code></a> 的百分比形式
+ 指定 <code class="language-plaintext highlighter-rouge">WebViewer</code> 的水平宽度。</dd>
+</dl>
+
+<h3 id="WebViewer-Events">事件</h3>
+
+<dl class="events">
+  <dt id="WebViewer.BeforePageLoad">BeforePageLoad(<em class="text">url</em>)</dt>
+  <dd>当页面即将加载时运行此事件。</dd>
+  <dt id="WebViewer.ErrorOccurred">ErrorOccurred(<em class="number">errorCode</em>,<em class="text">description</em>,<em class="text">failingUrl</em>)</dt>
+  <dd>当发生错误时运行此事件。</dd>
+  <dt id="WebViewer.PageLoaded">PageLoaded(<em class="text">url</em>)</dt>
+  <dd>当页面加载完成时运行此事件。</dd>
+  <dt id="WebViewer.WebViewStringChange">WebViewStringChange(<em class="text">value</em>)</dt>
+  <dd>当从 JavaScript 调用 <code class="language-plaintext highlighter-rouge">AppInventor.setWebViewString</code> 方法时运行的事件。
+ 新的 <a href="#WebViewer.WebViewString"><code class="language-plaintext highlighter-rouge">WebViewString</code></a> 由 <code class="language-plaintext variable block highlighter-rouge">value</code> 参数给出。</dd>
+</dl>
+
+<h3 id="WebViewer-Methods">方法</h3>
+
+<dl class="methods">
+  <dt id="WebViewer.CanGoBack" class="method returns boolean"><i></i> CanGoBack()</dt>
+  <dd>如果 WebViewer 可以在历史列表中后退，则返回 true。</dd>
+  <dt id="WebViewer.CanGoForward" class="method returns boolean"><i></i> CanGoForward()</dt>
+  <dd>如果 WebViewer 可以在历史列表中前进，则返回 true。</dd>
+  <dt id="WebViewer.ClearCaches" class="method"><i></i> ClearCaches()</dt>
+  <dd>清除内部 webview 缓存，包括内存和磁盘。当
+ 使用 <code class="language-plaintext highlighter-rouge">WebViewer</code> 轮询可能未发送
+ 适当缓存控制标头的页面时，这很有用。</dd>
+  <dt id="WebViewer.ClearCookies" class="method"><i></i> ClearCookies()</dt>
+  <dd>清除 webview 的 cookies。如果您想让
+ 用户从使用 cookies 存储登录信息的网站退出登录，这很有用。</dd>
+  <dt id="WebViewer.ClearLocations" class="method"><i></i> ClearLocations()</dt>
+  <dd>清除已存储的位置权限。在
+ <code class="language-plaintext highlighter-rouge">WebViewer</code> 中使用地理定位 API 时，最终用户会按 URL 被询问
+ 是否应授予访问其位置的权限。本
+ 函数会清除所有位置的这些信息。
+
+    <p>由于 Eclair 之前的手机没有
+权限界面，本函数在较旧的手机上不会执行任何操作。</p>
+  </dd>
+  <dt id="WebViewer.GoBack" class="method"><i></i> GoBack()</dt>
+  <dd>在历史列表中后退到上一页。如果没有上一页，则不执行任何操作。</dd>
+  <dt id="WebViewer.GoForward" class="method"><i></i> GoForward()</dt>
+  <dd>在历史列表中前进到下一页。如果没有下一页，则不执行任何操作。</dd>
+  <dt id="WebViewer.GoHome" class="method"><i></i> GoHome()</dt>
+  <dd>从主页 URL 加载页面。主页 URL 改变时会自动
+ 执行此操作。</dd>
+  <dt id="WebViewer.GoToUrl" class="method"><i></i> GoToUrl(<em class="text">url</em>)</dt>
+  <dd>加载给定 URL 处的页面。</dd>
+  <dt id="WebViewer.Reload" class="method"><i></i> Reload()</dt>
+  <dd>重新加载当前页面。</dd>
+  <dt id="WebViewer.RunJavaScript" class="method"><i></i> RunJavaScript(<em class="text">js</em>)</dt>
+  <dd>在当前页面中运行 JavaScript。</dd>
+  <dt id="WebViewer.StopLoading" class="method"><i></i> StopLoading()</dt>
+  <dd>停止加载页面。</dd>
+</dl>
+
+</article>
+<script>
+  // Handle redirection to documentation based on locale query parameter (if specified)
+  (function() {
+      var locale = window.location.search.match('[&?]locale=([a-zA-Z-]*)');
+      if (locale) {
+          if (locale[1].indexOf('en') === 0) {
+              // English needs to stay at the top level to not break existing links
+              var page = window.location.pathname.split('/');
+              if (page.length === 5) {
+                  page.splice(2, 1);
+              } else {
+                  // already on english
+                  return;
+              }
+              window.location.href = page.join('/');
+          } else {
+              var page = window.location.pathname.split('/');
+              if (page.length === 4) {
+                  page.splice(2, 0, locale[1]);
+              } else if (page[2].toLowerCase() != locale[1].toLowerCase()) {
+                  page[2] = locale[1];
+              } else {
+                  return;  // already on the desired language
+              }
+              // Test that the page exists before redirecting.
+              var xhr = new XMLHttpRequest();
+              xhr.open('HEAD', page.join('/'), false);
+              xhr.onreadystatechange = function() {
+                  if (xhr.readyState == 4) {
+                      if ((xhr.status == 200 || xhr.status == 204)) {
+                          window.location.href = page.join('/');
+                      } else if (xhr.status  >= 400) {
+                          page.splice(2, 1);  // go to english version
+                          window.location.href = page.join('/');
+                      }
+                  }
+              };
+              xhr.send();
+          }
+      }
+  })();
+
+  // Handle embedded documentation in help by removing website template
+  if (window.self !== window.top) {
+      setTimeout(function() {
+          var videos = document.querySelectorAll('video');
+          for (var i = 0; i < videos.length; i++) {
+              if (parseInt(videos[i].getAttribute('width')) > 360) {
+                  var aspect = parseInt(videos[i].getAttribute('height')) / parseInt(videos[i].getAttribute('width'));
+                  videos[i].setAttribute('width', '360');
+                  videos[i].setAttribute('height', '' + (360 * aspect));
+              }
+          }
+          var h1 = document.querySelector('h1');
+          var article = document.querySelector('article');
+          article.insertBefore(h1, article.firstElementChild);
+          document.body.innerHTML = article.outerHTML;
+      });
+  }
+</script>
+
+            </div>
+<script src="../../../static/js/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="../../../static/js/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="../../../static/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+<script async src="../../../static/js/widgets.js" charset="utf-8"></script>
+</div>
+    </body>
+</html>

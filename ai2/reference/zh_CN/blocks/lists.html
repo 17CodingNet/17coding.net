@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+
+     一一对应。
+     - 正文（标题/段落/列表/表格/图片 alt/视频说明）译为简体中文；
+     - 顶部导航（MIT logo、"Create Apps!" 按钮、About/Educators/News/Resources/Blogs
+       菜单、Donate 按钮、gcse 搜索框）与底部 MIT 版权页脚（© 声明、CC BY-SA、ToS、
+       Support/Twitter/GitHub/Accessibility）已整块删除：本项目是离线产品，帮助页只在
+       应用内新标签页打开，不应出现通往 MIT 主站的品牌链接与捐赠入口。head 里仅供
+       "Create Apps!" 按钮使用的 gotoappinventor() 脚本一并删除；<title> 与页面 <h1>
+       里的 "MIT " 字样已去掉，正文中作为产品名出现的 "MIT App Inventor" 已改为
+       "App Inventor蔻丁工坊"(zh_CN 语境带蔻丁工坊后缀;版权说明处的 MIT 保留)；
+     - 重定向脚本（<script> 块）按上游原文保留：本项目 blocklyeditor.js 的 _resolveHelpUrl
+       已把 href 直接写成 zh_CN 路径且不带 ?locale=，脚本不会触发；若日后有人手工拼了
+       ?locale=zh_CN 进 URL，file:// 下 sync XHR 会被浏览器拦截，脚本停在"已是目标语言"，
+       不会跳错位置；
+     - /static/ 绝对路径改为相对路径：offline webapp 支持以 file:// 打开，绝对路径会解析到
+       磁盘根目录（file:///static/...）从而 404；
+     - 本地图片/视频按上游同名相对路径复制到本目录，故 src 与上游完全一致；
+     - id= 锚点与块/组件/属性英文名保持上游原文，帮助链接里的 #fragment 才能定位。 -->
+<html lang="zh-CN"><head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="stylesheet" href="../../../static/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="../../../static/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
+    <link href="../../../static/css/fonts.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="../../../static/css/mit_app_inventor.css">
+    <title>App Inventor 列表块</title></head>
+<body class="mit_app_inventor">
+<div class="default-page">
+            <div class="header">
+	        <h1 class="font-weight-bold text-center offset-xl-2 col-xl-8">App Inventor 列表块</h1>
+            </div>
+            <div class="container-fluid">
+                <article class="documentation">
+<ul>
+  <li><a href="#emptylist">空列表</a></li>
+  <li><a href="#makealist">建立列表</a></li>
+  <li><a href="#additems">向列表添加项</a></li>
+  <li><a href="#inlist">列表中包含项</a></li>
+  <li><a href="#lengthoflist">列表的长度</a></li>
+  <li><a href="#islistempty">列表为空</a></li>
+  <li><a href="#pickrandomitem">列表中任意项</a></li>
+  <li><a href="#indexinlist">列表项索引值</a></li>
+  <li><a href="#selectlistitem">选择列表项</a></li>
+  <li><a href="#insert">插入列表项</a></li>
+  <li><a href="#replace">替换列表项</a></li>
+  <li><a href="#removeitem">删除列表项</a></li>
+  <li><a href="#append">追加列表</a></li>
+  <li><a href="#copy">复制列表</a></li>
+  <li><a href="#isalist">是否为列表</a></li>
+  <li><a href="#reverse">列表的逆序副本</a></li>
+  <li><a href="#listtocsvrow">列表转为 CSV 单行</a></li>
+  <li><a href="#listtocsvtable">列表转为 CSV 表格</a></li>
+  <li><a href="#listfromcsvrow">CSV 单行转为列表</a></li>
+  <li><a href="#listfromcsvtable">CSV 表格转为列表</a></li>
+  <li><a href="#lookupinpairs">键值列表查询</a></li>
+  <li><a href="#joinwithseparator">以连接符合并列表项</a></li>
+  <li><a href="#mapnondest">映射列表</a></li>
+  <li><a href="#filter">筛选列表</a></li>
+  <li><a href="#reduce">将列表归并为单个值</a></li>
+  <li><a href="#sort">按升序排序列表</a></li>
+  <li><a href="#sortwithcomparator">使用比较器排序列表</a></li>
+  <li><a href="#sortwithkey">使用键排序列表</a></li>
+  <li><a href="#minnumber">列表中的最小值</a></li>
+  <li><a href="#maximum">列表中的最大值</a></li>
+  <li><a href="#butfirst">除第一项外的全部</a></li>
+  <li><a href="#butlast">除最后一项外的全部</a></li>
+  <li><a href="#slices">截取子列表</a></li>
+</ul>
+
+<p><em>需要更多关于列表的帮助？请参阅概念（Concepts）页面中的<a href="../concepts/lists.html">创建列表</a>。</em></p>
+
+<h3 id="emptylist">空列表</h3>
+
+<p><img src="images/lists/emptylist.png" alt="" /></p>
+
+<p>创建一个不含任何元素的空列表。</p>
+
+<h3 id="makealist">建立列表</h3>
+
+<p><img src="images/lists/makealist.png" alt="" /></p>
+
+<p>根据给定的块创建一个列表。如果没有提供任何参数，则创建一个空列表，之后您可以再向其中添加元素。
+该块是一个<a href="../concepts/mutators.html">变体块（mutator）</a>。点击蓝色加号即可向列表中添加更多项。</p>
+
+<h3 id="additems">向列表添加项</h3>
+
+<p><img src="images/lists/additems.png" alt="" /></p>
+
+<p>将给定的项添加到列表末尾。
+它与“追加列表”的区别在于：“追加列表”把要追加的项作为单个列表传入，
+而“向列表添加项”把各项作为独立参数传入。该块是一个<a href="../concepts/mutators.html">变体块（mutator）</a>。</p>
+
+<h3 id="inlist">列表中包含项</h3>
+
+<p><img src="images/lists/inlist.png" alt="" /></p>
+
+<p>如果 thing 是列表的元素之一，则返回“真”，否则返回“假”。注意，如果列表中包含子列表，
+子列表的成员本身并不属于该列表的成员。例如，列表 (1 2 (3 4)) 的成员是 1、2 以及列表 (3 4)，而 3 和 4 本身并不是该列表的成员。</p>
+
+<h3 id="lengthoflist">列表的长度</h3>
+
+<p><img src="images/lists/lengthoflist.png" alt="" /></p>
+
+<p>返回列表中的项数。</p>
+
+<h3 id="islistempty">列表为空</h3>
+
+<p><img src="images/lists/islistempty.png" alt="" /></p>
+
+<p>如果列表中没有项，则返回“真”，否则返回“假”。</p>
+
+<h3 id="pickrandomitem">列表中任意项</h3>
+
+<p><img src="images/lists/pickrandomitem.png" alt="" /></p>
+
+<p>从列表中随机选取一项。</p>
+
+<h3 id="indexinlist">列表项索引值</h3>
+
+<p><img src="images/lists/indexinlist.png" alt="" /></p>
+
+<p>返回 thing 在列表中的位置。如果不在列表中，则返回 0。</p>
+
+<h3 id="selectlistitem">选择列表项</h3>
+
+<p><img src="images/lists/selectlistitem.png" alt="" /></p>
+
+<p>选取给定列表中指定索引处的项。列表的第一项位于索引 1。</p>
+
+<h3 id="insert">插入列表项</h3>
+
+<p><img src="images/lists/insert.png" alt="" /></p>
+
+<p>在给定位置向列表中插入一项。</p>
+
+<h3 id="replace">替换列表项</h3>
+
+<p><img src="images/lists/replace.png" alt="" /></p>
+
+<p>将 <em>replacement</em> 插入到给定列表中 index 位置处；该位置原有的项会被移除。</p>
+
+<h3 id="removeitem">删除列表项</h3>
+
+<p><img src="images/lists/removeitem.png" alt="" /></p>
+
+<p>删除指定位置处的项。</p>
+
+<h3 id="append">追加列表</h3>
+
+<p><img src="images/lists/append.png" alt="" /></p>
+
+<p>将第二个列表中的各项添加到第一个列表的末尾。</p>
+
+<h3 id="copy">复制列表</h3>
+
+<p><img src="images/lists/copy.png" alt="" /></p>
+
+<p>复制一个列表，包括复制其中的所有子列表。</p>
+
+<h3 id="isalist">是否为列表</h3>
+
+<p><img src="images/lists/isalist.png" alt="" /></p>
+
+<p>如果 <em>thing</em> 是列表，则返回“真”，否则返回“假”。</p>
+
+<h3 id="reverse">列表的逆序副本</h3>
+
+<p><img src="images/lists/reverse.png" alt="" /></p>
+
+<p>返回一个列表副本，其中各项的顺序与原列表相反。例如 reverse([1,2,3]) 返回 [3,2,1]</p>
+
+<h3 id="listtocsvrow">列表转为 CSV 单行</h3>
+
+<p><img src="images/lists/listtocsvrow.png" alt="" /></p>
+
+<p>把列表解释为表格中的一行，并返回表示该行的 CSV（逗号分隔值）文本。
+行列表中的每一项都被视为一个字段，并在生成的 CSV 文本中加上双引号。各项之间用逗号分隔。
+例如，把列表 (a b c d) 转换为 CSV 行会得到 (“a”, “b”, “c”, “d”)。
+返回的行文本末尾不带行分隔符。</p>
+
+<h3 id="listtocsvtable">列表转为 CSV 表格</h3>
+
+<p><img src="images/lists/listtocsvtable.png" alt="" /></p>
+
+<p>把列表解释为按行优先格式排列的表格，并返回表示该表格的 CSV（逗号分隔值）文本。
+列表中的每一项本身都应是一个列表，表示 CSV 表格中的一行。
+行列表中的每一项都被视为一个字段，并在生成的 CSV 文本中加上双引号。
+在返回的文本中，行内各项之间用逗号分隔，各行之间用 CRLF（\r\n）分隔。</p>
+
+<h3 id="listfromcsvrow">CSV 单行转为列表</h3>
+
+<p><img src="images/lists/listfromcsvrow.png" alt="" /></p>
+
+<p>把文本解析为 CSV（逗号分隔值）格式的一行，生成由各字段组成的列表。
+例如，把 (“a”, “b”, “c”, “d”) 转换为列表会得到 (a b c d)。</p>
+
+<h3 id="listfromcsvtable">CSV 表格转为列表</h3>
+
+<p><img src="images/lists/listfromcsvtable.png" alt="" /></p>
+
+<p>把文本解析为 CSV（逗号分隔值）格式的表格，生成由行组成的列表，其中每一行又是一个由各字段组成的列表。
+各行之间可以用换行符（\n）或 CRLF（\r\n）分隔。</p>
+
+<h3 id="lookupinpairs">键值列表查询</h3>
+
+<p><img src="images/lists/lookupinpairs.png" alt="" /></p>
+
+<p>用于在以列表表示的类字典结构中查找信息。
+该操作接受三个输入：一个 <em>key</em>、一个列表 <em>pairs</em>，以及一个 <em>notFound</em> 结果，后者默认设为 “not found”。
+这里的 <em>pairs</em> 必须是键值对列表，也就是说，列表中的每个元素本身都是一个包含两个元素的列表。
+<code class="language-plaintext list block highlighter-rouge">Lookup in pairs</code> 会找出列表中第一个元素为 <em>key</em> 的键值对，并返回其第二个
+元素。例如，如果列表是 ((a apple) (d dragon) (b boxcar) (cat 100))，那么查找 ‘b’ 将返回 ‘boxcar’。
+如果列表中没有这样的键值对，<code class="language-plaintext list block highlighter-rouge">lookup in pairs</code> 将返回 <em>notFound</em> 参数。如果 <em>pairs</em> 不是键值对
+列表，该操作将报错。</p>
+
+<h3 id="joinwithseparator">以连接符合并列表项</h3>
+
+<p><img src="images/lists/joinwithseparator.png" alt="" /></p>
+
+<p>用指定的连接符把指定列表中的所有元素合并起来，结果为文本。</p>
+
+<h3 id="map">映射列表</h3>
+
+<p><img src="images/lists/mapnondest.png" alt="" /></p>
+
+<p>使用所提供的表达式把输入列表中的每一项映射为一个新值，从而创建一个新列表。
+主体是一个表达式，用于对列表中的每一项进行运算。
+使用给定的变量名 item 来指代当前列表项。</p>
+
+<p><a href="../concepts/pholo.html#map">这里</a>有一篇介绍如何使用映射块的教程。</p>
+
+<h3 id="filter">筛选列表</h3>
+
+<p><img src="images/lists/filternondest.png" alt="" /></p>
+
+<p>保留输入列表中满足测试条件的每一项，从而创建一个新列表。
+主体是一个布尔表达式，用于检查某一项是否通过测试。
+如果主体返回“真”，该项就会被加入筛选后的新列表。
+使用给定的变量名 item 来指代当前列表项。</p>
+
+<p><a href="../concepts/pholo.html#filter">这里</a>有一篇介绍如何使用筛选块的教程。</p>
+
+<h3 id="reduce">将列表归并为单个值</h3>
+
+<p><img src="images/lists/reduce.png" alt="" /></p>
+
+<p>通过对输入列表进行归并，返回一个累积值。
+如果输入列表为空，则返回 initialAnswer。否则，answerSoFar 会初始化为 initialAnswer。
+主体块将使用累积值 answerSoFar 和输入列表中的每一项进行求值。</p>
+
+<p><a href="../concepts/pholo.html#reduce">这里</a>有一篇介绍如何使用归并块的教程。</p>
+
+<h3 id="sort">按升序排序列表</h3>
+
+<p><img src="images/lists/sort.png" alt="" /></p>
+
+<p>按升序对输入列表排序，从而创建一个新列表。
+这是一个通用排序过程，适用于任何类型的列表。
+它把同一类型的项归为一组，然后在同一类型组内按相应规则排序。
+目前各类型的顺序依次为：布尔值、数字、字符串、列表，最后是组件。
+对于布尔值，定义“假”小于“真”。
+组件首先按其类名进行比较。
+如果它们是同一个类的实例，则使用其哈希码进行比较。</p>
+
+<p><a href="../concepts/pholo.html#sort">这里</a>有一篇介绍如何使用排序块的教程。</p>
+
+<h3 id="sortwithcomparator">使用比较器排序列表</h3>
+
+<p><img src="images/lists/sortwithcomparator.png" alt="" /></p>
+
+<p>按照块主体所指定的顺序对输入列表排序，从而创建一个新列表。
+该块的主体是一个涉及 item1 和 item2 的布尔表达式，返回“真”或“假”。
+如果主体返回“真”，则在排序时 item1 会排在 item2 之前。
+如果主体返回“假”，则在排序时 item2 会排在 item1 之前。
+使用给定的变量名 item1 和 item2 来指代当前正在比较的两个列表项。</p>
+
+<p><a href="../concepts/pholo.html#sortwithcomparator">这里</a>有一篇介绍如何使用比较器排序块的教程。</p>
+
+<h3 id="sortwithkey">使用键排序列表</h3>
+
+<p><img src="images/lists/sortwithkey.png" alt="" /></p>
+
+<p>按键的升序对输入列表排序，从而创建一个新列表。
+键是由该块主体根据列表中每一项生成的代理值。</p>
+
+<p><a href="../concepts/pholo.html#sortwithkey">这里</a>有一篇介绍如何使用键排序块的教程。</p>
+
+<h3 id="minnumber">列表中的最小值</h3>
+
+<p><img src="images/lists/minnumber.png" alt="" /></p>
+
+<p>返回输入列表中的最小数值。</p>
+
+<h3 id="maxnumber">列表中的最大值</h3>
+
+<p><img src="images/lists/maxnumber.png" alt="" /></p>
+
+<p>返回输入列表中的最大数值。</p>
+
+<h3 id="butfirst">除第一项外的全部</h3>
+
+<p><img src="images/lists/butfirst.png" alt="" /></p>
+
+<p>返回去掉输入列表中第一项后的列表。</p>
+
+<h3 id="butlast">除最后一项外的全部</h3>
+
+<p><img src="images/lists/butlast.png" alt="" /></p>
+
+<p>返回去掉输入列表中最后一项后的列表。</p>
+
+<h3 id="slices">截取子列表</h3>
+
+<p><img src="images/lists/slices.png" alt="" /></p>
+
+<p>在给定的两个索引处截取输入列表，返回截取得到的列表。
+返回的列表包含输入列表中从 index1 开始、直到（但不包括）index2 的各项。</p>
+
+</article>
+<script>
+  // Handle redirection to documentation based on locale query parameter (if specified)
+  (function() {
+      var locale = window.location.search.match('[&?]locale=([a-zA-Z-]*)');
+      if (locale) {
+          if (locale[1].indexOf('en') === 0) {
+              // English needs to stay at the top level to not break existing links
+              var page = window.location.pathname.split('/');
+              if (page.length === 5) {
+                  page.splice(2, 1);
+              } else {
+                  // already on english
+                  return;
+              }
+              window.location.href = page.join('/');
+          } else {
+              var page = window.location.pathname.split('/');
+              if (page.length === 4) {
+                  page.splice(2, 0, locale[1]);
+              } else if (page[2].toLowerCase() != locale[1].toLowerCase()) {
+                  page[2] = locale[1];
+              } else {
+                  return;  // already on the desired language
+              }
+              // Test that the page exists before redirecting.
+              var xhr = new XMLHttpRequest();
+              xhr.open('HEAD', page.join('/'), false);
+              xhr.onreadystatechange = function() {
+                  if (xhr.readyState == 4) {
+                      if ((xhr.status == 200 || xhr.status == 204)) {
+                          window.location.href = page.join('/');
+                      } else if (xhr.status  >= 400) {
+                          page.splice(2, 1);  // go to english version
+                          window.location.href = page.join('/');
+                      }
+                  }
+              };
+              xhr.send();
+          }
+      }
+  })();
+
+  // Handle embedded documentation in help by removing website template
+  if (window.self !== window.top) {
+      setTimeout(function() {
+          var videos = document.querySelectorAll('video');
+          for (var i = 0; i < videos.length; i++) {
+              if (parseInt(videos[i].getAttribute('width')) > 360) {
+                  var aspect = parseInt(videos[i].getAttribute('height')) / parseInt(videos[i].getAttribute('width'));
+                  videos[i].setAttribute('width', '360');
+                  videos[i].setAttribute('height', '' + (360 * aspect));
+              }
+          }
+          var h1 = document.querySelector('h1');
+          var article = document.querySelector('article');
+          article.insertBefore(h1, article.firstElementChild);
+          document.body.innerHTML = article.outerHTML;
+      });
+  }
+</script>
+
+            </div>
+<script src="../../../static/js/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="../../../static/js/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="../../../static/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+<script async src="../../../static/js/widgets.js" charset="utf-8"></script>
+</div>
+    </body>
+</html>

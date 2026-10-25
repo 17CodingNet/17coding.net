@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+
+     一一对应。
+     - 正文（标题/段落/列表/表格/图片 alt/视频说明）译为简体中文；
+     - 顶部导航（MIT logo、"Create Apps!" 按钮、About/Educators/News/Resources/Blogs
+       菜单、Donate 按钮、gcse 搜索框）与底部 MIT 版权页脚（© 声明、CC BY-SA、ToS、
+       Support/Twitter/GitHub/Accessibility）已整块删除：本项目是离线产品，帮助页只在
+       应用内新标签页打开，不应出现通往 MIT 主站的品牌链接与捐赠入口。head 里仅供
+       "Create Apps!" 按钮使用的 gotoappinventor() 脚本一并删除；<title> 与页面 <h1>
+       里的 "MIT " 字样已去掉，正文中作为产品名出现的 "MIT App Inventor" 已改为
+       "App Inventor蔻丁工坊"(zh_CN 语境带蔻丁工坊后缀;版权说明处的 MIT 保留)；
+     - 重定向脚本（<script> 块）按上游原文保留：本项目 blocklyeditor.js 的 _resolveHelpUrl
+       已把 href 直接写成 zh_CN 路径且不带 ?locale=，脚本不会触发；若日后有人手工拼了
+       ?locale=zh_CN 进 URL，file:// 下 sync XHR 会被浏览器拦截，脚本停在“已是目标语言”，
+       不会跳错位置；
+     - ../../../static/ 绝对路径改为相对路径：offline webapp 支持以 file:// 打开，绝对路径会解析到
+       磁盘根目录（file://../../../static/...）从而 404；
+     - 本地图片/视频按上游同名相对路径复制到本目录，故 src 与上游完全一致；
+     - id= 锚点与块/组件/属性英文名保持上游原文，帮助链接里的 #fragment 才能定位。 -->
+<html lang="zh-CN"><head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="stylesheet" href="../../../static/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="../../../static/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
+    <link href="../../../static/css/fonts.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="../../../static/css/mit_app_inventor.css">
+    <title>界面布局</title></head>
+<body class="mit_app_inventor">
+<div class="default-page">
+            <div class="header">
+	        <h1 class="font-weight-bold text-center offset-xl-2 col-xl-8">界面布局</h1>
+            </div>
+            <div class="container-fluid">
+                <article class="documentation">
+<p><a href="index.html">« 返回目录</a></p>
+<h1 id="layout">界面布局</h1>
+
+<p>目录：</p>
+
+<ul>
+  <li><a href="#AbsoluteArrangement">绝对布局（AbsoluteArrangement）</a></li>
+  <li><a href="#HorizontalArrangement">水平布局（HorizontalArrangement）</a></li>
+  <li><a href="#HorizontalScrollArrangement">水平滚动布局（HorizontalScrollArrangement）</a></li>
+  <li><a href="#TableArrangement">表格布局（TableArrangement）</a></li>
+  <li><a href="#VerticalArrangement">垂直布局（VerticalArrangement）</a></li>
+  <li><a href="#VerticalScrollArrangement">垂直滚动布局（VerticalScrollArrangement）</a></li>
+</ul>
+
+<h2 id="AbsoluteArrangement">绝对布局（AbsoluteArrangement）</h2>
+
+<p>用于将所含组件按绝对位置排列的容器。</p>
+
+<h3 id="AbsoluteArrangement-Properties">属性</h3>
+
+<dl class="properties">
+  <dt id="AbsoluteArrangement.BackgroundColor" class="color"><em>BackgroundColor</em></dt>
+  <dd>以 alpha-red-green-blue 整数指定按钮的背景色。
+ 如果参数为 <a href="#Component.COLOR"><code class="language-plaintext highlighter-rouge">Component</code>’s <code class="language-plaintext highlighter-rouge">COLOR</code></a>，则恢复原有的斜角效果。
+ 如果已设置图像，则在移除该图像之前，颜色更改不可见。</dd>
+  <dt id="AbsoluteArrangement.Height" class="number bo"><em>Height</em></dt>
+  <dd>指定 <code class="language-plaintext highlighter-rouge">AbsoluteArrangement</code> 的垂直高度，以像素为单位。</dd>
+  <dt id="AbsoluteArrangement.HeightPercent" class="number wo bo"><em>HeightPercent</em></dt>
+  <dd>以 <a href="userinterface.html#Screen.Height"><code class="language-plaintext highlighter-rouge">Screen</code>’s <code class="language-plaintext highlighter-rouge">Height</code></a> 的百分比形式
+ 指定 <code class="language-plaintext highlighter-rouge">AbsoluteArrangement</code> 的垂直高度。</dd>
+  <dt id="AbsoluteArrangement.Image" class="text"><em>Image</em></dt>
+  <dd>指定按钮图像的路径。</dd>
+  <dt id="AbsoluteArrangement.Left" class="number"><em>Left</em></dt>
+  <dd>指定组件左边缘相对于
+ AbsoluteArrangement 的位置。</dd>
+  <dt id="AbsoluteArrangement.Top" class="number"><em>Top</em></dt>
+  <dd>指定组件上边缘相对于
+ AbsoluteArrangement 的位置。</dd>
+  <dt id="AbsoluteArrangement.Visible" class="boolean"><em>Visible</em></dt>
+  <dd>指定 <code class="language-plaintext highlighter-rouge">AbsoluteArrangement</code> 是否应在屏幕上可见。若 <code class="language-plaintext highlighter-rouge">AbsoluteArrangement</code> 正在显示，值为 <code class="language-plaintext logic block highlighter-rouge">true</code>；
+ 若已隐藏，值为 <code class="language-plaintext logic block highlighter-rouge">false</code>。</dd>
+  <dt id="AbsoluteArrangement.Width" class="number bo"><em>Width</em></dt>
+  <dd>指定 <code class="language-plaintext highlighter-rouge">AbsoluteArrangement</code> 的水平宽度，以像素为单位。</dd>
+  <dt id="AbsoluteArrangement.WidthPercent" class="number wo bo"><em>WidthPercent</em></dt>
+  <dd>以 <a href="userinterface.html#Screen.Width"><code class="language-plaintext highlighter-rouge">Screen</code>’s <code class="language-plaintext highlighter-rouge">Width</code></a> 的百分比形式
+ 指定 <code class="language-plaintext highlighter-rouge">AbsoluteArrangement</code> 的水平宽度。</dd>
+</dl>
+
+<h3 id="AbsoluteArrangement-Events">事件</h3>
+
+<p class="events">无</p>
+
+<h3 id="AbsoluteArrangement-Methods">方法</h3>
+
+<p class="methods">无</p>
+
+<h2 id="HorizontalArrangement">水平布局（HorizontalArrangement）</h2>
+
+<p><img src="images/horizontalarrangement.png" alt="水平布局图标" /></p>
+
+<p>使用水平布局组件可以显示一组自左向右排列的组件。</p>
+
+<p>该组件是一种排版元素，您可以将应自左向右显示的组件放入其中。
+ 如果希望组件一个叠一个地显示，请改用
+ <a href="#VerticalArrangement"><code class="language-plaintext highlighter-rouge">VerticalArrangement</code></a>。</p>
+
+<p>在 <code class="language-plaintext highlighter-rouge">HorizontalArrangement</code> 中，组件沿水平轴排列，并在垂直方向上
+ 居中对齐。</p>
+
+<p>如果 <code class="language-plaintext highlighter-rouge">HorizontalArrangement</code> 的 <a href="#HorizontalArrangement.Height"><code class="language-plaintext highlighter-rouge">Height</code></a> 属性设为 <code class="language-plaintext highlighter-rouge">Automatic</code>，则布局的
+ 实际高度由该布局中 <a href="#HorizontalArrangement.Height"><code class="language-plaintext highlighter-rouge">Height</code></a> 属性未设为 <code class="language-plaintext highlighter-rouge">Fill Parent</code> 的
+ 最高组件决定。如果 <code class="language-plaintext highlighter-rouge">HorizontalArrangment</code> 的
+ <a href="#HorizontalArrangement.Height"><code class="language-plaintext highlighter-rouge">Height</code></a> 属性设为 <code class="language-plaintext highlighter-rouge">Automatic</code>，且它只包含 <code class="language-plaintext highlighter-rouge">Height</code>
+ 属性均设为 <code class="language-plaintext highlighter-rouge">Fill Parent</code> 的组件，则布局的实际高度
+ 按这些组件的自动高度计算。如果 <code class="language-plaintext highlighter-rouge">HorizontalArrangement</code> 的 <a href="#HorizontalArrangement.Height"><code class="language-plaintext highlighter-rouge">Height</code></a>
+ 属性设为 <code class="language-plaintext highlighter-rouge">Automatic</code> 且布局为空，则 <code class="language-plaintext highlighter-rouge">Height</code> 为 100。</p>
+
+<p>如果 <code class="language-plaintext highlighter-rouge">HorizontalArrangement</code> 的 <a href="#HorizontalArrangement.Width"><code class="language-plaintext highlighter-rouge">Width</code></a> 属性设为 <code class="language-plaintext highlighter-rouge">Automatic</code>，则布局的
+ 实际宽度由各组件宽度之和决定。<strong>如果
+ <code class="language-plaintext highlighter-rouge">HorizontalArrangement</code> 的 <a href="#HorizontalArrangement.Width"><code class="language-plaintext highlighter-rouge">Width</code></a> 属性设为 <code class="language-plaintext highlighter-rouge">Automatic</code>，则任何 <a href="#HorizontalArrangement.Width"><code class="language-plaintext highlighter-rouge">Width</code></a>
+ 属性设为 <code class="language-plaintext highlighter-rouge">Fill Parent</code> 的组件都将如同设为
+ <code class="language-plaintext highlighter-rouge">Automatic</code> 一样表现。</strong></p>
+
+<p>如果 <code class="language-plaintext highlighter-rouge">HorizontalArrangement</code> 的 <a href="#HorizontalArrangement.Width"><code class="language-plaintext highlighter-rouge">Width</code></a> 属性设为 <code class="language-plaintext highlighter-rouge">Fill Parent</code>，则各组件的宽度
+ 将平均占用其他组件未占用的宽度。</p>
+
+<h3 id="HorizontalArrangement-Properties">属性</h3>
+
+<dl class="properties">
+  <dt id="HorizontalArrangement.AlignHorizontal" class="number"><em>AlignHorizontal</em></dt>
+  <dd>一个数字，用于编码 <code class="language-plaintext highlighter-rouge">HorizontalArrangement</code> 的内容在水平方向上的对齐方式。可选值为：
+ <code class="language-plaintext highlighter-rouge">1</code> = 左对齐，<code class="language-plaintext highlighter-rouge">2</code> = 右对齐，<code class="language-plaintext highlighter-rouge">3</code> = 水平居中。如果 <code class="language-plaintext highlighter-rouge">HorizontalArrangement</code> 的
+ <a href="#HorizontalArrangement.Width"><code class="language-plaintext highlighter-rouge">Width</code></a> 为 <code class="language-plaintext highlighter-rouge">Automatic</code>，则对齐设置不起作用。</dd>
+  <dt id="HorizontalArrangement.AlignVertical" class="number"><em>AlignVertical</em></dt>
+  <dd>一个数字，用于编码 <code class="language-plaintext highlighter-rouge">HorizontalArrangement</code> 的内容在垂直方向上的对齐方式。可选值为：
+ <code class="language-plaintext highlighter-rouge">1</code> = 顶部对齐，<code class="language-plaintext highlighter-rouge">2</code> = 垂直居中，<code class="language-plaintext highlighter-rouge">3</code> = 底部对齐。
+ 如果 <code class="language-plaintext highlighter-rouge">HorizontalArrangement</code> 的 <a href="#HorizontalArrangement.Height"><code class="language-plaintext highlighter-rouge">Height</code></a> 为 <code class="language-plaintext highlighter-rouge">Automatic</code>，则对齐设置不起作用。</dd>
+  <dt id="HorizontalArrangement.BackgroundColor" class="color"><em>BackgroundColor</em></dt>
+  <dd>以 alpha-red-green-blue 整数指定 HorizontalArrangement 的背景色。
+ 如果已设置图像，则在移除该图像之前，颜色更改不可见。</dd>
+  <dt id="HorizontalArrangement.Height" class="number bo"><em>Height</em></dt>
+  <dd>指定 <code class="language-plaintext highlighter-rouge">HorizontalArrangement</code> 的垂直高度，以像素为单位。</dd>
+  <dt id="HorizontalArrangement.HeightPercent" class="number wo bo"><em>HeightPercent</em></dt>
+  <dd>以 <a href="userinterface.html#Screen.Height"><code class="language-plaintext highlighter-rouge">Screen</code>’s <code class="language-plaintext highlighter-rouge">Height</code></a> 的百分比形式
+ 指定 <code class="language-plaintext highlighter-rouge">HorizontalArrangement</code> 的垂直高度。</dd>
+  <dt id="HorizontalArrangement.Image" class="text"><em>Image</em></dt>
+  <dd>指定 <code class="language-plaintext highlighter-rouge">HorizontalArrangement</code> 背景图片的路径。</dd>
+  <dt id="HorizontalArrangement.Left" class="number"><em>Left</em></dt>
+  <dd>指定组件左边缘相对于
+ AbsoluteArrangement 的位置。</dd>
+  <dt id="HorizontalArrangement.Top" class="number"><em>Top</em></dt>
+  <dd>指定组件上边缘相对于
+ AbsoluteArrangement 的位置。</dd>
+  <dt id="HorizontalArrangement.Visible" class="boolean"><em>Visible</em></dt>
+  <dd>指定 <code class="language-plaintext highlighter-rouge">HorizontalArrangement</code> 是否应在屏幕上可见。若 <code class="language-plaintext highlighter-rouge">HorizontalArrangement</code> 正在显示，值为 <code class="language-plaintext logic block highlighter-rouge">true</code>；
+ 若已隐藏，值为 <code class="language-plaintext logic block highlighter-rouge">false</code>。</dd>
+  <dt id="HorizontalArrangement.Width" class="number bo"><em>Width</em></dt>
+  <dd>指定 <code class="language-plaintext highlighter-rouge">HorizontalArrangement</code> 的水平宽度，以像素为单位。</dd>
+  <dt id="HorizontalArrangement.WidthPercent" class="number wo bo"><em>WidthPercent</em></dt>
+  <dd>以 <a href="userinterface.html#Screen.Width"><code class="language-plaintext highlighter-rouge">Screen</code>’s <code class="language-plaintext highlighter-rouge">Width</code></a> 的百分比形式
+ 指定 <code class="language-plaintext highlighter-rouge">HorizontalArrangement</code> 的水平宽度。</dd>
+</dl>
+
+<h3 id="HorizontalArrangement-Events">事件</h3>
+
+<p class="events">无</p>
+
+<h3 id="HorizontalArrangement-Methods">方法</h3>
+
+<p class="methods">无</p>
+
+<h2 id="HorizontalScrollArrangement">水平滚动布局（HorizontalScrollArrangement）</h2>
+
+<p>一种排版元素，可将应自左向右显示的组件放入其中。
+ 如果希望组件一个叠一个地显示，请改用
+ <a href="#VerticalScrollArrangement"><code class="language-plaintext highlighter-rouge">VerticalScrollArrangement</code></a>。</p>
+
+<p>此版本可以滚动。</p>
+
+<h3 id="HorizontalScrollArrangement-Properties">属性</h3>
+
+<dl class="properties">
+  <dt id="HorizontalScrollArrangement.AlignHorizontal" class="number"><em>AlignHorizontal</em></dt>
+  <dd>一个数字，用于编码 <code class="language-plaintext highlighter-rouge">HorizontalScrollArrangement</code> 的内容在水平方向上的对齐方式。可选值为：
+ <code class="language-plaintext highlighter-rouge">1</code> = 左对齐，<code class="language-plaintext highlighter-rouge">2</code> = 右对齐，<code class="language-plaintext highlighter-rouge">3</code> = 水平居中。如果 <code class="language-plaintext highlighter-rouge">HorizontalScrollArrangement</code> 的
+ <a href="#HorizontalScrollArrangement.Width"><code class="language-plaintext highlighter-rouge">Width</code></a> 为 <code class="language-plaintext highlighter-rouge">Automatic</code>，则对齐设置不起作用。</dd>
+  <dt id="HorizontalScrollArrangement.AlignVertical" class="number"><em>AlignVertical</em></dt>
+  <dd>一个数字，用于编码 <code class="language-plaintext highlighter-rouge">HorizontalScrollArrangement</code> 的内容在垂直方向上的对齐方式。可选值为：
+ <code class="language-plaintext highlighter-rouge">1</code> = 顶部对齐，<code class="language-plaintext highlighter-rouge">2</code> = 垂直居中，<code class="language-plaintext highlighter-rouge">3</code> = 底部对齐。
+ 如果 <code class="language-plaintext highlighter-rouge">HorizontalScrollArrangement</code> 的 <a href="#HorizontalScrollArrangement.Height"><code class="language-plaintext highlighter-rouge">Height</code></a> 为 <code class="language-plaintext highlighter-rouge">Automatic</code>，则对齐设置不起作用。</dd>
+  <dt id="HorizontalScrollArrangement.BackgroundColor" class="color"><em>BackgroundColor</em></dt>
+  <dd>以 alpha-red-green-blue 整数指定 HorizontalScrollArrangement 的背景色。
+ 如果已设置图像，则在移除该图像之前，颜色更改不可见。</dd>
+  <dt id="HorizontalScrollArrangement.Height" class="number bo"><em>Height</em></dt>
+  <dd>指定 <code class="language-plaintext highlighter-rouge">HorizontalScrollArrangement</code> 的垂直高度，以像素为单位。</dd>
+  <dt id="HorizontalScrollArrangement.HeightPercent" class="number wo bo"><em>HeightPercent</em></dt>
+  <dd>以 <a href="userinterface.html#Screen.Height"><code class="language-plaintext highlighter-rouge">Screen</code>’s <code class="language-plaintext highlighter-rouge">Height</code></a> 的百分比形式
+ 指定 <code class="language-plaintext highlighter-rouge">HorizontalScrollArrangement</code> 的垂直高度。</dd>
+  <dt id="HorizontalScrollArrangement.Image" class="text"><em>Image</em></dt>
+  <dd>指定 <code class="language-plaintext highlighter-rouge">HorizontalScrollArrangement</code> 背景图片的路径。</dd>
+  <dt id="HorizontalScrollArrangement.Left" class="number"><em>Left</em></dt>
+  <dd>指定组件左边缘相对于
+ AbsoluteArrangement 的位置。</dd>
+  <dt id="HorizontalScrollArrangement.Top" class="number"><em>Top</em></dt>
+  <dd>指定组件上边缘相对于
+ AbsoluteArrangement 的位置。</dd>
+  <dt id="HorizontalScrollArrangement.Visible" class="boolean"><em>Visible</em></dt>
+  <dd>指定 <code class="language-plaintext highlighter-rouge">HorizontalScrollArrangement</code> 是否应在屏幕上可见。若 <code class="language-plaintext highlighter-rouge">HorizontalScrollArrangement</code> 正在显示，值为 <code class="language-plaintext logic block highlighter-rouge">true</code>；
+ 若已隐藏，值为 <code class="language-plaintext logic block highlighter-rouge">false</code>。</dd>
+  <dt id="HorizontalScrollArrangement.Width" class="number bo"><em>Width</em></dt>
+  <dd>指定 <code class="language-plaintext highlighter-rouge">HorizontalScrollArrangement</code> 的水平宽度，以像素为单位。</dd>
+  <dt id="HorizontalScrollArrangement.WidthPercent" class="number wo bo"><em>WidthPercent</em></dt>
+  <dd>以 <a href="userinterface.html#Screen.Width"><code class="language-plaintext highlighter-rouge">Screen</code>’s <code class="language-plaintext highlighter-rouge">Width</code></a> 的百分比形式
+ 指定 <code class="language-plaintext highlighter-rouge">HorizontalScrollArrangement</code> 的水平宽度。</dd>
+</dl>
+
+<h3 id="HorizontalScrollArrangement-Events">事件</h3>
+
+<p class="events">无</p>
+
+<h3 id="HorizontalScrollArrangement-Methods">方法</h3>
+
+<p class="methods">无</p>
+
+<h2 id="TableArrangement">表格布局（TableArrangement）</h2>
+
+<p>使用表格布局组件可以按表格形式显示一组组件。</p>
+
+<p>该组件是一种排版元素，您可以将应以表格形式显示的组件
+ 放入其中。</p>
+
+<p>在 <code class="language-plaintext highlighter-rouge">TableArrangement</code> 中，组件按行和列组成的网格排列，
+ 每个单元格中可见的组件不超过一个。<strong>如果多个组件占据同一个
+ 单元格，则只有最后一个可见。</strong></p>
+
+<p>在每一行内，组件在垂直方向上居中对齐。</p>
+
+<p>列的宽度由该列中最宽的组件决定。计算
+ 列宽时，对于 <a href="#TableArrangement.Width"><code class="language-plaintext highlighter-rouge">Width</code></a> 属性设为
+ <code class="language-plaintext highlighter-rouge">Fill Parent</code> 的组件，使用其自动宽度。<strong>但是，每个组件始终会填满其
+ 所占据列的完整宽度。</strong></p>
+
+<p>行的高度由该行中 <a href="#TableArrangement.Height"><code class="language-plaintext highlighter-rouge">Height</code></a> 属性未设为
+ <code class="language-plaintext highlighter-rouge">Fill Parent</code> 的最高组件决定。如果某一行只包含 <a href="#TableArrangement.Height"><code class="language-plaintext highlighter-rouge">Height</code></a>
+ 属性均设为 <code class="language-plaintext highlighter-rouge">Fill Parent</code> 的组件，则该行的高度按这些组件的
+ 自动高度计算。</p>
+
+<h3 id="TableArrangement-Properties">属性</h3>
+
+<dl class="properties">
+  <dt id="TableArrangement.Columns" class="number do"><em>Columns</em></dt>
+  <dd>确定表格中的列数。</dd>
+  <dt id="TableArrangement.Height" class="number bo"><em>Height</em></dt>
+  <dd>指定 <code class="language-plaintext highlighter-rouge">TableArrangement</code> 的垂直高度，以像素为单位。</dd>
+  <dt id="TableArrangement.HeightPercent" class="number wo bo"><em>HeightPercent</em></dt>
+  <dd>以 <a href="userinterface.html#Screen.Height"><code class="language-plaintext highlighter-rouge">Screen</code>’s <code class="language-plaintext highlighter-rouge">Height</code></a> 的百分比形式
+ 指定 <code class="language-plaintext highlighter-rouge">TableArrangement</code> 的垂直高度。</dd>
+  <dt id="TableArrangement.Left" class="number"><em>Left</em></dt>
+  <dd>指定组件左边缘相对于
+ AbsoluteArrangement 的位置。</dd>
+  <dt id="TableArrangement.Rows" class="number do"><em>Rows</em></dt>
+  <dd>确定表格中的行数。</dd>
+  <dt id="TableArrangement.Top" class="number"><em>Top</em></dt>
+  <dd>指定组件上边缘相对于
+ AbsoluteArrangement 的位置。</dd>
+  <dt id="TableArrangement.Visible" class="boolean"><em>Visible</em></dt>
+  <dd>指定 <code class="language-plaintext highlighter-rouge">TableArrangement</code> 是否应在屏幕上可见。若 <code class="language-plaintext highlighter-rouge">TableArrangement</code> 正在显示，值为 <code class="language-plaintext logic block highlighter-rouge">true</code>；
+ 若已隐藏，值为 <code class="language-plaintext logic block highlighter-rouge">false</code>。</dd>
+  <dt id="TableArrangement.Width" class="number bo"><em>Width</em></dt>
+  <dd>指定 <code class="language-plaintext highlighter-rouge">TableArrangement</code> 的水平宽度，以像素为单位。</dd>
+  <dt id="TableArrangement.WidthPercent" class="number wo bo"><em>WidthPercent</em></dt>
+  <dd>以 <a href="userinterface.html#Screen.Width"><code class="language-plaintext highlighter-rouge">Screen</code>’s <code class="language-plaintext highlighter-rouge">Width</code></a> 的百分比形式
+ 指定 <code class="language-plaintext highlighter-rouge">TableArrangement</code> 的水平宽度。</dd>
+</dl>
+
+<h3 id="TableArrangement-Events">事件</h3>
+
+<p class="events">无</p>
+
+<h3 id="TableArrangement-Methods">方法</h3>
+
+<p class="methods">无</p>
+
+<h2 id="VerticalArrangement">垂直布局（VerticalArrangement）</h2>
+
+<p><img src="images/verticalarrangement.png" alt="垂直布局图标" /></p>
+
+<p>使用 <code class="language-plaintext highlighter-rouge">VerticalArrangement</code> 组件可以显示一组自上而下排列、
+ 左对齐的组件。</p>
+
+<p>该组件是一种排版元素，您可以将应一个接一个向下显示的组件
+ 放入其中。第一个子组件存放在顶部，第二个在其下方，依此类推。
+ 如果希望组件彼此并排显示，请改用 <a href="#HorizontalArrangement"><code class="language-plaintext highlighter-rouge">HorizontalArrangement</code></a>。</p>
+
+<p>在 <code class="language-plaintext highlighter-rouge">VerticalArrangement</code> 中，组件沿垂直轴排列，左对齐。</p>
+
+<p>如果 <code class="language-plaintext highlighter-rouge">VerticalArrangement</code> 的 <a href="#VerticalArrangement.Width"><code class="language-plaintext highlighter-rouge">Width</code></a> 属性设为 <code class="language-plaintext highlighter-rouge">Automatic</code>，则布局的
+ 实际宽度由该布局中 <a href="#VerticalArrangement.Width"><code class="language-plaintext highlighter-rouge">Width</code></a> 属性未设为 <code class="language-plaintext highlighter-rouge">Fill Parent</code> 的
+ 最宽组件决定。如果 <code class="language-plaintext highlighter-rouge">VerticalArrangement</code> 的
+ <a href="#VerticalArrangement.Width"><code class="language-plaintext highlighter-rouge">Width</code></a> 属性设为 <code class="language-plaintext highlighter-rouge">Automatic</code>，且它只包含 <a href="#VerticalArrangement.Width"><code class="language-plaintext highlighter-rouge">Width</code></a>
+ 属性均设为 <code class="language-plaintext highlighter-rouge">Fill Parent</code> 的组件，则布局的实际宽度
+ 按这些组件的自动宽度计算。如果 <code class="language-plaintext highlighter-rouge">VerticalArrangement</code> 的
+ <a href="#VerticalArrangement.Width"><code class="language-plaintext highlighter-rouge">Width</code></a> 属性设为 <code class="language-plaintext highlighter-rouge">Automatic</code> 且布局为空，则宽度为 100。</p>
+
+<p>如果 <code class="language-plaintext highlighter-rouge">VerticalArrangement</code> 的 <a href="#VerticalArrangement.Height"><code class="language-plaintext highlighter-rouge">Height</code></a> 属性设为 <code class="language-plaintext highlighter-rouge">Automatic</code>，则布局的
+ 实际高度由各组件高度之和决定。<strong>如果
+ <code class="language-plaintext highlighter-rouge">VerticalArrangement</code> 的 <a href="#VerticalArrangement.Height"><code class="language-plaintext highlighter-rouge">Height</code></a> 属性设为 <code class="language-plaintext highlighter-rouge">Automatic</code>，则任何 <code class="language-plaintext highlighter-rouge">Height</code>
+ 属性设为 <code class="language-plaintext highlighter-rouge">Fill Parent</code> 的组件都将如同设为 <code class="language-plaintext highlighter-rouge">Automatic</code> 一样表现。</strong></p>
+
+<p>如果 <code class="language-plaintext highlighter-rouge">VerticalArrangement</code> 的 <a href="#VerticalArrangement.Height"><code class="language-plaintext highlighter-rouge">Height</code></a> 属性设为 <code class="language-plaintext highlighter-rouge">Fill Parent</code> 或以像素
+ 指定，则任何 Height 属性设为 <code class="language-plaintext highlighter-rouge">Fill Parent</code> 的组件都将平均占用
+ 其他组件未占用的高度。</p>
+
+<h3 id="VerticalArrangement-Properties">属性</h3>
+
+<dl class="properties">
+  <dt id="VerticalArrangement.AlignHorizontal" class="number"><em>AlignHorizontal</em></dt>
+  <dd>一个数字，用于编码 <code class="language-plaintext highlighter-rouge">VerticalArrangement</code> 的内容在水平方向上的对齐方式。可选值为：
+ <code class="language-plaintext highlighter-rouge">1</code> = 左对齐，<code class="language-plaintext highlighter-rouge">2</code> = 右对齐，<code class="language-plaintext highlighter-rouge">3</code> = 水平居中。如果 <code class="language-plaintext highlighter-rouge">VerticalArrangement</code> 的
+ <a href="#VerticalArrangement.Width"><code class="language-plaintext highlighter-rouge">Width</code></a> 为 <code class="language-plaintext highlighter-rouge">Automatic</code>，则对齐设置不起作用。</dd>
+  <dt id="VerticalArrangement.AlignVertical" class="number"><em>AlignVertical</em></dt>
+  <dd>一个数字，用于编码 <code class="language-plaintext highlighter-rouge">VerticalArrangement</code> 的内容在垂直方向上的对齐方式。可选值为：
+ <code class="language-plaintext highlighter-rouge">1</code> = 顶部对齐，<code class="language-plaintext highlighter-rouge">2</code> = 垂直居中，<code class="language-plaintext highlighter-rouge">3</code> = 底部对齐。
+ 如果 <code class="language-plaintext highlighter-rouge">VerticalArrangement</code> 的 <a href="#VerticalArrangement.Height"><code class="language-plaintext highlighter-rouge">Height</code></a> 为 <code class="language-plaintext highlighter-rouge">Automatic</code>，则对齐设置不起作用。</dd>
+  <dt id="VerticalArrangement.BackgroundColor" class="color"><em>BackgroundColor</em></dt>
+  <dd>以 alpha-red-green-blue 整数指定 VerticalArrangement 的背景色。
+ 如果已设置图像，则在移除该图像之前，颜色更改不可见。</dd>
+  <dt id="VerticalArrangement.Height" class="number bo"><em>Height</em></dt>
+  <dd>指定 <code class="language-plaintext highlighter-rouge">VerticalArrangement</code> 的垂直高度，以像素为单位。</dd>
+  <dt id="VerticalArrangement.HeightPercent" class="number wo bo"><em>HeightPercent</em></dt>
+  <dd>以 <a href="userinterface.html#Screen.Height"><code class="language-plaintext highlighter-rouge">Screen</code>’s <code class="language-plaintext highlighter-rouge">Height</code></a> 的百分比形式
+ 指定 <code class="language-plaintext highlighter-rouge">VerticalArrangement</code> 的垂直高度。</dd>
+  <dt id="VerticalArrangement.Image" class="text"><em>Image</em></dt>
+  <dd>指定 <code class="language-plaintext highlighter-rouge">VerticalArrangement</code> 背景图片的路径。</dd>
+  <dt id="VerticalArrangement.Left" class="number"><em>Left</em></dt>
+  <dd>指定组件左边缘相对于
+ AbsoluteArrangement 的位置。</dd>
+  <dt id="VerticalArrangement.Top" class="number"><em>Top</em></dt>
+  <dd>指定组件上边缘相对于
+ AbsoluteArrangement 的位置。</dd>
+  <dt id="VerticalArrangement.Visible" class="boolean"><em>Visible</em></dt>
+  <dd>指定 <code class="language-plaintext highlighter-rouge">VerticalArrangement</code> 是否应在屏幕上可见。若 <code class="language-plaintext highlighter-rouge">VerticalArrangement</code> 正在显示，值为 <code class="language-plaintext logic block highlighter-rouge">true</code>；
+ 若已隐藏，值为 <code class="language-plaintext logic block highlighter-rouge">false</code>。</dd>
+  <dt id="VerticalArrangement.Width" class="number bo"><em>Width</em></dt>
+  <dd>指定 <code class="language-plaintext highlighter-rouge">VerticalArrangement</code> 的水平宽度，以像素为单位。</dd>
+  <dt id="VerticalArrangement.WidthPercent" class="number wo bo"><em>WidthPercent</em></dt>
+  <dd>以 <a href="userinterface.html#Screen.Width"><code class="language-plaintext highlighter-rouge">Screen</code>’s <code class="language-plaintext highlighter-rouge">Width</code></a> 的百分比形式
+ 指定 <code class="language-plaintext highlighter-rouge">VerticalArrangement</code> 的水平宽度。</dd>
+</dl>
+
+<h3 id="VerticalArrangement-Events">事件</h3>
+
+<p class="events">无</p>
+
+<h3 id="VerticalArrangement-Methods">方法</h3>
+
+<p class="methods">无</p>
+
+<h2 id="VerticalScrollArrangement">垂直滚动布局（VerticalScrollArrangement）</h2>
+
+<p>一种排版元素，可将应一个接一个向下显示的组件放入其中。
+ （第一个子组件存放在顶部，第二个在其下方，依此类推。）如果希望
+ 组件彼此并排显示，请改用 <a href="#HorizontalScrollArrangement"><code class="language-plaintext highlighter-rouge">HorizontalScrollArrangement</code></a>。</p>
+
+<p>此版本可以滚动。</p>
+
+<h3 id="VerticalScrollArrangement-Properties">属性</h3>
+
+<dl class="properties">
+  <dt id="VerticalScrollArrangement.AlignHorizontal" class="number"><em>AlignHorizontal</em></dt>
+  <dd>一个数字，用于编码 <code class="language-plaintext highlighter-rouge">VerticalScrollArrangement</code> 的内容在水平方向上的对齐方式。可选值为：
+ <code class="language-plaintext highlighter-rouge">1</code> = 左对齐，<code class="language-plaintext highlighter-rouge">2</code> = 右对齐，<code class="language-plaintext highlighter-rouge">3</code> = 水平居中。如果 <code class="language-plaintext highlighter-rouge">VerticalScrollArrangement</code> 的
+ <a href="#VerticalScrollArrangement.Width"><code class="language-plaintext highlighter-rouge">Width</code></a> 为 <code class="language-plaintext highlighter-rouge">Automatic</code>，则对齐设置不起作用。</dd>
+  <dt id="VerticalScrollArrangement.AlignVertical" class="number"><em>AlignVertical</em></dt>
+  <dd>一个数字，用于编码 <code class="language-plaintext highlighter-rouge">VerticalScrollArrangement</code> 的内容在垂直方向上的对齐方式。可选值为：
+ <code class="language-plaintext highlighter-rouge">1</code> = 顶部对齐，<code class="language-plaintext highlighter-rouge">2</code> = 垂直居中，<code class="language-plaintext highlighter-rouge">3</code> = 底部对齐。
+ 如果 <code class="language-plaintext highlighter-rouge">VerticalScrollArrangement</code> 的 <a href="#VerticalScrollArrangement.Height"><code class="language-plaintext highlighter-rouge">Height</code></a> 为 <code class="language-plaintext highlighter-rouge">Automatic</code>，则对齐设置不起作用。</dd>
+  <dt id="VerticalScrollArrangement.BackgroundColor" class="color"><em>BackgroundColor</em></dt>
+  <dd>以 alpha-red-green-blue 整数指定 VerticalScrollArrangement 的背景色。
+ 如果已设置图像，则在移除该图像之前，颜色更改不可见。</dd>
+  <dt id="VerticalScrollArrangement.Height" class="number bo"><em>Height</em></dt>
+  <dd>指定 <code class="language-plaintext highlighter-rouge">VerticalScrollArrangement</code> 的垂直高度，以像素为单位。</dd>
+  <dt id="VerticalScrollArrangement.HeightPercent" class="number wo bo"><em>HeightPercent</em></dt>
+  <dd>以 <a href="userinterface.html#Screen.Height"><code class="language-plaintext highlighter-rouge">Screen</code>’s <code class="language-plaintext highlighter-rouge">Height</code></a> 的百分比形式
+ 指定 <code class="language-plaintext highlighter-rouge">VerticalScrollArrangement</code> 的垂直高度。</dd>
+  <dt id="VerticalScrollArrangement.Image" class="text"><em>Image</em></dt>
+  <dd>指定 <code class="language-plaintext highlighter-rouge">VerticalScrollArrangement</code> 背景图片的路径。</dd>
+  <dt id="VerticalScrollArrangement.Left" class="number"><em>Left</em></dt>
+  <dd>指定组件左边缘相对于
+ AbsoluteArrangement 的位置。</dd>
+  <dt id="VerticalScrollArrangement.Top" class="number"><em>Top</em></dt>
+  <dd>指定组件上边缘相对于
+ AbsoluteArrangement 的位置。</dd>
+  <dt id="VerticalScrollArrangement.Visible" class="boolean"><em>Visible</em></dt>
+  <dd>指定 <code class="language-plaintext highlighter-rouge">VerticalScrollArrangement</code> 是否应在屏幕上可见。若 <code class="language-plaintext highlighter-rouge">VerticalScrollArrangement</code> 正在显示，值为 <code class="language-plaintext logic block highlighter-rouge">true</code>；
+ 若已隐藏，值为 <code class="language-plaintext logic block highlighter-rouge">false</code>。</dd>
+  <dt id="VerticalScrollArrangement.Width" class="number bo"><em>Width</em></dt>
+  <dd>指定 <code class="language-plaintext highlighter-rouge">VerticalScrollArrangement</code> 的水平宽度，以像素为单位。</dd>
+  <dt id="VerticalScrollArrangement.WidthPercent" class="number wo bo"><em>WidthPercent</em></dt>
+  <dd>以 <a href="userinterface.html#Screen.Width"><code class="language-plaintext highlighter-rouge">Screen</code>’s <code class="language-plaintext highlighter-rouge">Width</code></a> 的百分比形式
+ 指定 <code class="language-plaintext highlighter-rouge">VerticalScrollArrangement</code> 的水平宽度。</dd>
+</dl>
+
+<h3 id="VerticalScrollArrangement-Events">事件</h3>
+
+<p class="events">无</p>
+
+<h3 id="VerticalScrollArrangement-Methods">方法</h3>
+
+<p class="methods">无</p>
+
+</article>
+<script>
+  // Handle redirection to documentation based on locale query parameter (if specified)
+  (function() {
+      var locale = window.location.search.match('[&?]locale=([a-zA-Z-]*)');
+      if (locale) {
+          if (locale[1].indexOf('en') === 0) {
+              // English needs to stay at the top level to not break existing links
+              var page = window.location.pathname.split('/');
+              if (page.length === 5) {
+                  page.splice(2, 1);
+              } else {
+                  // already on english
+                  return;
+              }
+              window.location.href = page.join('/');
+          } else {
+              var page = window.location.pathname.split('/');
+              if (page.length === 4) {
+                  page.splice(2, 0, locale[1]);
+              } else if (page[2].toLowerCase() != locale[1].toLowerCase()) {
+                  page[2] = locale[1];
+              } else {
+                  return;  // already on the desired language
+              }
+              // Test that the page exists before redirecting.
+              var xhr = new XMLHttpRequest();
+              xhr.open('HEAD', page.join('/'), false);
+              xhr.onreadystatechange = function() {
+                  if (xhr.readyState == 4) {
+                      if ((xhr.status == 200 || xhr.status == 204)) {
+                          window.location.href = page.join('/');
+                      } else if (xhr.status  >= 400) {
+                          page.splice(2, 1);  // go to english version
+                          window.location.href = page.join('/');
+                      }
+                  }
+              };
+              xhr.send();
+          }
+      }
+  })();
+
+  // Handle embedded documentation in help by removing website template
+  if (window.self !== window.top) {
+      setTimeout(function() {
+          var videos = document.querySelectorAll('video');
+          for (var i = 0; i < videos.length; i++) {
+              if (parseInt(videos[i].getAttribute('width')) > 360) {
+                  var aspect = parseInt(videos[i].getAttribute('height')) / parseInt(videos[i].getAttribute('width'));
+                  videos[i].setAttribute('width', '360');
+                  videos[i].setAttribute('height', '' + (360 * aspect));
+              }
+          }
+          var h1 = document.querySelector('h1');
+          var article = document.querySelector('article');
+          article.insertBefore(h1, article.firstElementChild);
+          document.body.innerHTML = article.outerHTML;
+      });
+  }
+</script>
+
+            </div>
+<script src="../../../static/js/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="../../../static/js/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="../../../static/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+<script async src="../../../static/js/widgets.js" charset="utf-8"></script>
+</div>
+    </body>
+</html>

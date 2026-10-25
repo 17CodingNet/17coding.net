@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+
+     一一对应。
+     - 正文（标题/段落/列表/表格/图片 alt/视频说明）译为简体中文；
+     - 顶部导航（MIT logo、"Create Apps!" 按钮、About/Educators/News/Resources/Blogs
+       菜单、Donate 按钮、gcse 搜索框）与底部 MIT 版权页脚（© 声明、CC BY-SA、ToS、
+       Support/Twitter/GitHub/Accessibility）已整块删除：本项目是离线产品，帮助页只在
+       应用内新标签页打开，不应出现通往 MIT 主站的品牌链接与捐赠入口。head 里仅供
+       "Create Apps!" 按钮使用的 gotoappinventor() 脚本一并删除；<title> 与页面 <h1>
+       里的 "MIT " 字样已去掉，正文中作为产品名出现的 "MIT App Inventor" 已改为
+       "App Inventor蔻丁工坊"(zh_CN 语境带蔻丁工坊后缀;版权说明处的 MIT 保留)；
+     - 重定向脚本（<script> 块）按上游原文保留：本项目 blocklyeditor.js 的 _resolveHelpUrl
+       已把 href 直接写成 zh_CN 路径且不带 ?locale=，脚本不会触发；若日后有人手工拼了
+       ?locale=zh_CN 进 URL，file:// 下 sync XHR 会被浏览器拦截，脚本停在"已是目标语言"，
+       不会跳错位置；
+     - /static/ 绝对路径改为相对路径：offline webapp 支持以 file:// 打开，绝对路径会解析到
+       磁盘根目录（file:///static/...）从而 404；
+     - 本地图片/视频按上游同名相对路径复制到本目录，故 src 与上游完全一致；
+     - id= 锚点与块/组件/属性英文名保持上游原文，帮助链接里的 #fragment 才能定位。 -->
+<html lang="zh-CN"><head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="stylesheet" href="../../../static/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="../../../static/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
+    <link href="../../../static/css/fonts.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="../../../static/css/mit_app_inventor.css">
+    <title>创建自定义微数据库（TinyWebDB）服务</title></head>
+<body class="mit_app_inventor">
+<div class="default-page">
+            <div class="header">
+	        <h1 class="font-weight-bold text-center offset-xl-2 col-xl-8">创建自定义微数据库（TinyWebDB）服务</h1>
+            </div>
+            <div class="container-fluid">
+                <article class="documentation">
+<p>TinyWebDB（微数据库）是 App Inventor 的一个组件，可以让您把数据持久地保存在网络数据库中。由于数据保存在网络上，而不是某一台手机里，因此 TinyWebDB 可以用来在手机和应用之间通信（例如多人游戏）。</p>
+
+<p>默认情况下，TinyWebDB 组件把数据保存在 App Inventor 提供的测试服务上：http://tinywebdb.appinventor.mit.edu/ 。该服务便于测试，但它由所有 App Inventor 用户共用，并且最多只能保存 1000 条记录。如果您使用它，您的数据最终会被覆盖。</p>
+
+<p>对于您编写的大多数应用，您会希望创建一个自定义网络服务，不与其他 App Inventor 应用和程序员共用。要做到这一点，您不必是程序员——只要按下面的说明操作，几分钟内就能拥有自己的服务。</p>
+
+<p>要创建自己的网络服务，请按以下步骤操作：</p>
+
+<ul>
+  <li>从 http://code.google.com/appengine/ 下载适用于 Python 的 App Engine。安装后，点击 GoogleAppEngineLauncher 的图标运行它。</li>
+  <li>下载这个<a href="tinywebdbassets/customtinywebdb.zip">示例代码</a>。这是一个 zip 文件，其中包含您自定义 TinyWebDB 网络服务的源代码</li>
+  <li>解压下载的 zip 文件，会得到一个名为 customtinywebdb 的文件夹。如果需要，您可以给它改名。</li>
+  <li>
+    <table>
+      <tbody>
+        <tr>
+          <td>在 GoogleAppEngineLauncher 中，选择 File 菜单</td>
+          <td>中的 Add Existing Application。浏览并设置 Path，指向您刚解压出来的 customtinywebdb 文件夹。然后点击 Run 按钮。这样就会启动一个在本机运行的测试网络服务。</td>
+        </tr>
+      </tbody>
+    </table>
+  </li>
+  <li>您可以打开浏览器，在地址栏输入“localhost:8080”，以此来测试这个服务。您会看到该网络服务的网页界面。这个服务的最终目的是与用 App Inventor 创建的移动应用通信，不过它也提供了网页界面，方便程序员调试。您可以手动调用 get 和 store 操作、查看已有的记录，也可以删除单条记录</li>
+  <li>您的应用此时还不在网络上，因此 App Inventor 应用还访问不到它。要把它部署到网上，需要把它上传到 Google 的 App Engine 服务器。
+    <ul>
+      <li>在 GoogleAppEngineLauncher 中，选择 Dashboard。输入您的 Google 账号信息，就会进入 App Engine 控制台。</li>
+      <li>选择 Create an Application。您需要指定一个全局唯一的 Application Identifier（应用标识符）。请记住这个标识符，后面还会用到。为应用起个名字，然后点击 Create Application 提交。如果标识符是唯一的，您就在 Google 服务器上拥有了一个新的空应用。</li>
+      <li>在本地电脑上打开文本编辑器，打开您解压出来的 customtinywebdb 文件夹中的 app.yaml 文件。修改第一行，让其中的 application 与您在 Google 上设置的 application identifier 一致。</li>
+      <li>在 GoogleAppEngineLauncher 中，选择 Deploy，然后按提示完成应用的部署。</li>
+    </ul>
+  </li>
+  <li>测试一下您的应用是否已经在网上运行：在浏览器中输入 myapp.appspot.com，只需把其中的“myapp”换成您的应用标识符。这个应用看起来应该和您在本地测试服务器上运行时一样，只不过现在它在网络上，您可以从 App Inventor 应用访问它了。
+您的 App Inventor 应用可以用这个新服务来保存和读取数据。只需按以下步骤操作：</li>
+</ul>
+
+<p>把一个 TinyWebDB 组件拖入设计视图。
+把 ServiceURL（服务地址）属性从默认的 http://tinywebdb.appinventor.mit.edu/ 改为您的网络服务地址。
+所有 StoreValue 操作（代码块）都会把数据保存到您的服务上，所有 GetValue 操作都会从您的服务中读取数据。</p>
+
+</article>
+<script>
+  // Handle redirection to documentation based on locale query parameter (if specified)
+  (function() {
+      var locale = window.location.search.match('[&?]locale=([a-zA-Z-]*)');
+      if (locale) {
+          if (locale[1].indexOf('en') === 0) {
+              // English needs to stay at the top level to not break existing links
+              var page = window.location.pathname.split('/');
+              if (page.length === 5) {
+                  page.splice(2, 1);
+              } else {
+                  // already on english
+                  return;
+              }
+              window.location.href = page.join('/');
+          } else {
+              var page = window.location.pathname.split('/');
+              if (page.length === 4) {
+                  page.splice(2, 0, locale[1]);
+              } else if (page[2].toLowerCase() != locale[1].toLowerCase()) {
+                  page[2] = locale[1];
+              } else {
+                  return;  // already on the desired language
+              }
+              // Test that the page exists before redirecting.
+              var xhr = new XMLHttpRequest();
+              xhr.open('HEAD', page.join('/'), false);
+              xhr.onreadystatechange = function() {
+                  if (xhr.readyState == 4) {
+                      if ((xhr.status == 200 || xhr.status == 204)) {
+                          window.location.href = page.join('/');
+                      } else if (xhr.status  >= 400) {
+                          page.splice(2, 1);  // go to english version
+                          window.location.href = page.join('/');
+                      }
+                  }
+              };
+              xhr.send();
+          }
+      }
+  })();
+
+  // Handle embedded documentation in help by removing website template
+  if (window.self !== window.top) {
+      setTimeout(function() {
+          var videos = document.querySelectorAll('video');
+          for (var i = 0; i < videos.length; i++) {
+              if (parseInt(videos[i].getAttribute('width')) > 360) {
+                  var aspect = parseInt(videos[i].getAttribute('height')) / parseInt(videos[i].getAttribute('width'));
+                  videos[i].setAttribute('width', '360');
+                  videos[i].setAttribute('height', '' + (360 * aspect));
+              }
+          }
+          var h1 = document.querySelector('h1');
+          var article = document.querySelector('article');
+          article.insertBefore(h1, article.firstElementChild);
+          document.body.innerHTML = article.outerHTML;
+      });
+  }
+</script>
+
+            </div>
+<script src="../../../static/js/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="../../../static/js/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="../../../static/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+<script async src="../../../static/js/widgets.js" charset="utf-8"></script>
+</div>
+    </body>
+</html>

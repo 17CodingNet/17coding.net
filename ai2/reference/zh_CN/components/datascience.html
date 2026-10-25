@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+
+     一一对应。
+     - 正文（标题/段落/列表/表格/图片 alt/视频说明）译为简体中文；
+     - 顶部导航（MIT logo、"Create Apps!" 按钮、About/Educators/News/Resources/Blogs
+       菜单、Donate 按钮、gcse 搜索框）与底部 MIT 版权页脚（© 声明、CC BY-SA、ToS、
+       Support/Twitter/GitHub/Accessibility）已整块删除：本项目是离线产品，帮助页只在
+       应用内新标签页打开，不应出现通往 MIT 主站的品牌链接与捐赠入口。head 里仅供
+       "Create Apps!" 按钮使用的 gotoappinventor() 脚本一并删除；<title> 与页面 <h1>
+       里的 "MIT " 字样已去掉，正文中作为产品名出现的 "MIT App Inventor" 已改为
+       "App Inventor蔻丁工坊"(zh_CN 语境带蔻丁工坊后缀;版权说明处的 MIT 保留)；
+     - 重定向脚本（<script> 块）按上游原文保留：本项目 blocklyeditor.js 的 _resolveHelpUrl
+       已把 href 直接写成 zh_CN 路径且不带 ?locale=，脚本不会触发；若日后有人手工拼了
+       ?locale=zh_CN 进 URL，file:// 下 sync XHR 会被浏览器拦截，脚本停在“已是目标语言”，
+       不会跳错位置；
+     - /static/ 绝对路径改为相对路径：offline webapp 支持以 file:// 打开，绝对路径会解析到
+       磁盘根目录（file:///static/...）从而 404；
+     - 本地图片/视频按上游同名相对路径复制到本目录，故 src 与上游完全一致；
+     - id= 锚点与块/组件/属性英文名保持上游原文，帮助链接里的 #fragment 才能定位。 -->
+<html lang="zh-CN"><head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="stylesheet" href="../../../static/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="../../../static/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
+    <link href="../../../static/css/fonts.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="../../../static/css/mit_app_inventor.css">
+    <title>数据科学</title></head>
+<body class="mit_app_inventor">
+<div class="default-page">
+            <div class="header">
+	        <h1 class="font-weight-bold text-center offset-xl-2 col-xl-8">数据科学</h1>
+            </div>
+            <div class="container-fluid">
+                <article class="documentation">
+<p><a href="index.html">« 返回目录</a></p>
+<h1 id="data-science">数据科学</h1>
+
+<p>目录：</p>
+
+<ul>
+  <li><a href="#AnomalyDetection">异常检测（AnomalyDetection）</a></li>
+  <li><a href="#Regression">回归分析（Regression）</a></li>
+</ul>
+
+<h2 id="AnomalyDetection">异常检测（AnomalyDetection）</h2>
+
+<p>用于应用各种异常检测模型的数据科学组件。
+ 该组件只需要一个数据源，即可在其上应用模型。</p>
+
+<p>异常检测模型只返回一个异常列表。
+ 需要 ChartData2D 组件才能在图表上高亮显示异常。</p>
+
+<h3 id="AnomalyDetection-Properties">属性</h3>
+
+<p class="properties">无</p>
+
+<h3 id="AnomalyDetection-Events">事件</h3>
+
+<p class="events">无</p>
+
+<h3 id="AnomalyDetection-Methods">方法</h3>
+
+<dl class="methods">
+  <dt id="AnomalyDetection.CleanData" class="method returns list"><i></i> CleanData(<em class="list">anomaly</em>,<em class="list">xList</em>,<em class="list">yList</em>)</dt>
+  <dd>给定单个异常：[(异常索引, 异常值)]</dd>
+</dl>
+
+<ol>
+  <li>遍历 xList，删除异常索引处的值</li>
+  <li>遍历 yList，删除异常索引处、且值与该异常值相同的那个值</li>
+  <li>修改完成后，把 xList 与 yList 合并为一个由 x、y 数据对组成的列表</li>
+</ol>
+
+<p>我们假定 x 列表与 y 列表大小相同且已排序。</p>
+
+<dl>
+  <dt id="AnomalyDetection.DetectAnomalies" class="method returns list"><i></i> DetectAnomalies(<em class="list">dataList</em>,<em class="number">threshold</em>)</dt>
+  <dd>先计算数据的均值与标准差，然后逐个检查每个数据点的
+ Z 分数是否超过阈值。如果某个数据点的 Z 分数大于阈值，
+ 该数据点就被标记为异常。</dd>
+  <dt id="AnomalyDetection.DetectAnomaliesInChartData" class="method returns list"><i></i> DetectAnomaliesInChartData(<em class="component">chartData</em>,<em class="number">threshold</em>)</dt>
+  <dd>通过把 Y 值相对均值折算成标准差并与阈值比较，
+ 检测给定图表数据对象中的异常。</dd>
+</dl>
+
+<h2 id="Regression">回归分析（Regression）</h2>
+
+<p>用于应用各种回归模型的数据科学组件。
+ 该组件只需要一个数据源，即可在其上应用模型。</p>
+
+<p>该组件只负责统计计算，
+ 并为最佳拟合线提供以下属性：
+ “slope”（斜率）、“Yintercept”（Y 轴截距）、“correlation coefficient”（相关系数）和 “predictions”（预测值）。</p>
+
+<p>要绘制最佳拟合线，请使用 ChartData2D 组件中的绘图块。</p>
+
+<h3 id="Regression-Properties">属性</h3>
+
+<p class="properties">无</p>
+
+<h3 id="Regression-Events">事件</h3>
+
+<p class="events">无</p>
+
+<h3 id="Regression-Methods">方法</h3>
+
+<dl class="methods">
+  <dt id="Regression.CalculateLineOfBestFitValue" class="method returns any"><i></i> CalculateLineOfBestFitValue(<em class="list">xList</em>,<em class="list">yList</em>,<em class="text">value</em>)</dt>
+  <dd>返回最佳拟合线各值中的某一个。
+ 该值可以是 “slope”、“Yintercept”、“correlation coefficient”、“predictions”，
+ 或者在指定 AllValues 时返回一个字典。</dd>
+</dl>
+
+</article>
+<script>
+  // Handle redirection to documentation based on locale query parameter (if specified)
+  (function() {
+      var locale = window.location.search.match('[&?]locale=([a-zA-Z-]*)');
+      if (locale) {
+          if (locale[1].indexOf('en') === 0) {
+              // English needs to stay at the top level to not break existing links
+              var page = window.location.pathname.split('/');
+              if (page.length === 5) {
+                  page.splice(2, 1);
+              } else {
+                  // already on english
+                  return;
+              }
+              window.location.href = page.join('/');
+          } else {
+              var page = window.location.pathname.split('/');
+              if (page.length === 4) {
+                  page.splice(2, 0, locale[1]);
+              } else if (page[2].toLowerCase() != locale[1].toLowerCase()) {
+                  page[2] = locale[1];
+              } else {
+                  return;  // already on the desired language
+              }
+              // Test that the page exists before redirecting.
+              var xhr = new XMLHttpRequest();
+              xhr.open('HEAD', page.join('/'), false);
+              xhr.onreadystatechange = function() {
+                  if (xhr.readyState == 4) {
+                      if ((xhr.status == 200 || xhr.status == 204)) {
+                          window.location.href = page.join('/');
+                      } else if (xhr.status  >= 400) {
+                          page.splice(2, 1);  // go to english version
+                          window.location.href = page.join('/');
+                      }
+                  }
+              };
+              xhr.send();
+          }
+      }
+  })();
+
+  // Handle embedded documentation in help by removing website template
+  if (window.self !== window.top) {
+      setTimeout(function() {
+          var videos = document.querySelectorAll('video');
+          for (var i = 0; i < videos.length; i++) {
+              if (parseInt(videos[i].getAttribute('width')) > 360) {
+                  var aspect = parseInt(videos[i].getAttribute('height')) / parseInt(videos[i].getAttribute('width'));
+                  videos[i].setAttribute('width', '360');
+                  videos[i].setAttribute('height', '' + (360 * aspect));
+              }
+          }
+          var h1 = document.querySelector('h1');
+          var article = document.querySelector('article');
+          article.insertBefore(h1, article.firstElementChild);
+          document.body.innerHTML = article.outerHTML;
+      });
+  }
+</script>
+
+            </div>
+<script src="../../../static/js/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="../../../static/js/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="../../../static/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+<script async src="../../../static/js/widgets.js" charset="utf-8"></script>
+</div>
+    </body>
+</html>

@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+
+     一一对应。
+     - 正文（标题/段落/列表/表格/图片 alt/视频说明）译为简体中文；
+     - 顶部导航（MIT logo、"Create Apps!" 按钮、About/Educators/News/Resources/Blogs
+       菜单、Donate 按钮、gcse 搜索框）与底部 MIT 版权页脚（© 声明、CC BY-SA、ToS、
+       Support/Twitter/GitHub/Accessibility）已整块删除：本项目是离线产品，帮助页只在
+       应用内新标签页打开，不应出现通往 MIT 主站的品牌链接与捐赠入口。head 里仅供
+       "Create Apps!" 按钮使用的 gotoappinventor() 脚本一并删除；<title> 与页面 <h1>
+       里的 "MIT " 字样已去掉，正文中作为产品名出现的 "MIT App Inventor" 已改为
+       "App Inventor蔻丁工坊"(zh_CN 语境带蔻丁工坊后缀;版权说明处的 MIT 保留)；
+     - 重定向脚本（<script> 块）按上游原文保留：本项目 blocklyeditor.js 的 _resolveHelpUrl
+       已把 href 直接写成 zh_CN 路径且不带 ?locale=，脚本不会触发；若日后有人手工拼了
+       ?locale=zh_CN 进 URL，file:// 下 sync XHR 会被浏览器拦截，脚本停在"已是目标语言"，
+       不会跳错位置；
+     - /static/ 绝对路径改为相对路径：offline webapp 支持以 file:// 打开，绝对路径会解析到
+       磁盘根目录（file:///static/...）从而 404；
+     - 本地图片/视频按上游同名相对路径复制到本目录，故 src 与上游完全一致；
+     - id= 锚点与块/组件/属性英文名保持上游原文，帮助链接里的 #fragment 才能定位。 -->
+<html lang="zh-CN"><head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="stylesheet" href="../../../static/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="../../../static/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
+    <link href="../../../static/css/fonts.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="../../../static/css/mit_app_inventor.css">
+    <title>Google Sheets API 设置</title></head>
+<body class="mit_app_inventor">
+<div class="default-page">
+            <div class="header">
+	        <h1 class="font-weight-bold text-center offset-xl-2 col-xl-8">Google Sheets API 设置</h1>
+            </div>
+            <div class="container-fluid">
+                <article class="documentation">
+<ul>
+  <li><a href="#create-a-service-account">创建服务账号</a>
+    <ul>
+      <li><a href="#1-create-a-google-developer-account">1. 创建 Google 开发者账号</a></li>
+      <li><a href="#2-create-a-google-developer-project">2. 创建 Google 开发者项目</a></li>
+      <li><a href="#3-enable-the-google-sheeets-api">3. 启用 Google Sheets API</a></li>
+      <li><a href="#4-creating-a-service-acccount">4. 创建服务账号</a></li>
+    </ul>
+  </li>
+  <li><a href="#linking-the-google-sheets-document">关联 Google Sheets 文档</a>
+    <ul>
+      <li><a href="#1-create-the-google-sheets-document">1. 创建 Google Sheets 文档</a></li>
+      <li><a href="#2-share-the-google-sheets-document">2. 共享 Google Sheets 文档</a></li>
+      <li><a href="#3-record-relevant-information">3. 记录相关信息</a>
+        <ul>
+          <li><a href="#the-spreadsheet-id">电子表格 ID</a></li>
+          <li><a href="#the-sheet-name">工作表名称</a></li>
+          <li><a href="#the-grid-id">网格 ID</a></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<p>注意：如果您只需要从 Google Sheets 文档中读取，而不需要编辑或写入数据，就可以跳过创建服务账号的步骤。唯一的要求是把该 Google Sheets 文档设置为“知道链接的任何人”都可以阅读。</p>
+
+<h1 id="create-a-service-account">创建服务账号</h1>
+
+<p>在本教程中，我们将创建一个服务账号（Service Account），这是一种专门用来与特定软件或服务交互的用户账号。在这里，这个特定的软件就是 Google Sheets API。之后，您可以在用 App Inventor 制作的其他应用中重复使用这个服务账号。</p>
+
+<h2 id="1-create-a-google-developer-account">1. 创建 Google 开发者账号</h2>
+
+<p>使用 Google Sheets API 的第一步是创建一个 Google 开发者账号。Google 开发者账号就是启用了开发者工具的 Google 账号；所以如果您还没有账号，请先访问 https://www.google.com 创建一个 Google 账号。创建完成后，访问 https://developers.google.com 并登录您想使用的 Google 账号。这个账号不必是拥有您要使用的 Google Sheets 文档的那个 Google 账号。</p>
+
+<h2 id="2-create-a-google-developer-project">2. 创建 Google 开发者项目</h2>
+
+<p>下一步是创建一个开发项目。登录 Google 开发者账号后，访问 https://console.developers.google.com/。如果这是您第一次使用 Google 开发者账号，系统会提示您同意服务条款。勾选该复选框并继续。</p>
+
+<p><img src="images/googlesheets-setup-01.png" width="50%" /></p>
+
+<p>接下来会进入开发者控制台首页。如果您此前还没创建过项目，可以选择 [CREATE PROJECT] 来创建您的第一个项目。</p>
+
+<p><img src="images/googlesheets-setup-02.png" alt="" /></p>
+
+<p>如果您使用已有的开发者账号并且已经有项目，会进入某个项目的首页。要创建新项目，请点击网页顶部的下拉菜单。</p>
+
+<p><img src="images/googlesheets-setup-03.png" alt="" /></p>
+
+<p>在弹出的菜单顶部选择 NEW PROJECT。</p>
+
+<p>在创建页面上为项目起一个名称。在本教程中，我们把它命名为“App Inventor”。这里不需要指定组织，因此保持为 No organization。</p>
+
+<p><img src="images/googlesheets-setup-04.png" alt="" /></p>
+
+<p>点击“Create”完成项目创建。</p>
+
+<h2 id="3-enable-the-google-sheeets-api">3. 启用 Google Sheets API</h2>
+
+<p>下一步是为您的项目启用 Google Sheets API。点击 APIs &amp; Services 旁边的“+ Enable APIs and Services”按钮。</p>
+
+<p><img src="images/googlesheets-setup-05.png" alt="" /></p>
+
+<p>在搜索栏中输入“Google Sheets API”，选中出现的搜索结果，然后点击 API Library 中的 Enable 按钮。</p>
+
+<p><img src="images/googlesheets-setup-06.png" alt="" />
+<img src="images/googlesheets-setup-07.png" alt="" />
+<img src="images/googlesheets-setup-08.png" alt="" /></p>
+
+<h2 id="4-creating-a-service-acccount">4. 创建服务账号</h2>
+
+<p>现在我们已经为这个项目启用了 Google Sheets API，接下来要创建一个服务账号。简单来说，服务账号看起来很像一个 Google 邮箱账号。为 Google Sheets API 点击“Enable”按钮后，您会被带到项目中 Google Sheets API 的 Overview（概览）标签页。点击屏幕右侧的“Create Credentials”，即可开始创建服务账号。</p>
+
+<p><img src="images/googlesheets-setup-09.png" alt="" /></p>
+
+<p>在下一页会出现一个引导向导，询问您正在制作哪类项目。在“Which API are you using?”下方的第一个下拉菜单中，选择 Google Sheets API。</p>
+
+<p><img src="images/googlesheets-setup-10.png" alt="" /></p>
+
+<p>选择之后，下面会出现一个后续问题。在“Where will you be calling the API from?”下选择 Other UI。最后，在访问哪些数据（what data will you be accessing）下选择 Application Data。</p>
+
+<p><img src="images/googlesheets-setup-11.png" alt="" /></p>
+
+<p>填完上述信息后，点击标有“What credentials do I need?”的蓝色按钮。这将进入创建凭据的第二部分。在这一部分您可以自定义服务账号，界面应与下图一致。</p>
+
+<p><img src="images/googlesheets-setup-12.png" alt="" /></p>
+
+<p>服务账号的名称并不重要。在本教程中，我把它命名为“example-service”。然后把角色设为 Selecting Project &gt; Editor，这应当能为该服务账号提供足够的权限。请务必保存标有 Service Account ID 的框中完整的文本。您会发现它看起来很像一个电子邮件地址。请把这个 Service Account ID 复制到某个地方保存，以便后面使用。</p>
+
+<p><img src="images/googlesheets-setup-13.png" alt="" /></p>
+
+<p>请确认 Key Type 下像上图那样选中了“JSON”，然后再点击“Continue”。这会下载一个名为“AppInventor-####.json”的 JSON 文件。</p>
+
+<p>使用 Google Sheets API 组件时，我们需要上传这个 JSON 文件才能正常工作。请务必妥善保管这个 JSON 文件！</p>
+
+<h1 id="linking-the-google-sheets-document">关联 Google Sheets 文档</h1>
+
+<p>现在服务账号已经创建好了，接下来要让这个服务账号能够访问我们将要写入或读取的 Google Sheets 文件。</p>
+
+<h2 id="1-create-the-google-sheets-document">1. 创建 Google Sheets 文档</h2>
+
+<p>第一步（如果还没有的话）是创建一个 Google Sheets 文档。文档名称可以任意。如果您已经有想用的 Google Sheets 文件，就直接进入 Google 云端硬盘，导航到您想创建文档的位置，然后点击“New”（新建）并选择“New Sheet”（新建表格）。</p>
+
+<h2 id="2-share-the-google-sheets-document">2. 共享 Google Sheets 文档</h2>
+
+<p>创建好要使用的 Google Sheets 文件后，只需把该文件共享给之前保存的服务账号邮箱即可。这样就能为服务账号提供您所需的权限。您可以通过在 Viewer（查看者）与 Editor（编辑者）之间切换权限，来指定该服务账号是只能读取数据，还是可以读写数据。</p>
+
+<h2 id="3-record-relevant-information">3. 记录相关信息</h2>
+
+<p>最后，为了正确访问该文件，您需要记录关于这个 Google Sheets 文档的几项信息。这部分说明也可以作为日后查找这些信息的参考。</p>
+
+<p>关于这些术语的更多内容，请参阅<a href="https://developers.google.com/sheets/api/guides/concepts#common_terms">此处</a>。</p>
+
+<h3 id="the-spreadsheet-id">电子表格 ID</h3>
+
+<p>电子表格 ID 可以在 Google Sheets 文档的 URL 中找到。Google Sheets 文档的 URL 通常形如：</p>
+
+<p><tt>https://docs.google.com/spreadsheets/d/<b>&lt;Spreadsheet ID&gt;</b>/edit#gid=<b>&lt;Grid ID&gt;</b></tt></p>
+
+<p>电子表格 ID 就是该 Google Sheets 文件的 ID。</p>
+
+<h3 id="the-sheet-name">工作表名称</h3>
+
+<p>一个电子表格中包含若干单独的工作表，每个工作表都有各自的标题和 ID 编号。在该组件中，工作表的标题称为 <tt>sheetName</tt>。</p>
+
+<p>一个电子表格文档可以有多个工作表。默认情况下，新建 Google Sheets 文档时，表格中只有一个名为“Sheet1”的工作表。您可以在屏幕左下角的标签页中看到它，如下所示：</p>
+
+<p><img src="images/googlesheets-setup-14.png" alt="" /></p>
+
+<p>按“+”符号可以为文档添加新的工作表。这样会在 Sheet1 旁边新建一个标签页，名为 Sheet2。</p>
+
+<p><img src="images/googlesheets-setup-15.png" alt="" /></p>
+
+<p>Google Sheets 组件中的每个块都会要求您指定要读取或编辑的工作表标题（即“Sheet Name”）。例如，如果我想编辑 Sheet2 上的值，就要在 sheetName 插槽中填入文本“Sheet2”。</p>
+
+<p>此外，您还可以在标签页上单击右键并点击 rename（重命名），把工作表改成任意名称。注意，这样做之后，项目中对应的工作表名称也需要一并修改才能匹配。</p>
+
+<h3 id="the-grid-id">网格 ID</h3>
+
+<p>与工作表名称类似，网格 ID 也用来指明您想编辑哪个工作表。但与工作表名称不同的是，网格 ID 无法由用户自定义。某些块要求提供网格 ID 而不是工作表名称。要找到网格 ID，请点击标签页切换到您要引用的工作表。在 URL 的末尾应当可以看到“gid=”后跟一个数字。</p>
+
+<p><tt>https://docs.google.com/spreadsheets/d/<b>&lt;Spreadsheet ID&gt;</b>/edit#gid=<b>&lt;Grid ID&gt;</b></tt></p>
+
+<h1 id="debugging-tips">调试提示</h1>
+
+<p><code>Unable to resolve host "oauth2.googleapis.com"</code></p>
+
+<p>如果出现这条错误信息，请再检查一下设备的网络连接。它表明 Android 网络子系统无法解析该主机名，因此无法与 DNS 通信。</p>
+
+<p><code>Attempt to invoke virtual method … on a null object reference. </code></p>
+
+<p>如果出现这条错误信息，请再检查一下您是否在设计器属性中关联了凭据。如果设计器属性显示为下图中的“None…”，请点击该框，并选择您在创建服务账号步骤中得到的 .json 文件。</p>
+
+<p><img src="images/googlesheets-setup-16.png" alt="" /></p>
+
+<p><code>Unable to parse range: ______ </code></p>
+
+<p>如果出现这条错误信息，可能是您提供的数据范围有问题。这可能意味着您提供的 sheetName 实际上并不存在，或者您提供的引用不是有效的 A1 表示法。要了解 A1 表示法的更多内容，请参阅：https://developers.google.com/sheets/api/guides/concepts#a1_notation</p>
+
+</article>
+<script>
+  // Handle redirection to documentation based on locale query parameter (if specified)
+  (function() {
+      var locale = window.location.search.match('[&?]locale=([a-zA-Z-]*)');
+      if (locale) {
+          if (locale[1].indexOf('en') === 0) {
+              // English needs to stay at the top level to not break existing links
+              var page = window.location.pathname.split('/');
+              if (page.length === 5) {
+                  page.splice(2, 1);
+              } else {
+                  // already on english
+                  return;
+              }
+              window.location.href = page.join('/');
+          } else {
+              var page = window.location.pathname.split('/');
+              if (page.length === 4) {
+                  page.splice(2, 0, locale[1]);
+              } else if (page[2].toLowerCase() != locale[1].toLowerCase()) {
+                  page[2] = locale[1];
+              } else {
+                  return;  // already on the desired language
+              }
+              // Test that the page exists before redirecting.
+              var xhr = new XMLHttpRequest();
+              xhr.open('HEAD', page.join('/'), false);
+              xhr.onreadystatechange = function() {
+                  if (xhr.readyState == 4) {
+                      if ((xhr.status == 200 || xhr.status == 204)) {
+                          window.location.href = page.join('/');
+                      } else if (xhr.status  >= 400) {
+                          page.splice(2, 1);  // go to english version
+                          window.location.href = page.join('/');
+                      }
+                  }
+              };
+              xhr.send();
+          }
+      }
+  })();
+
+  // Handle embedded documentation in help by removing website template
+  if (window.self !== window.top) {
+      setTimeout(function() {
+          var videos = document.querySelectorAll('video');
+          for (var i = 0; i < videos.length; i++) {
+              if (parseInt(videos[i].getAttribute('width')) > 360) {
+                  var aspect = parseInt(videos[i].getAttribute('height')) / parseInt(videos[i].getAttribute('width'));
+                  videos[i].setAttribute('width', '360');
+                  videos[i].setAttribute('height', '' + (360 * aspect));
+              }
+          }
+          var h1 = document.querySelector('h1');
+          var article = document.querySelector('article');
+          article.insertBefore(h1, article.firstElementChild);
+          document.body.innerHTML = article.outerHTML;
+      });
+  }
+</script>
+
+            </div>
+<script src="../../../static/js/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="../../../static/js/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="../../../static/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+<script async src="../../../static/js/widgets.js" charset="utf-8"></script>
+</div>
+    </body>
+</html>

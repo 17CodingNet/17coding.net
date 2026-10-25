@@ -3,10 +3,10 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <link rel="stylesheet" href="/static/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <link rel="stylesheet" href="/static/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
-    <link href="/static/css/fonts.css" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="/static/css/mit_app_inventor.css">
+    <link rel="stylesheet" href="../../static/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="../../static/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
+    <link href="../../static/css/fonts.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="../../static/css/mit_app_inventor.css">
     <script type="text/javascript">
      <!--//--><![CDATA[// ><!--
 
@@ -24,7 +24,7 @@
     <title>Any Component Blocks</title></head>
 <body class="mit_app_inventor"><nav class="navbar navbar-expand-xl navbar-light">
     <a class="navbar-brand" href="http://appinventor.mit.edu/">
-	<img src="/static/images/logo2.png" alt="Logo">
+	<img src="../../static/images/logo2.png" alt="Logo">
     </a>
     <button type="button" class="btn create-btn" style="margin-right: 20px;" onclick="gotoappinventor();">Create Apps!</button>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarContent"
@@ -234,6 +234,16 @@
 <script>
   // Handle redirection to documentation based on locale query parameter (if specified)
   (function() {
+      // [2026-10-10 roadlabs] 离线 webapp 走 file:// 协议,这下面:
+      //   1) pathname 段数远多于上游 http:// 路径假设的 4/5 段
+      //      (http://host/reference/<locale>/... 那种),page.length 检查全
+      //      落空,然后 page[2].toLowerCase() 改写错段;
+      //   2) 同步 XMLHttpRequest 在 file:// 下被现代浏览器拦截,xhr.send()
+      //      直接抛错或读不到 readyState,重定向逻辑卡死。
+      // 而离线入口(windows.__gwt_Locale 已知)已经把菜单 helpUrl 直接
+      // 改写到 reference/<locale>/other/<basename> 上了,这里再重定
+      // 向一遍只会添乱。直接跳过。
+      if (location.protocol === 'file:') return;
       var locale = window.location.search.match('[&?]locale=([a-zA-Z-]*)');
       if (locale) {
           if (locale[1].indexOf('en') === 0) {
@@ -296,7 +306,7 @@
             <div class="footer background-green">
     <div class="row container">
 	<div class="col-xl-3">
-	    <h3>MIT App Inventor</h3>
+	    <h3>App Inventor</h3>
 	    <!-- <form class="form-inline" action="/action_page.php">
 		 <div class="form-group has-search">
 		 <span class="fa fa-search form-control-feedback"></span>
@@ -341,10 +351,10 @@
         </div>
     </div>
 </div>
-<script src="/static/js/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-<script src="/static/js/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-<script src="/static/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-<script async src="/static/js/widgets.js" charset="utf-8"></script>
+<script src="../../static/js/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="../../static/js/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="../../static/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+<script async src="../../static/js/widgets.js" charset="utf-8"></script>
 </div>
     </body>
 </html>

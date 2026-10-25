@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+
+     一一对应。
+     - 正文（标题/段落/列表/表格/图片 alt/视频说明）译为简体中文；
+     - 顶部导航（MIT logo、"Create Apps!" 按钮、About/Educators/News/Resources/Blogs
+       菜单、Donate 按钮、gcse 搜索框）与底部 MIT 版权页脚（© 声明、CC BY-SA、ToS、
+       Support/Twitter/GitHub/Accessibility）已整块删除：本项目是离线产品，帮助页只在
+       应用内新标签页打开，不应出现通往 MIT 主站的品牌链接与捐赠入口。head 里仅供
+       "Create Apps!" 按钮使用的 gotoappinventor() 脚本一并删除；<title> 与页面 <h1>
+       里的 "MIT " 字样已去掉，正文中作为产品名出现的 "MIT App Inventor" 已改为
+       "App Inventor蔻丁工坊"(zh_CN 语境带蔻丁工坊后缀;版权说明处的 MIT 保留)；
+     - 重定向脚本（<script> 块）按上游原文保留：本项目 blocklyeditor.js 的 _resolveHelpUrl
+       已把 href 直接写成 zh_CN 路径且不带 ?locale=，脚本不会触发；若日后有人手工拼了
+       ?locale=zh_CN 进 URL，file:// 下 sync XHR 会被浏览器拦截，脚本停在"已是目标语言"，
+       不会跳错位置；
+     - /static/ 绝对路径改为相对路径：offline webapp 支持以 file:// 打开，绝对路径会解析到
+       磁盘根目录（file:///static/...）从而 404；
+     - 本地图片/视频按上游同名相对路径复制到本目录，故 src 与上游完全一致；
+     - id= 锚点与块/组件/属性英文名保持上游原文，帮助链接里的 #fragment 才能定位。 -->
+<html lang="zh-CN"><head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="stylesheet" href="../../../static/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="../../../static/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
+    <link href="../../../static/css/fonts.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="../../../static/css/mit_app_inventor.css">
+    <title>App Inventor 数学块</title></head>
+<body class="mit_app_inventor">
+<div class="default-page">
+            <div class="header">
+	        <h1 class="font-weight-bold text-center offset-xl-2 col-xl-8">App Inventor 数学块</h1>
+            </div>
+            <div class="container-fluid">
+                <article class="documentation">
+<ul>
+  <li><a href="#number">0（基础数字块）</a></li>
+  <li><a href="#number-radix">0（进制数字块）</a></li>
+  <li><a href="#=">=</a></li>
+  <li><a href="#not=">≠</a></li>
+  <li><a href="#gt">&gt;</a></li>
+  <li><a href="#gte">≥</a></li>
+  <li><a href="#lt">&lt;</a></li>
+  <li><a href="#lte">≤</a></li>
+  <li><a href="#add">+</a></li>
+  <li><a href="#subtract">-</a></li>
+  <li><a href="#multiply">*</a></li>
+  <li><a href="#divide">/</a></li>
+  <li>[^](#exponent)</li>
+  <li><a href="#randomint">随机整数</a></li>
+  <li><a href="#randomfrac">随机小数</a></li>
+  <li><a href="#randomseed">设随机数种子为</a></li>
+  <li><a href="#min">最小值</a></li>
+  <li><a href="#max">最大值</a></li>
+  <li><a href="#sqrt">平方根</a></li>
+  <li><a href="#abs">绝对值</a></li>
+  <li><a href="#neg">负数值</a></li>
+  <li><a href="#log">对数值</a></li>
+  <li><a href="#e">e的乘方</a></li>
+  <li><a href="#round">四舍五入</a></li>
+  <li><a href="#ceiling">就高取整</a></li>
+  <li><a href="#floor">就低取整</a></li>
+  <li><a href="#modulo">模数</a></li>
+  <li><a href="#remainder">余数</a></li>
+  <li><a href="#quotient">商数</a></li>
+  <li><a href="#sin">正弦</a></li>
+  <li><a href="#cos">余弦</a></li>
+  <li><a href="#tan">正切</a></li>
+  <li><a href="#asin">反正弦</a></li>
+  <li><a href="#acos">反余弦</a></li>
+  <li><a href="#atan">反正切</a></li>
+  <li><a href="#atan2">坐标的反正切</a></li>
+  <li><a href="#convertrad">由弧度转角度</a></li>
+  <li><a href="#convertdeg">由角度转弧度</a></li>
+  <li><a href="#format">求小数值</a></li>
+  <li><a href="#isnumber">为数字</a></li>
+  <li><a href="#convertnumber">进制转换</a></li>
+  <li><a href="#bitwise_and">按位与</a></li>
+  <li><a href="#bitwise_ior">按位或（包含式）</a></li>
+  <li><a href="#bitwise_xor">按位异或</a></li>
+  <li><a href="#avg">算术平均数</a></li>
+  <li><a href="#minl">列表最小值</a></li>
+  <li><a href="#maxl">列表最大值</a></li>
+  <li><a href="#mode">众数</a></li>
+  <li><a href="#gm">几何平均数</a></li>
+  <li><a href="#sd">标准差</a></li>
+  <li><a href="#se">标准误差</a></li>
+</ul>
+
+<p><em>在内置块中找不到您要用的数学块？</em></p>
+
+<p>有些数学块带有下拉菜单，也就是说它们可以转换成不同的块。下面列出每个下拉菜单中包含的块。</p>
+
+<p>=, ≠, &gt;, ≥, &lt;, ≤</p>
+
+<p><img src="images/math/equals.gif" alt="" /></p>
+
+<p>最小值、最大值</p>
+
+<p><img src="images/math/minmax.gif" alt="" /></p>
+
+<p>平方根、绝对值、-、对数值、e的乘方、四舍五入、就高取整、就低取整</p>
+
+<p><img src="images/math/sqrt.gif" alt="" /></p>
+
+<p>模数、余数、商数</p>
+
+<p><img src="images/math/modulo.gif" alt="" /></p>
+
+<p>正弦、余弦、正切、反正弦、反余弦、反正切</p>
+
+<p><img src="images/math/sin.gif" alt="" /></p>
+
+<p>由弧度转角度、由角度转弧度</p>
+
+<p><img src="images/math/convert.gif" alt="" /></p>
+
+<h3 id="number">基础数字块</h3>
+
+<p><img src="images/math/number.png" alt="" /></p>
+
+<p>可用作任意正数或负数。点击块中的“0”即可修改这个数字。</p>
+
+<p>该块支持普通的十进制数（例如：2、12、2.12），也支持其他进制的类 C 前缀写法。它支持：</p>
+<ul>
+  <li>二进制（Base-2）数，如 0b10（十进制 2）</li>
+  <li>八进制（Base-8）数，如 0o14（十进制 12）</li>
+  <li>十六进制（Base-16）数，如 0xd4（十进制 212）</li>
+</ul>
+
+<h3 id="number-radix">进制数字块</h3>
+
+<p><img src="images/math/numberradix.png" alt="" /></p>
+
+<p>表示一个十进制数。点击“0”即可修改这个数字。</p>
+
+<p>点击下拉菜单，可以用其他进制（也称为基数）输入数字。该数字随后会被“转换”为十进制（也称为 Base-10）。</p>
+
+<p>例如，以下三个块是等价的：</p>
+
+<p><img src="images/math/numberradix_equivalent.png" alt="" /></p>
+
+<p>下拉菜单支持以下输入格式：十进制（Base-10）、二进制（Base-2）、八进制（Base-8）和十六进制（Base-16）。</p>
+
+<p>十进制模式允许输入任意正数或负数（例如 2、-12、2.12）。其他模式只允许输入整数（即任意正数或零）。</p>
+
+<h3 id="---">=   {#=}</h3>
+
+<p><img src="images/math/equal.png" alt="" /></p>
+
+<p>判断两个数字是否相等，返回“真”或“假”。</p>
+
+<h3 id="---not">≠   {#not=}</h3>
+
+<p><img src="images/math/notequal.png" alt="" /></p>
+
+<p>判断两个数字是否不相等，返回“真”或“假”。</p>
+
+<h3 id="gt">&gt;</h3>
+
+<p><img src="images/math/greater.png" alt="" /></p>
+
+<p>判断第一个数字是否大于第二个数字，返回“真”或“假”。</p>
+
+<h3 id="gte">≥</h3>
+
+<p><img src="images/math/greaterequal.png" alt="" /></p>
+
+<p>判断第一个数字是否大于或等于第二个数字，返回“真”或“假”。</p>
+
+<h3 id="lt">&lt;</h3>
+
+<p><img src="images/math/less.png" alt="" /></p>
+
+<p>判断第一个数字是否小于第二个数字，返回“真”或“假”。</p>
+
+<h3 id="lte">≤</h3>
+
+<p><img src="images/math/lessequal.png" alt="" /></p>
+
+<p>判断第一个数字是否小于或等于第二个数字，返回“真”或“假”。</p>
+
+<h3 id="add">+</h3>
+
+<p><img src="images/math/plus.png" alt="" /></p>
+
+<p>返回将任意数量的数值块相加的结果。具有数值的块包括基础数字块、“列表的长度”或“文本的长度”块、保存数值的变量等。该块是<a href="../concepts/mutators.html">变体块（mutator）</a>，可以展开，以便在求和式中加入更多数字。</p>
+
+<p><img src="images/math/plus.gif" alt="" /></p>
+
+<h3 id="subtract">-</h3>
+
+<p><img src="images/math/minus.png" alt="" /></p>
+
+<h3 id="multiply">*</h3>
+
+<p><img src="images/math/multiply.png" alt="" /></p>
+
+<p>返回将任意数量的数值块相乘的结果。它是<a href="../concepts/mutators.html">变体块（mutator）</a>，可以展开，以便在乘积式中加入更多数字。</p>
+
+<p><img src="images/math/multiply.gif" alt="" /></p>
+
+<h3 id="divide">/</h3>
+
+<p><img src="images/math/divide.png" alt="" /></p>
+
+<p>返回第一个数字除以第二个数字的结果。</p>
+
+<h3 id="exponent">^</h3>
+
+<p><img src="images/math/exponent.png" alt="" /></p>
+
+<p>返回第一个数字的第二个数字次幂的结果。</p>
+
+<h3 id="randomint">随机整数</h3>
+
+<p><img src="images/math/randomint.png" alt="" /></p>
+
+<p>返回给定两个值之间（含两端）的随机整数值。参数的先后顺序不影响结果。</p>
+
+<h3 id="randomfrac">随机小数</h3>
+
+<p><img src="images/math/randomfrac.png" alt="" /></p>
+
+<p>返回 0 和 1 之间的随机数值。</p>
+
+<h3 id="randomseed">设随机数种子为</h3>
+
+<p><img src="images/math/randomseed.png" alt="" /></p>
+
+<p>用这个块可以生成可重复的随机数序列。只要先用相同的值调用“设随机数种子为”块，就能得到相同的随机数序列。这在测试涉及随机值的程序时很有用。</p>
+
+<h3 id="min">最小值</h3>
+
+<p><img src="images/math/min.png" alt="" /></p>
+
+<p>返回一组数字中的最小值。如果块中有未插入内容的插槽，“最小值”也会把 0 计入这组数字。该块既是<a href="../concepts/mutators.html">变体块（mutator）</a>，也带下拉菜单。</p>
+
+<h3 id="max">最大值</h3>
+
+<p><img src="images/math/max.png" alt="" /></p>
+
+<p>返回一组数字中的最大值。如果块中有未插入内容的插槽，“最大值”也会把 0 计入这组数字。该块既是<a href="../concepts/mutators.html">变体块（mutator）</a>，也带下拉菜单。</p>
+
+<h3 id="sqrt">平方根</h3>
+
+<p><img src="images/math/sqrt.png" alt="" /></p>
+
+<p>返回给定数字的平方根。</p>
+
+<h3 id="abs">绝对值</h3>
+
+<p><img src="images/math/abs.png" alt="" /></p>
+
+<p>返回给定数字的绝对值。</p>
+
+<h3 id="neg">负数值</h3>
+
+<p><img src="images/math/neg.png" alt="" /></p>
+
+<p>返回给定数字的负数值。</p>
+
+<h3 id="log">对数值</h3>
+
+<p><img src="images/math/log.png" alt="" /></p>
+
+<p>返回给定数字的自然对数，即以 e（2.71828…）为底的对数。</p>
+
+<h3 id="e">e的乘方</h3>
+
+<p><img src="images/math/e.png" alt="" /></p>
+
+<p>返回 e（2.71828…）的给定数字次幂。</p>
+
+<h3 id="round">四舍五入</h3>
+
+<p><img src="images/math/round.png" alt="" /></p>
+
+<p>返回给定数字四舍五入到最接近的整数后的结果。如果小数部分 &lt; .5，就向下取整；如果 &gt; .5，就向上取整；如果恰好等于 .5，则整数部分为偶数的数字向下取整，整数部分为奇数的数字向上取整。（这种方法称为向偶数舍入。）</p>
+
+<h3 id="ceiling">就高取整</h3>
+
+<p><img src="images/math/ceiling.png" alt="" /></p>
+
+<p>返回大于或等于给定数字的最小整数。</p>
+
+<h3 id="floor">就低取整</h3>
+
+<p><img src="images/math/floor.png" alt="" /></p>
+
+<p>返回小于或等于给定数字的最大整数。</p>
+
+<h3 id="modulo">模数</h3>
+
+<p><img src="images/math/modulo.png" alt="" /></p>
+
+<p>当 a 和 b 都为正数时，Modulo(a,b) 与 remainder(a,b) 的结果相同。更一般地说，对任意 a 和 b，modulo(a,b) 都满足 (floor(a/b)× b) + modulo(a,b) = a。例如，modulo(11, 5) = 1，modulo(-11, 5) = 4，modulo(11, -5) = -4，modulo(-11, -5) = -1。Modulo(a,b) 的符号始终与 b 相同，而 remainder(a,b) 的符号始终与 a 相同。</p>
+
+<h3 id="remainder">余数</h3>
+
+<p><img src="images/math/remainder.png" alt="" /></p>
+
+<p>Remainder(a,b) 返回 a 除以 b 后取余数的结果。余数等于结果的小数部分乘以 b。</p>
+
+<p>例如，remainder(11,5) = 1，因为</p>
+
+<p>11 / 5 = 2 <sup>1</sup>⁄<sub>5</sub></p>
+
+<p>在这里，<sup>1</sup>⁄<sub>5</sub> 就是小数部分。把它乘以 b（这里是 5），得到 1，也就是余数。</p>
+
+<p>其他例子：remainder(-11, 5) = -1，remainder(11, -5) = 1，remainder(-11, -5) = -1。</p>
+
+<h3 id="quotient">商数</h3>
+
+<p><img src="images/math/quotient.png" alt="" /></p>
+
+<p>返回第一个数字除以第二个数字并舍去结果小数部分后的值。</p>
+
+<h3 id="sin">正弦</h3>
+
+<p><img src="images/math/sin.png" alt="" /></p>
+
+<p>返回给定角度（单位为度）的正弦值。</p>
+
+<h3 id="cos">余弦</h3>
+
+<p><img src="images/math/cos.png" alt="" /></p>
+
+<p>返回给定角度（单位为度）的余弦值。</p>
+
+<h3 id="tan">正切</h3>
+
+<p><img src="images/math/tan.png" alt="" /></p>
+
+<p>返回给定角度（单位为度）的正切值。</p>
+
+<h3 id="asin">反正弦</h3>
+
+<p><img src="images/math/asin.png" alt="" /></p>
+
+<p>返回给定值的反正弦角度（单位为度）。</p>
+
+<h3 id="acos">反余弦</h3>
+
+<p><img src="images/math/acos.png" alt="" /></p>
+
+<p>返回给定值的反余弦角度（单位为度）。</p>
+
+<h3 id="atan">反正切</h3>
+
+<p><img src="images/math/atan.png" alt="" /></p>
+
+<p>返回给定值的反正切角度（单位为度）。</p>
+
+<h3 id="atan2">坐标的反正切</h3>
+
+<p><img src="images/math/atan2.png" alt="" /></p>
+
+<p>给定 y 和 x，返回 y/x 的反正切值。</p>
+
+<h3 id="convertrad">由弧度转角度</h3>
+
+<p><img src="images/math/convertrad.png" alt="" /></p>
+
+<p>返回给定弧度值对应的角度值。结果是一个范围在 [0, 360) 内的角。</p>
+
+<h3 id="convertdeg">由角度转弧度</h3>
+
+<p><img src="images/math/convertdeg.png" alt="" /></p>
+
+<p>返回给定角度值对应的弧度值。结果是一个范围在 [-π, +π) 内的角。</p>
+
+<h3 id="format">求小数值</h3>
+
+<p><img src="images/math/format.png" alt="" /></p>
+
+<p>把数字格式化为保留指定小数位数的十进制数。小数位数必须是非负整数。结果通过对该数字四舍五入（如果小数位数过多）或在右侧补零（如果小数位数不足）得到。</p>
+
+<h3 id="isnumber">为数字</h3>
+
+<p><img src="images/math/isnumber.png" alt="" /></p>
+
+<p>如果给定对象是数字，则返回“真”，否则返回“假”。</p>
+
+<h3 id="convertnumber">进制转换</h3>
+
+<p><img src="images/math/convertnumber.png" alt="" /></p>
+
+<p>接受表示某一进制正整数的文本字符串，返回表示同一数字的另一进制字符串。例如，如果输入的字符串是 10，从十进制转换为二进制会得到字符串 1010；如果输入的字符串同样是 10，从二进制转换为十进制会得到字符串 2；如果输入的字符串同样是 10，从十进制转换为十六进制会得到字符串 A。</p>
+
+<h3 id="bitwise_and">按位与</h3>
+
+<p><img src="images/math/bitwise_and.png" alt="" /></p>
+
+<p>取两个数字，逐位进行比较。只有当两个操作数的对应位都为 1 时，结果中的该位才为 1。</p>
+
+<p>示例：</p>
+
+<table>
+  <thead>
+    <tr>
+      <th> </th>
+      <th>十进制</th>
+      <th>二进制（内部表示）</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td> </td>
+      <td>6</td>
+      <td>0 1 1 0</td>
+    </tr>
+    <tr>
+      <td> </td>
+      <td>3</td>
+      <td>0 0 1 1</td>
+    </tr>
+    <tr>
+      <td>结果：</td>
+      <td>2</td>
+      <td>0 0 1 0</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="bitwise_ior">按位或（包含式）</h3>
+
+<p><img src="images/math/bitwise_ior.png" alt="" /></p>
+
+<p>取两个数字，逐位进行比较。只要两个操作数中有一个的对应位为 1，结果中的该位就为 1。</p>
+
+<p>示例：</p>
+
+<table>
+  <thead>
+    <tr>
+      <th> </th>
+      <th>十进制</th>
+      <th>二进制（内部表示）</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td> </td>
+      <td>6</td>
+      <td>0 1 1 0</td>
+    </tr>
+    <tr>
+      <td> </td>
+      <td>3</td>
+      <td>0 0 1 1</td>
+    </tr>
+    <tr>
+      <td>结果：</td>
+      <td>7</td>
+      <td>0 1 1 1</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="bitwise_xor">按位异或</h3>
+
+<p><img src="images/math/bitwise_xor.png" alt="" /></p>
+
+<p>取两个数字，逐位进行比较。只有当两个操作数中一个的对应位为 1、另一个为 0 时，结果中的该位才为 1。</p>
+
+<p>示例：</p>
+
+<table>
+  <thead>
+    <tr>
+      <th> </th>
+      <th>十进制</th>
+      <th>二进制（内部表示）</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td> </td>
+      <td>6</td>
+      <td>0 1 1 0</td>
+    </tr>
+    <tr>
+      <td> </td>
+      <td>3</td>
+      <td>0 0 1 1</td>
+    </tr>
+    <tr>
+      <td>结果：</td>
+      <td>5</td>
+      <td>0 1 0 1</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><img src="images/math/avg.png" alt="" /></p>
+
+<p>计算列表中各元素的算术平均数。</p>
+
+<p><img src="images/math/minl.png" alt="" /></p>
+
+<p>返回列表中的最小元素。</p>
+
+<p><img src="images/math/maxl.png" alt="" /></p>
+
+<p>返回列表中的最大元素。</p>
+
+<p><img src="images/math/mode.png" alt="" /></p>
+
+<p>返回列表中出现次数最多的元素。</p>
+
+<p><img src="images/math/gm.png" alt="" /></p>
+
+<p>计算列表中各元素的几何平均数。</p>
+
+<p><img src="images/math/sd.png" alt="" /></p>
+
+<p>计算列表中各元素的（总体）标准差。</p>
+
+<p><img src="images/math/se.png" alt="" /></p>
+
+<p>计算列表中各元素的标准误差。</p>
+
+</article>
+<script>
+  // Handle redirection to documentation based on locale query parameter (if specified)
+  (function() {
+      var locale = window.location.search.match('[&?]locale=([a-zA-Z-]*)');
+      if (locale) {
+          if (locale[1].indexOf('en') === 0) {
+              // English needs to stay at the top level to not break existing links
+              var page = window.location.pathname.split('/');
+              if (page.length === 5) {
+                  page.splice(2, 1);
+              } else {
+                  // already on english
+                  return;
+              }
+              window.location.href = page.join('/');
+          } else {
+              var page = window.location.pathname.split('/');
+              if (page.length === 4) {
+                  page.splice(2, 0, locale[1]);
+              } else if (page[2].toLowerCase() != locale[1].toLowerCase()) {
+                  page[2] = locale[1];
+              } else {
+                  return;  // already on the desired language
+              }
+              // Test that the page exists before redirecting.
+              var xhr = new XMLHttpRequest();
+              xhr.open('HEAD', page.join('/'), false);
+              xhr.onreadystatechange = function() {
+                  if (xhr.readyState == 4) {
+                      if ((xhr.status == 200 || xhr.status == 204)) {
+                          window.location.href = page.join('/');
+                      } else if (xhr.status  >= 400) {
+                          page.splice(2, 1);  // go to english version
+                          window.location.href = page.join('/');
+                      }
+                  }
+              };
+              xhr.send();
+          }
+      }
+  })();
+
+  // Handle embedded documentation in help by removing website template
+  if (window.self !== window.top) {
+      setTimeout(function() {
+          var videos = document.querySelectorAll('video');
+          for (var i = 0; i < videos.length; i++) {
+              if (parseInt(videos[i].getAttribute('width')) > 360) {
+                  var aspect = parseInt(videos[i].getAttribute('height')) / parseInt(videos[i].getAttribute('width'));
+                  videos[i].setAttribute('width', '360');
+                  videos[i].setAttribute('height', '' + (360 * aspect));
+              }
+          }
+          var h1 = document.querySelector('h1');
+          var article = document.querySelector('article');
+          article.insertBefore(h1, article.firstElementChild);
+          document.body.innerHTML = article.outerHTML;
+      });
+  }
+</script>
+
+            </div>
+<script src="../../../static/js/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="../../../static/js/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="../../../static/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+<script async src="../../../static/js/widgets.js" charset="utf-8"></script>
+</div>
+    </body>
+</html>

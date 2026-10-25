@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+
+     一一对应。
+     - 正文（标题/段落/列表/表格/图片 alt/视频说明）译为简体中文；
+     - 顶部导航（MIT logo、"Create Apps!" 按钮、About/Educators/News/Resources/Blogs
+       菜单、Donate 按钮、gcse 搜索框）与底部 MIT 版权页脚（© 声明、CC BY-SA、ToS、
+       Support/Twitter/GitHub/Accessibility）已整块删除：本项目是离线产品，帮助页只在
+       应用内新标签页打开，不应出现通往 MIT 主站的品牌链接与捐赠入口。head 里仅供
+       "Create Apps!" 按钮使用的 gotoappinventor() 脚本一并删除；<title> 与页面 <h1>
+       里的 "MIT " 字样已去掉，正文中作为产品名出现的 "MIT App Inventor" 已改为
+       "App Inventor蔻丁工坊"(zh_CN 语境带蔻丁工坊后缀;版权说明处的 MIT 保留)；
+     - 重定向脚本（<script> 块）按上游原文保留：本项目 blocklyeditor.js 的 _resolveHelpUrl
+       已把 href 直接写成 zh_CN 路径且不带 ?locale=，脚本不会触发；若日后有人手工拼了
+       ?locale=zh_CN 进 URL，file:// 下 sync XHR 会被浏览器拦截，脚本停在“已是目标语言”，
+       不会跳错位置；
+     - ../../../static/ 绝对路径改为相对路径：offline webapp 支持以 file:// 打开，绝对路径会解析到
+       磁盘根目录（file://../../../static/...）从而 404；
+     - 本地图片/视频按上游同名相对路径复制到本目录，故 src 与上游完全一致；
+     - id= 锚点与块/组件/属性英文名保持上游原文，帮助链接里的 #fragment 才能定位。 -->
+<html lang="zh-CN"><head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="stylesheet" href="../../../static/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="../../../static/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
+    <link href="../../../static/css/fonts.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="../../../static/css/mit_app_inventor.css">
+    <title>数据存储</title></head>
+<body class="mit_app_inventor">
+<div class="default-page">
+            <div class="header">
+	        <h1 class="font-weight-bold text-center offset-xl-2 col-xl-8">数据存储</h1>
+            </div>
+            <div class="container-fluid">
+                <article class="documentation">
+<p><a href="index.html">« 返回目录</a></p>
+<h1 id="storage">数据存储</h1>
+
+<p>目录：</p>
+
+<ul>
+  <li><a href="#CloudDB">云数据库（CloudDB）</a></li>
+  <li><a href="#DataFile">数据文件（DataFile）</a></li>
+  <li><a href="#File">文件管理器（File）</a></li>
+  <li><a href="#Spreadsheet">电子表格（Spreadsheet）</a></li>
+  <li><a href="#TinyDB">本地数据库（TinyDB）</a></li>
+  <li><a href="#TinyWebDB">网络数据库（TinyWebDB）</a></li>
+</ul>
+
+<h2 id="CloudDB">云数据库（CloudDB）</h2>
+
+<p><code class="language-plaintext highlighter-rouge">CloudDB</code> 组件是一个非可视组件，它允许您把数据存储在接入互联网
+ 的数据库服务器上（使用 Redis 软件）。这使您的应用的用户可以彼此共享
+ 数据。默认情况下，数据会存储在由 MIT 维护的服务器上，不过您
+ 也可以自行搭建并运行自己的服务器。设置 <a href="#CloudDB.RedisServer"><code class="language-plaintext highlighter-rouge">RedisServer</code></a> 属性和
+ <a href="#CloudDB.RedisPort"><code class="language-plaintext highlighter-rouge">RedisPort</code></a> 属性即可访问您自己的服务器。</p>
+
+<h3 id="CloudDB-Properties">属性</h3>
+
+<dl class="properties">
+  <dt id="CloudDB.ProjectID" class="text ro"><em>ProjectID</em></dt>
+  <dd>获取此 CloudDB 项目的 ProjectID。</dd>
+  <dt id="CloudDB.RedisPort" class="number ro"><em>RedisPort</em></dt>
+  <dd>要使用的 Redis 服务器端口。默认为 6381</dd>
+  <dt id="CloudDB.RedisServer" class="text ro"><em>RedisServer</em></dt>
+  <dd>用于存储数据的 Redis 服务器。设为“DEFAULT”表示将使用 MIT 的服务器。</dd>
+  <dt id="CloudDB.Token" class="text ro do"><em>Token</em></dt>
+  <dd>此字段包含用于登录后端 Redis 服务器的身份验证令牌。对于
+ “DEFAULT”服务器，请勿编辑此值，系统会为您填入。系统
+ 管理员也可能向您提供一个特殊值，用于在多个人的多个
+ 项目之间共享数据。如果使用您自己的 Redis 服务器，请在
+ 服务器的配置中设置密码并在此处输入。</dd>
+  <dt id="CloudDB.UseSSL" class="boolean ro do"><em>UseSSL</em></dt>
+  <dd>设为 true 以使用 SSL 与 CloudDB/Redis 服务器通信。对于“DEFAULT”服务器，应将其设为 True。</dd>
+</dl>
+
+<h3 id="CloudDB-Events">事件</h3>
+
+<dl class="events">
+  <dt id="CloudDB.CloudDBError">CloudDBError(<em class="text">message</em>)</dt>
+  <dd>表示与 CloudDB Redis 服务器通信时发生错误。</dd>
+  <dt id="CloudDB.DataChanged">DataChanged(<em class="text">tag</em>,<em class="any">value</em>)</dt>
+  <dd>表示 CloudDB 项目中的数据已更改。引发一个事件，其中带有已更新的
+ <code class="language-plaintext text block highlighter-rouge">tag</code> 及其现在具有的 <code class="language-plaintext variable block highlighter-rouge">value</code>。</dd>
+  <dt id="CloudDB.FirstRemoved">FirstRemoved(<em class="any">value</em>)</dt>
+  <dd>由 <a href="#CloudDB.RemoveFirstFromList"><code class="language-plaintext highlighter-rouge">RemoveFirstFromList</code></a> 函数触发的事件。参数
+ <code class="language-plaintext variable block highlighter-rouge">value</code> 是列表中第一个、现在已被
+ 移除的对象。</dd>
+  <dt id="CloudDB.GotValue">GotValue(<em class="text">tag</em>,<em class="any">value</em>)</dt>
+  <dd>表示 <a href="#CloudDB.GetValue"><code class="language-plaintext highlighter-rouge">GetValue</code></a> 请求已成功。</dd>
+  <dt id="CloudDB.TagList">TagList(<em class="list">value</em>)</dt>
+  <dd>收到已知标签列表时触发的事件。作为对
+ <a href="#CloudDB.GetTagList"><code class="language-plaintext highlighter-rouge">GetTagList</code></a> 函数调用的响应而运行。</dd>
+  <dt id="CloudDB.UpdateDone">UpdateDone(<em class="text">tag</em>,<em class="text">operation</em>)</dt>
+  <dd>表示向 CloudDB 存储数据的操作已完成。</dd>
+</dl>
+
+<h3 id="CloudDB-Methods">方法</h3>
+
+<dl class="methods">
+  <dt id="CloudDB.AppendValueToList" class="method"><i></i> AppendValueToList(<em class="text">tag</em>,<em class="any">itemToAdd</em>)</dt>
+  <dd>以原子方式把一个值追加到列表末尾。如果两台设备同时使用此函数，两个值都会被追加，不会丢失数据。</dd>
+  <dt id="CloudDB.ClearTag" class="method"><i></i> ClearTag(<em class="text">tag</em>)</dt>
+  <dd>从 CloudDB 中移除该标签。</dd>
+  <dt id="CloudDB.CloudConnected" class="method returns boolean"><i></i> CloudConnected()</dt>
+  <dd>如果我们处于联网状态且很可能能够连接到
+ <code class="language-plaintext highlighter-rouge">CloudDB</code> 服务器，则返回 <code class="language-plaintext logic block highlighter-rouge">true</code>。</dd>
+  <dt id="CloudDB.GetTagList" class="method"><i></i> GetTagList()</dt>
+  <dd>要求 <code class="language-plaintext highlighter-rouge">CloudDB</code> 检索属于此项目的所有标签。
+ 结果列表在 <a href="#CloudDB.TagList"><code class="language-plaintext highlighter-rouge">TagList</code></a> 事件中返回。</dd>
+  <dt id="CloudDB.GetValue" class="method"><i></i> GetValue(<em class="text">tag</em>,<em class="any">valueIfTagNotThere</em>)</dt>
+  <dd><code class="language-plaintext highlighter-rouge">GetValue</code> 要求 <code class="language-plaintext highlighter-rouge">CloudDB</code> 获取存储在给定标签下的值。
+ 它会把结果传递给 <a href="#CloudDB.GotValue"><code class="language-plaintext highlighter-rouge">GotValue</code></a> 事件。</dd>
+  <dt id="CloudDB.RemoveFirstFromList" class="method"><i></i> RemoveFirstFromList(<em class="text">tag</em>)</dt>
+  <dd>获取列表的第一个元素并以原子方式移除它。如果两台设备同时使用此函数，
+ 一台设备将得到第一个元素，另一台将得到第二个元素，
+ 如果没有可用元素则会出错。当元素可用时，将触发
+ <a href="#CloudDB.FirstRemoved"><code class="language-plaintext highlighter-rouge">FirstRemoved</code></a> 事件。</dd>
+  <dt id="CloudDB.StoreValue" class="method"><i></i> StoreValue(<em class="text">tag</em>,<em class="any">valueToStore</em>)</dt>
+  <dd>要求 <code class="language-plaintext highlighter-rouge">CloudDB</code> 把给定的 <code class="language-plaintext variable block highlighter-rouge">value</code> 存储在给定的
+ <code class="language-plaintext text block highlighter-rouge">tag</code> 下。</dd>
+</dl>
+
+<h2 id="DataFile">数据文件（DataFile）</h2>
+
+<p>允许读取 CSV 和 JSON 数据的组件。DataFile 包含以行或列的形式访问 CSV 或
+ JSON 解析数据的功能。可以与 ChartData2D 组件配合使用，把数据
+ 直接从文件导入 Chart。在成功选择并解析文件之后，
+ 也可以把该组件拖放到 Chart 上，以便从文件自动在 Chart 上创建
+ ChartData 组件。</p>
+
+<h3 id="DataFile-Properties">属性</h3>
+
+<dl class="properties">
+  <dt id="DataFile.ColumnNames" class="list ro bo"><em>ColumnNames</em></dt>
+  <dd>获取当前加载的源文件的列名。
+ 对于 CSV 文件，这将返回第一行中各项的列表。
+ 对于 JSON 文件，这将返回 JSON 对象中各个键的列表。</dd>
+  <dt id="DataFile.Columns" class="list ro bo"><em>Columns</em></dt>
+  <dd>获取当前加载的源文件的列组成的列表。</dd>
+  <dt id="DataFile.DefaultScope" class="com google appinventor components common FileScopeEnum wo do"><em>DefaultScope</em></dt>
+  <dd>指定使用 File 组件访问文件时的默认范围。对大多数应用来说，App（应用目录）范围
+ 即可正常工作。对于在 Android 对应用文件访问施加较新约束之前
+ 就存在的应用，可以使用 Legacy（旧版目录）模式。</dd>
+  <dt id="DataFile.Rows" class="list ro bo"><em>Rows</em></dt>
+  <dd>获取当前加载的源文件的行组成的列表。</dd>
+  <dt id="DataFile.SourceFile" class="text wo do"><em>SourceFile</em></dt>
+  <dd>设置要从中解析数据的源文件，然后
+ 异步解析该文件。结果存储在 <a href="#DataFile.Columns"><code class="language-plaintext highlighter-rouge">Columns</code></a>、
+ <a href="#DataFile.Rows"><code class="language-plaintext highlighter-rouge">Rows</code></a> 和 <a href="#DataFile.ColumnNames"><code class="language-plaintext highlighter-rouge">ColumnNames</code></a> 属性中。
+ 该文件的预期格式为 CSV 或 JSON 格式。</dd>
+</dl>
+
+<h3 id="DataFile-Events">事件</h3>
+
+<p class="events">无</p>
+
+<h3 id="DataFile-Methods">方法</h3>
+
+<dl class="methods">
+  <dt id="DataFile.ReadFile" class="method"><i></i> ReadFile(<em class="text">fileName</em>)</dt>
+  <dd>表示要从中加载数据的源文件。该文件内容的预期格式
+ 为 CSV 或 JSON。在 <code class="language-plaintext text block highlighter-rouge">fileName</code> 前加 <code class="language-plaintext highlighter-rouge">/</code> 可读取
+ SD 卡上的特定文件（例如，<code class="language-plaintext highlighter-rouge">/myFile.txt</code> 将读取文件
+ <code class="language-plaintext highlighter-rouge">/sdcard/myFile.txt</code>）。要读取随应用打包的素材（对
+ 伴侣也适用），请让 <code class="language-plaintext text block highlighter-rouge">fileName</code> 以 <code class="language-plaintext highlighter-rouge">//</code>（两个斜杠）开头。如果
+ <code class="language-plaintext text block highlighter-rouge">fileName</code> 不以斜杠开头，则将（对打包的应用）从应用的
+ 私有存储中读取，对伴侣则从 <code class="language-plaintext highlighter-rouge">/sdcard/AppInventor/data</code> 中读取。</dd>
+</dl>
+
+<h2 id="File">文件管理器（File）</h2>
+
+<p>用于存储和获取文件的非可视组件。使用此组件在设备上写入或读取
+ 文件。</p>
+
+<p>外部文件的确切存放位置取决于
+ <a href="#File.Scope"><code class="language-plaintext highlighter-rouge">Scope</code></a> 属性的值、应用是在伴侣中运行还是已编译，
+ 以及应用运行在哪个 Android 版本上。</p>
+
+<p>由于较新版本的 Android 要求把文件存储在应用专属目录中，
+ <code class="language-plaintext highlighter-rouge">DefaultScope</code> 被设为 <code class="language-plaintext highlighter-rouge">App</code>。如果您使用的是较旧版本的 Android 并且需要访问
+ 旧版的公共存储，请把 <code class="language-plaintext highlighter-rouge">DefaultScope</code> 属性改为 <code class="language-plaintext highlighter-rouge">Legacy</code>。您也可以使用
+ 块来更改 <code class="language-plaintext highlighter-rouge">Scope</code>。</p>
+
+<p>下面我们简要说明每种范围类型：</p>
+
+<ul>
+  <li>App（应用目录）：在 Android 2.2 及更高版本上，文件将从应用专属存储中读取并写入
+其中。在更早的 Android 版本上，文件将写入旧版存储。</li>
+  <li>Asset（素材目录）：文件将从应用素材中读取。尝试写入应用
+素材会出错，因为它们位于只读存储中。</li>
+  <li>Cache（缓存目录）：文件将从应用的缓存目录中读取并写入其中。Cache 对于
+可以重新创建的临时文件很有用，因为它允许用户清除临时文件以收回
+存储空间。</li>
+  <li>Legacy（旧版目录）：文件将按 App Inventor 在 nb187 版本之前的规则
+从文件系统中读取并写入其中。也就是说，以单个 <code class="language-plaintext highlighter-rouge">/</code> 开头的文件名将从
+外部存储目录的根目录（例如 <code class="language-plaintext highlighter-rouge">/sdcard/</code>）中读取并写入其中。旧版功能
+<strong><em>在 Android 11 或更高版本上不会工作</em></strong>。</li>
+  <li>Private（私有目录）：文件将从应用的私有目录中读取并写入其中。使用此范围
+存储不应对其他应用（例如文件管理类应用）可见的
+信息。</li>
+  <li>Shared（共享目录）：文件将从设备的共享媒体目录（例如
+<code class="language-plaintext highlighter-rouge">Pictures</code>）中读取并写入其中。</li>
+</ul>
+
+<p>注 1：在 Legacy（旧版目录）模式下，文件名可以有以下三种形式之一：</p>
+
+<ul>
+  <li>私有文件没有前导 <code class="language-plaintext highlighter-rouge">/</code>，写入应用私有存储（例如 "file.txt"）</li>
+  <li>外部文件有一个前导 <code class="language-plaintext highlighter-rouge">/</code>，写入公共存储（例如 "/file.txt"）</li>
+  <li>打包的应用素材有两个前导 <code class="language-plaintext highlighter-rouge">//</code>，并且只能读取（例如 "//file.txt"）</li>
+</ul>
+
+<p>注 2：在所有范围中，以两个斜杠（<code class="language-plaintext highlighter-rouge">//</code>）开头的文件名都将被解释为
+ 素材名。</p>
+
+<h3 id="File-Properties">属性</h3>
+
+<dl class="properties">
+  <dt id="File.DefaultScope" class="com google appinventor components common FileScopeEnum wo do"><em>DefaultScope</em></dt>
+  <dd>指定使用 File 组件访问文件时的默认范围。对大多数应用来说，App（应用目录）范围
+ 即可正常工作。对于在 Android 对应用文件访问施加较新约束之前
+ 就存在的应用，可以使用 Legacy（旧版目录）模式。</dd>
+  <dt id="File.ReadPermission" class="boolean wo do"><em>ReadPermission</em></dt>
+  <dd>一个仅设计视图的属性，可用于启用对
+ 应用专属目录之外的文件存储的读取访问。</dd>
+  <dt id="File.Scope" class="com google appinventor components common FileScopeEnum bo"><em>Scope</em></dt>
+  <dd>表示 ReadFrom 和 SaveFile 等操作的当前范围。</dd>
+  <dt id="File.WritePermission" class="boolean wo do"><em>WritePermission</em></dt>
+  <dd>一个仅设计视图的属性，可用于启用对
+ 应用专属目录之外的文件存储的写入访问。</dd>
+</dl>
+
+<h3 id="File-Events">事件</h3>
+
+<dl class="events">
+  <dt id="File.AfterFileSaved">AfterFileSaved(<em class="text">fileName</em>)</dt>
+  <dd>表示文件内容已写入的事件。</dd>
+  <dt id="File.GotText">GotText(<em class="text">text</em>)</dt>
+  <dd>表示已从文件读取内容的事件。</dd>
+</dl>
+
+<h3 id="File-Methods">方法</h3>
+
+<dl class="methods">
+  <dt id="File.AppendToFile" class="method"><i></i> AppendToFile(<em class="text">text</em>,<em class="text">fileName</em>)</dt>
+  <dd>把文本追加到文件末尾。如果文件尚不存在则创建它。有关
+ 文件写入位置的信息，请参阅 <a href="#File.SaveFile"><code class="language-plaintext highlighter-rouge">SaveFile</code></a> 下的帮助文本。
+ 成功后，将运行 <a href="#File.AfterFileSaved"><code class="language-plaintext highlighter-rouge">AfterFileSaved</code></a> 事件。</dd>
+  <dt id="File.CopyFile" class="method returns boolean"><i></i> CopyFile(<em class="com google appinventor components common FileScopeEnum">fromScope</em>,<em class="text">fromFileName</em>,<em class="com google appinventor components common FileScopeEnum">toScope</em>,<em class="text">toFileName</em>)</dt>
+  <dd>把第一个文件的内容复制到第二个文件。</dd>
+  <dt id="File.Delete" class="method"><i></i> Delete(<em class="text">fileName</em>)</dt>
+  <dd>从存储中删除文件。在 <code class="language-plaintext text block highlighter-rouge">fileName</code> 前加 <code class="language-plaintext highlighter-rouge">/</code> 可删除 SD 卡中的特定
+ 文件（例如，<code class="language-plaintext highlighter-rouge">/myFile.txt</code> 将删除文件 <code class="language-plaintext highlighter-rouge">/sdcard/myFile.txt</code>）。
+ 如果 <code class="language-plaintext text block highlighter-rouge">fileName</code> 不以 <code class="language-plaintext highlighter-rouge">/</code> 开头，则将删除位于
+ 程序私有存储中的文件。让 <code class="language-plaintext text block highlighter-rouge">fileName</code> 以 <code class="language-plaintext highlighter-rouge">//</code> 开头
+ 会出错，因为素材文件不能删除。</dd>
+  <dt id="File.Exists" class="method returns boolean"><i></i> Exists(<em class="com google appinventor components common FileScopeEnum">scope</em>,<em class="text">path</em>)</dt>
+  <dd>测试给定范围中该路径是否存在。</dd>
+  <dt id="File.IsDirectory" class="method returns boolean"><i></i> IsDirectory(<em class="com google appinventor components common FileScopeEnum">scope</em>,<em class="text">path</em>)</dt>
+  <dd>测试给定范围中命名的路径是否为目录。</dd>
+  <dt id="File.ListDirectory" class="method returns list"><i></i> ListDirectory(<em class="com google appinventor components common FileScopeEnum">scope</em>,<em class="text">directoryName</em>)</dt>
+  <dd>获取给定目录中的文件和目录列表。</dd>
+  <dt id="File.MakeDirectory" class="method returns boolean"><i></i> MakeDirectory(<em class="com google appinventor components common FileScopeEnum">scope</em>,<em class="text">directoryName</em>)</dt>
+  <dd>创建一个用于存储文件的新目录。此方法的语义是：它在
+ 完成时如果目录存在则返回 true。这可能意味着该目录在调用之前
+ 就已经存在。</dd>
+  <dt id="File.MakeFullPath" class="method returns text"><i></i> MakeFullPath(<em class="com google appinventor components common FileScopeEnum">scope</em>,<em class="text">path</em>)</dt>
+  <dd>把范围和路径转换成一个字符串，供其他组件使用。</dd>
+  <dt id="File.MoveFile" class="method returns boolean"><i></i> MoveFile(<em class="com google appinventor components common FileScopeEnum">fromScope</em>,<em class="text">fromFileName</em>,<em class="com google appinventor components common FileScopeEnum">toScope</em>,<em class="text">toFileName</em>)</dt>
+  <dd>把文件从一个位置移动到另一个位置。</dd>
+  <dt id="File.ReadFrom" class="method"><i></i> ReadFrom(<em class="text">fileName</em>)</dt>
+  <dd>从存储中的文件读取文本。在 <code class="language-plaintext text block highlighter-rouge">fileName</code> 前加 <code class="language-plaintext highlighter-rouge">/</code> 可从
+ SD 卡上的特定文件读取（例如，<code class="language-plaintext highlighter-rouge">/myFile.txt</code> 将读取文件
+ <code class="language-plaintext highlighter-rouge">/sdcard/myFile.txt</code>）。要读取随应用打包的素材（对
+ 伴侣也适用），请让 <code class="language-plaintext text block highlighter-rouge">fileName</code> 以 <code class="language-plaintext highlighter-rouge">//</code>（两个斜杠）开头。如果
+ <code class="language-plaintext text block highlighter-rouge">fileName</code> 不以斜杠开头，则将（对打包的应用）从应用的
+ 私有存储中读取，对伴侣则从 <code class="language-plaintext highlighter-rouge">/sdcard/AppInventor/data</code> 中读取。</dd>
+  <dt id="File.RemoveDirectory" class="method returns boolean"><i></i> RemoveDirectory(<em class="com google appinventor components common FileScopeEnum">scope</em>,<em class="text">directoryName</em>,<em class="boolean">recursive</em>)</dt>
+  <dd>从文件系统中移除目录。如果 recursive 为 true，则移除其中的所有内容。如果
+ recursive 为 false，则只移除该目录，且仅当它为空时。</dd>
+  <dt id="File.SaveFile" class="method"><i></i> SaveFile(<em class="text">text</em>,<em class="text">fileName</em>)</dt>
+  <dd>把文本保存到文件。如果 <code class="language-plaintext text block highlighter-rouge">fileName</code> 以斜杠（<code class="language-plaintext highlighter-rouge">/</code>）开头，则文件
+ 写入 sdcard（例如，写入 <code class="language-plaintext highlighter-rouge">/myFile.txt</code> 会把文件写到
+ <code class="language-plaintext highlighter-rouge">/sdcard/myFile.txt</code>）。如果 <code class="language-plaintext text block highlighter-rouge">fileName</code> 不以斜杠开头，则将
+ 写入程序的私有数据目录，其他程序无法访问。对于 AI 伴侣
+ 有一个特殊例外：这些文件会写入 <code class="language-plaintext highlighter-rouge">/sdcard/AppInventor/data</code> 以便于调试。
+
+    <p>注意，如果文件已存在，此块会覆盖它。如果想向现有文件添加内容，
+ 请使用 <a href="#File.AppendToFile"><code class="language-plaintext highlighter-rouge">AppendToFile</code></a> 方法。</p>
+  </dd>
+</dl>
+
+<h2 id="Spreadsheet">电子表格（Spreadsheet）</h2>
+
+<p>电子表格是一个非可视组件，用于使用 Google Sheets API
+ 向 Google Sheets 文档存储数据以及从中接收数据。</p>
+
+<p>要使用此组件，首先必须拥有一个 Google 开发者
+ 账号。然后，必须在该 Google 开发者
+ 账号下创建一个新项目，在该项目上启用 Google Sheets API，最后为
+ Sheets API 创建一个服务账号。</p>
+
+<p>有关如何创建服务账号的说明，以及在哪里可以找到
+ 使用 Google 表格组件的其他相关信息，
+ 请见<a href="../other/googlesheets-api-setup.html">此处</a>。</p>
+
+<p>行号和列号从 1 开始计数。</p>
+
+<h3 id="Spreadsheet-Properties">属性</h3>
+
+<dl class="properties">
+  <dt id="Spreadsheet.ApplicationName" class="text do"><em>ApplicationName</em></dt>
+  <dd>应用的名称，在发起 API 调用时使用。</dd>
+  <dt id="Spreadsheet.CredentialsJson" class="text"><em>CredentialsJson</em></dt>
+  <dd>包含服务账号凭据的 JSON 文件</dd>
+  <dt id="Spreadsheet.SpreadsheetID" class="text"><em>SpreadsheetID</em></dt>
+  <dd>您要编辑的 Google Sheets 文件的 ID。您可以在 Google Sheets 文件的 URL 中找到 spreadsheetID。请查找 URL 中 '/d/' 与 '/edit' 之间的部分，例如在 https://docs.google.com/spreadsheets/d/1234abcd/edit 中，ID 为 '1234abcd'。</dd>
+</dl>
+
+<h3 id="Spreadsheet-Events">事件</h3>
+
+<dl class="events">
+  <dt id="Spreadsheet.ErrorOccurred">ErrorOccurred(<em class="text">errorMessage</em>)</dt>
+  <dd>每当 API 调用遇到错误时触发。有关错误的详细信息在 <code class="language-plaintext highlighter-rouge">errorMessage</code> 中。</dd>
+  <dt id="Spreadsheet.FinishedAddColumn">FinishedAddColumn(<em class="number">columnNumber</em>)</dt>
+  <dd><a href="#Spreadsheet.AddColumn"><code class="language-plaintext highlighter-rouge">AddColumn</code></a> 块的回调事件，在表中的
+ 值更新后调用。此外，它还返回
+ 新列的列号。</dd>
+  <dt id="Spreadsheet.FinishedAddRow">FinishedAddRow(<em class="number">rowNumber</em>)</dt>
+  <dd><a href="#Spreadsheet.AddRow"><code class="language-plaintext highlighter-rouge">AddRow</code></a> 块的回调事件，在表中的
+ 值更新后调用。此外，它还返回
+ 新行的行号。</dd>
+  <dt id="Spreadsheet.FinishedAddSheet">FinishedAddSheet(<em class="text">sheetName</em>)</dt>
+  <dd>addSheet 块的回调事件，在表中的值更新后调用。</dd>
+  <dt id="Spreadsheet.FinishedClearRange">FinishedClearRange()</dt>
+  <dd><a href="#Spreadsheet.ClearRange"><code class="language-plaintext highlighter-rouge">ClearRange</code></a> 块的回调事件，在表中的
+ 值更新后调用。</dd>
+  <dt id="Spreadsheet.FinishedDeleteSheet">FinishedDeleteSheet(<em class="text">sheetName</em>)</dt>
+  <dd>DeleteSheet 块的回调事件，在表中的值更新后调用。</dd>
+  <dt id="Spreadsheet.FinishedRemoveColumn">FinishedRemoveColumn()</dt>
+  <dd><a href="#Spreadsheet.RemoveColumn"><code class="language-plaintext highlighter-rouge">RemoveColumn</code></a> 块的回调事件，在表中的
+ 值更新后调用。</dd>
+  <dt id="Spreadsheet.FinishedRemoveRow">FinishedRemoveRow()</dt>
+  <dd><a href="#Spreadsheet.RemoveRow"><code class="language-plaintext highlighter-rouge">RemoveRow</code></a> 块的回调事件，在表中的
+ 值更新后调用。</dd>
+  <dt id="Spreadsheet.FinishedWriteCell">FinishedWriteCell()</dt>
+  <dd><a href="#Spreadsheet.WriteCell"><code class="language-plaintext highlighter-rouge">WriteCell</code></a> 块的回调事件，在表中的
+ 值更新后调用。</dd>
+  <dt id="Spreadsheet.FinishedWriteColumn">FinishedWriteColumn()</dt>
+  <dd><a href="#Spreadsheet.WriteColumn"><code class="language-plaintext highlighter-rouge">WriteColumn</code></a> 块的回调事件，在表中的
+ 值更新后调用。</dd>
+  <dt id="Spreadsheet.FinishedWriteRange">FinishedWriteRange()</dt>
+  <dd><a href="#Spreadsheet.WriteRange"><code class="language-plaintext highlighter-rouge">WriteRange</code></a> 块的回调事件，在表中的
+ 值更新后调用。</dd>
+  <dt id="Spreadsheet.FinishedWriteRow">FinishedWriteRow()</dt>
+  <dd><a href="#Spreadsheet.WriteRow"><code class="language-plaintext highlighter-rouge">WriteRow</code></a> 块的回调事件，在表中的
+ 值更新后调用。</dd>
+  <dt id="Spreadsheet.GotCellData">GotCellData(<em class="text">cellData</em>)</dt>
+  <dd><a href="#Spreadsheet.ReadCell"><code class="language-plaintext highlighter-rouge">ReadCell</code></a> 块的回调事件。<code class="language-plaintext highlighter-rouge">cellData</code> 是
+ 单元格中的文本值。</dd>
+  <dt id="Spreadsheet.GotColumnData">GotColumnData(<em class="list">columnData</em>)</dt>
+  <dd><a href="#Spreadsheet.ReadColumn"><code class="language-plaintext highlighter-rouge">ReadColumn</code></a> 块的回调事件。<code class="language-plaintext highlighter-rouge">columnData</code> 是
+ 按行号递增顺序排列的单元格文本值列表。</dd>
+  <dt id="Spreadsheet.GotRangeData">GotRangeData(<em class="list">rangeData</em>)</dt>
+  <dd><a href="#Spreadsheet.ReadRange"><code class="language-plaintext highlighter-rouge">ReadRange</code></a> 块的回调事件。<code class="language-plaintext highlighter-rouge">rangeData</code> 是
+ 行组成的列表，其维度与 rangeReference 相同。</dd>
+  <dt id="Spreadsheet.GotRowData">GotRowData(<em class="list">rowDataList</em>)</dt>
+  <dd><a href="#Spreadsheet.ReadRow"><code class="language-plaintext highlighter-rouge">ReadRow</code></a> 块的回调事件。<code class="language-plaintext highlighter-rouge">rowDataList</code> 是
+ 按列号递增顺序排列的单元格文本值列表。</dd>
+  <dt id="Spreadsheet.GotSheetData">GotSheetData(<em class="list">sheetData</em>)</dt>
+  <dd><a href="#Spreadsheet.ReadSheet"><code class="language-plaintext highlighter-rouge">ReadSheet</code></a> 块的回调事件。<code class="language-plaintext highlighter-rouge">sheetData</code> 是
+ 行组成的列表。</dd>
+  <dt id="Spreadsheet.GotSheetList">GotSheetList(<em class="list">sheetNames</em>)</dt>
+  <dd>ListSheets 块的回调事件，在检索到工作表列表后调用。</dd>
+</dl>
+
+<h3 id="Spreadsheet-Methods">方法</h3>
+
+<dl class="methods">
+  <dt id="Spreadsheet.AddColumn" class="method"><i></i> AddColumn(<em class="text">sheetName</em>,<em class="list">data</em>)</dt>
+  <dd>给定一个值列表作为 <code class="language-plaintext highlighter-rouge">data</code>，把值追加到工作表的下一个空
+ 列。它总是从顶行开始并向下继续。完成后，
+ 触发 <a href="#Spreadsheet.FinishedAddColumn"><code class="language-plaintext highlighter-rouge">FinishedAddColumn</code></a>
+ 回调事件。</dd>
+  <dt id="Spreadsheet.AddRow" class="method"><i></i> AddRow(<em class="text">sheetName</em>,<em class="list">data</em>)</dt>
+  <dd>给定一个值列表作为 <code class="language-plaintext highlighter-rouge">data</code>，把值追加到工作表的下一个
+ 空行。它总是从最左侧的列开始并向右继续。完成后，
+ 触发 <a href="#Spreadsheet.FinishedAddRow"><code class="language-plaintext highlighter-rouge">FinishedAddRow</code></a>
+ 回调事件。此外，它还返回新行的行号。</dd>
+  <dt id="Spreadsheet.AddSheet" class="method"><i></i> AddSheet(<em class="text">sheetName</em>)</dt>
+  <dd>在电子表格中添加一个新工作表。</dd>
+  <dt id="Spreadsheet.ClearRange" class="method"><i></i> ClearRange(<em class="text">sheetName</em>,<em class="text">rangeReference</em>)</dt>
+  <dd>清空给定范围内的单元格。完成后，此块触发
+ <a href="#Spreadsheet.FinishedClearRange"><code class="language-plaintext highlighter-rouge">FinishedClearRange</code></a> 回调事件。</dd>
+  <dt id="Spreadsheet.DeleteSheet" class="method"><i></i> DeleteSheet(<em class="text">sheetName</em>)</dt>
+  <dd>删除电子表格中指定的工作表。</dd>
+  <dt id="Spreadsheet.GetCellReference" class="method returns text"><i></i> GetCellReference(<em class="number">row</em>,<em class="number">column</em>)</dt>
+  <dd>把行和列的整数表示转换为 Google Sheets 中用于单个单元格的
+ A1 记号法。例如，第 1 行第 2 列
+ 对应字符串 "B1"。</dd>
+  <dt id="Spreadsheet.GetRangeReference" class="method returns text"><i></i> GetRangeReference(<em class="number">row1</em>,<em class="number">column1</em>,<em class="number">row2</em>,<em class="number">column2</em>)</dt>
+  <dd>把范围各角的行和列的整数表示
+ 转换为 Google Sheets 中使用的 A1 记号法。例如，选择从
+ 第 1 行第 2 列到第 3 行第 4 列的范围对应字符串 “B1:D3”。</dd>
+  <dt id="Spreadsheet.ListSheets" class="method"><i></i> ListSheets()</dt>
+  <dd>列出电子表格中所有工作表的名称。触发 GotSheetList 回调事件，并带有工作表名称列表。</dd>
+  <dt id="Spreadsheet.ReadCell" class="method"><i></i> ReadCell(<em class="text">sheetName</em>,<em class="text">cellReference</em>)</dt>
+  <dd>在具有所提供 sheetName 的页面上，读取给定
+ cellReference 处的单元格并触发 <a href="#Spreadsheet.GotCellData"><code class="language-plaintext highlighter-rouge">GotCellData</code></a> 回调事件。
+ cellReference 可以是带有 A1 记号法的文本块，也可以是
+ <a href="#Spreadsheet.GetCellReference"><code class="language-plaintext highlighter-rouge">GetCellReference</code></a> 块的结果。</dd>
+  <dt id="Spreadsheet.ReadColumn" class="method"><i></i> ReadColumn(<em class="text">sheetName</em>,<em class="text">column</em>)</dt>
+  <dd>在具有所提供 sheetName 的页面上，读取给定
+ colNumber 处的列并触发 <a href="#Spreadsheet.GotColumnData"><code class="language-plaintext highlighter-rouge">GotColumnData</code></a> 回调事件。</dd>
+  <dt id="Spreadsheet.ReadRange" class="method"><i></i> ReadRange(<em class="text">sheetName</em>,<em class="text">rangeReference</em>)</dt>
+  <dd>在具有所提供 sheetName 的页面上，读取给定
+ rangeReference 处的单元格并触发 <a href="#Spreadsheet.GotRangeData"><code class="language-plaintext highlighter-rouge">GotRangeData</code></a> 回调事件。
+ rangeReference 可以是带有 A1 记号法的文本块，也可以是
+ <a href="#Spreadsheet.GetRangeReference"><code class="language-plaintext highlighter-rouge">GetRangeReference</code></a> 块的结果。</dd>
+  <dt id="Spreadsheet.ReadRow" class="method"><i></i> ReadRow(<em class="text">sheetName</em>,<em class="number">rowNumber</em>)</dt>
+  <dd>在具有所提供 sheetName 的页面上，读取给定
+ rowNumber 处的行并触发 <a href="#Spreadsheet.GotRowData"><code class="language-plaintext highlighter-rouge">GotRowData</code></a> 回调事件。</dd>
+  <dt id="Spreadsheet.ReadSheet" class="method"><i></i> ReadSheet(<em class="text">sheetName</em>)</dt>
+  <dd>读取<b>整个</b> Google Sheets 文档并触发
+ <a href="#Spreadsheet.GotSheetData"><code class="language-plaintext highlighter-rouge">GotSheetData</code></a> 回调事件。</dd>
+  <dt id="Spreadsheet.ReadWithExactFilter" class="method"><i></i> ReadWithExactFilter(<em class="text">sheetName</em>,<em class="number">colID</em>,<em class="text">value</em>)</dt>
+  <dd>筛选 Google Sheet，找出给定列号与所提供的值匹配的行。</dd>
+  <dt id="Spreadsheet.ReadWithPartialFilter" class="method"><i></i> ReadWithPartialFilter(<em class="text">sheetName</em>,<em class="number">colID</em>,<em class="text">value</em>)</dt>
+  <dd>筛选 Google Sheet，找出给定列号包含所提供值字符串的行。</dd>
+  <dt id="Spreadsheet.RemoveColumn" class="method"><i></i> RemoveColumn(<em class="text">sheetName</em>,<em class="text">column</em>)</dt>
+  <dd>从表中删除具有给定列号的列。这
+ 不会清空该列，而是将其整个移除。工作表的网格 id 可以
+ 在 Google Sheets 文档 URL 的末尾、“gid=”之后
+ 找到。完成后，触发 <a href="#Spreadsheet.FinishedRemoveColumn"><code class="language-plaintext highlighter-rouge">FinishedRemoveColumn</code></a>
+ 回调事件。</dd>
+  <dt id="Spreadsheet.RemoveRow" class="method"><i></i> RemoveRow(<em class="text">sheetName</em>,<em class="number">rowNumber</em>)</dt>
+  <dd>从表中删除具有给定行号（从 1 开始计数）的行。这
+ 不会清空该行，而是将其整个移除。工作表的网格 id 可以
+ 在 Google Sheets 文档 URL 的末尾、“gid=”之后
+ 找到。完成后，触发 <a href="#Spreadsheet.FinishedRemoveRow"><code class="language-plaintext highlighter-rouge">FinishedRemoveRow</code></a>
+ 回调事件。</dd>
+  <dt id="Spreadsheet.WriteCell" class="method"><i></i> WriteCell(<em class="text">sheetName</em>,<em class="text">cellReference</em>,<em class="any">data</em>)</dt>
+  <dd>给定文本或数字作为 <code class="language-plaintext highlighter-rouge">data</code>，把值写入该单元格。它会
+ 用所提供的值覆盖单元格中任何现有的数据。完成后，
+ 触发 <a href="#Spreadsheet.FinishedWriteCell"><code class="language-plaintext highlighter-rouge">FinishedWriteCell</code></a> 回调事件。</dd>
+  <dt id="Spreadsheet.WriteColumn" class="method"><i></i> WriteColumn(<em class="text">sheetName</em>,<em class="text">column</em>,<em class="list">data</em>)</dt>
+  <dd>给定一个值列表作为 <code class="language-plaintext highlighter-rouge">data</code>，把值写入具有
+ 给定列号的列，自上而下覆盖现有值。（注意：它
+ 不会擦除整列。）完成后，触发
+ <a href="#Spreadsheet.FinishedWriteColumn"><code class="language-plaintext highlighter-rouge">FinishedWriteColumn</code></a> 回调事件。</dd>
+  <dt id="Spreadsheet.WriteRange" class="method"><i></i> WriteRange(<em class="text">sheetName</em>,<em class="text">rangeReference</em>,<em class="list">data</em>)</dt>
+  <dd>给定列表的列表作为 <code class="language-plaintext highlighter-rouge">data</code>，把值写入范围内的单元格。范围中
+ 的行数和列数必须与您的数据的维度匹配。此方法会覆盖
+ 范围内现有的数据。完成后，
+ 触发 <a href="#Spreadsheet.FinishedWriteRange"><code class="language-plaintext highlighter-rouge">FinishedWriteRange</code></a> 回调事件。</dd>
+  <dt id="Spreadsheet.WriteRow" class="method"><i></i> WriteRow(<em class="text">sheetName</em>,<em class="number">rowNumber</em>,<em class="list">data</em>)</dt>
+  <dd>给定一个值列表作为 <code class="language-plaintext highlighter-rouge">data</code>，把值写入具有
+ 给定行号的行，自左向右覆盖现有值。（注意：它
+ 不会擦除整行。）完成后，触发
+ <a href="#Spreadsheet.FinishedWriteRow"><code class="language-plaintext highlighter-rouge">FinishedWriteRow</code></a> 回调事件。</dd>
+</dl>
+
+<h2 id="TinyDB">本地数据库（TinyDB）</h2>
+
+<p><code class="language-plaintext highlighter-rouge">TinyDB</code> 是一个为应用存储数据的非可视组件。</p>
+
+<p>使用 App Inventor 创建的应用每次运行时都会重新初始化。这意味着，如果应用
+ 设置了某个变量的值，之后用户退出了应用，那么该变量值在
+ 下次运行应用时不会被记住。相比之下，TinyDB 是应用的持久数据存储。
+ 存储在 <code class="language-plaintext highlighter-rouge">TinyDB</code> 中的数据在每次运行应用时都可用。一个例子
+ 是游戏保存最高分，并在每次玩游戏时取出它。</p>
+
+<p>数据项由标签和值组成。要存储一个数据项，您需要指定它应存储
+ 在哪个标签下。标签必须是文本块，用于给数据命名。随后，您可以
+ 取出存储在给定标签下的数据。</p>
+
+<p>您不能用 <code class="language-plaintext highlighter-rouge">TinyDB</code> 在手机上的两个不同应用之间传递数据，不过您
+ 可以用 <code class="language-plaintext highlighter-rouge">TinyDB</code> 在多屏幕应用的不同屏幕之间共享数据。</p>
+
+<p>当您使用 AI 伴侣（Companion）开发应用时，所有使用该伴侣的应用都会
+ 共享同一个 <code class="language-plaintext highlighter-rouge">TinyDB</code>。一旦应用打包并安装到手机上，这种共享就会
+ 消失。在开发过程中，每次开始处理新应用时，您都应小心清除
+ 伴侣应用的数据。</p>
+
+<h3 id="TinyDB-Properties">属性</h3>
+
+<dl class="properties">
+  <dt id="TinyDB.Namespace" class="text"><em>Namespace</em></dt>
+  <dd>用于存储数据的命名空间。</dd>
+</dl>
+
+<h3 id="TinyDB-Events">事件</h3>
+
+<p class="events">无</p>
+
+<h3 id="TinyDB-Methods">方法</h3>
+
+<dl class="methods">
+  <dt id="TinyDB.ClearAll" class="method"><i></i> ClearAll()</dt>
+  <dd>清空整个数据存储。</dd>
+  <dt id="TinyDB.ClearTag" class="method"><i></i> ClearTag(<em class="text">tag</em>)</dt>
+  <dd>清除具有给定 <code class="language-plaintext text block highlighter-rouge">tag</code> 的条目。</dd>
+  <dt id="TinyDB.GetEntries" class="method returns dictionary"><i></i> GetEntries()</dt>
+  <dd>以字典形式获取所有数据的方法</dd>
+  <dt id="TinyDB.GetTags" class="method returns any"><i></i> GetTags()</dt>
+  <dd>返回数据存储中所有标签的列表。</dd>
+  <dt id="TinyDB.GetValue" class="method returns any"><i></i> GetValue(<em class="text">tag</em>,<em class="any">valueIfTagNotThere</em>)</dt>
+  <dd>取出存储在给定 <code class="language-plaintext text block highlighter-rouge">tag</code> 下的值。如果没有这样的标签，则
+ 返回 <code class="language-plaintext variable block highlighter-rouge">valueIfTagNotThere</code>。</dd>
+  <dt id="TinyDB.StoreValue" class="method"><i></i> StoreValue(<em class="text">tag</em>,<em class="any">valueToStore</em>)</dt>
+  <dd>把给定的 <code class="language-plaintext variable block highlighter-rouge">valueToStore</code> 存储在给定的 <code class="language-plaintext text block highlighter-rouge">tag</code> 下。
+ 应用重启后，存储内容仍保留在手机上。</dd>
+</dl>
+
+<h2 id="TinyWebDB">网络数据库（TinyWebDB）</h2>
+
+<p><code class="language-plaintext highlighter-rouge">TinyWebDB</code> 组件与一个 Web 服务通信，以存储
+ 和获取信息。尽管此组件可以使用，但它
+ 非常有限，主要是作为演示，供想要创建自己的、与 Web 通信的
+ 组件的人参考。
+ 随附的 Web 服务位于
+ (http://tinywebdb.appinventor.mit.edu)。该组件具有
+ 在标签下<a href="#TinyWebDB.StoreValue">存储值</a>以及
+ <a href="#TinyWebDB.GetValue">取出与该标签关联的值</a>的方法。
+ “存储”和“取出”的含义
+ 由 Web 服务决定。在此实现中，所有标签和
+ 值都是字符串（文本）。此限制在
+ 未来的版本中可能会放宽。</p>
+
+<h3 id="TinyWebDB-Properties">属性</h3>
+
+<dl class="properties">
+  <dt id="TinyWebDB.ServiceURL" class="text"><em>ServiceURL</em></dt>
+  <dd>指定 Web 服务的 URL。
+ 默认值是运行在 App Engine 上的演示服务。</dd>
+</dl>
+
+<h3 id="TinyWebDB-Events">事件</h3>
+
+<dl class="events">
+  <dt id="TinyWebDB.GotValue">GotValue(<em class="text">tagFromWebDB</em>,<em class="any">valueFromWebDB</em>)</dt>
+  <dd>表示 <a href="#TinyWebDB.GetValue"><code class="language-plaintext highlighter-rouge">GetValue</code></a> 服务器请求已成功。</dd>
+  <dt id="TinyWebDB.ValueStored">ValueStored()</dt>
+  <dd>表示 <a href="#TinyWebDB.StoreValue"><code class="language-plaintext highlighter-rouge">StoreValue</code></a> 服务器请求已成功的事件。</dd>
+  <dt id="TinyWebDB.WebServiceError">WebServiceError(<em class="text">message</em>)</dt>
+  <dd>表示与 Web 服务的通信发出了错误信号。</dd>
+</dl>
+
+<h3 id="TinyWebDB-Methods">方法</h3>
+
+<dl class="methods">
+  <dt id="TinyWebDB.GetValue" class="method"><i></i> GetValue(<em class="text">tag</em>)</dt>
+  <dd><code class="language-plaintext highlighter-rouge">GetValue</code> 要求 Web 服务获取存储在给定 <code class="language-plaintext text block highlighter-rouge">tag</code> 下的值。
+ 如果该 <code class="language-plaintext text block highlighter-rouge">tag</code> 下没有存储值，返回什么由 Web 服务决定。
+ 此组件只接受返回的任何内容。
+ <a href="#TinyWebDB.GotValue"><code class="language-plaintext highlighter-rouge">GotValue</code></a> 事件将在完成时运行。</dd>
+  <dt id="TinyWebDB.StoreValue" class="method"><i></i> StoreValue(<em class="text">tag</em>,<em class="any">valueToStore</em>)</dt>
+  <dd>向 Web 服务发送请求，把给定的 <code class="language-plaintext variable block highlighter-rouge">valueToStore</code> 存储在
+ 给定的 <code class="language-plaintext text block highlighter-rouge">tag</code> 下。<a href="#TinyWebDB.ValueStored"><code class="language-plaintext highlighter-rouge">ValueStored</code></a> 事件将在完成时运行。</dd>
+</dl>
+
+</article>
+<script>
+  // Handle redirection to documentation based on locale query parameter (if specified)
+  (function() {
+      var locale = window.location.search.match('[&?]locale=([a-zA-Z-]*)');
+      if (locale) {
+          if (locale[1].indexOf('en') === 0) {
+              // English needs to stay at the top level to not break existing links
+              var page = window.location.pathname.split('/');
+              if (page.length === 5) {
+                  page.splice(2, 1);
+              } else {
+                  // already on english
+                  return;
+              }
+              window.location.href = page.join('/');
+          } else {
+              var page = window.location.pathname.split('/');
+              if (page.length === 4) {
+                  page.splice(2, 0, locale[1]);
+              } else if (page[2].toLowerCase() != locale[1].toLowerCase()) {
+                  page[2] = locale[1];
+              } else {
+                  return;  // already on the desired language
+              }
+              // Test that the page exists before redirecting.
+              var xhr = new XMLHttpRequest();
+              xhr.open('HEAD', page.join('/'), false);
+              xhr.onreadystatechange = function() {
+                  if (xhr.readyState == 4) {
+                      if ((xhr.status == 200 || xhr.status == 204)) {
+                          window.location.href = page.join('/');
+                      } else if (xhr.status  >= 400) {
+                          page.splice(2, 1);  // go to english version
+                          window.location.href = page.join('/');
+                      }
+                  }
+              };
+              xhr.send();
+          }
+      }
+  })();
+
+  // Handle embedded documentation in help by removing website template
+  if (window.self !== window.top) {
+      setTimeout(function() {
+          var videos = document.querySelectorAll('video');
+          for (var i = 0; i < videos.length; i++) {
+              if (parseInt(videos[i].getAttribute('width')) > 360) {
+                  var aspect = parseInt(videos[i].getAttribute('height')) / parseInt(videos[i].getAttribute('width'));
+                  videos[i].setAttribute('width', '360');
+                  videos[i].setAttribute('height', '' + (360 * aspect));
+              }
+          }
+          var h1 = document.querySelector('h1');
+          var article = document.querySelector('article');
+          article.insertBefore(h1, article.firstElementChild);
+          document.body.innerHTML = article.outerHTML;
+      });
+  }
+</script>
+
+            </div>
+<script src="../../../static/js/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="../../../static/js/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="../../../static/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+<script async src="../../../static/js/widgets.js" charset="utf-8"></script>
+</div>
+    </body>
+</html>

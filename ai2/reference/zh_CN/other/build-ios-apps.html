@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+
+     一一对应。
+     - 正文（标题/段落/列表/表格/图片 alt/视频说明）译为简体中文；
+     - 顶部导航（MIT logo、"Create Apps!" 按钮、About/Educators/News/Resources/Blogs
+       菜单、Donate 按钮、gcse 搜索框）与底部 MIT 版权页脚（© 声明、CC BY-SA、ToS、
+       Support/Twitter/GitHub/Accessibility）已整块删除：本项目是离线产品，帮助页只在
+       应用内新标签页打开，不应出现通往 MIT 主站的品牌链接与捐赠入口。head 里仅供
+       "Create Apps!" 按钮使用的 gotoappinventor() 脚本一并删除；<title> 与页面 <h1>
+       里的 "MIT " 字样已去掉，正文中作为产品名出现的 "MIT App Inventor" 已改为
+       "App Inventor蔻丁工坊"(zh_CN 语境带蔻丁工坊后缀;版权说明处的 MIT 保留)；
+     - 重定向脚本（<script> 块）按上游原文保留：本项目 blocklyeditor.js 的 _resolveHelpUrl
+       已把 href 直接写成 zh_CN 路径且不带 ?locale=，脚本不会触发；若日后有人手工拼了
+       ?locale=zh_CN 进 URL，file:// 下 sync XHR 会被浏览器拦截，脚本停在"已是目标语言"，
+       不会跳错位置；
+     - /static/ 绝对路径改为相对路径：offline webapp 支持以 file:// 打开，绝对路径会解析到
+       磁盘根目录（file:///static/...）从而 404；
+     - 本地图片/视频按上游同名相对路径复制到本目录，故 src 与上游完全一致；
+     - id= 锚点与块/组件/属性英文名保持上游原文，帮助链接里的 #fragment 才能定位。 -->
+<html lang="zh-CN"><head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="stylesheet" href="../../../static/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="../../../static/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
+    <link href="../../../static/css/fonts.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="../../../static/css/mit_app_inventor.css">
+    <title>使用 App Inventor 构建 iOS 应用</title></head>
+<body class="mit_app_inventor">
+<div class="default-page">
+            <div class="header">
+	        <h1 class="font-weight-bold text-center offset-xl-2 col-xl-8">使用 App Inventor 构建 iOS 应用</h1>
+            </div>
+            <div class="container-fluid">
+                <article class="documentation">
+<p>首先，您需要有一个有效的 Apple 开发者许可。这项费用通常为每年 99 美元，不过非营利组织和教育机构往往可以申请免除。每个 iOS 应用都要用私钥和证书进行签名。证书由 Apple 签发，而 iOS 设备只安装由 Apple 签发的证书所签名的应用。本文将带您走完设置 App Inventor 账号和 Apple 开发者账号的整个过程，让您可以为自己的 iOS 设备编译应用。</p>
+
+<h2 id="retrieve-a-certificate-signing-request">获取证书签名请求</h2>
+
+<p>Apple 使用数字证书为您的应用签名，使应用能够在 iOS 设备上运行，或上传到 App Store Connect。证书的有效期为 1 年，因此在参与 Apple 开发者计划期间，您需要不断续期。要让 Apple 为您签发证书，首先必须获得一份证书签名请求（Certificate Signing Request，CSR）。在 App Inventor 的“项目（Projects）”菜单下选择“Download Certificate Request”菜单项，它就能为您生成该请求。该请求会与给您的 Android 应用签名时所用的同一个密钥库绑定。</p>
+
+<p>登录 <a href="/">App Inventor蔻丁工坊</a>。</p>
+
+<p>在“项目”菜单中选择“Download Certificate Request”。</p>
+
+<p><img src="images/download-csr.png" alt="“项目”菜单下的 Download Certificate Request 菜单项" /></p>
+
+<p>浏览器会把您的 CSR 保存到电脑上。</p>
+
+<h2 id="submit-csr-to-apple">向 Apple 提交 CSR</h2>
+
+<p>登录 <a href="https://developer.apple.com">Apple 开发者门户</a>。</p>
+
+<p>在 Apple 开发者门户中，进入 Certificates, Profiles &amp; Devices 部分。</p>
+
+<p><img src="images/developer-main.png" alt="Apple 开发者门户的截图，其中高亮了 Certificates, Identifiers &amp; Profiles" style="zoom:0.5" /></p>
+
+<p>选择 Certificates，然后点击 + 按钮创建新证书。</p>
+
+<p><img src="images/certificate-overview.png" alt="Apple 开发者门户中 Certificates 页面的截图" style="zoom:0.5" /></p>
+
+<p>当系统询问您想要哪种类型的证书时，选择 Apple Distribution，然后点击 Continue。</p>
+
+<p><img src="images/certificate-type.png" alt="" style="zoom:0.5" /></p>
+
+<p>在下一页点击“Choose File”，选择从 App Inventor 下载的 CSR 文件。</p>
+
+<p><img src="images/certificate-upload.png" alt="" style="zoom:0.5" /></p>
+
+<p>提交表单并且证书通过审核后，点击“All Certificates”返回开发者门户。<strong>您不需要下载证书。</strong></p>
+
+<h2 id="create-app-identifier">创建 App 标识符</h2>
+
+<p>点击 Identifiers 打开标识符部分。</p>
+
+<p><img src="images/identifiers-main.png" alt="" style="zoom:0.5" /></p>
+
+<p>点击 + 按钮为您的应用创建新的标识符。选择 App IDs 并点击 Continue。在标识符类型中选择 App。完成这些操作后，会出现一个注册页面。</p>
+
+<p><img src="images/identifiers-register.png" alt="" style="zoom:0.5" /></p>
+
+<h3 id="description">Description（描述）</h3>
+
+<p>Description 是一个便于人阅读的名称，用来标识您的描述文件（profile）。大多数情况下，最好用您的应用名或项目名作为 Description。</p>
+
+<h3 id="app-id-prefix">App ID Prefix（App ID 前缀）</h3>
+
+<p>App ID Prefix 是一个用来向 Apple 唯一标识您开发者账号的标识符。对于这一项，您需要选择标有“(Team ID)”的那个标识符。</p>
+
+<h3 id="bundle-id">Bundle ID（应用包标识符）</h3>
+
+<p>App Inventor 通常期望标识符采用 <code class="language-plaintext highlighter-rouge">appinventor.ai-USERNAME.PROJECTNAME</code> 的格式，其中 <code class="language-plaintext highlighter-rouge">USERNAME</code> 替换为您电子邮箱地址中 <code class="language-plaintext highlighter-rouge">@</code> 前面的部分，<code class="language-plaintext highlighter-rouge">PROJECTNAME</code> 替换为您的项目名称。不过，如果您要发布其他希望与之交互的应用，任何反向 DNS 风格的标识符都可以。</p>
+
+<p>您也可以使用通配符 ID，例如 <code class="language-plaintext highlighter-rouge">appinventor.ai-USERNAME.*</code>，从而创建一个可以在所有项目中复用的描述文件。</p>
+
+<p>填完表单后，点击 Continue，再点击 Register 完成注册。点击“All Identifiers”返回主界面。</p>
+
+<h2 id="add-devices">添加设备</h2>
+
+<p><strong>仅限 App Store：</strong>如果是要发布到 App Store，可以跳过本节。</p>
+
+<p>点击 Devices 打开设备部分。</p>
+
+<p><img src="images/devices-main.png" alt="" style="zoom:0.5" /></p>
+
+<p>点击 + 按钮注册新设备。在注册表单上，您可以提交单个设备，也可以上传文件。如何获取设备的标识符，请参见<a href="#udids">设备 ID 说明</a>一节。</p>
+
+<p><img src="images/devices-form.png" alt="" style="zoom:0.5" /></p>
+
+<p>点击 Continue，再点击 Register 确认添加新设备。点击“All Devices”返回开发者门户。您也可以重复这一步来添加更多设备。</p>
+
+<h2 id="create-profile">创建描述文件</h2>
+
+<p>下一步是创建描述文件（provisioning profile）。描述文件把前面各项内容打包成一个整体，用于分发您的应用。点击 Profiles 打开描述文件部分，然后点击 + 按钮创建新的描述文件。App Inventor 可以构建用于“Ad Hoc”或“App Store”分发的应用。如果要分发给数量有限的设备、又不想经过 App Store 审核，请选择“Ad Hoc”。如果您打算发布到 App Store，请选择“App Store”。</p>
+
+<p><img src="images/profile-type.png" alt="" style="zoom:0.5" /></p>
+
+<p>在下一个页面会要求您为该描述文件选择 App ID。选择前面步骤中创建的 App ID，然后点击 Continue。</p>
+
+<p><img src="images/profile-appid.png" alt="" style="zoom:0.5" /></p>
+
+<p>在下一个页面会要求您选择使用该描述文件时为应用签名所用的证书。选择前面步骤中创建的证书，然后点击 Continue。</p>
+
+<p><img src="images/profile-certificate.png" alt="" style="zoom:0.5" /></p>
+
+<p><strong>仅限 Ad Hoc 描述文件：</strong>在下一个页面会要求您选择允许运行与该描述文件关联的应用的设备。在这一步启用您需要的设备数量（至少 1 台），然后点击 Continue。</p>
+
+<p><img src="images/profile-devices.png" alt="" style="zoom:0.5" /></p>
+
+<p>在下一个页面会要求您为描述文件命名、核对所做选择，并确认创建该描述文件。这个名称只是便于阅读，您可以按自己的习惯任意命名。</p>
+
+<p><img src="images/profile-confirmation.png" alt="" style="zoom:0.5" /></p>
+
+<p>确认描述文件后，点击 Download 按钮把描述文件下载到电脑上。下载好描述文件后，就可以关闭 Apple 开发者门户所在的标签页了。</p>
+
+<h2 id="build-app">构建应用</h2>
+
+<p>回到 App Inventor 中的项目。把上一步创建的描述文件上传到应用的“素材（Media）”部分。</p>
+
+<p><img src="images/media-provisioning.png" alt="" /></p>
+
+<p>在“打包（Build）”菜单中选择 <code class="language-plaintext highlighter-rouge">iOS Ad Hoc (.ipa)</code> 来发起 Ad Hoc 构建，或选择 <code class="language-plaintext highlighter-rouge">Upload to iOS App Store</code> 来构建应用并上传到 App Store。如果这是您第一次构建 App Store 版本，还需要提供一个<a href="#asp">专用密码</a>。</p>
+
+<p><strong>注意：</strong>可以在素材中同时包含两份不同的移动描述文件，以便使用两种构建方式。</p>
+
+<p><img src="images/build-app.png" alt="" /></p>
+
+<p><strong>仅限 Ad Hoc：</strong>构建完成后，您会得到一个可供扫描的二维码。在 iOS 设备上打开“相机”应用，对准该二维码。它会提示您打开一个链接。打开该链接就会开始安装您的应用。</p>
+
+<p><img src="images/barcode-example.png" alt="" /></p>
+
+<p><strong>仅限 App Store：</strong>成功后，您的应用还需要经过 Apple 处理。您会看到一个对话框，确认已成功提交，其中还有一个打开 App Store Connect 的链接。</p>
+
+<p><img src="images/upload-example.png" alt="" style="zoom: 0.5" /></p>
+
+<h2 id="asp">关于 App 专用密码的说明</h2>
+
+<p>要使用 App Inventor蔻丁工坊 发布到 App Store，您需要为自己的 Apple 账号创建一个 App 专用密码。</p>
+
+<p>要创建 App 专用密码，请访问 <a href="https://appleid.apple.com">Apple ID</a> 并登录。</p>
+
+<p>在控制面板上找到 App-Specific Password 卡片并点击它。</p>
+
+<p><img src="images/asp-apple-id-dashboard.png" alt="" style="zoom: 0.5" /></p>
+
+<p>接着，点击 + 按钮添加新密码。</p>
+
+<p><img src="images/asp-overview-screen.png" alt="" style="zoom: 0.5" /></p>
+
+<p>系统会提示您输入应用名称。输入“App Inventor蔻丁工坊”，然后点击 Create。</p>
+
+<p><img src="images/asp-generate-screen.png" alt="" style="zoom: 0.5" /></p>
+
+<p>此时系统可能会要求您重新输入 Apple ID 密码进行安全确认。完成之后，您就会得到 App 专用密码。请把它保存下来，因为它只会显示这一次。</p>
+
+<p><img src="images/asp-finish-screen.png" alt="" style="zoom: 0.5" /></p>
+
+<p>最后，在 App Inventor 中，您可以进入“设置（Settings）”菜单并打开 App Store Settings 对话框来填写 App 专用密码。您需要同时提供 Apple ID（通常是您的电子邮箱地址）和上一步创建的 App 专用密码。对大多数用户来说，ASC Short Name 可以留空。</p>
+
+<p><img src="images/asp-settings-dialog.png" alt="" style="zoom: 0.5" /></p>
+
+<p><strong>注意：</strong>这些凭据在 App Inventor 服务器上是加密保存的，服务器无法解密，设置之后也无法再取回。如果您需要更改凭据，可以重复上面的步骤设置一个新的 App 专用密码。</p>
+
+<h2 id="devmode">关于开发者模式的说明</h2>
+
+<p>从 iOS 16 开始，Apple 要求用户先开启开发者模式，才能安装用 Ad Hoc 方式打包的应用。</p>
+
+<p>要开启开发者模式，请打开“设置”应用，进入“隐私与安全”部分：</p>
+
+<p><img src="images/devmode-settings.png" alt="" style="zoom:0.5" /></p>
+
+<p>向下滚动到“安全性”部分，选择“开发者模式”：</p>
+
+<p><img src="images/devmode-security.png" alt="" style="zoom:0.5" /></p>
+
+<p>打开开关即可启用开发者模式：</p>
+
+<p><img src="images/devmode-devmode.png" alt="" style="zoom:0.5" /></p>
+
+<p>设备可能会要求您先重启，然后才能启用该选项：</p>
+
+<p><img src="images/devmode-restart.png" alt="" style="zoom:0.5" /></p>
+
+<p>重启设备后，系统会提示您开启开发者模式：</p>
+
+<p><img src="images/devmode-enable.png" alt="" style="zoom:0.5" /></p>
+
+<p>启用开发者模式后，您就可以扫描 App Inventor 返回的二维码，或者把下载好的 IPA 安装到设备上。</p>
+
+<h2 id="udids">关于设备 ID 的说明</h2>
+
+<p>每台 iOS 设备都有一个唯一的标识符，称为 UDID。您可以用 iTunes 或“访达”（macOS 10.14 及以上）获取设备的 UDID。</p>
+
+<h3 id="macos">macOS</h3>
+
+<p>在不再附带 iTunes 的较新版本 macOS 上，用 USB 线把 iOS 设备连接到电脑后，设备会出现在“访达”中。在“访达”里选中该设备，查看其名称下方的设备类型。</p>
+
+<p><img src="images/macos-udid.png" alt="" style="zoom:0.5" /></p>
+
+<p>点击设备类型（示例中为 iPhone X）即可显示 UDID。您可以按住 Control 单击或单击右键来复制 UDID。</p>
+
+<p><img src="images/macos-copy-udid.png" alt="" style="zoom:0.5" /></p>
+
+<p>需要时，把 UDID 粘贴到 Apple 开发者控制台的表单中。</p>
+
+<h3 id="itunes-windows-or-mac-os-x">iTunes（Windows 或 Mac OS X）</h3>
+
+<p>在 Windows 或 10.14 之前的旧版 Mac OS X 上，可以通过 iTunes 获取。首先用 USB 线把设备连接到电脑，然后打开 iTunes。点击工具栏中出现的设备图标：</p>
+
+<p><img src="images/itunes-open-iphone.png" alt="" style="zoom:0.5" /></p>
+
+<p>在信息窗口中点击显示序列号的区域。该条目会切换为 UDID。</p>
+
+<p><img src="images/itunes-serial.png" alt="" style="zoom:0.5" /></p>
+
+<p>单击右键（在 Mac 上按住 Control 单击）打开上下文菜单，即可复制 UDID。</p>
+
+<p><img src="images/itunes-udid-copy.png" alt="" style="zoom:0.5" /></p>
+
+<p>需要时，把 UDID 粘贴到 Apple 开发者控制台的表单中。</p>
+
+</article>
+<script>
+  // Handle redirection to documentation based on locale query parameter (if specified)
+  (function() {
+      var locale = window.location.search.match('[&?]locale=([a-zA-Z-]*)');
+      if (locale) {
+          if (locale[1].indexOf('en') === 0) {
+              // English needs to stay at the top level to not break existing links
+              var page = window.location.pathname.split('/');
+              if (page.length === 5) {
+                  page.splice(2, 1);
+              } else {
+                  // already on english
+                  return;
+              }
+              window.location.href = page.join('/');
+          } else {
+              var page = window.location.pathname.split('/');
+              if (page.length === 4) {
+                  page.splice(2, 0, locale[1]);
+              } else if (page[2].toLowerCase() != locale[1].toLowerCase()) {
+                  page[2] = locale[1];
+              } else {
+                  return;  // already on the desired language
+              }
+              // Test that the page exists before redirecting.
+              var xhr = new XMLHttpRequest();
+              xhr.open('HEAD', page.join('/'), false);
+              xhr.onreadystatechange = function() {
+                  if (xhr.readyState == 4) {
+                      if ((xhr.status == 200 || xhr.status == 204)) {
+                          window.location.href = page.join('/');
+                      } else if (xhr.status  >= 400) {
+                          page.splice(2, 1);  // go to english version
+                          window.location.href = page.join('/');
+                      }
+                  }
+              };
+              xhr.send();
+          }
+      }
+  })();
+
+  // Handle embedded documentation in help by removing website template
+  if (window.self !== window.top) {
+      setTimeout(function() {
+          var videos = document.querySelectorAll('video');
+          for (var i = 0; i < videos.length; i++) {
+              if (parseInt(videos[i].getAttribute('width')) > 360) {
+                  var aspect = parseInt(videos[i].getAttribute('height')) / parseInt(videos[i].getAttribute('width'));
+                  videos[i].setAttribute('width', '360');
+                  videos[i].setAttribute('height', '' + (360 * aspect));
+              }
+          }
+          var h1 = document.querySelector('h1');
+          var article = document.querySelector('article');
+          article.insertBefore(h1, article.firstElementChild);
+          document.body.innerHTML = article.outerHTML;
+      });
+  }
+</script>
+
+            </div>
+<script src="../../../static/js/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="../../../static/js/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="../../../static/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+<script async src="../../../static/js/widgets.js" charset="utf-8"></script>
+</div>
+    </body>
+</html>

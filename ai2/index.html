@@ -1,29 +1,27 @@
 
 
 
+<!-- 修改默认语言 ///////////////////////////////////////////
+     显式声明 JSP 输出 UTF-8 编码,中文 locale(zh_CN)下 servlet 容器
+     默认按 ISO-8859-1 推送字节流会导致中文显示为"?"/"�"。
+     参照 LocalizationBase/index.jsp:L4-6 -->
+
+<!-- /////////////////////////////////////////// -->
 
 <!-- Copyright 2007-2009 Google Inc. All Rights Reserved. -->
 <!-- Copyright 2011-2025 Massachusetts Institute of Technology. All Rights Reserved. -->
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
   <head>
     <meta http-equiv="X-UA-Compatible" content="IE=10">
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https://tile.openstreetmap.org https://*.arcgisonline.com; media-src 'self' data: blob:; font-src 'self' data:; connect-src 'self' http://127.0.0.1:8001 ws://127.0.0.1:8001 http://localhost:* ws://localhost:* https://*.appinventor.mit.edu http://*.appinventor.mit.edu; frame-src 'self' data: blob:; object-src 'none'; base-uri 'none'; form-action 'none'">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!--meta name="gwt:property" content="locale=en_US"-->
     <!-- Title is set at runtime. -->
     <title> </title>
     
-    <!-- Google Analytics. -->
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id="></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
 
-      gtag('config', '');
-    </script>
 
     <link type="text/css" rel="stylesheet" href="static/css/gwt.css">
     <link type="text/css" rel="stylesheet" href="static/css/blockly.css">
@@ -50,8 +48,8 @@
          YaClient.gwt.xml and this build's i18n.java - do not edit by hand. -->
     <script type="text/javascript">
       (function() {
-        var LOCALES = {"en":"messages_bdcc1545.cache.js","zh_CN":"messages_5b60fe32.cache.js","zh_TW":"messages_e50c0c59.cache.js","es_ES":"messages_1c9ad123.cache.js","fr_FR":"messages_cc8ae7ae.cache.js","it_IT":"messages_5dbb0d72.cache.js","ru":"messages_83ceb5eb.cache.js","ko_KR":"messages_31a9b9b0.cache.js","sv":"messages_6afbcb32.cache.js","pt_BR":"messages_86f6a54.cache.js","pt":"messages_8029608c.cache.js","hu":"messages_b1990a14.cache.js","nl":"messages_f6975916.cache.js","de":"messages_a76a6ed.cache.js","pl":"messages_cb6df85d.cache.js","lt":"messages_c7315ee2.cache.js","tr":"messages_740c104b.cache.js","hy":"messages_44d24601.cache.js","ca":"messages_a3df157a.cache.js","uk":"messages_df43eff9.cache.js","ja":"messages_513d7f0e.cache.js"};
-        var DEFAULT_LOCALE = "en";
+        var LOCALES = {"en":"messages_6341ccb2.cache.js","zh_CN":"messages_7aa2ae68.cache.js"};
+        var DEFAULT_LOCALE = "zh_CN";
         var STORAGE_KEY = "ai2.locale";
         function known(locale) {
           return Object.prototype.hasOwnProperty.call(LOCALES, locale);
@@ -86,12 +84,28 @@
         // own language and paint its widgets in a different language than the
         // Blockly messages bundle loaded below.
         document.write('<meta name="gwt:property" content="locale=' + locale + '">');
+
+        // [2026-10-10 roadlabs] Expose the resolved locale as window.__gwt_Locale
+        // (and window.parent.__gwt_Locale, since some Blockly blocks read the
+        // parent frame's locale when running inside an iframe in the upstream
+        // JSP-hosted build). blocklyeditor blocks/{text,dictionaries,lists}.js
+        // use this to gate AI Blockly language-specific layout tweaks
+        // (setInputsInline, appendDummyInput splitting, Chinese suffix
+        // appending, appendEndRowInput replacement); the same global is now
+        // also read by Blockly.BlocklyEditor._resolveHelpUrl to rewrite menu
+        // help URLs to the locale-specific reference/<locale>/ path so the
+        // Blocks right-click "?" help links open the localized help page
+        // instead of the English one. The offline static site has no iframe,
+        // so window and window.parent are the same object; setting both is
+        // harmless.
+        try { window.parent.__gwt_Locale = locale; } catch (e) { /* defensive */ }
+        window.__gwt_Locale = locale;
+
         document.documentElement.lang = locale.replace(/_/g, "-");
         document.write('<script type="text/javascript" src="ode/' + LOCALES[locale] + '"><\/script>');
       })();
     </script>
-      <script type="text/javascript" src="templates/template-data.js"></script>
-    <script type="text/javascript" src="init-specs/spec-data.js"></script>
+      <script type="text/javascript" src="init-specs/spec-data.js" defer></script>
   </head>
 
   <!-- ODE scripts -->
@@ -106,6 +120,86 @@
         <li> Firefox 52+ </li>
       </ul>
     </div>
+    <!-- 显示加载信息 ///////////////////////////////////////////
+         GWT 首屏需拉取 16 个 static/js/* + ode/*.cache.js + 大量 GWT 拆分
+         包,本地 file:// 部署时尤其慢(数秒到十几秒),期间页面只有白屏,
+         用户以为没启动。LocalizationBase 在 body 加了一个 fixed 居中
+         的"系统正在加载中，请耐心守候..."提示。
+
+         注解 <!--% ... %> 不是 JSP 注释(那是 )而是字面 HTML
+         注释,作者意图可能是"对 zh_CN 才显示",但实际是永远显示。
+         在 offline-webapp 下保持 LocalizationBase 的写法,
+         generate-index.py 只剥  不会动 HTML 注释,
+         所以 div 会被原样带到 offline-webapp/index.html;
+         DEFAULT_LOCALE=zh_CN 已经把默认用户圈定在中文用户。
+         参照 LocalizationBase/index.jsp:L90-94 -->
+    <!--% if (locale == "zh_CN") { %-->
+        <div id="loading" style="position:fixed;top:0;left:0;right:0;bottom:0;z-index:9999;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,0.92);">
+      <div style="text-align:center;font-size:1.2em;color:#444;">
+        <div id="loading-text">正在加载编辑器...</div>
+        <div style="margin-top:12px;width:220px;height:6px;background:#e0e0e0;border-radius:3px;overflow:hidden;">
+          <div id="loading-bar" style="height:100%;width:6%;background:#4285f4;border-radius:3px;"></div>
+        </div>
+      </div>
+    </div>
+    <script>
+      // [scope: loading-progress 2026-10-23] Real boot progress: subscribe to the
+      // GWT bootstrap's __gwtStatsEvent and map each startup phase to a percent +
+      // label. Monotonic (never regresses), capped under 100%: completion is the
+      // app mounting and replacing the body, which removes this overlay itself.
+      (function () {
+        var overlay = document.getElementById('loading');
+        var textEl = document.getElementById('loading-text');
+        var barEl = document.getElementById('loading-bar');
+        var pct = 6;
+        function set(p, label) {
+          if (p > pct) pct = p;
+          try {
+            barEl.style.width = pct + '%';
+            if (label) textEl.textContent = label;
+          } catch (e) { /* overlay may already have been removed at mount */ }
+        }
+        // Phase -> percent/label, from a cold-boot trace of ode.nocache.js.
+        var PHASES = {
+          'begin:bootstrap': [8, '正在加载编辑器...'],
+          'selectingPermutation:bootstrap': [15, '正在加载编辑器...'],
+          'begin:loadExternalRefs': [25, '正在加载核心模块...'],
+          'end:loadExternalRefs': [45, '正在加载核心模块...'],
+          'end:bootstrap': [55, '正在初始化组件...'],
+          'moduleRequested:moduleStartup': [60, '正在初始化组件...'],
+          'moduleEvalStart:moduleStartup': [70, '正在启动编辑器...'],
+          'moduleEvalEnd:moduleStartup': [80, '正在启动编辑器...'],
+          'end:moduleStartup': [90, '即将完成...']
+        };
+        // end:moduleStartup means the module compiled and the app is mounting;
+        // if the body is not replaced (some failure), do not leave the overlay on
+        // top of whatever error page is shown.
+        function hide() {
+          try {
+            var p = overlay.parentNode;
+            if (p) p.removeChild(overlay);
+          } catch (e) { /* already gone */ }
+        }
+        window.__gwtStatsEvent = function (evt) {
+          if (!evt) return;
+          var key = (evt.type || '') + ':' + (evt.evtGroup || '');
+          var step = PHASES[key];
+          if (step) set(step[0], step[1]);
+          // Late boot (runAsync fragments) nudges the bar but never reaches 100%.
+          if (/^(begin|end):(leftoversDownload|download\d+|runCallbacks\d+)$/.test(key)) {
+            set(96, '即将完成...');
+          }
+          if (evt.type === 'end' && evt.evtGroup === 'moduleStartup') {
+            setTimeout(hide, 2500);
+          }
+        };
+        // Hard safety net for the rare broken-boot case where stats never fire.
+        setTimeout(hide, 45000);
+      })();
+    </script>
+
+    <!--% } %-->
+    <!-- /////////////////////////////////////////// -->
     
     <div id=odeblock style="display: none;">
         <h1>If you see this message for an extended period of time, it might be because
@@ -124,17 +218,16 @@
         }, 2000);
       })();
     </script>
-    <script src="static/js/tutorial.js"></script>
-    <script type="text/javascript" src="static/closure-compiler/base.js"></script>
-    <script type="text/javascript" src="ode/aiblockly-45d4ba9ad80706479dc469d234ddd258241917c2f5562217e87ed60e5fa2a461.cache.js"></script>
-    <script type="text/javascript" src="static/js/scroll-options-6.0.16.min.js"></script>
-    <script type="text/javascript" src="static/js/workspace-search-9.1.10.min.js"></script>
-    <script type="text/javascript" src="static/js/block-dynamic-connection-0.7.16.min.js"></script>
-    <script type="text/javascript" src="static/js/pickr.min.js"></script>
-    <script type="text/javascript" src="static/js/workspace-multiselect-pr135-edf5dd2.min.js"></script>
-    <script type="text/javascript" src="static/js/keyboard-navigation-0.7.0.min.js"></script>
-    <script type="text/javascript" src="ode/cdnok.js"></script>
-    <script type="text/javascript" src="static/js/jszip.min.js"></script>
+    <script src="static/js/tutorial.js" defer></script>
+    <script type="text/javascript" src="ode/aiblockly-a646af2f70dd4a23b8f65b1abb4d117dbb134db7032610bc44ab0cf82f32be06.cache.js"></script>
+    <script type="text/javascript" src="static/js/scroll-options-6.0.16.min.js" defer></script>
+    <script type="text/javascript" src="static/js/workspace-search-9.1.10.min.js" defer></script>
+    <script type="text/javascript" src="static/js/block-dynamic-connection-0.7.16.min.js" defer></script>
+    <script type="text/javascript" src="static/js/pickr.min.js" defer></script>
+    <script type="text/javascript" src="static/js/workspace-multiselect-pr135-edf5dd2.min.js" defer></script>
+    <script type="text/javascript" src="static/js/keyboard-navigation-0.7.0.min.js" defer></script>
+    <script type="text/javascript" src="ode/cdnok.js" defer></script>
+    <script type="text/javascript" src="static/js/jszip.min.js" defer></script>
     <script type="text/javascript" src="ode/ode.nocache.js"></script>
     <script type="text/javascript" src="static/js/blockly-field-colour-5.0.19.min.js"></script>
     <script type="text/javascript">
@@ -150,14 +243,14 @@
         Blockly.FieldColour = window.FieldColour;
       }
     </script>
-    <script src="static/leaflet/leaflet.js"></script>
-    <script src="static/leaflet/leaflet.toolbar.js"></script>
-    <script src="static/leaflet/leaflet-vector-markers.min.js"></script>
-    <script src="static/leaflet/leaflet-imgicon.js"></script>
-    <script src="static/leaflet/Path.Drag.js"></script>
-    <script src="static/leaflet/Leaflet.Editable.js"></script>
-    <script src="static/leaflet/leaflet.geometryutil.js"></script>
-    <script src="static/leaflet/leaflet.snap.js"></script>
+    <script src="static/leaflet/leaflet.js" defer></script>
+    <script src="static/leaflet/leaflet.toolbar.js" defer></script>
+    <script src="static/leaflet/leaflet-vector-markers.min.js" defer></script>
+    <script src="static/leaflet/leaflet-imgicon.js" defer></script>
+    <script src="static/leaflet/Path.Drag.js" defer></script>
+    <script src="static/leaflet/Leaflet.Editable.js" defer></script>
+    <script src="static/leaflet/leaflet.geometryutil.js" defer></script>
+    <script src="static/leaflet/leaflet.snap.js" defer></script>
     <script>
       if (window.navigator.userAgent.indexOf("MSIE") != -1){
           document.getElementById("unsupported").style.display = 'block';

@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+
+     一一对应。
+     - 正文（标题/段落/列表/表格/图片 alt/视频说明）译为简体中文；
+     - 顶部导航（MIT logo、"Create Apps!" 按钮、About/Educators/News/Resources/Blogs
+       菜单、Donate 按钮、gcse 搜索框）与底部 MIT 版权页脚（© 声明、CC BY-SA、ToS、
+       Support/Twitter/GitHub/Accessibility）已整块删除：本项目是离线产品，帮助页只在
+       应用内新标签页打开，不应出现通往 MIT 主站的品牌链接与捐赠入口。head 里仅供
+       "Create Apps!" 按钮使用的 gotoappinventor() 脚本一并删除；<title> 与页面 <h1>
+       里的 "MIT " 字样已去掉，正文中作为产品名出现的 "MIT App Inventor" 已改为
+       "App Inventor蔻丁工坊"(zh_CN 语境带蔻丁工坊后缀;版权说明处的 MIT 保留)；
+     - 重定向脚本（<script> 块）按上游原文保留：本项目 blocklyeditor.js 的 _resolveHelpUrl
+       已把 href 直接写成 zh_CN 路径且不带 ?locale=，脚本不会触发；若日后有人手工拼了
+       ?locale=zh_CN 进 URL，file:// 下 sync XHR 会被浏览器拦截，脚本停在“已是目标语言”，
+       不会跳错位置；
+     - ../../../static/ 绝对路径改为相对路径：offline webapp 支持以 file:// 打开，绝对路径会解析到
+       磁盘根目录（file://../../../static/...）从而 404；
+     - 本地图片/视频按上游同名相对路径复制到本目录，故 src 与上游完全一致；
+     - id= 锚点与块/组件/属性英文名保持上游原文，帮助链接里的 #fragment 才能定位。 -->
+<html lang="zh-CN"><head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="stylesheet" href="../../../static/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="../../../static/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
+    <link href="../../../static/css/fonts.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="../../../static/css/mit_app_inventor.css">
+    <title>绘图动画</title></head>
+<body class="mit_app_inventor">
+<div class="default-page">
+            <div class="header">
+	        <h1 class="font-weight-bold text-center offset-xl-2 col-xl-8">绘图动画</h1>
+            </div>
+            <div class="container-fluid">
+                <article class="documentation">
+<p><a href="index.html">« 返回目录</a></p>
+<h1 id="drawing-and-animation">绘图动画</h1>
+
+<p>目录：</p>
+
+<ul>
+  <li><a href="#Ball">球（Ball）</a></li>
+  <li><a href="#Canvas">画布（Canvas）</a></li>
+  <li><a href="#ImageSprite">精灵（ImageSprite）</a></li>
+</ul>
+
+<h2 id="Ball">球（Ball）</h2>
+
+<p>一个圆形的“精灵”，可以放置到 <a href="#Canvas"><code class="language-plaintext highlighter-rouge">Canvas</code></a> 上，它可以在画布上响应触摸和拖拽，
+ 与其他精灵（<a href="#ImageSprite"><code class="language-plaintext highlighter-rouge">ImageSprite</code></a> 和其他 <code class="language-plaintext highlighter-rouge">Ball</code>）以及
+ <code class="language-plaintext highlighter-rouge">Canvas</code> 的边缘交互，并根据自身的属性值移动。</p>
+
+<p>例如，要让一个 <code class="language-plaintext highlighter-rouge">Ball</code> 每 500 毫秒（半秒）向 <code class="language-plaintext highlighter-rouge">Canvas</code> 的顶部移动 4 个像素，
+ 您应将 <a href="#Ball.Speed"><code class="language-plaintext highlighter-rouge">Speed</code></a> 属性设为 4[像素]，将
+ <a href="#Ball.Interval"><code class="language-plaintext highlighter-rouge">Interval</code></a> 属性设为 500[毫秒]，将 <a href="#Ball.Heading"><code class="language-plaintext highlighter-rouge">Heading</code></a> 属性设为
+ 90[度]，并将 <a href="#Ball.Enabled"><code class="language-plaintext highlighter-rouge">Enabled</code></a> 属性设为 <code class="language-plaintext logic block highlighter-rouge">true</code>。这些属性
+ 以及它的其他属性都可以随时修改。</p>
+
+<p><code class="language-plaintext highlighter-rouge">Ball</code> 与 <code class="language-plaintext highlighter-rouge">ImageSprite</code> 的区别在于，后者可以从图像文件获得外观，
+ 而 <code class="language-plaintext highlighter-rouge">Ball</code> 的外观只能通过改变其
+ <a href="#Ball.PaintColor"><code class="language-plaintext highlighter-rouge">PaintColor</code></a> 和 <a href="#Ball.Radius"><code class="language-plaintext highlighter-rouge">Radius</code></a> 属性来改变。</p>
+
+<h3 id="Ball-Properties">属性</h3>
+
+<dl class="properties">
+  <dt id="Ball.Enabled" class="boolean"><em>Enabled</em></dt>
+  <dd>控制当速度非零时 <code class="language-plaintext highlighter-rouge">Ball</code> 是否移动。</dd>
+  <dt id="Ball.Heading" class="number"><em>Heading</em></dt>
+  <dd><code class="language-plaintext highlighter-rouge">Ball</code> 在正 x 轴上方以度为单位的方向。零度朝向屏幕右侧；
+ 90 度朝向屏幕顶部。</dd>
+  <dt id="Ball.Interval" class="number"><em>Interval</em></dt>
+  <dd>更新 <code class="language-plaintext highlighter-rouge">Ball</code> 位置的时间间隔，以毫秒为单位。例如，如果
+ <code class="language-plaintext highlighter-rouge">Interval</code> 为 50 而 <a href="#Ball.Speed"><code class="language-plaintext highlighter-rouge">Speed</code></a> 为 10，则 <code class="language-plaintext highlighter-rouge">Ball</code> 每 50 毫秒
+ 移动 10 个像素。</dd>
+  <dt id="Ball.OriginAtCenter" class="boolean wo do"><em>OriginAtCenter</em></dt>
+  <dd>x 和 y 坐标应表示 <code class="language-plaintext highlighter-rouge">Ball</code> 的中心
+ （<code class="language-plaintext logic block highlighter-rouge">true</code>），还是表示其左边缘和上边缘（<code class="language-plaintext logic block highlighter-rouge">false</code>）。</dd>
+  <dt id="Ball.PaintColor" class="color"><em>PaintColor</em></dt>
+  <dd><code class="language-plaintext highlighter-rouge">Ball</code> 的颜色。</dd>
+  <dt id="Ball.Radius" class="number"><em>Radius</em></dt>
+  <dd>从 <code class="language-plaintext highlighter-rouge">Ball</code> 中心到其边缘的距离。</dd>
+  <dt id="Ball.Speed" class="number"><em>Speed</em></dt>
+  <dd><code class="language-plaintext highlighter-rouge">Ball</code> 移动的速度。如果 <a href="#Ball.Enabled"><code class="language-plaintext highlighter-rouge">Enabled</code></a> 为 <code class="language-plaintext logic block highlighter-rouge">true</code>，则 <code class="language-plaintext highlighter-rouge">Ball</code>
+ 每隔 <a href="#Ball.Interval"><code class="language-plaintext highlighter-rouge">Interval</code></a> 毫秒移动这么多像素。</dd>
+  <dt id="Ball.Visible" class="boolean"><em>Visible</em></dt>
+  <dd>设置精灵是否可见。</dd>
+  <dt id="Ball.X" class="number"><em>X</em></dt>
+  <dd><code class="language-plaintext highlighter-rouge">Ball</code> 的水平坐标，随着 <code class="language-plaintext highlighter-rouge">Ball</code> 向右移动而增大。如果属性
+ <a href="#Ball.OriginAtCenter"><code class="language-plaintext highlighter-rouge">OriginAtCenter</code></a> 为 true，则该坐标是 <code class="language-plaintext highlighter-rouge">Ball</code> 中心的坐标；
+ 否则，它是 <code class="language-plaintext highlighter-rouge">Ball</code> 最左侧点的坐标。</dd>
+  <dt id="Ball.Y" class="number"><em>Y</em></dt>
+  <dd><code class="language-plaintext highlighter-rouge">Ball</code> 的垂直坐标，随着 <code class="language-plaintext highlighter-rouge">Ball</code> 向下移动而增大。如果属性
+ <a href="#Ball.OriginAtCenter"><code class="language-plaintext highlighter-rouge">OriginAtCenter</code></a> 为 true，则该坐标是 <code class="language-plaintext highlighter-rouge">Ball</code> 中心的坐标，
+ 否则，它是 <code class="language-plaintext highlighter-rouge">Ball</code> 最上方点的坐标。</dd>
+  <dt id="Ball.Z" class="number"><em>Z</em></dt>
+  <dd>Ball 相对于其他 Ball 和 ImageSprite 的分层方式，编号较大的层位于编号较小的层前面。</dd>
+</dl>
+
+<h3 id="Ball-Events">事件</h3>
+
+<dl class="events">
+  <dt id="Ball.CollidedWith">CollidedWith(<em class="component">other</em>)</dt>
+  <dd>当两个已启用的精灵（<a href="#Ball"><code class="language-plaintext highlighter-rouge">Ball</code></a> 或 <a href="#ImageSprite"><code class="language-plaintext highlighter-rouge">ImageSprite</code></a>）发生碰撞时
+ 调用的事件处理程序。请注意，与旋转后的 <code class="language-plaintext highlighter-rouge">ImageSprite</code> 进行碰撞检测时，
+ 目前是按未旋转的位置来检查的。因此，对于旋转后的细高或扁宽的
+ 精灵，碰撞检测将不准确。</dd>
+  <dt id="Ball.Dragged">Dragged(<em class="number">startX</em>,<em class="number">startY</em>,<em class="number">prevX</em>,<em class="number">prevY</em>,<em class="number">currentX</em>,<em class="number">currentY</em>)</dt>
+  <dd>Drag（拖动）事件的事件处理程序。在所有调用中，起始坐标
+ 都是屏幕最初被触摸的位置，而“当前”坐标则描述当前线段的
+ 终点。在一次给定的拖动中，首次调用时的“上一个”坐标与
+ 起始坐标相同；此后，它们就是上一次调用中的“当前”坐标。
+ 请注意，除非专门调用 <a href="#Ball.MoveTo"><code class="language-plaintext highlighter-rouge">MoveTo</code></a>，否则 <code class="language-plaintext highlighter-rouge">Ball</code> 不会因响应
+ Dragged 事件而实际移动。</dd>
+  <dt id="Ball.EdgeReached">EdgeReached(<em class="number">edge</em>)</dt>
+  <dd>当 <code class="language-plaintext highlighter-rouge">Ball</code> 到达屏幕的某个 <code class="language-plaintext variable block highlighter-rouge">edge</code> 时调用的事件处理程序。
+ 如果随后用该边缘调用 <a href="#Ball.Bounce"><code class="language-plaintext highlighter-rouge">Bounce</code></a>，精灵看起来就会从
+ 所到达的边缘弹回。此处的 edge 用一个整数表示八个
+ 方向之一：北(1)、东北(2)、东(3)、东南(4)、南(-1)、西南(-2)、西(-3)、
+ 西北(-4)。</dd>
+  <dt id="Ball.Flung">Flung(<em class="number">x</em>,<em class="number">y</em>,<em class="number">speed</em>,<em class="number">heading</em>,<em class="number">xvel</em>,<em class="number">yvel</em>)</dt>
+  <dd>当在精灵上做出划动（快速滑动）手势时：提供
+ 划动起点的 (x,y) 位置，相对于画布的
+ 左上角。还提供划动的速度（像素/毫秒）和方向
+ （-180 到 180 度），以及划动向量的 x 速度和 y 速度
+ 分量。</dd>
+  <dt id="Ball.NoLongerCollidingWith">NoLongerCollidingWith(<em class="component">other</em>)</dt>
+  <dd>表示一对精灵不再碰撞的事件。</dd>
+  <dt id="Ball.TouchDown">TouchDown(<em class="number">x</em>,<em class="number">y</em>)</dt>
+  <dd>当用户开始触摸精灵（手指放在精灵上并
+ 保持不动）时：提供触摸点的 (x,y) 位置，相对于
+ 画布的左上角。</dd>
+  <dt id="Ball.TouchUp">TouchUp(<em class="number">x</em>,<em class="number">y</em>)</dt>
+  <dd>当用户停止触摸精灵（在 TouchDown 事件之后
+ 抬起手指）时：提供触摸点的 (x,y) 位置，相对于
+ 画布的左上角。</dd>
+  <dt id="Ball.Touched">Touched(<em class="number">x</em>,<em class="number">y</em>)</dt>
+  <dd>当用户触摸精灵并随即抬起手指时：提供
+ 触摸点的 (x,y) 位置，相对于画布的左上角。</dd>
+</dl>
+
+<h3 id="Ball-Methods">方法</h3>
+
+<dl class="methods">
+  <dt id="Ball.Bounce" class="method"><i></i> Bounce(<em class="number">edge</em>)</dt>
+  <dd>使此 <code class="language-plaintext highlighter-rouge">Ball</code> 像撞墙一样弹回。对于正常的弹跳，<code class="language-plaintext variable block highlighter-rouge">edge</code> 参数应
+ 使用 <a href="#Ball.EdgeReached"><code class="language-plaintext highlighter-rouge">EdgeReached</code></a> 返回的值。</dd>
+  <dt id="Ball.CollidingWith" class="method returns boolean"><i></i> CollidingWith(<em class="component">other</em>)</dt>
+  <dd>指示此 <code class="language-plaintext highlighter-rouge">Ball</code>
+ 与传入的 <code class="language-plaintext highlighter-rouge">other</code> 精灵之间是否已记录碰撞。</dd>
+  <dt id="Ball.MoveIntoBounds" class="method"><i></i> MoveIntoBounds()</dt>
+  <dd>如果精灵的一部分超出边界，则将其移回边界内，
+ 否则不产生任何效果。如果精灵太宽而无法放入
+ 画布，则将精灵的左侧与画布的左侧对齐。如果精灵太高而无法放入
+ 画布，则将精灵的顶部与画布的顶部对齐。</dd>
+  <dt id="Ball.MoveTo" class="method"><i></i> MoveTo(<em class="number">x</em>,<em class="number">y</em>)</dt>
+  <dd>设置 <code class="language-plaintext highlighter-rouge">Ball</code> 的 <code class="language-plaintext highlighter-rouge">x</code> 和 <code class="language-plaintext highlighter-rouge">y</code> 坐标。如果 <a href="#Ball.OriginAtCenter"><code class="language-plaintext highlighter-rouge">OriginAtCenter</code></a> 为 true，
+ 则 <code class="language-plaintext highlighter-rouge">Ball</code> 的中心将放置在此处。否则，<code class="language-plaintext highlighter-rouge">Ball</code> 的左上边缘
+ 将放置在指定坐标处。</dd>
+  <dt id="Ball.MoveToPoint" class="method"><i></i> MoveToPoint(<em class="list">coordinates</em>)</dt>
+  <dd>移动 Ball，使其原点位于指定的 x 和 y 坐标处。</dd>
+  <dt id="Ball.PointInDirection" class="method"><i></i> PointInDirection(<em class="number">x</em>,<em class="number">y</em>)</dt>
+  <dd>旋转此 <code class="language-plaintext highlighter-rouge">Ball</code>，使其指向坐标为 <code class="language-plaintext highlighter-rouge">(x, y)</code> 的点。</dd>
+  <dt id="Ball.PointTowards" class="method"><i></i> PointTowards(<em class="component">target</em>)</dt>
+  <dd>旋转此 <code class="language-plaintext highlighter-rouge">Ball</code>，使其指向给定的 <code class="language-plaintext highlighter-rouge">target</code> 精灵。新的方向将平行
+ 于连接两个精灵原点的直线。</dd>
+</dl>
+
+<h2 id="Canvas">画布（Canvas）</h2>
+
+<p>一个二维的、可感知触摸的矩形面板，可以在其上绘图，
+ 也可以在其中移动精灵。</p>
+
+<p><code class="language-plaintext highlighter-rouge">Canvas</code> 的 <a href="#Canvas.BackgroundColor"><code class="language-plaintext highlighter-rouge">BackgroundColor</code></a>、<a href="#Canvas.PaintColor"><code class="language-plaintext highlighter-rouge">PaintColor</code></a>、<a href="#Canvas.BackgroundImage"><code class="language-plaintext highlighter-rouge">BackgroundImage</code></a>、
+ <a href="#Canvas.Width"><code class="language-plaintext highlighter-rouge">Width</code></a> 和 <a href="#Canvas.Height"><code class="language-plaintext highlighter-rouge">Height</code></a> 既可以在设计视图中设置，也可以在
+ 块编辑器中设置。<code class="language-plaintext highlighter-rouge">Width</code> 和 <code class="language-plaintext highlighter-rouge">Height</code> 以像素为单位，且必须为正数。</p>
+
+<p><code class="language-plaintext highlighter-rouge">Canvas</code> 上的任何位置都可以用一对 <code class="language-plaintext highlighter-rouge">(X, Y)</code> 值来表示，其中</p>
+
+<ul>
+  <li>X 是距离 <code class="language-plaintext highlighter-rouge">Canvas</code> 左边缘的像素数</li>
+  <li>Y 是距离 <code class="language-plaintext highlighter-rouge">Canvas</code> 上边缘的像素数</li>
+</ul>
+
+<p>有些事件可以告知 <code class="language-plaintext highlighter-rouge">Canvas</code> 何时被触摸、触摸点在何处，或者某个
+ 精灵（<a href="#ImageSprite"><code class="language-plaintext highlighter-rouge">ImageSprite</code></a> 或 <a href="#Ball"><code class="language-plaintext highlighter-rouge">Ball</code></a>）何时被拖动。还有一些方法可以
+ 绘制点、线、圆、形状、弧线和文本。</p>
+
+<h3 id="Canvas-Properties">属性</h3>
+
+<dl class="properties">
+  <dt id="Canvas.BackgroundColor" class="color"><em>BackgroundColor</em></dt>
+  <dd>以 alpha-red-green-blue（透明度-红-绿-蓝）
+ 整数指定 Canvas 的背景色，即 <code class="language-plaintext highlighter-rouge">0xAARRGGBB</code>。alpha 为 <code class="language-plaintext highlighter-rouge">00</code>
+ 表示完全透明，<code class="language-plaintext highlighter-rouge">FF</code> 表示不透明。
+ 只有在没有背景图片时才会显示背景色。</dd>
+  <dt id="Canvas.BackgroundImage" class="text"><em>BackgroundImage</em></dt>
+  <dd>指定包含 <code class="language-plaintext highlighter-rouge">Canvas</code> 背景图片的文件名。</dd>
+  <dt id="Canvas.BackgroundImageinBase64" class="text wo bo"><em>BackgroundImageinBase64</em></dt>
+  <dd>以 Base64 格式设置背景图片。这要求 API 级别 &gt;= 8。对于 API 级别低于 8 的设备，设置此项最终会得到一个空背景。</dd>
+  <dt id="Canvas.ExtendMovesOutsideCanvas" class="boolean"><em>ExtendMovesOutsideCanvas</em></dt>
+  <dd>决定移动是否可以延伸到画布边界之外。  默认值为 false。通常应设为 false，提供此属性是为了向后兼容。</dd>
+  <dt id="Canvas.FontSize" class="number"><em>FontSize</em></dt>
+  <dd>指定在画布上绘制的文本的字号。</dd>
+  <dt id="Canvas.Height" class="number bo"><em>Height</em></dt>
+  <dd>指定 <code class="language-plaintext highlighter-rouge">Canvas</code> 的垂直高度，以像素为单位。</dd>
+  <dt id="Canvas.HeightPercent" class="number wo bo"><em>HeightPercent</em></dt>
+  <dd>以 <a href="userinterface.html#Screen.Height"><code class="language-plaintext highlighter-rouge">Screen</code>’s <code class="language-plaintext highlighter-rouge">Height</code></a> 的百分比形式
+ 指定 <code class="language-plaintext highlighter-rouge">Canvas</code> 的垂直高度。</dd>
+  <dt id="Canvas.Left" class="number"><em>Left</em></dt>
+  <dd>指定组件左边缘相对于
+ AbsoluteArrangement 的位置。</dd>
+  <dt id="Canvas.LineWidth" class="number"><em>LineWidth</em></dt>
+  <dd>指定在画布上绘制的线条的宽度。</dd>
+  <dt id="Canvas.PaintColor" class="color"><em>PaintColor</em></dt>
+  <dd>以 alpha-red-green-blue 整数指定画笔颜色，
+ 即 <code class="language-plaintext highlighter-rouge">0xAARRGGBB</code>。alpha 为 <code class="language-plaintext highlighter-rouge">00</code> 表示完全
+ 透明，<code class="language-plaintext highlighter-rouge">FF</code> 表示不透明。</dd>
+  <dt id="Canvas.TapThreshold" class="number"><em>TapThreshold</em></dt>
+  <dd>指定用于区分拖动与点击的移动阈值。</dd>
+  <dt id="Canvas.TextAlignment" class="number"><em>TextAlignment</em></dt>
+  <dd>指定画布文本的对齐方式：居中、正常
+ （从 <a href="#Canvas.DrawText"><code class="language-plaintext highlighter-rouge">DrawText</code></a> 或
+ <a href="#Canvas.DrawTextAtAngle"><code class="language-plaintext highlighter-rouge">DrawTextAtAngle</code></a> 中指定的点开始），
+ 或反向（在
+ <a href="#Canvas.DrawText"><code class="language-plaintext highlighter-rouge">DrawText</code></a> 或
+ <a href="#Canvas.DrawTextAtAngle"><code class="language-plaintext highlighter-rouge">DrawTextAtAngle</code></a> 中指定的点结束）。</dd>
+  <dt id="Canvas.Top" class="number"><em>Top</em></dt>
+  <dd>指定组件上边缘相对于
+ AbsoluteArrangement 的位置。</dd>
+  <dt id="Canvas.Visible" class="boolean"><em>Visible</em></dt>
+  <dd>指定 <code class="language-plaintext highlighter-rouge">Canvas</code> 是否应在屏幕上可见。若 <code class="language-plaintext highlighter-rouge">Canvas</code> 正在显示，值为
+ <code class="language-plaintext logic block highlighter-rouge">true</code>；若已隐藏，值为 <code class="language-plaintext logic block highlighter-rouge">false</code>。</dd>
+  <dt id="Canvas.Width" class="number bo"><em>Width</em></dt>
+  <dd>指定 <code class="language-plaintext highlighter-rouge">Canvas</code> 的水平宽度，以像素为单位。</dd>
+  <dt id="Canvas.WidthPercent" class="number wo bo"><em>WidthPercent</em></dt>
+  <dd>以 <a href="userinterface.html#Screen.Width"><code class="language-plaintext highlighter-rouge">Screen</code>’s <code class="language-plaintext highlighter-rouge">Width</code></a> 的百分比形式
+ 指定 <code class="language-plaintext highlighter-rouge">Canvas</code> 的水平宽度。</dd>
+</dl>
+
+<h3 id="Canvas-Events">事件</h3>
+
+<dl class="events">
+  <dt id="Canvas.Dragged">Dragged(<em class="number">startX</em>,<em class="number">startY</em>,<em class="number">prevX</em>,<em class="number">prevY</em>,<em class="number">currentX</em>,<em class="number">currentY</em>,<em class="boolean">draggedAnySprite</em>)</dt>
+  <dd>当用户从一点 (prevX, prevY) 拖动到
+ 另一点 (x, y) 时。其中 (startX, startY) 表示用户
+ 最初触摸屏幕的位置，而“draggedAnySprite”表示是否
+ 有精灵正在被拖动。</dd>
+  <dt id="Canvas.Flung">Flung(<em class="number">x</em>,<em class="number">y</em>,<em class="number">speed</em>,<em class="number">heading</em>,<em class="number">xvel</em>,<em class="number">yvel</em>,<em class="boolean">flungSprite</em>)</dt>
+  <dd>当在画布上做出划动（快速滑动）手势时：提供
+ 划动起点的 (x,y) 位置，相对于画布的
+ 左上角。还提供划动的速度（像素/毫秒）和方向
+ （-180 到 180 度），以及划动向量的 x 速度和 y 速度
+ 分量。“flungSprite”的值为 true 表示在划动手势的
+ 起点附近有精灵。</dd>
+  <dt id="Canvas.TouchDown">TouchDown(<em class="number">x</em>,<em class="number">y</em>)</dt>
+  <dd>当用户开始触摸画布（手指放在画布上并
+ 保持不动）时：提供触摸点的 (x,y) 位置，相对于
+ 画布的左上角。</dd>
+  <dt id="Canvas.TouchUp">TouchUp(<em class="number">x</em>,<em class="number">y</em>)</dt>
+  <dd>当用户停止触摸画布（在 TouchDown 事件之后
+ 抬起手指）时：提供触摸点的 (x,y) 位置，相对于
+ 画布的左上角。</dd>
+  <dt id="Canvas.Touched">Touched(<em class="number">x</em>,<em class="number">y</em>,<em class="boolean">touchedAnySprite</em>)</dt>
+  <dd>当用户触摸画布并随即抬起手指时：提供
+ 触摸点的 (x,y) 位置，相对于画布的左上角。如果同一次触摸也碰到了
+ 精灵，则 TouchedAnySprite 为 true，否则为 false。</dd>
+</dl>
+
+<h3 id="Canvas-Methods">方法</h3>
+
+<dl class="methods">
+  <dt id="Canvas.Clear" class="method"><i></i> Clear()</dt>
+  <dd>清除画布，如果提供过背景图片，
+ 则保留该背景图片。</dd>
+  <dt id="Canvas.DrawArc" class="method"><i></i> DrawArc(<em class="number">left</em>,<em class="number">top</em>,<em class="number">right</em>,<em class="number">bottom</em>,<em class="number">startAngle</em>,<em class="number">sweepAngle</em>,<em class="boolean">useCenter</em>,<em class="boolean">fill</em>)</dt>
+  <dd>在 Canvas 上绘制一条弧线，即从指定的椭圆（由 left、top、right 和 bottom 指定）上绘制一段弧。
+ 方向指向右侧时起始角为 0，顺时针旋转时角度增大。
+ 当 useCenter 为 true 时，将绘制扇形而不是弧线。
+ 当 fill 为 true 时，将绘制填充的弧线（或扇形），而不仅仅是轮廓。</dd>
+  <dt id="Canvas.DrawCircle" class="method"><i></i> DrawCircle(<em class="number">centerX</em>,<em class="number">centerY</em>,<em class="number">radius</em>,<em class="boolean">fill</em>)</dt>
+  <dd>在画布上以给定坐标为中心，绘制一个半径为给定值的圆（实心）。</dd>
+  <dt id="Canvas.DrawLine" class="method"><i></i> DrawLine(<em class="number">x1</em>,<em class="number">y1</em>,<em class="number">x2</em>,<em class="number">y2</em>)</dt>
+  <dd>在画布上给定坐标之间绘制一条线。</dd>
+  <dt id="Canvas.DrawPoint" class="method"><i></i> DrawPoint(<em class="number">x</em>,<em class="number">y</em>)</dt>
+  <dd>在画布上给定坐标处绘制一个点。</dd>
+  <dt id="Canvas.DrawShape" class="method"><i></i> DrawShape(<em class="list">pointList</em>,<em class="boolean">fill</em>)</dt>
+  <dd>在画布上绘制一个形状。
+ pointList 应为包含子列表的列表，每个子列表由两个数字组成，表示一个坐标。
+ 第一个点和最后一个点不必相同，例如 ((x1 y1) (x2 y2) (x3 y3))。
+ 当 fill 为 true 时，该形状将被填充。</dd>
+  <dt id="Canvas.DrawText" class="method"><i></i> DrawText(<em class="text">text</em>,<em class="number">x</em>,<em class="number">y</em>)</dt>
+  <dd>使用 <a href="#Canvas.FontSize"><code class="language-plaintext highlighter-rouge">FontSize</code></a> 和
+ <a href="#Canvas.TextAlignment"><code class="language-plaintext highlighter-rouge">TextAlignment</code></a> 属性的值，相对于指定坐标
+ 绘制指定的文本。</dd>
+  <dt id="Canvas.DrawTextAtAngle" class="method"><i></i> DrawTextAtAngle(<em class="text">text</em>,<em class="number">x</em>,<em class="number">y</em>,<em class="number">angle</em>)</dt>
+  <dd>使用 <a href="#Canvas.FontSize"><code class="language-plaintext highlighter-rouge">FontSize</code></a> 和
+ <a href="#Canvas.TextAlignment"><code class="language-plaintext highlighter-rouge">TextAlignment</code></a> 属性的值，从指定坐标开始
+ 以指定角度绘制指定的文本。</dd>
+  <dt id="Canvas.GetBackgroundPixelColor" class="method returns color"><i></i> GetBackgroundPixelColor(<em class="number">x</em>,<em class="number">y</em>)</dt>
+  <dd>获取给定像素的颜色，忽略精灵。</dd>
+  <dt id="Canvas.GetPixelColor" class="method returns color"><i></i> GetPixelColor(<em class="number">x</em>,<em class="number">y</em>)</dt>
+  <dd>获取给定像素的颜色，包括精灵。</dd>
+  <dt id="Canvas.Save" class="method returns text"><i></i> Save()</dt>
+  <dd>将此 Canvas 的图片保存到设备的外部存储器。
+ 如果发生错误，将调用屏幕的 ErrorOccurred 事件。</dd>
+  <dt id="Canvas.SaveAs" class="method returns text"><i></i> SaveAs(<em class="text">fileName</em>)</dt>
+  <dd>将此 Canvas 的图片以文件名 fileName 保存到设备的外部存储器。
+ fileName 必须以“.jpg”“.jpeg”或“.png”结尾
+ （这决定文件类型：JPEG 或 PNG）。</dd>
+  <dt id="Canvas.SetBackgroundPixelColor" class="method"><i></i> SetBackgroundPixelColor(<em class="number">x</em>,<em class="number">y</em>,<em class="color">color</em>)</dt>
+  <dd>设置给定像素的颜色。如果
+ 坐标超出边界，则不会产生任何效果。</dd>
+</dl>
+
+<h2 id="ImageSprite">精灵（ImageSprite）</h2>
+
+<p>一个“精灵”，可以放置到 <a href="#Canvas"><code class="language-plaintext highlighter-rouge">Canvas</code></a> 上，它可以在画布上响应触摸和拖拽，
+ 与其他精灵（<a href="#Ball"><code class="language-plaintext highlighter-rouge">Ball</code></a> 和其他 <code class="language-plaintext highlighter-rouge">ImageSprite</code>）以及
+ <code class="language-plaintext highlighter-rouge">Canvas</code> 的边缘交互，并根据自身的属性值移动。它的外观就是其
+ <a href="#ImageSprite.Picture"><code class="language-plaintext highlighter-rouge">Picture</code></a> 属性中指定的图像（除非其 <a href="#ImageSprite.Visible"><code class="language-plaintext highlighter-rouge">Visible</code></a> 属性为
+ <code class="language-plaintext logic block highlighter-rouge">false</code>）。</p>
+
+<p>例如，要让一个 <code class="language-plaintext highlighter-rouge">ImageSprite</code> 每 1000 毫秒（一秒）向左移动 10 个像素，
+ 您应将 <a href="#ImageSprite.Speed"><code class="language-plaintext highlighter-rouge">Speed</code></a> 属性设为 10[像素]，将 <a href="#ImageSprite.Interval"><code class="language-plaintext highlighter-rouge">Interval</code></a>
+ 属性设为 1000[毫秒]，将 <a href="#ImageSprite.Heading"><code class="language-plaintext highlighter-rouge">Heading</code></a> 属性设为 180[度]，并将
+ <a href="#ImageSprite.Enabled"><code class="language-plaintext highlighter-rouge">Enabled</code></a> 属性设为 <code class="language-plaintext logic block highlighter-rouge">true</code>。当 <a href="#ImageSprite.Rotates"><code class="language-plaintext highlighter-rouge">Rotates</code></a> 属性为
+ <code class="language-plaintext logic block highlighter-rouge">true</code> 时，精灵的图像会随精灵方向的变化而旋转。
+ <em>与旋转后的精灵进行碰撞检测时，目前是按精灵未旋转的位置
+ 来检查的，因此对于旋转后的细高或扁宽的精灵，碰撞检测将不准确。</em>
+ 精灵的任何属性都可以在程序控制下随时修改。</p>
+
+<h3 id="ImageSprite-Properties">属性</h3>
+
+<dl class="properties">
+  <dt id="ImageSprite.Animated" class="boolean"><em>Animated</em></dt>
+  <dd>控制动画 GIF 图像是否正在播放。设为 true 会从当前帧继续播放；设为 false 会在当前帧暂停。对非动画图像没有影响。</dd>
+  <dt id="ImageSprite.Enabled" class="boolean"><em>Enabled</em></dt>
+  <dd>控制当速度非零时 <code class="language-plaintext highlighter-rouge">ImageSprite</code> 是否移动。</dd>
+  <dt id="ImageSprite.Heading" class="number"><em>Heading</em></dt>
+  <dd><code class="language-plaintext highlighter-rouge">ImageSprite</code> 在正 x 轴上方以度为单位的方向。零度朝向屏幕右侧；
+ 90 度朝向屏幕顶部。</dd>
+  <dt id="ImageSprite.Height" class="number bo"><em>Height</em></dt>
+  <dd>ImageSprite 的高度，以像素为单位。</dd>
+  <dt id="ImageSprite.Interval" class="number"><em>Interval</em></dt>
+  <dd>更新 <code class="language-plaintext highlighter-rouge">ImageSprite</code> 位置的时间间隔，以毫秒为单位。例如，如果
+ <a href="#ImageSprite.Interval"><code class="language-plaintext highlighter-rouge">Interval</code></a> 为 50 而 <a href="#ImageSprite.Speed"><code class="language-plaintext highlighter-rouge">Speed</code></a> 为 10，则 <code class="language-plaintext highlighter-rouge">ImageSprite</code>
+ 每 50 毫秒移动 10 个像素。</dd>
+  <dt id="ImageSprite.MarkOrigin" class="text wo"><em>MarkOrigin</em></dt>
+  <dd>使用可拖动的标记来标记 ImageSprite 的原点。</dd>
+  <dt id="ImageSprite.OriginX" class="number"><em>OriginX</em></dt>
+  <dd>原点相对于左边缘的水平单位坐标。允许的取值为 [0, 1]。
+ 0.0 表示原点位于左边缘，0.5 表示原点位于
+ 中间，1.0 表示原点位于右边缘。</dd>
+  <dt id="ImageSprite.OriginY" class="number"><em>OriginY</em></dt>
+  <dd>原点相对于上边缘的垂直单位坐标。允许的取值为 [0, 1]。
+ 0.0 表示原点位于上边缘，0.5 表示原点位于
+ 中间，1.0 表示原点位于下边缘。</dd>
+  <dt id="ImageSprite.Picture" class="text"><em>Picture</em></dt>
+  <dd>指定精灵图片的路径。</dd>
+  <dt id="ImageSprite.Rotates" class="boolean"><em>Rotates</em></dt>
+  <dd>如果为 true，则精灵图像会随精灵方向的变化而旋转。如果为 false，则精灵图像
+ 在精灵改变方向时不旋转。精灵围绕其原点旋转。</dd>
+  <dt id="ImageSprite.Speed" class="number"><em>Speed</em></dt>
+  <dd><code class="language-plaintext highlighter-rouge">ImageSprite</code> 移动的速度。如果 <a href="#ImageSprite.Enabled"><code class="language-plaintext highlighter-rouge">Enabled</code></a> 为 <code class="language-plaintext logic block highlighter-rouge">true</code>，则 <code class="language-plaintext highlighter-rouge">ImageSprite</code>
+ 每隔 <a href="#ImageSprite.Interval"><code class="language-plaintext highlighter-rouge">Interval</code></a> 毫秒移动这么多像素。</dd>
+  <dt id="ImageSprite.Visible" class="boolean"><em>Visible</em></dt>
+  <dd>设置精灵是否可见。</dd>
+  <dt id="ImageSprite.Width" class="number bo"><em>Width</em></dt>
+  <dd>ImageSprite 的宽度，以像素为单位。</dd>
+  <dt id="ImageSprite.X" class="number"><em>X</em></dt>
+  <dd>ImageSprite 原点的水平坐标，随着 ImageSprite 向右移动而增大。</dd>
+  <dt id="ImageSprite.Y" class="number"><em>Y</em></dt>
+  <dd>ImageSprite 原点的垂直坐标，随着 ImageSprite 向下移动而增大。</dd>
+  <dt id="ImageSprite.Z" class="number"><em>Z</em></dt>
+  <dd>ImageSprite 相对于其他 Ball 和 ImageSprite 的分层方式，编号较大的层位于编号较小的层前面。</dd>
+</dl>
+
+<h3 id="ImageSprite-Events">事件</h3>
+
+<dl class="events">
+  <dt id="ImageSprite.CollidedWith">CollidedWith(<em class="component">other</em>)</dt>
+  <dd>当两个已启用的精灵（<a href="#Ball"><code class="language-plaintext highlighter-rouge">Ball</code></a> 或 <a href="#ImageSprite"><code class="language-plaintext highlighter-rouge">ImageSprite</code></a>）发生碰撞时
+ 调用的事件处理程序。请注意，与旋转后的 <code class="language-plaintext highlighter-rouge">ImageSprite</code> 进行碰撞检测时，
+ 目前是按未旋转的位置来检查的。因此，对于旋转后的细高或扁宽的
+ 精灵，碰撞检测将不准确。</dd>
+  <dt id="ImageSprite.Dragged">Dragged(<em class="number">startX</em>,<em class="number">startY</em>,<em class="number">prevX</em>,<em class="number">prevY</em>,<em class="number">currentX</em>,<em class="number">currentY</em>)</dt>
+  <dd>Drag（拖动）事件的事件处理程序。在所有调用中，起始坐标
+ 都是屏幕最初被触摸的位置，而“当前”坐标则描述当前线段的
+ 终点。在一次给定的拖动中，首次调用时的“上一个”坐标与
+ 起始坐标相同；此后，它们就是上一次调用中的“当前”坐标。
+ 请注意，除非专门调用 <a href="#ImageSprite.MoveTo"><code class="language-plaintext highlighter-rouge">MoveTo</code></a>，否则 <code class="language-plaintext highlighter-rouge">ImageSprite</code> 不会
+ 因响应 Dragged 事件而实际移动。</dd>
+  <dt id="ImageSprite.EdgeReached">EdgeReached(<em class="number">edge</em>)</dt>
+  <dd>当 <code class="language-plaintext highlighter-rouge">ImageSprite</code> 到达屏幕的某个 <code class="language-plaintext variable block highlighter-rouge">edge</code> 时调用的事件处理程序。
+ 如果随后用该边缘调用 <a href="#ImageSprite.Bounce"><code class="language-plaintext highlighter-rouge">Bounce</code></a>，精灵看起来就会从
+ 所到达的边缘弹回。此处的 edge 用一个整数表示八个
+ 方向之一：北(1)、东北(2)、东(3)、东南(4)、南(-1)、西南(-2)、西(-3)、
+ 西北(-4)。</dd>
+  <dt id="ImageSprite.Flung">Flung(<em class="number">x</em>,<em class="number">y</em>,<em class="number">speed</em>,<em class="number">heading</em>,<em class="number">xvel</em>,<em class="number">yvel</em>)</dt>
+  <dd>当在精灵上做出划动（快速滑动）手势时：提供
+ 划动起点的 (x,y) 位置，相对于画布的
+ 左上角。还提供划动的速度（像素/毫秒）和方向
+ （-180 到 180 度），以及划动向量的 x 速度和 y 速度
+ 分量。</dd>
+  <dt id="ImageSprite.NoLongerCollidingWith">NoLongerCollidingWith(<em class="component">other</em>)</dt>
+  <dd>表示一对精灵不再碰撞的事件。</dd>
+  <dt id="ImageSprite.TouchDown">TouchDown(<em class="number">x</em>,<em class="number">y</em>)</dt>
+  <dd>当用户开始触摸精灵（手指放在精灵上并
+ 保持不动）时：提供触摸点的 (x,y) 位置，相对于
+ 画布的左上角。</dd>
+  <dt id="ImageSprite.TouchUp">TouchUp(<em class="number">x</em>,<em class="number">y</em>)</dt>
+  <dd>当用户停止触摸精灵（在 TouchDown 事件之后
+ 抬起手指）时：提供触摸点的 (x,y) 位置，相对于
+ 画布的左上角。</dd>
+  <dt id="ImageSprite.Touched">Touched(<em class="number">x</em>,<em class="number">y</em>)</dt>
+  <dd>当用户触摸精灵并随即抬起手指时：提供
+ 触摸点的 (x,y) 位置，相对于画布的左上角。</dd>
+</dl>
+
+<h3 id="ImageSprite-Methods">方法</h3>
+
+<dl class="methods">
+  <dt id="ImageSprite.Bounce" class="method"><i></i> Bounce(<em class="number">edge</em>)</dt>
+  <dd>使此 <code class="language-plaintext highlighter-rouge">ImageSprite</code> 像撞墙一样弹回。对于正常的弹跳，<code class="language-plaintext variable block highlighter-rouge">edge</code> 参数应
+ 使用 <a href="#ImageSprite.EdgeReached"><code class="language-plaintext highlighter-rouge">EdgeReached</code></a> 返回的值。</dd>
+  <dt id="ImageSprite.CollidingWith" class="method returns boolean"><i></i> CollidingWith(<em class="component">other</em>)</dt>
+  <dd>指示此 <code class="language-plaintext highlighter-rouge">ImageSprite</code>
+ 与传入的 <code class="language-plaintext highlighter-rouge">other</code> 精灵之间是否已记录碰撞。</dd>
+  <dt id="ImageSprite.MoveIntoBounds" class="method"><i></i> MoveIntoBounds()</dt>
+  <dd>如果精灵的一部分超出边界，则将其移回边界内，
+ 否则不产生任何效果。如果精灵太宽而无法放入
+ 画布，则将精灵的左侧与画布的左侧对齐。如果精灵太高而无法放入
+ 画布，则将精灵的顶部与画布的顶部对齐。</dd>
+  <dt id="ImageSprite.MoveTo" class="method"><i></i> MoveTo(<em class="number">x</em>,<em class="number">y</em>)</dt>
+  <dd>移动 ImageSprite，使其原点位于指定的 <code class="language-plaintext highlighter-rouge">x</code> 和 <code class="language-plaintext highlighter-rouge">y</code> 坐标处。</dd>
+  <dt id="ImageSprite.MoveToPoint" class="method"><i></i> MoveToPoint(<em class="list">coordinates</em>)</dt>
+  <dd>移动 ImageSprite，使其原点位于指定的 x 和 y 坐标处。</dd>
+  <dt id="ImageSprite.PointInDirection" class="method"><i></i> PointInDirection(<em class="number">x</em>,<em class="number">y</em>)</dt>
+  <dd>旋转此 <code class="language-plaintext highlighter-rouge">ImageSprite</code>，使其指向坐标为 <code class="language-plaintext highlighter-rouge">(x, y)</code> 的点。</dd>
+  <dt id="ImageSprite.PointTowards" class="method"><i></i> PointTowards(<em class="component">target</em>)</dt>
+  <dd>旋转此 <code class="language-plaintext highlighter-rouge">ImageSprite</code>，使其指向给定的 <code class="language-plaintext highlighter-rouge">target</code> 精灵。新的方向将平行
+ 于连接两个精灵原点的直线。</dd>
+  <dt id="ImageSprite.ResetAnimation" class="method"><i></i> ResetAnimation()</dt>
+  <dd>将动画 GIF 图像的动画重置到第一帧。如果动画正在播放，它会从头继续播放；如果已暂停，则保持暂停在第一帧。</dd>
+</dl>
+
+</article>
+<script>
+  // Handle redirection to documentation based on locale query parameter (if specified)
+  (function() {
+      var locale = window.location.search.match('[&?]locale=([a-zA-Z-]*)');
+      if (locale) {
+          if (locale[1].indexOf('en') === 0) {
+              // English needs to stay at the top level to not break existing links
+              var page = window.location.pathname.split('/');
+              if (page.length === 5) {
+                  page.splice(2, 1);
+              } else {
+                  // already on english
+                  return;
+              }
+              window.location.href = page.join('/');
+          } else {
+              var page = window.location.pathname.split('/');
+              if (page.length === 4) {
+                  page.splice(2, 0, locale[1]);
+              } else if (page[2].toLowerCase() != locale[1].toLowerCase()) {
+                  page[2] = locale[1];
+              } else {
+                  return;  // already on the desired language
+              }
+              // Test that the page exists before redirecting.
+              var xhr = new XMLHttpRequest();
+              xhr.open('HEAD', page.join('/'), false);
+              xhr.onreadystatechange = function() {
+                  if (xhr.readyState == 4) {
+                      if ((xhr.status == 200 || xhr.status == 204)) {
+                          window.location.href = page.join('/');
+                      } else if (xhr.status  >= 400) {
+                          page.splice(2, 1);  // go to english version
+                          window.location.href = page.join('/');
+                      }
+                  }
+              };
+              xhr.send();
+          }
+      }
+  })();
+
+  // Handle embedded documentation in help by removing website template
+  if (window.self !== window.top) {
+      setTimeout(function() {
+          var videos = document.querySelectorAll('video');
+          for (var i = 0; i < videos.length; i++) {
+              if (parseInt(videos[i].getAttribute('width')) > 360) {
+                  var aspect = parseInt(videos[i].getAttribute('height')) / parseInt(videos[i].getAttribute('width'));
+                  videos[i].setAttribute('width', '360');
+                  videos[i].setAttribute('height', '' + (360 * aspect));
+              }
+          }
+          var h1 = document.querySelector('h1');
+          var article = document.querySelector('article');
+          article.insertBefore(h1, article.firstElementChild);
+          document.body.innerHTML = article.outerHTML;
+      });
+  }
+</script>
+
+            </div>
+<script src="../../../static/js/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="../../../static/js/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="../../../static/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+<script async src="../../../static/js/widgets.js" charset="utf-8"></script>
+</div>
+    </body>
+</html>

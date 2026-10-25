@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+
+     一一对应。
+     - 正文（标题/段落/列表/表格/图片 alt/视频说明）译为简体中文；
+     - 顶部导航（MIT logo、"Create Apps!" 按钮、About/Educators/News/Resources/Blogs
+       菜单、Donate 按钮、gcse 搜索框）与底部 MIT 版权页脚（© 声明、CC BY-SA、ToS、
+       Support/Twitter/GitHub/Accessibility）已整块删除：本项目是离线产品，帮助页只在
+       应用内新标签页打开，不应出现通往 MIT 主站的品牌链接与捐赠入口。head 里仅供
+       "Create Apps!" 按钮使用的 gotoappinventor() 脚本一并删除；<title> 与页面 <h1>
+       里的 "MIT " 字样已去掉，正文中作为产品名出现的 "MIT App Inventor" 已改为
+       "App Inventor蔻丁工坊"(zh_CN 语境带蔻丁工坊后缀;版权说明处的 MIT 保留)；
+     - 重定向脚本（<script> 块）按上游原文保留：本项目 blocklyeditor.js 的 _resolveHelpUrl
+       已把 href 直接写成 zh_CN 路径且不带 ?locale=，脚本不会触发；若日后有人手工拼了
+       ?locale=zh_CN 进 URL，file:// 下 sync XHR 会被浏览器拦截，脚本停在"已是目标语言"，
+       不会跳错位置；
+     - /static/ 绝对路径改为相对路径：offline webapp 支持以 file:// 打开，绝对路径会解析到
+       磁盘根目录（file:///static/...）从而 404；
+     - 本地图片/视频按上游同名相对路径复制到本目录，故 src 与上游完全一致；
+     - id= 锚点与块/组件/属性英文名保持上游原文，帮助链接里的 #fragment 才能定位。 -->
+<html lang="zh-CN"><head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="stylesheet" href="../../../static/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="../../../static/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
+    <link href="../../../static/css/fonts.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="../../../static/css/mit_app_inventor.css">
+    <title>App Inventor 文本块</title></head>
+<body class="mit_app_inventor">
+<div class="default-page">
+            <div class="header">
+	        <h1 class="font-weight-bold text-center offset-xl-2 col-xl-8">App Inventor 文本块</h1>
+            </div>
+            <div class="container-fluid">
+                <article class="documentation">
+<ul>
+  <li><a href="#string">字符串</a></li>
+  <li><a href="#multiline-text">多行文本</a></li>
+  <li><a href="#join">拼接</a></li>
+  <li><a href="#length">文本的长度</a></li>
+  <li><a href="#isempty">文本为空</a></li>
+  <li><a href="#compare">比较文本</a></li>
+  <li><a href="#trim">删除首尾空格</a></li>
+  <li><a href="#upcase">转为大写</a></li>
+  <li><a href="#downcase">转为小写</a></li>
+  <li><a href="#startsat">子串位置</a></li>
+  <li><a href="#contains">包含</a></li>
+  <li><a href="#containsany">包含任意</a></li>
+  <li><a href="#containsall">包含所有</a></li>
+  <li><a href="#splitatfirst">首项分解</a></li>
+  <li><a href="#splitatfirstofany">任意首项分解</a></li>
+  <li><a href="#split">分解</a></li>
+  <li><a href="#splitatany">任意分解</a></li>
+  <li><a href="#splitatspaces">用空格分解</a></li>
+  <li><a href="#segment">提取子串</a></li>
+  <li><a href="#replaceall">全部替换</a></li>
+  <li><a href="#obfuscatetext">加密文本</a></li>
+  <li><a href="#isstring">是否为字符串</a></li>
+  <li><a href="#reverse">文本的逆序副本</a></li>
+  <li><a href="#replaceallmappings">替换所有映射</a></li>
+</ul>
+
+<h3 id="string">” “（字符串块）</h3>
+
+<p><img src="images/text/string.png" alt="" /></p>
+
+<p>包含一个文本字符串。</p>
+
+<p>该字符串可以包含任意字符（字母、数字或其他特殊字符）。在 App Inventor 中，它会被视为文本对象。</p>
+
+<h3 id="multiline-text">多行文本</h3>
+
+<p><img src="images/text/multilinetext.png" alt="" /></p>
+
+<p>包含一个可以跨多行的文本字符串。</p>
+
+<p>它的用法与普通字符串块类似，但支持在文本内部换行。在块内按 Enter 键即可插入新的一行。</p>
+
+<h3 id="join">拼接</h3>
+
+<p><img src="images/text/join.png" alt="" /></p>
+
+<p>把所有输入依次拼接成一个字符串。如果没有输入，则返回空字符串。</p>
+
+<h3 id="length">文本的长度</h3>
+
+<p><img src="images/text/length.png" alt="" /></p>
+
+<p>返回字符串中的字符数（包括空格）。这就是给定文本字符串的长度。</p>
+
+<h3 id="isempty">文本为空</h3>
+
+<p><img src="images/text/isempty.png" alt="" /></p>
+
+<p>返回字符串中是否包含任何字符（包括空格）。当字符串长度为 0 时返回“真”，否则返回“假”。</p>
+
+<h3 id="compare">比较文本 &lt; &gt; = ≠</h3>
+
+<p><img src="images/text/compare.gif" alt="" /></p>
+
+<p>根据所选的下拉选项，返回第一个字符串在字典序上是否 &lt;、&gt;、= 或 ≠ 第二个字符串。</p>
+
+<p>如果一个字符串按字母顺序大于另一个字符串，就认为它在字典序上更大。本质上，它在字典中会排在另一个字符串的后面。所有大写字母都被认为小于或出现在小写字母之前。cat 会 &gt; Cat。</p>
+
+<h3 id="trim">删除首尾空格</h3>
+
+<p><img src="images/text/trim.png" alt="" /></p>
+
+<p>删除输入字符串开头和结尾的所有空格，并返回结果。</p>
+
+<h3 id="upcase">转为大写</h3>
+
+<p><img src="images/text/upcase.png" alt="" /></p>
+
+<p>返回其文本字符串参数全部转换为大写后的副本。</p>
+
+<h3 id="downcase">转为小写</h3>
+
+<p><img src="images/text/downcase.png" alt="" /></p>
+
+<p>返回其文本字符串参数全部转换为小写后的副本。</p>
+
+<h3 id="startsat">子串位置</h3>
+
+<p><img src="images/text/startsat.png" alt="" /></p>
+
+<p>返回 <em>piece</em> 的第一个字符在 text 中首次出现的字符位置；如果不存在则返回 0。例如，<em>ana</em> 在 <em>havana banana</em> 中的位置是 4。</p>
+
+<h3 id="contains">包含</h3>
+
+<p><img src="images/text/contains.png" alt="" /></p>
+
+<p>如果 <em>piece</em> 出现在 text 中则返回“真”，否则返回“假”。</p>
+
+<h3 id="containsany">包含任意</h3>
+
+<p><img src="images/text/containsany.png" alt="" /></p>
+
+<p>如果 piece list 中有任意一个 piece 出现在 text 中则返回“真”，否则返回“假”。</p>
+
+<p>该块可以通过修改“包含”块上的下拉选项获得。</p>
+
+<h3 id="containsall">包含所有</h3>
+
+<p><img src="images/text/containsall.png" alt="" /></p>
+
+<p>如果 piece list 中的所有 piece 都出现在 text 中则返回“真”，否则返回“假”。</p>
+
+<p>该块可以通过修改“包含”块上的下拉选项获得。</p>
+
+<h3 id="splitatfirst">首项分解</h3>
+
+<p><img src="images/text/splitatfirst.png" alt="" /></p>
+
+<p>以 at 首次出现的位置作为分隔点，把给定文本分成两部分，并返回一个包含两项的列表：分隔点之前的部分和分隔点之后的部分。以逗号作为分隔点分解 <em>apple,banana,cherry,dogfood</em>，会返回一个包含两项的列表：第一项是文本 <em>apple</em>，第二项是文本 <em>banana,cherry,dogfood</em>。请注意，apple 后面的逗号不会出现在结果中，因为它就是分隔点。</p>
+
+<h3 id="splitatfirstofany">任意首项分解</h3>
+
+<p><img src="images/text/splitatfirstofany.png" alt="" /></p>
+
+<p>以列表 at 中任意一项首次出现的位置作为分隔点，把给定文本分解为一个包含两项的列表。</p>
+
+<p>用列表 <em>[ba,ap]</em> 分解 <em>i love apples bananas apples grapes</em>，会得到一个包含两项的列表，第一项是 <em>i love</em>，第二项是 <em>ples bananas apples grapes</em>。</p>
+
+<h3 id="split">分解</h3>
+
+<p><img src="images/text/split.png" alt="" /></p>
+
+<p>以 at 作为分隔点把文本分解成若干部分，并生成结果列表。用 <em>,</em>（逗号）分解 <em>one,two,three,four</em>，返回列表 <em>(one two three four)</em>。用 <em>-potato,</em> 分解 <em>one-potato,two-potato,three-potato,four</em>，返回列表 <em>(one two three four)</em>。</p>
+
+<h3 id="splitatany">任意分解</h3>
+
+<p><img src="images/text/splitatany.png" alt="" /></p>
+
+<p>以 at 中的任意一项作为分隔点，把给定文本分解为一个列表，并返回结果列表。</p>
+
+<p>用 at 分解 <em>appleberry,banana,cherry,dogfood</em>，其中 at 是一个包含两个元素的列表，第一项是逗号，第二项是 <em>rry</em>，会返回一个包含四项的列表：<em>(applebe banana che dogfood)</em>。</p>
+
+<h3 id="splitatspaces">用空格分解</h3>
+
+<p><img src="images/text/splitatspaces.png" alt="" /></p>
+
+<p>在每一处出现空格的地方分解给定文本，生成由各部分组成的列表。</p>
+
+<h3 id="segment">提取子串</h3>
+
+<p><img src="images/text/segment.png" alt="" /></p>
+
+<p>从 start 位置开始，连续提取 length 个字符，作为文本的一部分。</p>
+
+<h3 id="replaceall">全部替换</h3>
+
+<p><img src="images/text/replaceall.png" alt="" /></p>
+
+<p>返回一个新的文本字符串，其中所有出现的子串都被替换为 replacement。</p>
+
+<p>以 <em>She loves eating. She loves writing. She loves coding</em> 作为文本、<em>She</em> 作为替换项、<em>Hannah</em> 作为替换内容执行“全部替换”，结果会得到 <em>Hannah loves eating. Hannah loves writing. Hannah loves coding</em>。</p>
+
+<p>注意：
+正则表达式（regex）是用于匹配字符串中字符组合的模式。使用“全部替换”块时，务必留意正则表达式中的特殊字符。像 $、*、. 等特殊字符在正则表达式中具有特殊含义。
+如果您想把它们当作模式中的普通字面字符使用，就需要用反斜杠（\）对它们进行转义。</p>
+
+<p>示例：
+对文本 <em>Price: $50.00</em> 执行“全部替换”，以 <em>$</em> 作为替换项、<em>€</em> 作为替换内容
+结果会得到 <em>Price: €50.00</em></p>
+
+<h3 id="obfuscatetext">加密文本</h3>
+
+<p><img src="images/text/obfuscatetext.png" alt="" /></p>
+
+<p>像文本块一样生成文本。区别在于，通过检查应用的内容不容易发现这些文本。当您要创建包含机密信息（例如 API 密钥）的应用用于分发时，可以使用它。</p>
+
+<p><em>警告：对于专业的攻击者而言，这只能提供非常有限的安全保护。</em></p>
+
+<h3 id="isstring">是否为字符串</h3>
+
+<p><img src="images/text/isstring.png" alt="" /></p>
+
+<p>如果 <em>thing</em> 是文本对象则返回“真”，否则返回“假”。</p>
+
+<h3 id="reverse">文本的逆序副本</h3>
+
+<p><img src="images/text/text_reverse.png" alt="" /></p>
+
+<p>将给定文本逆序排列。例如，“reverse”会变成“esrever”。</p>
+
+<h3 id="replaceallmappings">替换所有映射</h3>
+
+<p><img src="images/text/replaceallmappings.png" alt="" /></p>
+
+<p>以映射字典作为输入，把文本中的键条目替换为字典中对应的值。
+返回应用这些映射后的文本。</p>
+
+<h4 id="replaceallmappingsdictionary">字典顺序</h4>
+
+<p>如果指定了字典顺序，那么当一个键条目是另一个键条目的子串时，先替换哪一个
+取决于条目在字典中的顺序（排在最前面的先被替换）。</p>
+
+<h4 id="replaceallmappingslongeststring">最长字符串优先顺序</h4>
+
+<p>如果指定了最长字符串优先顺序，那么当一个键条目是另一个键条目的子串时，先替换的
+是较长的那一个。</p>
+
+</article>
+<script>
+  // Handle redirection to documentation based on locale query parameter (if specified)
+  (function() {
+      var locale = window.location.search.match('[&?]locale=([a-zA-Z-]*)');
+      if (locale) {
+          if (locale[1].indexOf('en') === 0) {
+              // English needs to stay at the top level to not break existing links
+              var page = window.location.pathname.split('/');
+              if (page.length === 5) {
+                  page.splice(2, 1);
+              } else {
+                  // already on english
+                  return;
+              }
+              window.location.href = page.join('/');
+          } else {
+              var page = window.location.pathname.split('/');
+              if (page.length === 4) {
+                  page.splice(2, 0, locale[1]);
+              } else if (page[2].toLowerCase() != locale[1].toLowerCase()) {
+                  page[2] = locale[1];
+              } else {
+                  return;  // already on the desired language
+              }
+              // Test that the page exists before redirecting.
+              var xhr = new XMLHttpRequest();
+              xhr.open('HEAD', page.join('/'), false);
+              xhr.onreadystatechange = function() {
+                  if (xhr.readyState == 4) {
+                      if ((xhr.status == 200 || xhr.status == 204)) {
+                          window.location.href = page.join('/');
+                      } else if (xhr.status  >= 400) {
+                          page.splice(2, 1);  // go to english version
+                          window.location.href = page.join('/');
+                      }
+                  }
+              };
+              xhr.send();
+          }
+      }
+  })();
+
+  // Handle embedded documentation in help by removing website template
+  if (window.self !== window.top) {
+      setTimeout(function() {
+          var videos = document.querySelectorAll('video');
+          for (var i = 0; i < videos.length; i++) {
+              if (parseInt(videos[i].getAttribute('width')) > 360) {
+                  var aspect = parseInt(videos[i].getAttribute('height')) / parseInt(videos[i].getAttribute('width'));
+                  videos[i].setAttribute('width', '360');
+                  videos[i].setAttribute('height', '' + (360 * aspect));
+              }
+          }
+          var h1 = document.querySelector('h1');
+          var article = document.querySelector('article');
+          article.insertBefore(h1, article.firstElementChild);
+          document.body.innerHTML = article.outerHTML;
+      });
+  }
+</script>
+
+            </div>
+<script src="../../../static/js/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="../../../static/js/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="../../../static/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+<script async src="../../../static/js/widgets.js" charset="utf-8"></script>
+</div>
+    </body>
+</html>

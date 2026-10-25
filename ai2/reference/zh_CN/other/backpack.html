@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+
+     一一对应。
+     - 正文（标题/段落/列表/表格/图片 alt/视频说明）译为简体中文；
+     - 顶部导航（MIT logo、"Create Apps!" 按钮、About/Educators/News/Resources/Blogs
+       菜单、Donate 按钮、gcse 搜索框）与底部 MIT 版权页脚（© 声明、CC BY-SA、ToS、
+       Support/Twitter/GitHub/Accessibility）已整块删除：本项目是离线产品，帮助页只在
+       应用内新标签页打开，不应出现通往 MIT 主站的品牌链接与捐赠入口。head 里仅供
+       "Create Apps!" 按钮使用的 gotoappinventor() 脚本一并删除；<title> 与页面 <h1>
+       里的 "MIT " 字样已去掉，正文中作为产品名出现的 "MIT App Inventor" 已改为
+       "App Inventor蔻丁工坊"(zh_CN 语境带蔻丁工坊后缀;版权说明处的 MIT 保留)；
+     - 重定向脚本（<script> 块）按上游原文保留：本项目 blocklyeditor.js 的 _resolveHelpUrl
+       已把 href 直接写成 zh_CN 路径且不带 ?locale=，脚本不会触发；若日后有人手工拼了
+       ?locale=zh_CN 进 URL，file:// 下 sync XHR 会被浏览器拦截，脚本停在"已是目标语言"，
+       不会跳错位置；
+     - /static/ 绝对路径改为相对路径：offline webapp 支持以 file:// 打开，绝对路径会解析到
+       磁盘根目录（file:///static/...）从而 404；
+     - 本地图片/视频按上游同名相对路径复制到本目录，故 src 与上游完全一致；
+     - id= 锚点与块/组件/属性英文名保持上游原文，帮助链接里的 #fragment 才能定位。 -->
+<html lang="zh-CN"><head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="stylesheet" href="../../../static/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="../../../static/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
+    <link href="../../../static/css/fonts.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="../../../static/css/mit_app_inventor.css">
+    <title>背包：在不同屏幕和项目之间复制粘贴块</title></head>
+<body class="mit_app_inventor">
+<div class="default-page">
+            <div class="header">
+	        <h1 class="font-weight-bold text-center offset-xl-2 col-xl-8">背包：在不同屏幕和项目之间复制粘贴块</h1>
+            </div>
+            <div class="container-fluid">
+                <article class="documentation">
+<h2 id="backpack-copy-and-paste-blocks-to-different-screens-and-projects"><img src="images/backpack-closed.png" alt="" style="float: left; margin-right: 10px;" />背包：在不同屏幕和项目之间复制粘贴块</h2>
+
+<p>背包（Backpack）让您可以把块随身携带，在各个项目仓库之间移动，从而在不同项目和不同屏幕之间转移块。背包的内容在多次登录之间会一直保留。当您登录 App Inventor蔻丁工坊 时，还能看到上次会话留下的块。</p>
+
+<p>点击<a href="https://youtu.be/diQ8wJCYb6o" target="_blank"><em>此处</em></a>观看视频演示。</p>
+
+<h2 id="how-does-backpack-work">背包是如何工作的？</h2>
+
+<p>背包是一项复制粘贴功能，可在不同项目和不同屏幕之间使用。背包图标位于工作区的右上角。</p>
+
+<p><img src="images/backpack_screen.png" alt="" /></p>
+
+<p><strong>复制块。</strong>工作区中的块可以直接拖放到背包里。这就是复制操作——块会被复制（生成副本）到背包中。把块放入背包时，会播放动画和音效，向用户确认操作已成功。这些块不会从工作区中移除。</p>
+
+<p><strong>查看背包内容。</strong>点击背包图标（工作区右上角）即可查看背包中的内容。此时会从工作区右边缘滑出一个可滚动的浮出面板，显示背包中的内容。背包的浮出面板与块抽屉（Block drawers）的浮出面板用法相同。</p>
+
+<p>如果不想粘贴任何块，只想关闭浮出面板，您可以点击工作区，或者点击背包中没有高亮块的空白处。请注意，如果点击浮出面板中已高亮的块，该块就会被粘贴到工作区。</p>
+
+<p><strong>粘贴块。</strong>点击背包图标（工作区右上角），把块从浮出面板拖到工作区中的目标位置，即可把块从背包粘贴到当前工作区。</p>
+
+<h2 id="background-menus">背景菜单</h2>
+
+<p>除了拖放功能之外，您还可以在块上或工作区上单击鼠标右键来选用背包的各项功能，如下图所示。</p>
+
+<p><img src="images/10000201000000BA000000B7F69EAE82CB5B6331.png" alt="" />
+<img src="images/100002010000014F000000E4A51C7504226A8BE4.png" alt="" /></p>
+
+<h2 id="right-click-on-block">在块上单击右键</h2>
+
+<ul>
+  <li><strong>加入背包（Add to Backpack）：</strong>在块上单击鼠标右键并选择这一项，即可把这个块及其包含的所有块加入背包。括号中的数字表示背包中块的总数（而不是将要加入的块数）。</li>
+</ul>
+
+<h2 id="right-click-on-workspace-background">在工作区背景上单击右键</h2>
+
+<ul>
+  <li>
+    <p><strong>取出背包（Paste All Blocks from Backpack）：</strong>把背包中的所有块粘贴到当前项目。括号中的数字表示背包中块的总数。</p>
+  </li>
+  <li>
+    <p><strong>加入背包（Copy All Blocks to Backpack）：</strong>把当前工作区中的所有块加入背包。</p>
+  </li>
+  <li>
+    <p><strong>清空背包（Empty the Backpack）：</strong>移除并丢弃背包中的所有块。此操作无法撤销。</p>
+  </li>
+</ul>
+
+<h2 id="what-can-be-added-to-backpack">哪些内容可以加入背包？</h2>
+
+<ul>
+  <li>函数和过程的定义。如果目标工作区中已存在同名定义，这些定义会被重命名。</li>
+  <li>列表、字符串以及其他数据</li>
+  <li>变量的定义和引用。如果目标工作区中已存在重复的定义，变量定义会被重命名。</li>
+  <li>包含组件的块：理想情况下，目标项目中应当有名称相同的对应组件，否则您在从背包粘贴之后，还需要向目标项目中添加组件。引用不存在的组件会显示<strong><em>红色错误三角</em></strong>。</li>
+</ul>
+
+<p><img src="images/10000201000002920000009C6FE4874F72EBC456.png" alt="" /></p>
+
+<p>如果在目标工作区中已有重复的块，粘贴的初始化块会被自动重命名。例如，您尝试粘贴全局变量 X 的变量初始化块，而工作区中已经存在 X 的初始化块，那么粘贴后的块中该变量会被重命名为 X2。</p>
+
+<p>类似地，如果您尝试粘贴过程 foo 的过程定义，而工作区中已经存在 foo 的定义，粘贴后的过程会被重命名为 foo2。</p>
+
+<h2 id="can-you-paste-blocks-into-any-project-or-screen">可以把块粘贴到任意项目或屏幕中吗？</h2>
+
+<p>可以。不过，有些情况下把块从背包粘贴到新的项目或屏幕会出现红色错误三角。例如，块引用了目标项目中不存在的变量或过程时就会出现这种情况。定义缺失的变量或过程即可消除（修复）这些错误。块引用了目标项目中不存在的组件时也会出现这种情况。添加缺失的组件，并使其名称与粘贴的块中所引用的名称一致，即可消除（修复）这些错误。</p>
+
+<p><img src="images/10000201000002B000000074AE08229E092CA091.png" alt="" /></p>
+
+<h2 id="can-blocks-be-removed-from-the-backpack">可以从背包中移除块吗？</h2>
+
+<p>要移除背包中的所有块，请在背包上单击鼠标右键，然后选择“清空背包（Empty the Backpack）”。要移除背包中的一叠块，请在该叠块上单击鼠标右键，然后选择“将代码移出背包（Remove from Backpack）”。这些操作都无法撤销。</p>
+
+</article>
+<script>
+  // Handle redirection to documentation based on locale query parameter (if specified)
+  (function() {
+      var locale = window.location.search.match('[&?]locale=([a-zA-Z-]*)');
+      if (locale) {
+          if (locale[1].indexOf('en') === 0) {
+              // English needs to stay at the top level to not break existing links
+              var page = window.location.pathname.split('/');
+              if (page.length === 5) {
+                  page.splice(2, 1);
+              } else {
+                  // already on english
+                  return;
+              }
+              window.location.href = page.join('/');
+          } else {
+              var page = window.location.pathname.split('/');
+              if (page.length === 4) {
+                  page.splice(2, 0, locale[1]);
+              } else if (page[2].toLowerCase() != locale[1].toLowerCase()) {
+                  page[2] = locale[1];
+              } else {
+                  return;  // already on the desired language
+              }
+              // Test that the page exists before redirecting.
+              var xhr = new XMLHttpRequest();
+              xhr.open('HEAD', page.join('/'), false);
+              xhr.onreadystatechange = function() {
+                  if (xhr.readyState == 4) {
+                      if ((xhr.status == 200 || xhr.status == 204)) {
+                          window.location.href = page.join('/');
+                      } else if (xhr.status  >= 400) {
+                          page.splice(2, 1);  // go to english version
+                          window.location.href = page.join('/');
+                      }
+                  }
+              };
+              xhr.send();
+          }
+      }
+  })();
+
+  // Handle embedded documentation in help by removing website template
+  if (window.self !== window.top) {
+      setTimeout(function() {
+          var videos = document.querySelectorAll('video');
+          for (var i = 0; i < videos.length; i++) {
+              if (parseInt(videos[i].getAttribute('width')) > 360) {
+                  var aspect = parseInt(videos[i].getAttribute('height')) / parseInt(videos[i].getAttribute('width'));
+                  videos[i].setAttribute('width', '360');
+                  videos[i].setAttribute('height', '' + (360 * aspect));
+              }
+          }
+          var h1 = document.querySelector('h1');
+          var article = document.querySelector('article');
+          article.insertBefore(h1, article.firstElementChild);
+          document.body.innerHTML = article.outerHTML;
+      });
+  }
+</script>
+
+            </div>
+<script src="../../../static/js/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="../../../static/js/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="../../../static/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+<script async src="../../../static/js/widgets.js" charset="utf-8"></script>
+</div>
+    </body>
+</html>

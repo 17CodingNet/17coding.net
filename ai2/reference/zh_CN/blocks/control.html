@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+
+     一一对应。
+     - 正文（标题/段落/列表/表格/图片 alt/视频说明）译为简体中文；
+     - 顶部导航（MIT logo、"Create Apps!" 按钮、About/Educators/News/Resources/Blogs
+       菜单、Donate 按钮、gcse 搜索框）与底部 MIT 版权页脚（© 声明、CC BY-SA、ToS、
+       Support/Twitter/GitHub/Accessibility）已整块删除：本项目是离线产品，帮助页只在
+       应用内新标签页打开，不应出现通往 MIT 主站的品牌链接与捐赠入口。head 里仅供
+       "Create Apps!" 按钮使用的 gotoappinventor() 脚本一并删除；<title> 与页面 <h1>
+       里的 "MIT " 字样已去掉，正文中作为产品名出现的 "MIT App Inventor" 已改为
+       "App Inventor蔻丁工坊"(zh_CN 语境带蔻丁工坊后缀;版权说明处的 MIT 保留)；
+     - 重定向脚本（<script> 块）按上游原文保留：本项目 blocklyeditor.js 的 _resolveHelpUrl
+       已把 href 直接写成 zh_CN 路径且不带 ?locale=，脚本不会触发；若日后有人手工拼了
+       ?locale=zh_CN 进 URL，file:// 下 sync XHR 会被浏览器拦截，脚本停在"已是目标语言"，
+       不会跳错位置；
+     - /static/ 绝对路径改为相对路径：offline webapp 支持以 file:// 打开，绝对路径会解析到
+       磁盘根目录（file:///static/...）从而 404；
+     - 本地图片/视频按上游同名相对路径复制到本目录，故 src 与上游完全一致；
+     - id= 锚点与块/组件/属性英文名保持上游原文，帮助链接里的 #fragment 才能定位。 -->
+<html lang="zh-CN"><head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="stylesheet" href="../../../static/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="../../../static/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
+    <link href="../../../static/css/fonts.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="../../../static/css/mit_app_inventor.css">
+    <title>App Inventor 控制块</title></head>
+<body class="mit_app_inventor">
+<div class="default-page">
+            <div class="header">
+	        <h1 class="font-weight-bold text-center offset-xl-2 col-xl-8">App Inventor 控制块</h1>
+            </div>
+            <div class="container-fluid">
+                <article class="documentation">
+<ul>
+  <li><a href="#if">如果 &amp; 否则，如果</a></li>
+  <li><a href="#forrange">遍历指定范围数据</a></li>
+  <li><a href="#foreach">逐项遍历列表</a></li>
+  <li><a href="#foreachdict">针对字典中每对键值</a></li>
+  <li><a href="#while">只要满足条件</a></li>
+  <li><a href="#choose">如果…则…否则</a></li>
+  <li><a href="#doreturn">执行并返回</a></li>
+  <li><a href="#evaluate">执行但不返回结果</a></li>
+  <li><a href="#openscreen">打开屏幕</a></li>
+  <li><a href="#openscreenwithvalue">打开屏幕并传值</a></li>
+  <li><a href="#getplainstarttext">应用初始值</a></li>
+  <li><a href="#getstartvalue">屏幕初始值</a></li>
+  <li><a href="#closescreen">关闭当前屏幕</a></li>
+  <li><a href="#closescreenwithplaintext">关闭屏幕并返回应用值</a></li>
+  <li><a href="#closescreenwithvalue">关闭屏幕并返回值</a></li>
+  <li><a href="#closeapp">退出程序</a></li>
+  <li><a href="#break">终止循环</a></li>
+</ul>
+
+<h3 id="if">如果 &amp; 否则，如果</h3>
+
+<p class="clearfix"><img src="images/control/if.png" alt="" style="float:left;clear:left;border:0" /> 测试给定的条件。如果条件为真，则执行指定代码块序列中的动作；否则忽略这些代码块。</p>
+
+<p class="clearfix"><img src="images/control/ifelse.png" alt="" style="float:left;clear:left;border:0" /> 测试给定的条件。如果条件为真，则执行“则”代码块序列中的动作；否则执行“否则”代码块序列中的动作。</p>
+
+<p class="clearfix"><img src="images/control/ifelseif.png" alt="" style="float:left;clear:left;border:0" /> 测试给定的条件。如果结果为真，则执行“则”代码块序列中的动作；否则检测“否则，如果”分支中的语句。如果结果为真，则执行“则”代码块序列中的动作；否则执行“否则”代码块序列中的动作。</p>
+
+<p>下面的动图演示了如何使用“如果/否则”变体块（mutator）。</p>
+
+<p><img src="images/control/if.gif" alt="" /></p>
+
+<h3 id="forrange">遍历指定范围数据</h3>
+
+<p><img src="images/control/forrange.png" alt="" /></p>
+
+<p>对“<em>范围从</em>”与“<em>到</em>”之间的每一个数值，都运行“执行”区域中的代码块，每次让 <code class="language-plaintext variable block highlighter-rouge">number</code> 递增“<em>且增量为</em>”的值。使用给定的变量名 <code class="language-plaintext variable block highlighter-rouge">number</code> 引用当前值；如有需要，您也可以把名称 <code class="language-plaintext variable block highlighter-rouge">number</code> 改成其他名字。</p>
+
+<h3 id="foreach">逐项遍历列表</h3>
+
+<p><img src="images/control/foreach.png" alt="" /></p>
+
+<p>针对列表中的每一项运行“执行”区域中的代码块。使用给定的变量名 <code class="language-plaintext variable block highlighter-rouge">item</code> 引用当前列表项；如有需要，您也可以把名称 <code class="language-plaintext variable block highlighter-rouge">item</code> 改成其他名字。</p>
+
+<h3 id="foreachdict">针对字典中每对键值</h3>
+
+<p><img src="images/control/foreachdict.png" alt="" /></p>
+
+<p>针对字典中的每一对键值，运行“执行”区域中的代码块。使用给定的变量 <code class="language-plaintext variable block highlighter-rouge">key</code> 和 <code class="language-plaintext variable block highlighter-rouge">value</code> 引用当前字典项的键和值；如有需要，您也可以把名称 <code class="language-plaintext variable block highlighter-rouge">key</code> 和 <code class="language-plaintext variable block highlighter-rouge">value</code> 改成其他名字。</p>
+
+<h3 id="while">只要满足条件</h3>
+
+<p><img src="images/control/while.png" alt="" /></p>
+
+<p>检测“条件”处的条件。如果为真，就执行“执行”区域中给出的动作，然后再次检测。当条件为假时，该块结束，“执行”区域中给出的动作不再执行。</p>
+
+<h3 id="choose">如果…则…否则</h3>
+
+<p>测试给定的条件。如果语句为真，则执行“则”返回序列中的代码块并返回“则”的返回值；否则执行“否则”返回序列中的代码块并返回“否则”的返回值。该块类似于某些语言中的三元运算符（?:）。</p>
+
+<h3 id="doreturn">执行并返回</h3>
+
+<p><img src="images/control/doreturn.png" alt="" /></p>
+
+<p>有时在过程或其他代码块中，您可能需要先做某件事再返回某个结果，但由于种种原因，您可以选择使用该块，而不必新建一个过程。</p>
+
+<h3 id="evaluate">执行但不返回结果</h3>
+
+<p><img src="images/control/evaluate.png" alt="" /></p>
+
+<p>提供一个“虚拟插槽”，用于把左侧带插头的块接到没有插槽的位置，例如“如果”块或过程“执行”部分中的代码块序列。您接入的块会运行，但它返回的结果会被忽略。当您定义了一个有返回值的过程，却想在不需要结果的位置调用它时，这个块会很有用。</p>
+
+<h3 id="openscreen">打开屏幕</h3>
+
+<p><img src="images/control/openscreen.png" alt="" /></p>
+
+<p>打开指定名称的屏幕。</p>
+
+<p>screenName 必须是使用设计器创建的屏幕之一。
+screenName 应当从已连接的屏幕名称下拉块中选择。</p>
+
+<p>如果确实打开了另一个屏幕，在返回主屏幕时应当把它关闭，以释放系统内存。离开屏幕时不将其关闭，最终会导致内存问题。</p>
+
+<p>应用开发者绝不应关闭 Screen1，也不应使用该块返回 Screen1。请改用 <code class="language-plaintext control block highlighter-rouge">close screen</code>（关闭当前屏幕）块。</p>
+
+<h3 id="openscreenwithvalue">打开屏幕并传值</h3>
+
+<p><img src="images/control/openscreenwithvalue.png" alt="" /></p>
+
+<p>打开另一个屏幕，并向它传递一个值。</p>
+
+<h3 id="getplainstarttext">应用初始值</h3>
+
+<p><img src="images/control/getplainstarttext.png" alt="" /></p>
+
+<p>返回本屏幕由其他应用启动时传入的纯文本。如果没有传入任何值，则返回空文本。对于多屏应用，请使用 <code class="language-plaintext control block highlighter-rouge">get start value</code>（屏幕初始值），而不要使用 <code class="language-plaintext control block highlighter-rouge">get plain start text</code>（应用初始值）。</p>
+
+<h3 id="getstartvalue">屏幕初始值</h3>
+
+<p><img src="images/control/getstartvalue.png" alt="" /></p>
+
+<p>返回赋予当前屏幕的初始值。</p>
+
+<p>该值由 <code class="language-plaintext control block highlighter-rouge">open another screen with start value</code>（打开屏幕并传值）或 <code class="language-plaintext control block highlighter-rouge">close screen with value</code>（关闭屏幕并返回值）给出。</p>
+
+<h3 id="closescreen">关闭当前屏幕</h3>
+
+<p><img src="images/control/closescreen.png" alt="" /></p>
+
+<p>关闭当前屏幕。</p>
+
+<h3 id="closescreenwithplaintext">关闭屏幕并返回应用值</h3>
+
+<p><img src="images/control/closescreenwithplaintext.png" alt="" /></p>
+
+<p>关闭当前屏幕，并向打开它的应用传递文本。该命令用于向非 App Inventor 的活动（activity）返回文本，而不是向 App Inventor 屏幕返回文本。对于 App Inventor 屏幕（如多屏应用中），请使用 <code class="language-plaintext control block highlighter-rouge">close screen with value</code>（关闭屏幕并返回值），而不要使用 <code class="language-plaintext control block highlighter-rouge">close screen with plain text</code>（关闭屏幕并返回应用值）。</p>
+
+<h3 id="closescreenwithvalue">关闭屏幕并返回值</h3>
+
+<p><img src="images/control/closescreenwithvalue.png" alt="" /></p>
+
+<p>关闭当前屏幕，并向打开它的屏幕返回一个值。</p>
+
+<h3 id="closeapp">退出程序</h3>
+
+<p><img src="images/control/closeapp.png" alt="" /></p>
+
+<p>退出应用程序。</p>
+
+<h3 id="break">终止循环</h3>
+
+<p><img src="images/control/break.png" alt="" /></p>
+
+<p>使用<a href="#forrange">遍历指定范围数据</a>、<a href="#foreach">逐项遍历列表</a>或<a href="#while">只要满足条件</a>块进行循环时，有时需要提前退出循环。<code class="language-plaintext control block highlighter-rouge">break</code>（终止循环）可以让您跳出循环。执行时，它会退出循环，并从循环之后的代码块继续运行应用。</p>
+
+</article>
+<script>
+  // Handle redirection to documentation based on locale query parameter (if specified)
+  (function() {
+      var locale = window.location.search.match('[&?]locale=([a-zA-Z-]*)');
+      if (locale) {
+          if (locale[1].indexOf('en') === 0) {
+              // English needs to stay at the top level to not break existing links
+              var page = window.location.pathname.split('/');
+              if (page.length === 5) {
+                  page.splice(2, 1);
+              } else {
+                  // already on english
+                  return;
+              }
+              window.location.href = page.join('/');
+          } else {
+              var page = window.location.pathname.split('/');
+              if (page.length === 4) {
+                  page.splice(2, 0, locale[1]);
+              } else if (page[2].toLowerCase() != locale[1].toLowerCase()) {
+                  page[2] = locale[1];
+              } else {
+                  return;  // already on the desired language
+              }
+              // Test that the page exists before redirecting.
+              var xhr = new XMLHttpRequest();
+              xhr.open('HEAD', page.join('/'), false);
+              xhr.onreadystatechange = function() {
+                  if (xhr.readyState == 4) {
+                      if ((xhr.status == 200 || xhr.status == 204)) {
+                          window.location.href = page.join('/');
+                      } else if (xhr.status  >= 400) {
+                          page.splice(2, 1);  // go to english version
+                          window.location.href = page.join('/');
+                      }
+                  }
+              };
+              xhr.send();
+          }
+      }
+  })();
+
+  // Handle embedded documentation in help by removing website template
+  if (window.self !== window.top) {
+      setTimeout(function() {
+          var videos = document.querySelectorAll('video');
+          for (var i = 0; i < videos.length; i++) {
+              if (parseInt(videos[i].getAttribute('width')) > 360) {
+                  var aspect = parseInt(videos[i].getAttribute('height')) / parseInt(videos[i].getAttribute('width'));
+                  videos[i].setAttribute('width', '360');
+                  videos[i].setAttribute('height', '' + (360 * aspect));
+              }
+          }
+          var h1 = document.querySelector('h1');
+          var article = document.querySelector('article');
+          article.insertBefore(h1, article.firstElementChild);
+          document.body.innerHTML = article.outerHTML;
+      });
+  }
+</script>
+
+            </div>
+<script src="../../../static/js/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="../../../static/js/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="../../../static/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+<script async src="../../../static/js/widgets.js" charset="utf-8"></script>
+</div>
+    </body>
+</html>

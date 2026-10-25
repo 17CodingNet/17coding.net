@@ -1,5 +1,10 @@
 [
   {
+    "name": "Compass",
+    "subtitle": "指南针示例项目",
+    "description": "<p>利用方向传感器组件,制作一个简易的指南针应用。当方位角为 0 度时,手机屏幕的顶端指向正北。使用组件:画布、精灵、方向传感器。</p>"
+  },
+  {
     "name": "DIYBookClub",
     "subtitle": "Wire and share book reviews with friends.",
     "description": "Create an app that lets you and your friends write and share reviews of your favorite books. Inspired by YR Media's <a href='https://yr.media/tech/young-people-are-now-using-youtube-for-audiobooks/' target='_blank'>story</a> about audiobooks on Youtube.",
@@ -28,6 +33,11 @@
     "thumbnail": "../HelloPurr/thumbnail.png"
   },
   {
+    "name": "Magic",
+    "subtitle": "变魔术示例项目",
+    "description": "<p>一个简单的魔术游戏。手机屏幕上显示一张鸭子的图片,点击屏幕鸭子发出叫声;摇晃手机鸭子消失;再次摇晃鸭子重新出现并发出叫声。</p>"
+  },
+  {
     "name": "MapTheMovement",
     "subtitle": "Search for Twitter hashtags by location using a map.",
     "description": "You're challenged with creating an app that shows what's happening on Twitter in any given location on a map. Inspired by YR Media's <a href='https://yri.youthradio.org/neveragain/' target='_blank'>interactive tracker</a> of student led action.",
@@ -47,6 +57,11 @@
     "description": "Keep on top of your to-do list, by creating an app where you can add and remove tasks from your list. Inspired by YR Media <a href='https://youtu.be/rtwhgI122hg' target='_blank'>video</a> on bullet journaling.",
     "screenshot": "screenshot.png",
     "thumbnail": "thumbnail.png"
+  },
+  {
+    "name": "Palette",
+    "subtitle": "画板调色示例项目",
+    "description": "<p>利用画板组件做一个简易的调色板应用,通过触摸屏幕给画板涂色,演示 Canvas 组件的画线与画点能力。</p>"
   },
   {
     "name": "SimpleChatbot",

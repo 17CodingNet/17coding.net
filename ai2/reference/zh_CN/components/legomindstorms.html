@@ -1,0 +1,795 @@
+<!DOCTYPE html>
+
+     一一对应。
+     - 正文（标题/段落/列表/表格/图片 alt/视频说明）译为简体中文；
+     - 顶部导航（MIT logo、"Create Apps!" 按钮、About/Educators/News/Resources/Blogs
+       菜单、Donate 按钮、gcse 搜索框）与底部 MIT 版权页脚（© 声明、CC BY-SA、ToS、
+       Support/Twitter/GitHub/Accessibility）已整块删除：本项目是离线产品，帮助页只在
+       应用内新标签页打开，不应出现通往 MIT 主站的品牌链接与捐赠入口。head 里仅供
+       "Create Apps!" 按钮使用的 gotoappinventor() 脚本一并删除；<title> 与页面 <h1>
+       里的 "MIT " 字样已去掉，正文中作为产品名出现的 "MIT App Inventor" 已改为
+       "App Inventor蔻丁工坊"(zh_CN 语境带蔻丁工坊后缀;版权说明处的 MIT 保留)；
+     - 重定向脚本（<script> 块）按上游原文保留：本项目 blocklyeditor.js 的 _resolveHelpUrl
+       已把 href 直接写成 zh_CN 路径且不带 ?locale=，脚本不会触发；若日后有人手工拼了
+       ?locale=zh_CN 进 URL，file:// 下 sync XHR 会被浏览器拦截，脚本停在"已是目标语言"，
+       不会跳错位置；
+     - /static/ 绝对路径改为相对路径：offline webapp 支持以 file:// 打开，绝对路径会解析到
+       磁盘根目录（file:///static/...）从而 404；
+     - 本地图片/视频按上游同名相对路径复制到本目录，故 src 与上游完全一致；
+     - id= 锚点与块/组件/属性英文名保持上游原文，帮助链接里的 #fragment 才能定位。 -->
+<html lang="zh-CN"><head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="stylesheet" href="../../../static/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="../../../static/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
+    <link href="../../../static/css/fonts.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="../../../static/css/mit_app_inventor.css">
+    <title>LEGO® MINDSTORMS® 组件</title></head>
+<body class="mit_app_inventor">
+<div class="default-page">
+            <div class="header">
+	        <h1 class="font-weight-bold text-center offset-xl-2 col-xl-8">LEGO® MINDSTORMS® 组件</h1>
+            </div>
+            <div class="container-fluid">
+                <article class="documentation">
+<p><a href="index.html">« 返回目录</a></p>
+<h1 id="lego-mindstorms">LEGO® MINDSTORMS® 组件</h1>
+
+<p>目录：</p>
+
+<ul>
+  <li><a href="#Ev3ColorSensor">EV3颜色传感器（Ev3ColorSensor）</a></li>
+  <li><a href="#Ev3Commands">EV3指令发送器（Ev3Commands）</a></li>
+  <li><a href="#Ev3GyroSensor">EV3陀螺仪传感器（Ev3GyroSensor）</a></li>
+  <li><a href="#Ev3Motors">EV3电机控制器（Ev3Motors）</a></li>
+  <li><a href="#Ev3Sound">EV3声音播放器（Ev3Sound）</a></li>
+  <li><a href="#Ev3TouchSensor">EV3接触传感器（Ev3TouchSensor）</a></li>
+  <li><a href="#Ev3UI">EV3界面控制器（Ev3UI）</a></li>
+  <li><a href="#Ev3UltrasonicSensor">EV3超声波传感器（Ev3UltrasonicSensor）</a></li>
+  <li><a href="#NxtColorSensor">NXT颜色传感器（NxtColorSensor）</a></li>
+  <li><a href="#NxtDirectCommands">NXT指令发送器（NxtDirectCommands）</a></li>
+  <li><a href="#NxtDrive">NXT电机驱动器（NxtDrive）</a></li>
+  <li><a href="#NxtLightSensor">NXT光线传感器（NxtLightSensor）</a></li>
+  <li><a href="#NxtSoundSensor">NXT声音传感器（NxtSoundSensor）</a></li>
+  <li><a href="#NxtTouchSensor">NXT接触传感器（NxtTouchSensor）</a></li>
+  <li><a href="#NxtUltrasonicSensor">NXT超声波传感器（NxtUltrasonicSensor）</a></li>
+</ul>
+
+<h2 id="Ev3ColorSensor">EV3颜色传感器（Ev3ColorSensor）</h2>
+
+<p><img src="images/legoMindstormsEv3.png" alt="EV3 组件图标" /></p>
+
+<p>该组件为 LEGO MINDSTORMS EV3 机器人上的颜色传感器提供高层接口。</p>
+
+<h3 id="Ev3ColorSensor-Properties">属性</h3>
+
+<dl class="properties">
+  <dt id="Ev3ColorSensor.AboveRangeEventEnabled" class="boolean"><em>AboveRangeEventEnabled</em></dt>
+  <dd>指定当光线强度高于 TopOfRange 时是否触发 AboveRange 事件。</dd>
+  <dt id="Ev3ColorSensor.BelowRangeEventEnabled" class="boolean"><em>BelowRangeEventEnabled</em></dt>
+  <dd>指定当光线强度低于 BottomOfRange 时是否触发 BelowRange 事件。</dd>
+  <dt id="Ev3ColorSensor.BluetoothClient" class="component"><em>BluetoothClient</em></dt>
+  <dd>指定用于通信的 BluetoothClient 组件。<strong>必须在设计视图中设置</strong>。</dd>
+  <dt id="Ev3ColorSensor.BottomOfRange" class="number"><em>BottomOfRange</em></dt>
+  <dd>指定 BelowRange、WithinRange 和 AboveRange 事件所用范围的下限。</dd>
+  <dt id="Ev3ColorSensor.ColorChangedEventEnabled" class="boolean"><em>ColorChangedEventEnabled</em></dt>
+  <dd>指定当 DetectColor 属性设为 True 且检测到的颜色发生变化时，是否触发 ColorChanged 事件</dd>
+  <dt id="Ev3ColorSensor.Mode" class="text"><em>Mode</em></dt>
+  <dd>传感器当前的工作模式，取值为以下之一：
+   Reflected：检测当前光线强度，其中包括传感器反射回来的光。
+   Ambient：检测当前光线强度，其中<em>不</em>包括传感器反射回来的光。
+   Color：检测传感器所指向的颜色。</dd>
+  <dt id="Ev3ColorSensor.SensorPort" class="text"><em>SensorPort</em></dt>
+  <dd>指定传感器所连接的传感器端口。<strong>必须在设计视图中设置。</strong></dd>
+  <dt id="Ev3ColorSensor.TopOfRange" class="number"><em>TopOfRange</em></dt>
+  <dd>指定 BelowRange、WithinRange 和 AboveRange 事件所用范围的上限。</dd>
+  <dt id="Ev3ColorSensor.WithinRangeEventEnabled" class="boolean"><em>WithinRangeEventEnabled</em></dt>
+  <dd>指定当光线强度介于 BottomOfRange 和 TopOfRange 之间时是否触发 WithinRange 事件。</dd>
+</dl>
+
+<h3 id="Ev3ColorSensor-Events">事件</h3>
+
+<dl class="events">
+  <dt id="Ev3ColorSensor.AboveRange">AboveRange()</dt>
+  <dd>光线强度已超出范围上限。</dd>
+  <dt id="Ev3ColorSensor.BelowRange">BelowRange()</dt>
+  <dd>光线强度已低于范围下限。</dd>
+  <dt id="Ev3ColorSensor.ColorChanged">ColorChanged(<em class="number">colorCode</em>,<em class="text">colorName</em>)</dt>
+  <dd>当检测到的颜色发生变化时调用。</dd>
+  <dt id="Ev3ColorSensor.WithinRange">WithinRange()</dt>
+  <dd>光线强度已进入范围之内。</dd>
+</dl>
+
+<h3 id="Ev3ColorSensor-Methods">方法</h3>
+
+<dl class="methods">
+  <dt id="Ev3ColorSensor.GetColorCode" class="method returns number"><i></i> GetColorCode()</dt>
+  <dd>返回检测到的颜色的颜色代码。</dd>
+  <dt id="Ev3ColorSensor.GetColorName" class="method returns text"><i></i> GetColorName()</dt>
+  <dd>返回检测到的颜色的名称。</dd>
+  <dt id="Ev3ColorSensor.GetLightLevel" class="method returns number"><i></i> GetLightLevel()</dt>
+  <dd>返回以百分比表示的光线强度。</dd>
+</dl>
+
+<h2 id="Ev3Commands">EV3指令发送器（Ev3Commands）</h2>
+
+<p><img src="images/legoMindstormsEv3.png" alt="EV3 组件图标" /></p>
+
+<p>该组件为 LEGO MINDSTORMS EV3 机器人提供底层接口，其中的函数用于向 EV3 机器人发送系统指令或直接指令。</p>
+
+<h3 id="Ev3Commands-Properties">属性</h3>
+
+<dl class="properties">
+  <dt id="Ev3Commands.BluetoothClient" class="component"><em>BluetoothClient</em></dt>
+  <dd>指定用于通信的 BluetoothClient 组件。<strong>必须在设计视图中设置</strong>。</dd>
+</dl>
+
+<h3 id="Ev3Commands-Events">事件</h3>
+
+<p class="events">无</p>
+
+<h3 id="Ev3Commands-Methods">方法</h3>
+
+<dl class="methods">
+  <dt id="Ev3Commands.GetBatteryCurrent" class="method returns number"><i></i> GetBatteryCurrent()</dt>
+  <dd>获取电池电流。</dd>
+  <dt id="Ev3Commands.GetBatteryVoltage" class="method returns number"><i></i> GetBatteryVoltage()</dt>
+  <dd>获取电池电压。</dd>
+  <dt id="Ev3Commands.GetFirmwareBuild" class="method returns text"><i></i> GetFirmwareBuild()</dt>
+  <dd>获取 EV3 上的固件构建版本。</dd>
+  <dt id="Ev3Commands.GetFirmwareVersion" class="method returns text"><i></i> GetFirmwareVersion()</dt>
+  <dd>获取 EV3 上的固件版本。</dd>
+  <dt id="Ev3Commands.GetHardwareVersion" class="method returns text"><i></i> GetHardwareVersion()</dt>
+  <dd>获取 EV3 的硬件版本。</dd>
+  <dt id="Ev3Commands.GetOSBuild" class="method returns text"><i></i> GetOSBuild()</dt>
+  <dd>获取 EV3 上的操作系统构建版本。</dd>
+  <dt id="Ev3Commands.GetOSVersion" class="method returns text"><i></i> GetOSVersion()</dt>
+  <dd>获取 EV3 上的操作系统版本。</dd>
+  <dt id="Ev3Commands.KeepAlive" class="method"><i></i> KeepAlive(<em class="number">minutes</em>)</dt>
+  <dd>让 EV3 主机在一段时间内不自动关机。</dd>
+</dl>
+
+<h2 id="Ev3GyroSensor">EV3陀螺仪传感器（Ev3GyroSensor）</h2>
+
+<p><img src="images/legoMindstormsEv3.png" alt="EV3 组件图标" /></p>
+
+<p>该组件为 LEGO MINDSTORMS EV3 机器人上的陀螺仪传感器提供高层接口。</p>
+
+<h3 id="Ev3GyroSensor-Properties">属性</h3>
+
+<dl class="properties">
+  <dt id="Ev3GyroSensor.BluetoothClient" class="component"><em>BluetoothClient</em></dt>
+  <dd>指定用于通信的 BluetoothClient 组件。<strong>必须在设计视图中设置</strong>。</dd>
+  <dt id="Ev3GyroSensor.Mode" class="text"><em>Mode</em></dt>
+  <dd>返回传感器的模式。</dd>
+  <dt id="Ev3GyroSensor.SensorPort" class="text"><em>SensorPort</em></dt>
+  <dd>指定传感器所连接的传感器端口。<strong>必须在设计视图中设置。</strong></dd>
+  <dt id="Ev3GyroSensor.SensorValueChangedEventEnabled" class="boolean"><em>SensorValueChangedEventEnabled</em></dt>
+  <dd>返回当传感器值发生变化时是否应触发 SensorValueChanged 事件。</dd>
+</dl>
+
+<h3 id="Ev3GyroSensor-Events">事件</h3>
+
+<dl class="events">
+  <dt id="Ev3GyroSensor.SensorValueChanged">SensorValueChanged(<em class="number">sensorValue</em>)</dt>
+  <dd>当传感器值发生变化时调用。</dd>
+</dl>
+
+<h3 id="Ev3GyroSensor-Methods">方法</h3>
+
+<dl class="methods">
+  <dt id="Ev3GyroSensor.GetSensorValue" class="method returns number"><i></i> GetSensorValue()</dt>
+  <dd>根据当前模式返回当前角度或旋转速度；如果无法从传感器读取该值，则返回 -1。</dd>
+</dl>
+
+<h2 id="Ev3Motors">EV3电机控制器（Ev3Motors）</h2>
+
+<p><img src="images/legoMindstormsEv3.png" alt="EV3 组件图标" /></p>
+
+<p>该组件同时提供高层和底层接口，用于控制 LEGO MINDSTORMS EV3 上的电机。</p>
+
+<h3 id="Ev3Motors-Properties">属性</h3>
+
+<dl class="properties">
+  <dt id="Ev3Motors.BluetoothClient" class="component"><em>BluetoothClient</em></dt>
+  <dd>指定用于通信的 BluetoothClient 组件。<strong>必须在设计视图中设置</strong>。</dd>
+  <dt id="Ev3Motors.EnableSpeedRegulation" class="boolean"><em>EnableSpeedRegulation</em></dt>
+  <dd>返回是否让电机保持匀速转动。</dd>
+  <dt id="Ev3Motors.MotorPorts" class="text"><em>MotorPorts</em></dt>
+  <dd>指定电机端口。</dd>
+  <dt id="Ev3Motors.ReverseDirection" class="boolean"><em>ReverseDirection</em></dt>
+  <dd>返回电机的方向是否被反转。</dd>
+  <dt id="Ev3Motors.StopBeforeDisconnect" class="boolean"><em>StopBeforeDisconnect</em></dt>
+  <dd>指定断开连接前是否停止驱动电机。</dd>
+  <dt id="Ev3Motors.TachoCountChangedEventEnabled" class="boolean"><em>TachoCountChangedEventEnabled</em></dt>
+  <dd>返回当电机角度增加时是否应触发 TachoCountChanged 事件。</dd>
+  <dt id="Ev3Motors.WheelDiameter" class="number"><em>WheelDiameter</em></dt>
+  <dd>返回安装在电机上的车轮直径。</dd>
+</dl>
+
+<h3 id="Ev3Motors-Events">事件</h3>
+
+<dl class="events">
+  <dt id="Ev3Motors.TachoCountChanged">TachoCountChanged(<em class="number">tachoCount</em>)</dt>
+  <dd>当计数值发生变化时调用。</dd>
+</dl>
+
+<h3 id="Ev3Motors-Methods">方法</h3>
+
+<dl class="methods">
+  <dt id="Ev3Motors.GetTachoCount" class="method returns number"><i></i> GetTachoCount()</dt>
+  <dd>获取当前计数值。</dd>
+  <dt id="Ev3Motors.ResetTachoCount" class="method"><i></i> ResetTachoCount()</dt>
+  <dd>将当前计数值设为零。</dd>
+  <dt id="Ev3Motors.RotateInDistance" class="method"><i></i> RotateInDistance(<em class="number">power</em>,<em class="number">distance</em>,<em class="boolean">useBrake</em>)</dt>
+  <dd>让电机转动指定距离。</dd>
+  <dt id="Ev3Motors.RotateInDuration" class="method"><i></i> RotateInDuration(<em class="number">power</em>,<em class="number">milliseconds</em>,<em class="boolean">useBrake</em>)</dt>
+  <dd>让电机转动指定时长。</dd>
+  <dt id="Ev3Motors.RotateInTachoCounts" class="method"><i></i> RotateInTachoCounts(<em class="number">power</em>,<em class="number">tachoCounts</em>,<em class="boolean">useBrake</em>)</dt>
+  <dd>让电机转动指定计数值。</dd>
+  <dt id="Ev3Motors.RotateIndefinitely" class="method"><i></i> RotateIndefinitely(<em class="number">power</em>)</dt>
+  <dd>让电机开始转动。</dd>
+  <dt id="Ev3Motors.RotateSyncInDistance" class="method"><i></i> RotateSyncInDistance(<em class="number">power</em>,<em class="number">distance</em>,<em class="number">turnRatio</em>,<em class="boolean">useBrake</em>)</dt>
+  <dd>让电机以相同速度同步转动指定距离（以厘米为单位）。</dd>
+  <dt id="Ev3Motors.RotateSyncInDuration" class="method"><i></i> RotateSyncInDuration(<em class="number">power</em>,<em class="number">milliseconds</em>,<em class="number">turnRatio</em>,<em class="boolean">useBrake</em>)</dt>
+  <dd>让电机以相同速度同步转动指定时长。</dd>
+  <dt id="Ev3Motors.RotateSyncInTachoCounts" class="method"><i></i> RotateSyncInTachoCounts(<em class="number">power</em>,<em class="number">tachoCounts</em>,<em class="number">turnRatio</em>,<em class="boolean">useBrake</em>)</dt>
+  <dd>让电机以相同速度同步转动指定计数值。</dd>
+  <dt id="Ev3Motors.RotateSyncIndefinitely" class="method"><i></i> RotateSyncIndefinitely(<em class="number">power</em>,<em class="number">turnRatio</em>)</dt>
+  <dd>让电机以相同速度开始同步转动。</dd>
+  <dt id="Ev3Motors.Stop" class="method"><i></i> Stop(<em class="boolean">useBrake</em>)</dt>
+  <dd>停止机器人的电机。</dd>
+  <dt id="Ev3Motors.ToggleDirection" class="method"><i></i> ToggleDirection()</dt>
+  <dd>切换电机的转动方向。</dd>
+</dl>
+
+<h2 id="Ev3Sound">EV3声音播放器（Ev3Sound）</h2>
+
+<p><img src="images/legoMindstormsEv3.png" alt="EV3 组件图标" /></p>
+
+<p>该组件为 LEGO MINDSTORMS EV3 机器人提供高层接口，用于实现声音功能。</p>
+
+<h3 id="Ev3Sound-Properties">属性</h3>
+
+<dl class="properties">
+  <dt id="Ev3Sound.BluetoothClient" class="component"><em>BluetoothClient</em></dt>
+  <dd>指定用于通信的 BluetoothClient 组件。<strong>必须在设计视图中设置</strong>。</dd>
+</dl>
+
+<h3 id="Ev3Sound-Events">事件</h3>
+
+<p class="events">无</p>
+
+<h3 id="Ev3Sound-Methods">方法</h3>
+
+<dl class="methods">
+  <dt id="Ev3Sound.PlayTone" class="method"><i></i> PlayTone(<em class="number">volume</em>,<em class="number">frequency</em>,<em class="number">milliseconds</em>)</dt>
+  <dd>让机器人播放一个音调。</dd>
+  <dt id="Ev3Sound.StopSound" class="method"><i></i> StopSound()</dt>
+  <dd>停止机器人上正在播放的声音。</dd>
+</dl>
+
+<h2 id="Ev3TouchSensor">EV3接触传感器（Ev3TouchSensor）</h2>
+
+<p><img src="images/legoMindstormsEv3.png" alt="EV3 组件图标" /></p>
+
+<p>该组件为 LEGO MINDSTORMS EV3 机器人上的接触传感器提供高层接口。</p>
+
+<h3 id="Ev3TouchSensor-Properties">属性</h3>
+
+<dl class="properties">
+  <dt id="Ev3TouchSensor.BluetoothClient" class="component"><em>BluetoothClient</em></dt>
+  <dd>指定用于通信的 BluetoothClient 组件。<strong>必须在设计视图中设置</strong>。</dd>
+  <dt id="Ev3TouchSensor.PressedEventEnabled" class="boolean"><em>PressedEventEnabled</em></dt>
+  <dd>返回当接触传感器被按下时是否应触发 Pressed 事件。</dd>
+  <dt id="Ev3TouchSensor.ReleasedEventEnabled" class="boolean"><em>ReleasedEventEnabled</em></dt>
+  <dd>指定当接触传感器被松开时是否触发 Released 事件。</dd>
+  <dt id="Ev3TouchSensor.SensorPort" class="text"><em>SensorPort</em></dt>
+  <dd>指定传感器所连接的传感器端口。<strong>必须在设计视图中设置。</strong></dd>
+</dl>
+
+<h3 id="Ev3TouchSensor-Events">事件</h3>
+
+<dl class="events">
+  <dt id="Ev3TouchSensor.Pressed">Pressed()</dt>
+  <dd>当接触传感器被按下时调用。</dd>
+  <dt id="Ev3TouchSensor.Released">Released()</dt>
+  <dd>当接触传感器被按下时调用。</dd>
+</dl>
+
+<h3 id="Ev3TouchSensor-Methods">方法</h3>
+
+<dl class="methods">
+  <dt id="Ev3TouchSensor.IsPressed" class="method returns boolean"><i></i> IsPressed()</dt>
+  <dd>如果接触传感器被按下，则返回 true。</dd>
+</dl>
+
+<h2 id="Ev3UI">EV3界面控制器（Ev3UI）</h2>
+
+<p><img src="images/legoMindstormsEv3.png" alt="EV3 组件图标" /></p>
+
+<p>该组件为 LEGO MINDSTORMS EV3 机器人提供高层接口，用于实现图形功能。</p>
+
+<h3 id="Ev3UI-Properties">属性</h3>
+
+<dl class="properties">
+  <dt id="Ev3UI.BluetoothClient" class="component"><em>BluetoothClient</em></dt>
+  <dd>指定用于通信的 BluetoothClient 组件。<strong>必须在设计视图中设置</strong>。</dd>
+</dl>
+
+<h3 id="Ev3UI-Events">事件</h3>
+
+<p class="events">无</p>
+
+<h3 id="Ev3UI-Methods">方法</h3>
+
+<dl class="methods">
+  <dt id="Ev3UI.DrawCircle" class="method"><i></i> DrawCircle(<em class="number">color</em>,<em class="number">x</em>,<em class="number">y</em>,<em class="number">radius</em>,<em class="boolean">fill</em>)</dt>
+  <dd>在屏幕上绘制一个圆。</dd>
+  <dt id="Ev3UI.DrawIcon" class="method"><i></i> DrawIcon(<em class="number">color</em>,<em class="number">x</em>,<em class="number">y</em>,<em class="number">type</em>,<em class="number">no</em>)</dt>
+  <dd>在屏幕上绘制一个内置图标。</dd>
+  <dt id="Ev3UI.DrawLine" class="method"><i></i> DrawLine(<em class="number">color</em>,<em class="number">x1</em>,<em class="number">y1</em>,<em class="number">x2</em>,<em class="number">y2</em>)</dt>
+  <dd>在屏幕上绘制一条线段。</dd>
+  <dt id="Ev3UI.DrawPoint" class="method"><i></i> DrawPoint(<em class="number">color</em>,<em class="number">x</em>,<em class="number">y</em>)</dt>
+  <dd>在屏幕上绘制一个点。</dd>
+  <dt id="Ev3UI.DrawRect" class="method"><i></i> DrawRect(<em class="number">color</em>,<em class="number">x</em>,<em class="number">y</em>,<em class="number">width</em>,<em class="number">height</em>,<em class="boolean">fill</em>)</dt>
+  <dd>在屏幕上绘制一个矩形。</dd>
+  <dt id="Ev3UI.FillScreen" class="method"><i></i> FillScreen(<em class="number">color</em>)</dt>
+  <dd>用一种颜色填充屏幕。</dd>
+</dl>
+
+<h2 id="Ev3UltrasonicSensor">EV3超声波传感器（Ev3UltrasonicSensor）</h2>
+
+<p><img src="images/legoMindstormsEv3.png" alt="EV3 组件图标" /></p>
+
+<p>该组件为 LEGO MINDSTORMS EV3 机器人上的超声波传感器提供高层接口。</p>
+
+<h3 id="Ev3UltrasonicSensor-Properties">属性</h3>
+
+<dl class="properties">
+  <dt id="Ev3UltrasonicSensor.AboveRangeEventEnabled" class="boolean"><em>AboveRangeEventEnabled</em></dt>
+  <dd>指定当距离超过 TopOfRange 时是否触发 AboveRange 事件。</dd>
+  <dt id="Ev3UltrasonicSensor.BelowRangeEventEnabled" class="boolean"><em>BelowRangeEventEnabled</em></dt>
+  <dd>指定当距离低于 BottomOfRange 时是否触发 BelowRange 事件。</dd>
+  <dt id="Ev3UltrasonicSensor.BluetoothClient" class="component"><em>BluetoothClient</em></dt>
+  <dd>指定用于通信的 BluetoothClient 组件。<strong>必须在设计视图中设置</strong>。</dd>
+  <dt id="Ev3UltrasonicSensor.BottomOfRange" class="number"><em>BottomOfRange</em></dt>
+  <dd>指定 BelowRange、WithinRange 和 AboveRange 事件所用范围的下限。</dd>
+  <dt id="Ev3UltrasonicSensor.SensorPort" class="text"><em>SensorPort</em></dt>
+  <dd>指定传感器所连接的传感器端口。<strong>必须在设计视图中设置。</strong></dd>
+  <dt id="Ev3UltrasonicSensor.TopOfRange" class="number"><em>TopOfRange</em></dt>
+  <dd>指定 BelowRange、WithinRange 和 AboveRange 事件所用范围的上限。</dd>
+  <dt id="Ev3UltrasonicSensor.Unit" class="text"><em>Unit</em></dt>
+  <dd>返回距离的单位。</dd>
+  <dt id="Ev3UltrasonicSensor.WithinRangeEventEnabled" class="boolean"><em>WithinRangeEventEnabled</em></dt>
+  <dd>指定当距离介于 BottomOfRange 和 TopOfRange 之间时是否触发 WithinRange 事件。</dd>
+</dl>
+
+<h3 id="Ev3UltrasonicSensor-Events">事件</h3>
+
+<dl class="events">
+  <dt id="Ev3UltrasonicSensor.AboveRange">AboveRange()</dt>
+  <dd>当检测到的距离超出范围上限时调用。</dd>
+  <dt id="Ev3UltrasonicSensor.BelowRange">BelowRange()</dt>
+  <dd>当检测到的距离低于范围下限时调用。</dd>
+  <dt id="Ev3UltrasonicSensor.WithinRange">WithinRange()</dt>
+  <dd>当检测到的距离进入范围之内时调用。</dd>
+</dl>
+
+<h3 id="Ev3UltrasonicSensor-Methods">方法</h3>
+
+<dl class="methods">
+  <dt id="Ev3UltrasonicSensor.GetDistance" class="method returns number"><i></i> GetDistance()</dt>
+  <dd>返回当前距离（以厘米为单位），取值为 0 到 254 之间；如果无法读取距离，则返回 -1。</dd>
+</dl>
+
+<h2 id="NxtColorSensor">NXT颜色传感器（NxtColorSensor）</h2>
+
+<p><img src="images/legoMindstormsNxt.png" alt="NXT 组件图标" /></p>
+
+<p>该组件为 LEGO MINDSTORMS NXT 机器人上的颜色传感器提供高层接口。</p>
+
+<h3 id="NxtColorSensor-Properties">属性</h3>
+
+<dl class="properties">
+  <dt id="NxtColorSensor.AboveRangeEventEnabled" class="boolean"><em>AboveRangeEventEnabled</em></dt>
+  <dd>指定当 DetectColor 属性设为 False 且光线强度高于 TopOfRange 时是否触发 AboveRange 事件。</dd>
+  <dt id="NxtColorSensor.BelowRangeEventEnabled" class="boolean"><em>BelowRangeEventEnabled</em></dt>
+  <dd>指定当 DetectColor 属性设为 False 且光线强度低于 BottomOfRange 时是否触发 BelowRange 事件。</dd>
+  <dt id="NxtColorSensor.BluetoothClient" class="component"><em>BluetoothClient</em></dt>
+  <dd>指定用于通信的 BluetoothClient 组件。<strong>必须在设计视图中设置。</strong></dd>
+  <dt id="NxtColorSensor.BottomOfRange" class="number"><em>BottomOfRange</em></dt>
+  <dd>指定 BelowRange、WithinRange 和 AboveRange 事件所用范围的下限。</dd>
+  <dt id="NxtColorSensor.ColorChangedEventEnabled" class="boolean"><em>ColorChangedEventEnabled</em></dt>
+  <dd>指定当 DetectColor 属性设为 True 且检测到的颜色发生变化时，是否触发 ColorChanged 事件</dd>
+  <dt id="NxtColorSensor.DetectColor" class="boolean"><em>DetectColor</em></dt>
+  <dd>指定传感器是检测颜色还是检测光线。True 表示传感器检测颜色；False 表示传感器检测光线。</dd>
+  <dt id="NxtColorSensor.GenerateColor" class="number"><em>GenerateColor</em></dt>
+  <dd>指定传感器应发出的颜色。只有 None、Red、Green、Blue 是有效值。当 DetectColor 属性设为 True 时，传感器不会发出颜色。</dd>
+  <dt id="NxtColorSensor.SensorPort" class="text"><em>SensorPort</em></dt>
+  <dd>指定传感器所连接的传感器端口。<strong>必须在设计视图中设置。</strong></dd>
+  <dt id="NxtColorSensor.TopOfRange" class="number"><em>TopOfRange</em></dt>
+  <dd>指定 BelowRange、WithinRange 和 AboveRange 事件所用范围的上限。</dd>
+  <dt id="NxtColorSensor.WithinRangeEventEnabled" class="boolean"><em>WithinRangeEventEnabled</em></dt>
+  <dd>指定当 DetectColor 属性设为 False 且光线强度介于 BottomOfRange 和 TopOfRange 之间时是否触发 WithinRange 事件。</dd>
+</dl>
+
+<h3 id="NxtColorSensor-Events">事件</h3>
+
+<dl class="events">
+  <dt id="NxtColorSensor.AboveRange">AboveRange()</dt>
+  <dd>光线强度已超出范围上限。如果 DetectColor 属性设为 True，或 AboveRangeEventEnabled 属性设为 False，则不会发生 AboveRange 事件。</dd>
+  <dt id="NxtColorSensor.BelowRange">BelowRange()</dt>
+  <dd>光线强度已低于范围下限。如果 DetectColor 属性设为 True，或 BelowRangeEventEnabled 属性设为 False，则不会发生 BelowRange 事件。</dd>
+  <dt id="NxtColorSensor.ColorChanged">ColorChanged(<em class="number">color</em>)</dt>
+  <dd>检测到的颜色已发生变化。如果 DetectColor 属性设为 False，或 ColorChangedEventEnabled 属性设为 False，则不会发生 ColorChanged 事件。</dd>
+  <dt id="NxtColorSensor.WithinRange">WithinRange()</dt>
+  <dd>光线强度已进入范围之内。如果 DetectColor 属性设为 True，或 WithinRangeEventEnabled 属性设为 False，则不会发生 WithinRange 事件。</dd>
+</dl>
+
+<h3 id="NxtColorSensor-Methods">方法</h3>
+
+<dl class="methods">
+  <dt id="NxtColorSensor.GetColor" class="method returns number"><i></i> GetColor()</dt>
+  <dd>返回当前检测到的颜色；如果无法读取颜色，或 DetectColor 属性设为 False，则返回颜色 None。</dd>
+  <dt id="NxtColorSensor.GetLightLevel" class="method returns number"><i></i> GetLightLevel()</dt>
+  <dd>返回当前光线强度，取值为 0 到 1023 之间；如果无法读取光线强度，或 DetectColor 属性设为 True，则返回 -1。</dd>
+</dl>
+
+<h2 id="NxtDirectCommands">NXT指令发送器（NxtDirectCommands）</h2>
+
+<p><img src="images/legoMindstormsNxt.png" alt="NXT 组件图标" /></p>
+
+<p>该组件为 LEGO MINDSTORMS NXT 机器人提供底层接口，其中的函数用于发送 NXT 直接指令。</p>
+
+<h3 id="NxtDirectCommands-Properties">属性</h3>
+
+<dl class="properties">
+  <dt id="NxtDirectCommands.BluetoothClient" class="component"><em>BluetoothClient</em></dt>
+  <dd>指定用于通信的 BluetoothClient 组件。<strong>必须在设计视图中设置。</strong></dd>
+</dl>
+
+<h3 id="NxtDirectCommands-Events">事件</h3>
+
+<p class="events">无</p>
+
+<h3 id="NxtDirectCommands-Methods">方法</h3>
+
+<dl class="methods">
+  <dt id="NxtDirectCommands.DeleteFile" class="method"><i></i> DeleteFile(<em class="text">fileName</em>)</dt>
+  <dd>删除机器人上的文件。</dd>
+  <dt id="NxtDirectCommands.DownloadFile" class="method"><i></i> DownloadFile(<em class="text">source</em>,<em class="text">destination</em>)</dt>
+  <dd>把文件下载到机器人。</dd>
+</dl>
+
+<p />
+<p>关于路径可以采用哪些形式，请参阅 <a href="#MediaUtil.determineMediaSource"><code class="language-plaintext highlighter-rouge">MediaUtil</code> 的 <code class="language-plaintext highlighter-rouge">determineMediaSource</code></a>。</p>
+
+<dl>
+  <dt id="NxtDirectCommands.GetBatteryLevel" class="method returns number"><i></i> GetBatteryLevel()</dt>
+  <dd>获取机器人的电池电量。返回以毫伏为单位的电压值。</dd>
+  <dt id="NxtDirectCommands.GetBrickName" class="method returns text"><i></i> GetBrickName()</dt>
+  <dd>获取机器人主机的名称。</dd>
+  <dt id="NxtDirectCommands.GetCurrentProgramName" class="method returns text"><i></i> GetCurrentProgramName()</dt>
+  <dd>获取机器人上当前正在运行的程序的名称。</dd>
+  <dt id="NxtDirectCommands.GetFirmwareVersion" class="method returns list"><i></i> GetFirmwareVersion()</dt>
+  <dd>以列表形式返回机器人的固件版本号和协议版本号，其中第一个元素是固件版本号，第二个元素是协议版本号。</dd>
+  <dt id="NxtDirectCommands.GetInputValues" class="method returns list"><i></i> GetInputValues(<em class="text">sensorPortLetter</em>)</dt>
+  <dd>读取机器人上某个输入传感器的值。假定已通过 SetInputMode 配置好传感器类型。</dd>
+  <dt id="NxtDirectCommands.GetOutputState" class="method returns list"><i></i> GetOutputState(<em class="text">motorPortLetter</em>)</dt>
+  <dd>读取机器人上某个电机的输出状态。</dd>
+  <dt id="NxtDirectCommands.KeepAlive" class="method returns number"><i></i> KeepAlive()</dt>
+  <dd>保持连接（Keep Alive）。返回当前的休眠时间上限，以毫秒为单位。</dd>
+  <dt id="NxtDirectCommands.ListFiles" class="method returns list"><i></i> ListFiles(<em class="text">wildcard</em>)</dt>
+  <dd>返回一个列表，其中包含在机器人上找到的匹配文件名。</dd>
+  <dt id="NxtDirectCommands.LsGetStatus" class="method returns number"><i></i> LsGetStatus(<em class="text">sensorPortLetter</em>)</dt>
+  <dd>返回可供读取的字节数。</dd>
+  <dt id="NxtDirectCommands.LsRead" class="method returns list"><i></i> LsRead(<em class="text">sensorPortLetter</em>)</dt>
+  <dd>从机器人上的输入传感器读取无符号低速数据。假定已通过 SetInputMode 配置好传感器类型。</dd>
+  <dt id="NxtDirectCommands.LsWrite" class="method"><i></i> LsWrite(<em class="text">sensorPortLetter</em>,<em class="list">list</em>,<em class="number">rxDataLength</em>)</dt>
+  <dd>向机器人上的输入传感器写入低速数据。假定已通过 SetInputMode 配置好传感器类型。</dd>
+  <dt id="NxtDirectCommands.MessageRead" class="method returns text"><i></i> MessageRead(<em class="number">mailbox</em>)</dt>
+  <dd>从机器人上的邮箱（1-10）读取一条消息。</dd>
+  <dt id="NxtDirectCommands.MessageWrite" class="method"><i></i> MessageWrite(<em class="number">mailbox</em>,<em class="text">message</em>)</dt>
+  <dd>向机器人上的邮箱（1-10）写入一条消息。</dd>
+  <dt id="NxtDirectCommands.PlaySoundFile" class="method"><i></i> PlaySoundFile(<em class="text">fileName</em>)</dt>
+  <dd>在机器人上播放声音文件。</dd>
+  <dt id="NxtDirectCommands.PlayTone" class="method"><i></i> PlayTone(<em class="number">frequencyHz</em>,<em class="number">durationMs</em>)</dt>
+  <dd>让机器人播放一个音调。</dd>
+  <dt id="NxtDirectCommands.ResetInputScaledValue" class="method"><i></i> ResetInputScaledValue(<em class="text">sensorPortLetter</em>)</dt>
+  <dd>重置机器人上输入传感器的缩放值。</dd>
+  <dt id="NxtDirectCommands.ResetMotorPosition" class="method"><i></i> ResetMotorPosition(<em class="text">motorPortLetter</em>,<em class="boolean">relative</em>)</dt>
+  <dd>重置电机位置。</dd>
+  <dt id="NxtDirectCommands.SetBrickName" class="method"><i></i> SetBrickName(<em class="text">name</em>)</dt>
+  <dd>设置机器人主机的名称。</dd>
+  <dt id="NxtDirectCommands.SetInputMode" class="method"><i></i> SetInputMode(<em class="text">sensorPortLetter</em>,<em class="number">sensorType</em>,<em class="number">sensorMode</em>)</dt>
+  <dd>配置机器人上的输入传感器。</dd>
+  <dt id="NxtDirectCommands.SetOutputState" class="method"><i></i> SetOutputState(<em class="text">motorPortLetter</em>,<em class="number">power</em>,<em class="number">mode</em>,<em class="number">regulationMode</em>,<em class="number">turnRatio</em>,<em class="number">runState</em>,<em class="number">tachoLimit</em>)</dt>
+  <dd>设置机器人上某个电机的输出状态。</dd>
+  <dt id="NxtDirectCommands.StartProgram" class="method"><i></i> StartProgram(<em class="text">programName</em>)</dt>
+  <dd>开始执行先前下载到机器人上的程序。</dd>
+  <dt id="NxtDirectCommands.StopProgram" class="method"><i></i> StopProgram()</dt>
+  <dd>停止执行机器人上当前正在运行的程序。</dd>
+  <dt id="NxtDirectCommands.StopSoundPlayback" class="method"><i></i> StopSoundPlayback()</dt>
+  <dd>停止声音播放。</dd>
+</dl>
+
+<h2 id="NxtDrive">NXT电机驱动器（NxtDrive）</h2>
+
+<p><img src="images/legoMindstormsNxt.png" alt="NXT 组件图标" /></p>
+
+<p>该组件为 LEGO MINDSTORMS NXT 机器人提供高层接口，其中的函数可以让机器人移动和转向。</p>
+
+<h3 id="NxtDrive-Properties">属性</h3>
+
+<dl class="properties">
+  <dt id="NxtDrive.BluetoothClient" class="component"><em>BluetoothClient</em></dt>
+  <dd>指定用于通信的 BluetoothClient 组件。<strong>必须在设计视图中设置。</strong></dd>
+  <dt id="NxtDrive.DriveMotors" class="text"><em>DriveMotors</em></dt>
+  <dd>指定用于驱动的电机端口。</dd>
+  <dt id="NxtDrive.StopBeforeDisconnect" class="boolean"><em>StopBeforeDisconnect</em></dt>
+  <dd>指定断开连接前是否停止驱动电机。</dd>
+  <dt id="NxtDrive.WheelDiameter" class="number"><em>WheelDiameter</em></dt>
+  <dd>返回用于驱动的车轮直径。</dd>
+</dl>
+
+<h3 id="NxtDrive-Events">事件</h3>
+
+<p class="events">无</p>
+
+<h3 id="NxtDrive-Methods">方法</h3>
+
+<dl class="methods">
+  <dt id="NxtDrive.MoveBackward" class="method"><i></i> MoveBackward(<em class="number">power</em>,<em class="number">distance</em>)</dt>
+  <dd>以指定的最大功率百分比，通过让两个驱动电机反向转动，使机器人后退指定距离。</dd>
+  <dt id="NxtDrive.MoveBackwardIndefinitely" class="method"><i></i> MoveBackwardIndefinitely(<em class="number">power</em>)</dt>
+  <dd>以指定的最大功率百分比，通过让两个驱动电机反向转动，使机器人持续后退。</dd>
+  <dt id="NxtDrive.MoveForward" class="method"><i></i> MoveForward(<em class="number">power</em>,<em class="number">distance</em>)</dt>
+  <dd>以指定的最大功率百分比，通过让两个驱动电机正向转动，使机器人前进指定距离。</dd>
+  <dt id="NxtDrive.MoveForwardIndefinitely" class="method"><i></i> MoveForwardIndefinitely(<em class="number">power</em>)</dt>
+  <dd>以指定的最大功率百分比，通过让两个驱动电机正向转动，使机器人持续前进。</dd>
+  <dt id="NxtDrive.Stop" class="method"><i></i> Stop()</dt>
+  <dd>停止机器人的驱动电机。</dd>
+  <dt id="NxtDrive.TurnClockwiseIndefinitely" class="method"><i></i> TurnClockwiseIndefinitely(<em class="number">power</em>)</dt>
+  <dd>以指定的最大功率百分比，通过让左驱动电机正向转动、右驱动电机反向转动，使机器人持续顺时针转向。</dd>
+  <dt id="NxtDrive.TurnCounterClockwiseIndefinitely" class="method"><i></i> TurnCounterClockwiseIndefinitely(<em class="number">power</em>)</dt>
+  <dd>以指定的最大功率百分比，通过让右驱动电机正向转动、左驱动电机反向转动，使机器人持续逆时针转向。</dd>
+</dl>
+
+<h2 id="NxtLightSensor">NXT光线传感器（NxtLightSensor）</h2>
+
+<p><img src="images/legoMindstormsNxt.png" alt="NXT 组件图标" /></p>
+
+<p>该组件为 LEGO MINDSTORMS NXT 机器人上的光线传感器提供高层接口。</p>
+
+<h3 id="NxtLightSensor-Properties">属性</h3>
+
+<dl class="properties">
+  <dt id="NxtLightSensor.AboveRangeEventEnabled" class="boolean"><em>AboveRangeEventEnabled</em></dt>
+  <dd>指定当光线强度高于 TopOfRange 时是否触发 AboveRange 事件。</dd>
+  <dt id="NxtLightSensor.BelowRangeEventEnabled" class="boolean"><em>BelowRangeEventEnabled</em></dt>
+  <dd>指定当光线强度低于 BottomOfRange 时是否触发 BelowRange 事件。</dd>
+  <dt id="NxtLightSensor.BluetoothClient" class="component"><em>BluetoothClient</em></dt>
+  <dd>指定用于通信的 BluetoothClient 组件。<strong>必须在设计视图中设置。</strong></dd>
+  <dt id="NxtLightSensor.BottomOfRange" class="number"><em>BottomOfRange</em></dt>
+  <dd>指定 BelowRange、WithinRange 和 AboveRange 事件所用范围的下限。</dd>
+  <dt id="NxtLightSensor.GenerateLight" class="boolean"><em>GenerateLight</em></dt>
+  <dd>指定光线传感器是否发光。</dd>
+  <dt id="NxtLightSensor.SensorPort" class="text"><em>SensorPort</em></dt>
+  <dd>指定传感器所连接的传感器端口。<strong>必须在设计视图中指定。</strong></dd>
+  <dt id="NxtLightSensor.TopOfRange" class="number"><em>TopOfRange</em></dt>
+  <dd>指定 BelowRange、WithinRange 和 AboveRange 事件所用范围的上限。</dd>
+  <dt id="NxtLightSensor.WithinRangeEventEnabled" class="boolean"><em>WithinRangeEventEnabled</em></dt>
+  <dd>指定当光线强度介于 BottomOfRange 和 TopOfRange 之间时是否触发 WithinRange 事件。</dd>
+</dl>
+
+<h3 id="NxtLightSensor-Events">事件</h3>
+
+<dl class="events">
+  <dt id="NxtLightSensor.AboveRange">AboveRange()</dt>
+  <dd>光线强度已超出范围上限。</dd>
+  <dt id="NxtLightSensor.BelowRange">BelowRange()</dt>
+  <dd>光线强度已低于范围下限。</dd>
+  <dt id="NxtLightSensor.WithinRange">WithinRange()</dt>
+  <dd>光线强度已进入范围之内。</dd>
+</dl>
+
+<h3 id="NxtLightSensor-Methods">方法</h3>
+
+<dl class="methods">
+  <dt id="NxtLightSensor.GetLightLevel" class="method returns number"><i></i> GetLightLevel()</dt>
+  <dd>返回当前光线强度，取值为 0 到 1023 之间；如果无法读取光线强度，则返回 -1。</dd>
+</dl>
+
+<h2 id="NxtSoundSensor">NXT声音传感器（NxtSoundSensor）</h2>
+
+<p><img src="images/legoMindstormsNxt.png" alt="NXT 组件图标" /></p>
+
+<p>该组件为 LEGO MINDSTORMS NXT 机器人上的声音传感器提供高层接口。</p>
+
+<h3 id="NxtSoundSensor-Properties">属性</h3>
+
+<dl class="properties">
+  <dt id="NxtSoundSensor.AboveRangeEventEnabled" class="boolean"><em>AboveRangeEventEnabled</em></dt>
+  <dd>指定当声音强度高于 TopOfRange 时是否触发 AboveRange 事件。</dd>
+  <dt id="NxtSoundSensor.BelowRangeEventEnabled" class="boolean"><em>BelowRangeEventEnabled</em></dt>
+  <dd>指定当声音强度低于 BottomOfRange 时是否触发 BelowRange 事件。</dd>
+  <dt id="NxtSoundSensor.BluetoothClient" class="component"><em>BluetoothClient</em></dt>
+  <dd>指定用于通信的 BluetoothClient 组件。<strong>必须在设计视图中设置。</strong></dd>
+  <dt id="NxtSoundSensor.BottomOfRange" class="number"><em>BottomOfRange</em></dt>
+  <dd>指定 BelowRange、WithinRange 和 AboveRange 事件所用范围的下限。</dd>
+  <dt id="NxtSoundSensor.SensorPort" class="text"><em>SensorPort</em></dt>
+  <dd>指定传感器所连接的传感器端口。<strong>必须在设计视图中设置。</strong></dd>
+  <dt id="NxtSoundSensor.TopOfRange" class="number"><em>TopOfRange</em></dt>
+  <dd>指定 BelowRange、WithinRange 和 AboveRange 事件所用范围的上限。</dd>
+  <dt id="NxtSoundSensor.WithinRangeEventEnabled" class="boolean"><em>WithinRangeEventEnabled</em></dt>
+  <dd>指定当声音强度介于 BottomOfRange 和 TopOfRange 之间时是否触发 WithinRange 事件。</dd>
+</dl>
+
+<h3 id="NxtSoundSensor-Events">事件</h3>
+
+<dl class="events">
+  <dt id="NxtSoundSensor.AboveRange">AboveRange()</dt>
+  <dd>声音强度已超出范围上限。</dd>
+  <dt id="NxtSoundSensor.BelowRange">BelowRange()</dt>
+  <dd>声音强度已低于范围下限。</dd>
+  <dt id="NxtSoundSensor.WithinRange">WithinRange()</dt>
+  <dd>声音强度已进入范围之内。</dd>
+</dl>
+
+<h3 id="NxtSoundSensor-Methods">方法</h3>
+
+<dl class="methods">
+  <dt id="NxtSoundSensor.GetSoundLevel" class="method returns number"><i></i> GetSoundLevel()</dt>
+  <dd>返回当前声音强度，取值为 0 到 1023 之间；如果无法读取声音强度，则返回 -1。</dd>
+</dl>
+
+<h2 id="NxtTouchSensor">NXT接触传感器（NxtTouchSensor）</h2>
+
+<p><img src="images/legoMindstormsNxt.png" alt="NXT 组件图标" /></p>
+
+<p>该组件为 LEGO MINDSTORMS NXT 机器人上的接触传感器提供高层接口。</p>
+
+<h3 id="NxtTouchSensor-Properties">属性</h3>
+
+<dl class="properties">
+  <dt id="NxtTouchSensor.BluetoothClient" class="component"><em>BluetoothClient</em></dt>
+  <dd>指定用于通信的 BluetoothClient 组件。<strong>必须在设计视图中设置。</strong></dd>
+  <dt id="NxtTouchSensor.PressedEventEnabled" class="boolean"><em>PressedEventEnabled</em></dt>
+  <dd>指定当接触传感器被按下时是否触发 Pressed 事件。</dd>
+  <dt id="NxtTouchSensor.ReleasedEventEnabled" class="boolean"><em>ReleasedEventEnabled</em></dt>
+  <dd>指定当接触传感器被松开时是否触发 Released 事件。</dd>
+  <dt id="NxtTouchSensor.SensorPort" class="text"><em>SensorPort</em></dt>
+  <dd>指定传感器所连接的传感器端口。<strong>必须在设计视图中设置。</strong></dd>
+</dl>
+
+<h3 id="NxtTouchSensor-Events">事件</h3>
+
+<dl class="events">
+  <dt id="NxtTouchSensor.Pressed">Pressed()</dt>
+  <dd>接触传感器已被按下。</dd>
+  <dt id="NxtTouchSensor.Released">Released()</dt>
+  <dd>接触传感器已被松开。</dd>
+</dl>
+
+<h3 id="NxtTouchSensor-Methods">方法</h3>
+
+<dl class="methods">
+  <dt id="NxtTouchSensor.IsPressed" class="method returns boolean"><i></i> IsPressed()</dt>
+  <dd>如果接触传感器被按下，则返回 true。</dd>
+</dl>
+
+<h2 id="NxtUltrasonicSensor">NXT超声波传感器（NxtUltrasonicSensor）</h2>
+
+<p><img src="images/legoMindstormsNxt.png" alt="NXT 组件图标" /></p>
+
+<p>该组件为 LEGO MINDSTORMS NXT 机器人上的超声波传感器提供高层接口。</p>
+
+<h3 id="NxtUltrasonicSensor-Properties">属性</h3>
+
+<dl class="properties">
+  <dt id="NxtUltrasonicSensor.AboveRangeEventEnabled" class="boolean"><em>AboveRangeEventEnabled</em></dt>
+  <dd>指定当距离超过 TopOfRange 时是否触发 AboveRange 事件。</dd>
+  <dt id="NxtUltrasonicSensor.BelowRangeEventEnabled" class="boolean"><em>BelowRangeEventEnabled</em></dt>
+  <dd>指定当距离低于 BottomOfRange 时是否触发 BelowRange 事件。</dd>
+  <dt id="NxtUltrasonicSensor.BluetoothClient" class="component"><em>BluetoothClient</em></dt>
+  <dd>指定用于通信的 BluetoothClient 组件。<strong>必须在设计视图中设置。</strong></dd>
+  <dt id="NxtUltrasonicSensor.BottomOfRange" class="number"><em>BottomOfRange</em></dt>
+  <dd>指定 BelowRange、WithinRange 和 AboveRange 事件所用范围的下限。</dd>
+  <dt id="NxtUltrasonicSensor.SensorPort" class="text"><em>SensorPort</em></dt>
+  <dd>指定传感器所连接的传感器端口。<strong>必须在设计视图中设置。</strong></dd>
+  <dt id="NxtUltrasonicSensor.TopOfRange" class="number"><em>TopOfRange</em></dt>
+  <dd>指定 BelowRange、WithinRange 和 AboveRange 事件所用范围的上限。</dd>
+  <dt id="NxtUltrasonicSensor.WithinRangeEventEnabled" class="boolean"><em>WithinRangeEventEnabled</em></dt>
+  <dd>指定当距离介于 BottomOfRange 和 TopOfRange 之间时是否触发 WithinRange 事件。</dd>
+</dl>
+
+<h3 id="NxtUltrasonicSensor-Events">事件</h3>
+
+<dl class="events">
+  <dt id="NxtUltrasonicSensor.AboveRange">AboveRange()</dt>
+  <dd>距离已超出范围上限。</dd>
+  <dt id="NxtUltrasonicSensor.BelowRange">BelowRange()</dt>
+  <dd>距离已低于范围下限。</dd>
+  <dt id="NxtUltrasonicSensor.WithinRange">WithinRange()</dt>
+  <dd>距离已进入范围之内。</dd>
+</dl>
+
+<h3 id="NxtUltrasonicSensor-Methods">方法</h3>
+
+<dl class="methods">
+  <dt id="NxtUltrasonicSensor.GetDistance" class="method returns number"><i></i> GetDistance()</dt>
+  <dd>返回当前距离（以厘米为单位），取值为 0 到 254 之间；如果无法读取距离，则返回 -1。</dd>
+</dl>
+
+</article>
+<script>
+  // Handle redirection to documentation based on locale query parameter (if specified)
+  (function() {
+      var locale = window.location.search.match('[&?]locale=([a-zA-Z-]*)');
+      if (locale) {
+          if (locale[1].indexOf('en') === 0) {
+              // English needs to stay at the top level to not break existing links
+              var page = window.location.pathname.split('/');
+              if (page.length === 5) {
+                  page.splice(2, 1);
+              } else {
+                  // already on english
+                  return;
+              }
+              window.location.href = page.join('/');
+          } else {
+              var page = window.location.pathname.split('/');
+              if (page.length === 4) {
+                  page.splice(2, 0, locale[1]);
+              } else if (page[2].toLowerCase() != locale[1].toLowerCase()) {
+                  page[2] = locale[1];
+              } else {
+                  return;  // already on the desired language
+              }
+              // Test that the page exists before redirecting.
+              var xhr = new XMLHttpRequest();
+              xhr.open('HEAD', page.join('/'), false);
+              xhr.onreadystatechange = function() {
+                  if (xhr.readyState == 4) {
+                      if ((xhr.status == 200 || xhr.status == 204)) {
+                          window.location.href = page.join('/');
+                      } else if (xhr.status  >= 400) {
+                          page.splice(2, 1);  // go to english version
+                          window.location.href = page.join('/');
+                      }
+                  }
+              };
+              xhr.send();
+          }
+      }
+  })();
+
+  // Handle embedded documentation in help by removing website template
+  if (window.self !== window.top) {
+      setTimeout(function() {
+          var videos = document.querySelectorAll('video');
+          for (var i = 0; i < videos.length; i++) {
+              if (parseInt(videos[i].getAttribute('width')) > 360) {
+                  var aspect = parseInt(videos[i].getAttribute('height')) / parseInt(videos[i].getAttribute('width'));
+                  videos[i].setAttribute('width', '360');
+                  videos[i].setAttribute('height', '' + (360 * aspect));
+              }
+          }
+          var h1 = document.querySelector('h1');
+          var article = document.querySelector('article');
+          article.insertBefore(h1, article.firstElementChild);
+          document.body.innerHTML = article.outerHTML;
+      });
+  }
+</script>
+
+            </div>
+<script src="../../../static/js/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="../../../static/js/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="../../../static/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+<script async src="../../../static/js/widgets.js" charset="utf-8"></script>
+</div>
+    </body>
+</html>

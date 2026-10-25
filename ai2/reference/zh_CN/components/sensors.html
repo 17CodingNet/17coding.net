@@ -1,0 +1,844 @@
+<!DOCTYPE html>
+
+     一一对应。
+     - 正文（标题/段落/列表/表格/图片 alt/视频说明）译为简体中文；
+     - 顶部导航（MIT logo、"Create Apps!" 按钮、About/Educators/News/Resources/Blogs
+       菜单、Donate 按钮、gcse 搜索框）与底部 MIT 版权页脚（© 声明、CC BY-SA、ToS、
+       Support/Twitter/GitHub/Accessibility）已整块删除：本项目是离线产品，帮助页只在
+       应用内新标签页打开，不应出现通往 MIT 主站的品牌链接与捐赠入口。head 里仅供
+       "Create Apps!" 按钮使用的 gotoappinventor() 脚本一并删除；<title> 与页面 <h1>
+       里的 "MIT " 字样已去掉，正文中作为产品名出现的 "MIT App Inventor" 已改为
+       "App Inventor蔻丁工坊"(zh_CN 语境带蔻丁工坊后缀;版权说明处的 MIT 保留)；
+     - 重定向脚本（<script> 块）按上游原文保留：本项目 blocklyeditor.js 的 _resolveHelpUrl
+       已把 href 直接写成 zh_CN 路径且不带 ?locale=，脚本不会触发；若日后有人手工拼了
+       ?locale=zh_CN 进 URL，file:// 下 sync XHR 会被浏览器拦截，脚本停在"已是目标语言"，
+       不会跳错位置；
+     - /static/ 绝对路径改为相对路径：offline webapp 支持以 file:// 打开，绝对路径会解析到
+       磁盘根目录（file:///static/...）从而 404；
+     - 本地图片/视频按上游同名相对路径复制到本目录，故 src 与上游完全一致；
+     - id= 锚点与块/组件/属性英文名保持上游原文，帮助链接里的 #fragment 才能定位。 -->
+<html lang="zh-CN"><head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="stylesheet" href="../../../static/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="../../../static/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
+    <link href="../../../static/css/fonts.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="../../../static/css/mit_app_inventor.css">
+    <title>传感器</title></head>
+<body class="mit_app_inventor">
+<div class="default-page">
+            <div class="header">
+	        <h1 class="font-weight-bold text-center offset-xl-2 col-xl-8">传感器</h1>
+            </div>
+            <div class="container-fluid">
+                                <article class="documentation">
+<p><a href="index.html">« 返回目录</a></p>
+<h1 id="sensors">传感器</h1>
+
+<p>目录：</p>
+
+<ul>
+  <li><a href="#AccelerometerSensor">加速度传感器（AccelerometerSensor）</a></li>
+  <li><a href="#BarcodeScanner">条码扫描器（BarcodeScanner）</a></li>
+  <li><a href="#Barometer">气压传感器（Barometer）</a></li>
+  <li><a href="#Clock">计时器（Clock）</a></li>
+  <li><a href="#GyroscopeSensor">陀螺仪传感器（GyroscopeSensor）</a></li>
+  <li><a href="#Hygrometer">湿度传感器（Hygrometer）</a></li>
+  <li><a href="#LightSensor">光传感器（LightSensor）</a></li>
+  <li><a href="#LocationSensor">位置传感器（LocationSensor）</a></li>
+  <li><a href="#MagneticFieldSensor">磁场传感器（MagneticFieldSensor）</a></li>
+  <li><a href="#NearField">近场通信传感器（NearField）</a></li>
+  <li><a href="#OrientationSensor">方向传感器（OrientationSensor）</a></li>
+  <li><a href="#Pedometer">计步器（Pedometer）</a></li>
+  <li><a href="#ProximitySensor">接近传感器（ProximitySensor）</a></li>
+  <li><a href="#Thermometer">温度传感器（Thermometer）</a></li>
+</ul>
+
+<h2 id="AccelerometerSensor">加速度传感器（AccelerometerSensor）</h2>
+
+<p>用于检测晃动并以国际单位制（m/s<sup>2</sup>）近似测量三个维度上加速度的非可视组件。三个分量分别为：</p>
+
+<ul>
+  <li><strong>xAccel</strong>：当手机静止于平面上时为 0；手机向右倾斜（即左侧抬起）时为正；手机向左倾斜（即右侧抬起）时为负。</li>
+  <li><strong>yAccel</strong>：当手机静止于平面上时为 0；底部抬起时为正，顶部抬起时为负。</li>
+  <li><strong>zAccel</strong>：等于 -9.8（地球重力加速度，单位为米每平方秒）；当设备静止并与地面平行且屏幕朝上时为 -9.8，垂直于地面时为 0，屏幕朝下时为 +9.8。该值也会因顺着或逆着重力方向加速设备而改变。</li>
+</ul>
+
+<h3 id="AccelerometerSensor-Properties">属性</h3>
+
+<dl class="properties">
+  <dt id="AccelerometerSensor.Available" class="boolean ro bo"><em>Available</em></dt>
+  <dd>返回设备上是否有 <code class="language-plaintext highlighter-rouge">AccelerometerSensor</code> 硬件可用。</dd>
+  <dt id="AccelerometerSensor.Enabled" class="boolean"><em>Enabled</em></dt>
+  <dd>指定传感器是否应生成事件。若为 <code class="language-plaintext logic block highlighter-rouge">true</code>，
+ 传感器将生成事件；否则即使设备被加速或晃动，也不会生成任何事件。</dd>
+  <dt id="AccelerometerSensor.LegacyMode" class="boolean do"><em>LegacyMode</em></dt>
+  <dd>在引入本属性的版本之前，AccelerometerSensor 组件直接原样传递从 Android 系统接收到的传感器值。然而这些值并未针对默认为横屏模式的平板电脑进行补偿，需要 App Inventor蔻丁工坊 程序员自行补偿。但如果自行补偿，在手机等竖屏模式的设备上又会得到错误的结果。现在我们会检测横屏模式的平板电脑并自动执行补偿。但如果您的项目已经在自行补偿，现在就会得到错误的结果。虽然我们推荐的解决方案是更新您的项目，您也可以直接将该属性设为“true”，这样我们的补偿代码就会被停用。注意：我们建议您更新项目，因为在未来的版本中我们可能会移除该属性。</dd>
+  <dt id="AccelerometerSensor.MinimumInterval" class="number"><em>MinimumInterval</em></dt>
+  <dd>指定连续的 <a href="#AccelerometerSensor.Shaking"><code class="language-plaintext highlighter-rouge">Shaking</code></a> 事件之间所需的最小间隔，
+ 以毫秒为单位。
+ 一旦手机开始被晃动，在间隔时间过去之前，后续所有 <a href="#AccelerometerSensor.Shaking"><code class="language-plaintext highlighter-rouge">Shaking</code></a> 事件都会被忽略。</dd>
+  <dt id="AccelerometerSensor.Sensitivity" class="number"><em>Sensitivity</em></dt>
+  <dd>指定加速度计的灵敏度。有效取值为：<code class="language-plaintext highlighter-rouge">1</code>（弱）、<code class="language-plaintext highlighter-rouge">2</code>（中等）
+ 和 <code class="language-plaintext highlighter-rouge">3</code>（强）。</dd>
+  <dt id="AccelerometerSensor.XAccel" class="number ro bo"><em>XAccel</em></dt>
+  <dd>返回 X 维度上的加速度，单位为国际单位制（m/s²）。
+ 传感器必须启用才能返回有意义的值。</dd>
+  <dt id="AccelerometerSensor.YAccel" class="number ro bo"><em>YAccel</em></dt>
+  <dd>返回 Y 维度上的加速度，单位为国际单位制（m/s²）。
+ 传感器必须启用才能返回有意义的值。</dd>
+  <dt id="AccelerometerSensor.ZAccel" class="number ro bo"><em>ZAccel</em></dt>
+  <dd>返回 Z 维度上的加速度，单位为国际单位制（m/s²）。
+ 传感器必须启用才能返回有意义的值。</dd>
+</dl>
+
+<h3 id="AccelerometerSensor-Events">事件</h3>
+
+<dl class="events">
+  <dt id="AccelerometerSensor.AccelerationChanged">AccelerationChanged(<em class="number">xAccel</em>,<em class="number">yAccel</em>,<em class="number">zAccel</em>)</dt>
+  <dd>表示 X、Y 和/或 Z 维度上的加速度发生了变化。</dd>
+  <dt id="AccelerometerSensor.Shaking">Shaking()</dt>
+  <dd>表示设备开始被晃动，或持续处于晃动状态。</dd>
+</dl>
+
+<h3 id="AccelerometerSensor-Methods">方法</h3>
+
+<p class="methods">无</p>
+
+<h2 id="BarcodeScanner">条码扫描器（BarcodeScanner）</h2>
+
+<p>用于扫描二维码并取回结果字符串的组件。</p>
+
+<h3 id="BarcodeScanner-Properties">属性</h3>
+
+<dl class="properties">
+  <dt id="BarcodeScanner.Result" class="text ro bo"><em>Result</em></dt>
+  <dd>获取上一次扫描的文本结果。</dd>
+  <dt id="BarcodeScanner.UseExternalScanner" class="boolean"><em>UseExternalScanner</em></dt>
+  <dd>设置您是否希望使用外部扫描程序，例如
+ Bar Code Scanner。若为 false，则使用集成在 App Inventor 中的
+ ZXing 版本。</dd>
+</dl>
+
+<h3 id="BarcodeScanner-Events">事件</h3>
+
+<dl class="events">
+  <dt id="BarcodeScanner.AfterScan">AfterScan(<em class="text">result</em>)</dt>
+  <dd>表示扫描器已读取到一个（文本）结果，并提供该结果</dd>
+</dl>
+
+<h3 id="BarcodeScanner-Methods">方法</h3>
+
+<dl class="methods">
+  <dt id="BarcodeScanner.DoScan" class="method"><i></i> DoScan()</dt>
+  <dd>使用相机开始条码扫描。扫描完成后，将引发
+ AfterScan 事件。</dd>
+</dl>
+
+<h2 id="Barometer">气压传感器（Barometer）</h2>
+
+<p>物理世界组件，若硬件支持，可测量环境气压。</p>
+
+<h3 id="Barometer-Properties">属性</h3>
+
+<dl class="properties">
+  <dt id="Barometer.AirPressure" class="number ro bo"><em>AirPressure</em></dt>
+  <dd>若传感器可用且已启用，为大气压强，单位为 hPa（毫巴）。</dd>
+  <dt id="Barometer.Available" class="boolean ro bo"><em>Available</em></dt>
+  <dd>指定设备是否具有支持 <code class="language-plaintext highlighter-rouge">Barometer</code> 组件的硬件。</dd>
+  <dt id="Barometer.Enabled" class="boolean"><em>Enabled</em></dt>
+  <dd>指定传感器是否应生成事件。若为 <code class="language-plaintext logic block highlighter-rouge">true</code>，
+ 传感器将生成事件；否则不会生成任何事件。</dd>
+  <dt id="Barometer.RefreshTime" class="number"><em>RefreshTime</em></dt>
+  <dd>请求的两次读数变化上报之间的最小时间间隔，以毫秒为单位。Android 不保证会遵守该请求。在 Gingerbread 之前的设备上设置该属性没有效果。</dd>
+</dl>
+
+<h3 id="Barometer-Events">事件</h3>
+
+<dl class="events">
+  <dt id="Barometer.AirPressureChanged">AirPressureChanged(<em class="number">pressure</em>)</dt>
+  <dd>当检测到气压（以 hPa 为单位提供）发生变化时调用。</dd>
+</dl>
+
+<h3 id="Barometer-Methods">方法</h3>
+
+<p class="methods">无</p>
+
+<h2 id="Clock">计时器（Clock）</h2>
+
+<p><img src="images/clock.png" alt="计时器组件的图像" /></p>
+
+<p>使用手机的内部时钟提供时间点的非可视组件。
+ 它可按设定的固定间隔触发计时器，并执行时间计算、处理和转换。</p>
+
+<p>对日期和时间的操作，例如来自 <a href="userinterface.html#DatePicker"><code class="language-plaintext highlighter-rouge">DatePicker</code></a> 和
+ <a href="userinterface.html#TimePicker"><code class="language-plaintext highlighter-rouge">TimePicker</code></a> 的操作，都通过 Clock 中的方法完成。日期和
+ 时间用 InstantInTime 和 Duration 表示。</p>
+
+<ul>
+  <li><strong>Instant</strong>（时间点）：由年、月、日、时、分、秒组成。可以使用
+<a href="#Clock.MakeInstant"><code class="language-plaintext highlighter-rouge">MakeInstant</code></a>、<a href="#Clock.MakeInstantFromMillis"><code class="language-plaintext highlighter-rouge">MakeInstantFromMillis</code></a> 和
+<a href="#Clock.MakeInstantFromParts"><code class="language-plaintext highlighter-rouge">MakeInstantFromParts</code></a> 方法创建一个时间点。</li>
+  <li><strong>Duration</strong>（时长）：两个时间点之间经过的时间，以毫秒为单位。可通过
+<a href="#Clock.Duration"><code class="language-plaintext highlighter-rouge">Duration</code></a> 方法获取时长。</li>
+</ul>
+
+<p>时间点假定位于设备的本地时区。在时间点与毫秒值之间相互转换时，给定时间点的毫秒值
+ 是在 UTC（格林尼治标准时间）下从 1970 年 1 月 1 日开始计算的。</p>
+
+<p>还提供了将时间点转换为文本的方法。可接受的模式有：空字符串、
+ <code class="language-plaintext highlighter-rouge">MM/dd/YYYY HH:mm:ss a</code> 或 <code class="language-plaintext highlighter-rouge">MMM d, yyyy HH:mm</code>。空字符串将提供默认
+ 格式：对于 <a href="#Clock.FormatDateTime"><code class="language-plaintext highlighter-rouge">FormatDateTime</code></a> 为 <code class="language-plaintext highlighter-rouge">"MMM d, yyyy HH:mm:ss a"</code>，
+ 对于 <a href="#Clock.FormatDate"><code class="language-plaintext highlighter-rouge">FormatDate</code></a> 为 <code class="language-plaintext highlighter-rouge">"MMM d, yyyy"</code>。要查看所有可能的格式，
+ 请参见<a href="https://docs.oracle.com/javase/7/docs/api/java/text/SimpleDateFormat.html">这里</a>。</p>
+
+<p>关于组合日期和时间的说明：若要将一个时间点的日期与另一个时间点的时间组合起来，
+ 例如来自 <a href="userinterface.html#DatePicker"><code class="language-plaintext highlighter-rouge">DatePicker</code></a> 和
+ <a href="userinterface.html#TimePicker"><code class="language-plaintext highlighter-rouge">TimePicker</code></a> 的日期与时间，请将这些部分提取为文本，
+ 再用这些文本创建一个新的时间点。例如：</p>
+
+<p><img src="images/date_and_time_instant.png" alt="组合日期选框与时间选框数据的示例代码块" /></p>
+
+<h3 id="Clock-Properties">属性</h3>
+
+<dl class="properties">
+  <dt id="Clock.TimerAlwaysFires" class="boolean"><em>TimerAlwaysFires</em></dt>
+  <dd>若为 true，即使应用未显示在屏幕上也会触发</dd>
+  <dt id="Clock.TimerEnabled" class="boolean"><em>TimerEnabled</em></dt>
+  <dd>指定是否应运行 <a href="#Clock.Timer"><code class="language-plaintext highlighter-rouge">Timer</code></a> 事件。</dd>
+  <dt id="Clock.TimerInterval" class="number"><em>TimerInterval</em></dt>
+  <dd>指定相邻两次 <a href="#Clock.Timer"><code class="language-plaintext highlighter-rouge">Timer</code></a> 事件之间的间隔。
+
+    <p><strong>注意</strong>：随时间推移可能会出现漂移，而且如果应用或手机上的其他进程正忙，系统可能不会遵守
+ 此处指定的计时。</p>
+  </dd>
+</dl>
+
+<h3 id="Clock-Events">事件</h3>
+
+<dl class="events">
+  <dt id="Clock.Timer">Timer()</dt>
+  <dd>当计时器到点时，会运行 Timer 事件。</dd>
+</dl>
+
+<h3 id="Clock-Methods">方法</h3>
+
+<dl class="methods">
+  <dt id="Clock.AddDays" class="method returns InstantInTime"><i></i> AddDays(<em class="InstantInTime">instant</em>,<em class="number">quantity</em>)</dt>
+  <dd>返回给定时间点之后若干天的时间点。</dd>
+  <dt id="Clock.AddDuration" class="method returns InstantInTime"><i></i> AddDuration(<em class="InstantInTime">instant</em>,<em class="number">quantity</em>)</dt>
+  <dd>返回参数之后若干时长的时间点</dd>
+  <dt id="Clock.AddHours" class="method returns InstantInTime"><i></i> AddHours(<em class="InstantInTime">instant</em>,<em class="number">quantity</em>)</dt>
+  <dd>返回给定时间点之后若干小时的时间点。</dd>
+  <dt id="Clock.AddMinutes" class="method returns InstantInTime"><i></i> AddMinutes(<em class="InstantInTime">instant</em>,<em class="number">quantity</em>)</dt>
+  <dd>返回给定时间点之后若干分钟的时间点。</dd>
+  <dt id="Clock.AddMonths" class="method returns InstantInTime"><i></i> AddMonths(<em class="InstantInTime">instant</em>,<em class="number">quantity</em>)</dt>
+  <dd>返回给定时间点之后若干个月的时间点。</dd>
+  <dt id="Clock.AddSeconds" class="method returns InstantInTime"><i></i> AddSeconds(<em class="InstantInTime">instant</em>,<em class="number">quantity</em>)</dt>
+  <dd>返回给定时间点之后若干秒的时间点。</dd>
+  <dt id="Clock.AddWeeks" class="method returns InstantInTime"><i></i> AddWeeks(<em class="InstantInTime">instant</em>,<em class="number">quantity</em>)</dt>
+  <dd>返回给定时间点之后若干周的时间点。</dd>
+  <dt id="Clock.AddYears" class="method returns InstantInTime"><i></i> AddYears(<em class="InstantInTime">instant</em>,<em class="number">quantity</em>)</dt>
+  <dd>返回给定时间点之后若干年的时间点。</dd>
+  <dt id="Clock.DayOfMonth" class="method returns number"><i></i> DayOfMonth(<em class="InstantInTime">instant</em>)</dt>
+  <dd>返回月份中的第几天。</dd>
+  <dt id="Clock.Duration" class="method returns number"><i></i> Duration(<em class="InstantInTime">start</em>,<em class="InstantInTime">end</em>)</dt>
+  <dd>返回 end 在 start 之后经过的毫秒数（正或负）</dd>
+  <dt id="Clock.DurationToDays" class="method returns number"><i></i> DurationToDays(<em class="number">duration</em>)</dt>
+  <dd>返回由毫秒转换为天的时长。</dd>
+  <dt id="Clock.DurationToHours" class="method returns number"><i></i> DurationToHours(<em class="number">duration</em>)</dt>
+  <dd>返回由毫秒转换为小时的时长。</dd>
+  <dt id="Clock.DurationToMinutes" class="method returns number"><i></i> DurationToMinutes(<em class="number">duration</em>)</dt>
+  <dd>返回由毫秒转换为分钟的时长。</dd>
+  <dt id="Clock.DurationToSeconds" class="method returns number"><i></i> DurationToSeconds(<em class="number">duration</em>)</dt>
+  <dd>返回由毫秒转换为秒的时长。</dd>
+  <dt id="Clock.DurationToWeeks" class="method returns number"><i></i> DurationToWeeks(<em class="number">duration</em>)</dt>
+  <dd>返回由毫秒转换为周的时长。</dd>
+  <dt id="Clock.FormatDate" class="method returns text"><i></i> FormatDate(<em class="InstantInTime">instant</em>,<em class="text">pattern</em>)</dt>
+  <dd>使用指定的模式将时间点转换并格式化为日期字符串。要详细了解有效的模式，请参见
+ <a href="https://developer.android.com/reference/java/text/SimpleDateFormat">SimpleDateFormat</a>。</dd>
+  <dt id="Clock.FormatDateTime" class="method returns text"><i></i> FormatDateTime(<em class="InstantInTime">instant</em>,<em class="text">pattern</em>)</dt>
+  <dd>使用指定的模式将时间点转换并格式化为日期和时间字符串。
+ 要详细了解有效的模式，请参见
+ <a href="https://developer.android.com/reference/java/text/SimpleDateFormat">SimpleDateFormat</a>。</dd>
+  <dt id="Clock.FormatTime" class="method returns text"><i></i> FormatTime(<em class="InstantInTime">instant</em>)</dt>
+  <dd>使用指定的模式将给定的时间点转换并格式化为字符串。要详细了解有效的模式，请参见
+ <a href="https://developer.android.com/reference/java/text/SimpleDateFormat">SimpleDateFormat</a>。</dd>
+  <dt id="Clock.GetMillis" class="method returns number"><i></i> GetMillis(<em class="InstantInTime">instant</em>)</dt>
+  <dd>返回时间点，以自 1970 年以来的毫秒数表示。</dd>
+  <dt id="Clock.Hour" class="method returns number"><i></i> Hour(<em class="InstantInTime">instant</em>)</dt>
+  <dd>返回给定日期的小时数。</dd>
+  <dt id="Clock.MakeDate" class="method returns InstantInTime"><i></i> MakeDate(<em class="number">year</em>,<em class="number">month</em>,<em class="number">day</em>)</dt>
+  <dd>返回由 UTC 下的年、月、日指定的时间点。
+month 字段的有效取值为 1-12，day 字段的有效取值为 1-31。</dd>
+  <dt id="Clock.MakeInstant" class="method returns InstantInTime"><i></i> MakeInstant(<em class="text">from</em>)</dt>
+  <dd>返回由 MM/dd/YYYY hh:mm:ss、MM/dd/YYYY 或 hh:mm 指定的时间点。</dd>
+  <dt id="Clock.MakeInstantFromMillis" class="method returns InstantInTime"><i></i> MakeInstantFromMillis(<em class="number">millis</em>)</dt>
+  <dd>返回由 UTC 下自 1970 年以来的毫秒数指定的时间点。</dd>
+  <dt id="Clock.MakeInstantFromParts" class="method returns InstantInTime"><i></i> MakeInstantFromParts(<em class="number">year</em>,<em class="number">month</em>,<em class="number">day</em>,<em class="number">hour</em>,<em class="number">minute</em>,<em class="number">second</em>)</dt>
+  <dd>返回由 UTC 下的年、月、日、时、分、秒指定的时间点。</dd>
+  <dt id="Clock.MakeTime" class="method returns InstantInTime"><i></i> MakeTime(<em class="number">hour</em>,<em class="number">minute</em>,<em class="number">second</em>)</dt>
+  <dd>返回由 UTC 下的时、分、秒指定的时间点。</dd>
+  <dt id="Clock.Minute" class="method returns number"><i></i> Minute(<em class="InstantInTime">instant</em>)</dt>
+  <dd>返回给定日期的分钟数。</dd>
+  <dt id="Clock.Month" class="method returns number"><i></i> Month(<em class="InstantInTime">instant</em>)</dt>
+  <dd>返回给定时间点的月份数字。</dd>
+  <dt id="Clock.MonthName" class="method returns text"><i></i> MonthName(<em class="InstantInTime">instant</em>)</dt>
+  <dd>返回给定时间点的月份名称。</dd>
+  <dt id="Clock.Now" class="method returns InstantInTime"><i></i> Now()</dt>
+  <dd>返回从手机时钟读取的当前时间点。</dd>
+  <dt id="Clock.Second" class="method returns number"><i></i> Second(<em class="InstantInTime">instant</em>)</dt>
+  <dd>返回给定时间点的秒数。</dd>
+  <dt id="Clock.SystemTime" class="method returns number"><i></i> SystemTime()</dt>
+  <dd>返回手机的内部时间。</dd>
+  <dt id="Clock.Weekday" class="method returns number"><i></i> Weekday(<em class="InstantInTime">instant</em>)</dt>
+  <dd>返回给定时间点的星期。</dd>
+  <dt id="Clock.WeekdayName" class="method returns text"><i></i> WeekdayName(<em class="InstantInTime">instant</em>)</dt>
+  <dd>返回给定时间点的星期名称。</dd>
+  <dt id="Clock.Year" class="method returns number"><i></i> Year(<em class="InstantInTime">instant</em>)</dt>
+  <dd>返回给定时间点的年份。</dd>
+</dl>
+
+<h2 id="GyroscopeSensor">陀螺仪传感器（GyroscopeSensor）</h2>
+
+<p>提供设备陀螺仪传感器数据的组件。</p>
+
+<h3 id="GyroscopeSensor-Properties">属性</h3>
+
+<dl class="properties">
+  <dt id="GyroscopeSensor.Available" class="boolean ro bo"><em>Available</em></dt>
+  <dd>表示是否有可用的陀螺仪传感器。</dd>
+  <dt id="GyroscopeSensor.Enabled" class="boolean"><em>Enabled</em></dt>
+  <dd>Enabled 属性的取值方法。</dd>
+  <dt id="GyroscopeSensor.XAngularVelocity" class="number ro bo"><em>XAngularVelocity</em></dt>
+  <dd>绕 X 轴的角速度，单位为度每秒。</dd>
+  <dt id="GyroscopeSensor.YAngularVelocity" class="number ro bo"><em>YAngularVelocity</em></dt>
+  <dd>绕 Y 轴的角速度，单位为度每秒。</dd>
+  <dt id="GyroscopeSensor.ZAngularVelocity" class="number ro bo"><em>ZAngularVelocity</em></dt>
+  <dd>绕 Z 轴的角速度，单位为度每秒。</dd>
+</dl>
+
+<h3 id="GyroscopeSensor-Events">事件</h3>
+
+<dl class="events">
+  <dt id="GyroscopeSensor.GyroscopeChanged">GyroscopeChanged(<em class="number">xAngularVelocity</em>,<em class="number">yAngularVelocity</em>,<em class="number">zAngularVelocity</em>,<em class="number">timestamp</em>)</dt>
+  <dd>表示陀螺仪传感器数据已发生变化。timestamp 参数是事件发生的时间，以纳秒为单位。</dd>
+</dl>
+
+<h3 id="GyroscopeSensor-Methods">方法</h3>
+
+<p class="methods">无</p>
+
+<h2 id="Hygrometer">湿度传感器（Hygrometer）</h2>
+
+<p>物理世界组件，若硬件支持，可测量环境的相对空气
+ 湿度。</p>
+
+<h3 id="Hygrometer-Properties">属性</h3>
+
+<dl class="properties">
+  <dt id="Hygrometer.Available" class="boolean ro bo"><em>Available</em></dt>
+  <dd>指定设备是否具有支持 <code class="language-plaintext highlighter-rouge">Hygrometer</code> 组件的硬件。</dd>
+  <dt id="Hygrometer.Enabled" class="boolean"><em>Enabled</em></dt>
+  <dd>指定传感器是否应生成事件。若为 <code class="language-plaintext logic block highlighter-rouge">true</code>，
+ 传感器将生成事件；否则不会生成任何事件。</dd>
+  <dt id="Hygrometer.Humidity" class="number ro bo"><em>Humidity</em></dt>
+  <dd>以百分比形式返回环境的相对湿度。
+ 传感器必须启用且可用，
+ 才能返回有意义的值。</dd>
+  <dt id="Hygrometer.RefreshTime" class="number"><em>RefreshTime</em></dt>
+  <dd>请求的两次读数变化上报之间的最小时间间隔，以毫秒为单位。Android 不保证会遵守该请求。在 Gingerbread 之前的设备上设置该属性没有效果。</dd>
+</dl>
+
+<h3 id="Hygrometer-Events">事件</h3>
+
+<dl class="events">
+  <dt id="Hygrometer.HumidityChanged">HumidityChanged(<em class="number">humidity</em>)</dt>
+  <dd>表示相对湿度发生了变化。</dd>
+</dl>
+
+<h3 id="Hygrometer-Methods">方法</h3>
+
+<p class="methods">无</p>
+
+<h2 id="LightSensor">光传感器（LightSensor）</h2>
+
+<p>物理世界组件，可测量光照强度。</p>
+
+<h3 id="LightSensor-Properties">属性</h3>
+
+<dl class="properties">
+  <dt id="LightSensor.Available" class="boolean ro bo"><em>Available</em></dt>
+  <dd>指定设备是否具有支持 <code class="language-plaintext highlighter-rouge">LightSensor</code> 组件的硬件。</dd>
+  <dt id="LightSensor.AverageLux" class="number ro bo"><em>AverageLux</em></dt>
+  <dd>通过对最近 10 次测量值取平均，返回以勒克斯（lux）为单位的亮度。
+ 传感器必须启用且可用，才能返回有意义的值。</dd>
+  <dt id="LightSensor.Enabled" class="boolean"><em>Enabled</em></dt>
+  <dd>指定传感器是否应生成事件。若为 <code class="language-plaintext logic block highlighter-rouge">true</code>，
+ 传感器将生成事件；否则不会生成任何事件。</dd>
+  <dt id="LightSensor.Lux" class="number ro bo"><em>Lux</em></dt>
+  <dd>返回最近一次测量的亮度，以勒克斯（lux）为单位。
+ 传感器必须启用且可用，才能返回有意义的值。</dd>
+  <dt id="LightSensor.RefreshTime" class="number"><em>RefreshTime</em></dt>
+  <dd>请求的两次读数变化上报之间的最小时间间隔，以毫秒为单位。Android 不保证会遵守该请求。在 Gingerbread 之前的设备上设置该属性没有效果。</dd>
+</dl>
+
+<h3 id="LightSensor-Events">事件</h3>
+
+<dl class="events">
+  <dt id="LightSensor.LightChanged">LightChanged(<em class="number">lux</em>)</dt>
+  <dd>表示光照强度发生了变化。</dd>
+</dl>
+
+<h3 id="LightSensor-Methods">方法</h3>
+
+<p class="methods">无</p>
+
+<h2 id="LocationSensor">位置传感器（LocationSensor）</h2>
+
+<p>提供位置信息的非可视组件，包括 <a href="#LocationSensor.Latitude"><code class="language-plaintext highlighter-rouge">Latitude</code></a>、
+ <a href="#LocationSensor.Longitude"><code class="language-plaintext highlighter-rouge">Longitude</code></a>、<a href="#LocationSensor.Altitude"><code class="language-plaintext highlighter-rouge">Altitude</code></a>（如果设备支持）、速度（如果设备支持）
+ 和地址。该组件还可以执行“地理编码”，将给定的地址（不一定是当前位置）转换为纬度（使用
+ <a href="#LocationSensor.LatitudeFromAddress"><code class="language-plaintext highlighter-rouge">LatitudeFromAddress</code></a> 方法）和经度（使用 <a href="#LocationSensor.LongitudeFromAddress"><code class="language-plaintext highlighter-rouge">LongitudeFromAddress</code></a> 方法）。</p>
+
+<p>要使其正常工作，组件的 <a href="#LocationSensor.Enabled"><code class="language-plaintext highlighter-rouge">Enabled</code></a> 属性必须设为
+ <code class="language-plaintext logic block highlighter-rouge">true</code>，并且设备必须通过无线网络或 GPS 卫星（如果在户外）启用位置感应。</p>
+
+<p>应用启动时位置信息可能不会立即可用。您需要等待一小段时间，直到找到并使用某个位置
+ 提供程序，或者等待 <a href="#LocationSensor.LocationChanged"><code class="language-plaintext highlighter-rouge">LocationChanged</code></a> 事件。</p>
+
+<p>模拟器并不会在所有设备上模拟传感器。代码应在真实设备上进行测试。</p>
+
+<h3 id="LocationSensor-Properties">属性</h3>
+
+<dl class="properties">
+  <dt id="LocationSensor.Accuracy" class="number ro bo"><em>Accuracy</em></dt>
+  <dd>根据卫星、基站及其他用于估算位置的数据的质量，<code class="language-plaintext highlighter-rouge">LocationSensor</code> 能够以不同的置信度
+ 定位设备。<code class="language-plaintext highlighter-rouge">Accuracy</code> 值是以米为单位的半径，围绕传感器检测到的位置。设备
+ 有 68% 的概率位于该半径之内。位置检测越精确，精度数值就越小，应用也就
+ 越能确信设备的实际位置。
+
+    <p>如果精度未知，返回值为 0.0</p>
+  </dd>
+  <dt id="LocationSensor.Altitude" class="number ro bo"><em>Altitude</em></dt>
+  <dd>设备的海拔高度，以米为单位（如果可用）。
+
+    <p>海拔高度是从
+ <a href="https://gisgeography.com/wgs84-world-geodetic-system/">World Geodetic System 84 参考椭球体</a>
+ 起算的，而不是从海平面起算。</p>
+
+    <p>请注意，设备很难精确感知海拔高度。手机/平板电脑报告的海拔高度
+ 很容易出现 30 米或更大的偏差。</p>
+  </dd>
+  <dt id="LocationSensor.AvailableProviders" class="list ro bo"><em>AvailableProviders</em></dt>
+  <dd>可用服务提供程序的列表，例如 gps 或 network。该信息以列表和
+ 文本两种形式提供。</dd>
+  <dt id="LocationSensor.CurrentAddress" class="text ro bo"><em>CurrentAddress</em></dt>
+  <dd>来自 Google 地图数据库的设备实际街道地址。
+
+    <p>提供程序可能并不总能提供地址，而且报告的地址也可能并不总是
+ 设备所在的那栋建筑。</p>
+
+    <p>如果 Google 没有某个特定位置的地址信息，则返回
+ <code class="language-plaintext highlighter-rouge">No address available</code>。</p>
+  </dd>
+  <dt id="LocationSensor.DistanceInterval" class="number"><em>DistanceInterval</em></dt>
+  <dd>确定传感器在发送位置更新时尝试使用的最小距离间隔，以米为单位。例如，若将其设为 50，
+ 则传感器只有在移动超过 50 米后才会引发
+ <a href="#LocationSensor.LocationChanged"><code class="language-plaintext highlighter-rouge">LocationChanged</code></a> 事件。但传感器并不保证恰好按该距离间隔收到更新。
+ 例如，可能需要超过 5 米才会引发一次事件。
+
+    <p>使用该属性时，对照 <a href="#LocationSensor.Accuracy"><code class="language-plaintext highlighter-rouge">Accuracy</code></a> 进行检查也很有用。当您的
+ 设备移动时，检测到的位置的精度会不断变化。</p>
+  </dd>
+  <dt id="LocationSensor.Enabled" class="boolean"><em>Enabled</em></dt>
+  <dd>若为 <code class="language-plaintext logic block highlighter-rouge">true</code>，<code class="language-plaintext highlighter-rouge">LocationSensor</code> 将尝试从 GPS、WiFi 定位
+ 或设备上可用的其他方式读取位置信息。该设置并不控制
+ 位置信息是否实际可用。必须在设备设置中启用或
+ 禁用设备定位。</dd>
+  <dt id="LocationSensor.HasAccuracy" class="boolean ro bo"><em>HasAccuracy</em></dt>
+  <dd>若为 <code class="language-plaintext logic block highlighter-rouge">true</code>，设备可以报告其精度等级。</dd>
+  <dt id="LocationSensor.HasAltitude" class="boolean ro bo"><em>HasAltitude</em></dt>
+  <dd>若为 <code class="language-plaintext logic block highlighter-rouge">true</code>，设备可以报告其海拔高度。</dd>
+  <dt id="LocationSensor.HasLongitudeLatitude" class="boolean ro bo"><em>HasLongitudeLatitude</em></dt>
+  <dd>若为 <code class="language-plaintext logic block highlighter-rouge">true</code>，设备可以报告经度和纬度。二者
+ 总是同时具备或同时不具备。</dd>
+  <dt id="LocationSensor.Latitude" class="number ro bo"><em>Latitude</em></dt>
+  <dd>最近一次可用的纬度值，以度为单位，保留 5 位小数。
+ 如果没有可用值，将返回 0。
+ 纬度是介于 90（北）和 -90（南）之间的值，其中 0 表示赤道。</dd>
+  <dt id="LocationSensor.Longitude" class="number ro bo"><em>Longitude</em></dt>
+  <dd>最近一次可用的经度值，以度为单位，保留 5 位小数。
+ 如果没有可用值，将返回 0。
+ 经度是介于 180（东）和 -180（西）之间的值，其中 0 表示本初子午线。</dd>
+  <dt id="LocationSensor.ProviderLocked" class="boolean bo"><em>ProviderLocked</em></dt>
+  <dd>设备不会更换服务提供程序。
+
+    <p>当当前提供程序无法提供足够的位置信息时，设备可能会切换服务提供程序。
+ <code class="language-plaintext highlighter-rouge">ProviderLocked</code> 是布尔值：true/false。
+ 设为 <code class="language-plaintext logic block highlighter-rouge">true</code> 可阻止提供程序更换。设为 <code class="language-plaintext logic block highlighter-rouge">false</code>
+ 则允许在必要时自动切换。</p>
+  </dd>
+  <dt id="LocationSensor.ProviderName" class="text bo"><em>ProviderName</em></dt>
+  <dd>当前的服务提供程序。该提供程序很可能是 GPS 或 network。</dd>
+  <dt id="LocationSensor.TimeInterval" class="number"><em>TimeInterval</em></dt>
+  <dd>确定传感器在发送位置更新时尝试使用的最小时间间隔，以毫秒为单位。但只有当手机的
+ 位置确实发生变化时才会收到位置更新，且不保证会使用指定的时间间隔。例如，若将
+ 30000 用作时间间隔，则位置更新绝不会快于 30000ms 引发，但可能在之后的任意时刻引发。
+
+    <p>对于大多数设备来说，小于 30000ms（30 秒）的值并不实用。较小的值
+ 可能会耗尽电池电量并使 GPS 过度工作。</p>
+  </dd>
+</dl>
+
+<h3 id="LocationSensor-Events">事件</h3>
+
+<dl class="events">
+  <dt id="LocationSensor.GotAddress">GotAddress(<em class="text">address</em>)</dt>
+  <dd>响应 ReverseGeocode 请求，报告地址。</dd>
+  <dt id="LocationSensor.GotLocationFromAddress">GotLocationFromAddress(<em class="text">address</em>,<em class="number">latitude</em>,<em class="number">longitude</em>)</dt>
+  <dd>响应 Geocode 请求，报告纬度和经度。</dd>
+  <dt id="LocationSensor.LocationChanged">LocationChanged(<em class="number">latitude</em>,<em class="number">longitude</em>,<em class="number">altitude</em>,<em class="number">speed</em>)</dt>
+  <dd>表示检测到了新的位置。速度以米/秒为单位报告，
+ 其他值与其对应属性一致。</dd>
+  <dt id="LocationSensor.StatusChanged">StatusChanged(<em class="text">provider</em>,<em class="text">status</em>)</dt>
+  <dd>表示位置提供程序服务的状态已发生变化，例如某个
+ 提供程序丢失或开始使用新的提供程序。</dd>
+</dl>
+
+<h3 id="LocationSensor-Methods">方法</h3>
+
+<dl class="methods">
+  <dt id="LocationSensor.Geocode" class="method"><i></i> Geocode(<em class="text">address</em>)</dt>
+  <dd>通过 GotLocationFromAddress 事件将地址转换为纬度和经度。</dd>
+  <dt id="LocationSensor.LatitudeFromAddress" class="method returns number"><i></i> LatitudeFromAddress(<em class="text">locationName</em>)</dt>
+  <dd>从给定的 <code class="language-plaintext highlighter-rouge">locationName</code> 推导出纬度。</dd>
+  <dt id="LocationSensor.LongitudeFromAddress" class="method returns number"><i></i> LongitudeFromAddress(<em class="text">locationName</em>)</dt>
+  <dd>从给定的 <code class="language-plaintext highlighter-rouge">locationName</code> 推导出经度。</dd>
+  <dt id="LocationSensor.ReverseGeocode" class="method"><i></i> ReverseGeocode(<em class="number">latitude</em>,<em class="number">longitude</em>)</dt>
+  <dd>确定与给定的纬度和经度关联的地址，并通过 GotAddress 事件报告。</dd>
+</dl>
+
+<h2 id="MagneticFieldSensor">磁场传感器（MagneticFieldSensor）</h2>
+
+<p>用于磁场传感器的组件</p>
+
+<h3 id="MagneticFieldSensor-Properties">属性</h3>
+
+<dl class="properties">
+  <dt id="MagneticFieldSensor.AbsoluteStrength" class="number ro bo"><em>AbsoluteStrength</em></dt>
+  <dd>表示磁场的绝对强度。</dd>
+  <dt id="MagneticFieldSensor.Available" class="boolean ro bo"><em>Available</em></dt>
+  <dd>表示设备中存在磁场传感器且可用。</dd>
+  <dt id="MagneticFieldSensor.Enabled" class="boolean"><em>Enabled</em></dt>
+  <dd>表示磁场传感器是否已启用且正常工作。</dd>
+  <dt id="MagneticFieldSensor.MaximumRange" class="number ro bo"><em>MaximumRange</em></dt>
+  <dd>表示磁传感器能够达到的最大量程。</dd>
+  <dt id="MagneticFieldSensor.XStrength" class="number ro bo"><em>XStrength</em></dt>
+  <dd>表示磁场在 X 轴上的强度。</dd>
+  <dt id="MagneticFieldSensor.YStrength" class="number ro bo"><em>YStrength</em></dt>
+  <dd>表示磁场在 Y 轴上的强度。</dd>
+  <dt id="MagneticFieldSensor.ZStrength" class="number ro bo"><em>ZStrength</em></dt>
+  <dd>表示磁场在 Z 轴上的强度。</dd>
+</dl>
+
+<h3 id="MagneticFieldSensor-Events">事件</h3>
+
+<dl class="events">
+  <dt id="MagneticFieldSensor.MagneticChanged">MagneticChanged(<em class="number">xStrength</em>,<em class="number">yStrength</em>,<em class="number">zStrength</em>,<em class="number">absoluteStrength</em>)</dt>
+  <dd>当磁场发生变化时触发，并在参数中设置新值。</dd>
+</dl>
+
+<h3 id="MagneticFieldSensor-Methods">方法</h3>
+
+<p class="methods">无</p>
+
+<h2 id="NearField">近场通信传感器（NearField）</h2>
+
+<p>提供 NFC 功能的非可视组件。目前该组件仅支持
+ 文本标签的读取和写入（如果设备支持）。</p>
+
+<p>要读取和写入文本标签，组件的 <a href="#NearField.ReadMode"><code class="language-plaintext highlighter-rouge">ReadMode</code></a>
+ 属性必须分别设为 <code class="language-plaintext logic block highlighter-rouge">true</code> 或 <code class="language-plaintext logic block highlighter-rouge">false</code>。</p>
+
+<p><strong>注意：</strong>该组件只能在任何 App Inventor 应用的 Screen1 上工作。</p>
+
+<h3 id="NearField-Properties">属性</h3>
+
+<dl class="properties">
+  <dt id="NearField.LastMessage" class="text ro bo"><em>LastMessage</em></dt>
+  <dd>返回最近一次收到的标签的内容。</dd>
+  <dt id="NearField.ReadMode" class="boolean"><em>ReadMode</em></dt>
+  <dd>指定 NFC 硬件应以读取模式（<code class="language-plaintext logic block highlighter-rouge">true</code>）还是
+ 写入模式（<code class="language-plaintext logic block highlighter-rouge">false</code>）工作。</dd>
+  <dt id="NearField.TextToWrite" class="text bo"><em>TextToWrite</em></dt>
+  <dd>指定在写入模式下将写入标签的内容。若
+ <a href="#NearField.ReadMode"><code class="language-plaintext highlighter-rouge">ReadMode</code></a> 为 <code class="language-plaintext logic block highlighter-rouge">true</code>，该属性没有效果。</dd>
+  <dt id="NearField.WriteType" class="number ro bo"><em>WriteType</em></dt>
+  <dd>返回 NFC 组件的写入类型。对于该组件的这个版本，它始终为
+ <code class="language-plaintext highlighter-rouge">1</code>。</dd>
+</dl>
+
+<h3 id="NearField-Events">事件</h3>
+
+<dl class="events">
+  <dt id="NearField.TagRead">TagRead(<em class="text">message</em>)</dt>
+  <dd>表示检测到了新的标签。
+ 目前这仅是 manifest 中指定的
+ 纯文本标签。</dd>
+  <dt id="NearField.TagWritten">TagWritten()</dt>
+  <dd>表示某个标签进入了 NFC 传感器的范围并已被写入。</dd>
+</dl>
+
+<h3 id="NearField-Methods">方法</h3>
+
+<p class="methods">无</p>
+
+<h2 id="OrientationSensor">方向传感器（OrientationSensor）</h2>
+
+<p><img src="images/orientationsensor.png" alt="方向传感器图标的示例" /></p>
+
+<p>使用方向传感器组件来确定手机的空间方位。</p>
+
+<p>方向传感器是一种非可视组件，以角度为单位报告以下三个值：</p>
+
+<ul>
+  <li><strong>Roll</strong>（翻转角）：当设备水平放置时，其值为 0 度；随着设备向左倾斜抬起，增大到 90 度；
+而当设备向右倾斜抬起时，减小到 −90 度。</li>
+  <li><strong>Pitch</strong>（倾斜角）：当设备水平放置时，其值为 0 度；随着设备倾斜使其顶部朝下，
+增大到 90 度，然后随着继续翻转减小到 0 度。
+类似地，当设备倾斜使其底部朝下时，倾斜角减小到 −90 度，
+然后随着完全翻转过来增大到 0 度。</li>
+  <li><strong>Azimuth</strong>（方位角）：当设备顶部指向正北时为 0 度，指向正东时为 90 度，
+指向正南时为 180 度，指向正西时为 270 度，
+依此类推。</li>
+</ul>
+
+<p>这些测量均假定设备本身不处于移动状态。</p>
+
+<h3 id="OrientationSensor-Properties">属性</h3>
+
+<dl class="properties">
+  <dt id="OrientationSensor.Angle" class="number ro bo"><em>Angle</em></dt>
+  <dd>返回一个角度，表示设备倾斜的方向。也就是说，它表示一个
+ 在设备表面滚动的球所感受到的力的方向。</dd>
+  <dt id="OrientationSensor.Available" class="boolean ro bo"><em>Available</em></dt>
+  <dd>表示设备上是否存在方向传感器。</dd>
+  <dt id="OrientationSensor.Azimuth" class="number ro bo"><em>Azimuth</em></dt>
+  <dd>返回设备的方位角。
+ 要返回有意义的值，必须启用传感器。</dd>
+  <dt id="OrientationSensor.Enabled" class="boolean"><em>Enabled</em></dt>
+  <dd>指定方向传感器是否已启用。</dd>
+  <dt id="OrientationSensor.Magnitude" class="number ro bo"><em>Magnitude</em></dt>
+  <dd>返回一个 0 到 1 之间的数字，表示设备的倾斜程度。
+ 它给出一个在设备表面滚动的球所感受到的力的大小。
+ 若要获取倾斜角度，请使用 <a href="#OrientationSensor.Angle"><code class="language-plaintext highlighter-rouge">Angle</code></a>。</dd>
+  <dt id="OrientationSensor.Pitch" class="number ro bo"><em>Pitch</em></dt>
+  <dd>返回设备的倾斜角。
+ 要返回有意义的值，必须启用传感器。</dd>
+  <dt id="OrientationSensor.Roll" class="number ro bo"><em>Roll</em></dt>
+  <dd>返回设备的翻转角。
+ 要返回有意义的值，必须启用传感器。</dd>
+</dl>
+
+<h3 id="OrientationSensor-Events">事件</h3>
+
+<dl class="events">
+  <dt id="OrientationSensor.OrientationChanged">OrientationChanged(<em class="number">azimuth</em>,<em class="number">pitch</em>,<em class="number">roll</em>)</dt>
+  <dd>当方位发生变化时，会运行 <code class="language-plaintext highlighter-rouge">OrientationChanged</code> 事件处理程序。</dd>
+</dl>
+
+<h3 id="OrientationSensor-Methods">方法</h3>
+
+<p class="methods">无</p>
+
+<h2 id="Pedometer">计步器（Pedometer）</h2>
+
+<p>该组件使用加速度计统计步数。</p>
+
+<h3 id="Pedometer-Properties">属性</h3>
+
+<dl class="properties">
+  <dt id="Pedometer.Distance" class="number ro bo"><em>Distance</em></dt>
+  <dd>返回以米为单位的大致行走距离。</dd>
+  <dt id="Pedometer.ElapsedTime" class="number ro bo"><em>ElapsedTime</em></dt>
+  <dd>返回自计步器启动以来经过的时间，以毫秒为单位。</dd>
+  <dt id="Pedometer.SimpleSteps" class="number ro bo"><em>SimpleSteps</em></dt>
+  <dd>返回自计步器启动以来所走的简单步数。</dd>
+  <dt id="Pedometer.StopDetectionTimeout" class="number"><em>StopDetectionTimeout</em></dt>
+  <dd>返回进入“停止”状态之前所需的静止（未检测到步数）持续时间。</dd>
+  <dt id="Pedometer.StrideLength" class="number"><em>StrideLength</em></dt>
+  <dd>返回当前估算的步幅长度，以米为单位（如果已校准）；否则返回
+ 默认值（0.73 m）。</dd>
+  <dt id="Pedometer.WalkSteps" class="number ro bo"><em>WalkSteps</em></dt>
+  <dd>返回自计步器启动以来所走的行走步数。</dd>
+</dl>
+
+<h3 id="Pedometer-Events">事件</h3>
+
+<dl class="events">
+  <dt id="Pedometer.SimpleStep">SimpleStep(<em class="number">simpleSteps</em>,<em class="number">distance</em>)</dt>
+  <dd>当检测到一个原始步时运行该事件。</dd>
+  <dt id="Pedometer.WalkStep">WalkStep(<em class="number">walkSteps</em>,<em class="number">distance</em>)</dt>
+  <dd>当检测到一个行走步时运行该事件。行走步是指看起来参与向前运动的一步。</dd>
+</dl>
+
+<h3 id="Pedometer-Methods">方法</h3>
+
+<dl class="methods">
+  <dt id="Pedometer.Reset" class="method"><i></i> Reset()</dt>
+  <dd>重置步数计数器、距离测量值和运行时间。</dd>
+  <dt id="Pedometer.Save" class="method"><i></i> Save()</dt>
+  <dd>将计步器状态保存到手机。这样，在使用计步器的应用多次启动之间可以累计步数和距离。不同的应用会有各自保存的状态。</dd>
+  <dt id="Pedometer.Start" class="method"><i></i> Start()</dt>
+  <dd>启动计步器。</dd>
+  <dt id="Pedometer.Stop" class="method"><i></i> Stop()</dt>
+  <dd>停止计步器。</dd>
+</dl>
+
+<h2 id="ProximitySensor">接近传感器（ProximitySensor）</h2>
+
+<p>一种传感器组件，可测量物体相对于设备显示屏幕的接近程度（以 cm 为单位）。该传感器通常
+ 用于判断手机是否正被贴在人的耳朵上，也就是说，它可以让您确定物体距离设备有多远。许多
+ 设备返回以 cm 为单位的绝对距离，但有些设备只返回“近”和“远”两个值。在这种
+ 情况下，传感器通常会在“远”状态报告其最大量程值，在“近”状态报告一个较小的值。
+ 它报告以下值：</p>
+
+<ul>
+  <li><strong>Distance</strong>：物体到设备的距离</li>
+</ul>
+
+<h3 id="ProximitySensor-Properties">属性</h3>
+
+<dl class="properties">
+  <dt id="ProximitySensor.Available" class="boolean ro bo"><em>Available</em></dt>
+  <dd>报告设备是否有接近传感器。</dd>
+  <dt id="ProximitySensor.Distance" class="number ro bo"><em>Distance</em></dt>
+  <dd>返回物体到设备的距离。
+ 传感器必须启用才能返回有意义的值。</dd>
+  <dt id="ProximitySensor.Enabled" class="boolean"><em>Enabled</em></dt>
+  <dd>若为 true，传感器将生成事件；否则不会生成
+ 任何事件。</dd>
+  <dt id="ProximitySensor.KeepRunningWhenOnPause" class="boolean"><em>KeepRunningWhenOnPause</em></dt>
+  <dd>返回 keepRunningWhenOnPause 的值。</dd>
+  <dt id="ProximitySensor.MaximumRange" class="number ro bo"><em>MaximumRange</em></dt>
+  <dd>确定传感器的最大量程。有些接近传感器返回表示“近”或“远”的二值。
+ 在这种情况下，传感器通常会在“远”状态报告
+ 其最大量程值，在“近”状态报告一个较小的值。
+ 通常，“远”状态的值是 &gt; 5 cm，但这会因传感器而异。</dd>
+</dl>
+
+<h3 id="ProximitySensor-Events">事件</h3>
+
+<dl class="events">
+  <dt id="ProximitySensor.ProximityChanged">ProximityChanged(<em class="number">distance</em>)</dt>
+  <dd>当物体到设备的距离（以 cm 为单位）发生变化时触发。</dd>
+</dl>
+
+<h3 id="ProximitySensor-Methods">方法</h3>
+
+<p class="methods">无</p>
+
+<h2 id="Thermometer">温度传感器（Thermometer）</h2>
+
+<p>物理世界组件，若硬件支持，可测量环境气温。</p>
+
+<h3 id="Thermometer-Properties">属性</h3>
+
+<dl class="properties">
+  <dt id="Thermometer.Available" class="boolean ro bo"><em>Available</em></dt>
+  <dd>指定设备是否具有支持 <code class="language-plaintext highlighter-rouge">Thermometer</code> 组件的硬件。</dd>
+  <dt id="Thermometer.Enabled" class="boolean"><em>Enabled</em></dt>
+  <dd>指定传感器是否应生成事件。若为 <code class="language-plaintext logic block highlighter-rouge">true</code>，
+ 传感器将生成事件；否则不会生成任何事件。</dd>
+  <dt id="Thermometer.RefreshTime" class="number"><em>RefreshTime</em></dt>
+  <dd>请求的两次读数变化上报之间的最小时间间隔，以毫秒为单位。Android 不保证会遵守该请求。在 Gingerbread 之前的设备上设置该属性没有效果。</dd>
+  <dt id="Thermometer.Temperature" class="number ro bo"><em>Temperature</em></dt>
+  <dd>返回温度，以摄氏度为单位。
+ 传感器必须启用且可用，
+ 才能返回有意义的值。</dd>
+</dl>
+
+<h3 id="Thermometer-Events">事件</h3>
+
+<dl class="events">
+  <dt id="Thermometer.TemperatureChanged">TemperatureChanged(<em class="number">temperature</em>)</dt>
+  <dd>表示温度发生了变化，以摄氏度为单位提供。</dd>
+</dl>
+
+<h3 id="Thermometer-Methods">方法</h3>
+
+<p class="methods">无</p>
+
+
+</article>
+<script>
+  // Handle redirection to documentation based on locale query parameter (if specified)
+  (function() {
+      var locale = window.location.search.match('[&?]locale=([a-zA-Z-]*)');
+      if (locale) {
+          if (locale[1].indexOf('en') === 0) {
+              // English needs to stay at the top level to not break existing links
+              var page = window.location.pathname.split('/');
+              if (page.length === 5) {
+                  page.splice(2, 1);
+              } else {
+                  // already on english
+                  return;
+              }
+              window.location.href = page.join('/');
+          } else {
+              var page = window.location.pathname.split('/');
+              if (page.length === 4) {
+                  page.splice(2, 0, locale[1]);
+              } else if (page[2].toLowerCase() != locale[1].toLowerCase()) {
+                  page[2] = locale[1];
+              } else {
+                  return;  // already on the desired language
+              }
+              // Test that the page exists before redirecting.
+              var xhr = new XMLHttpRequest();
+              xhr.open('HEAD', page.join('/'), false);
+              xhr.onreadystatechange = function() {
+                  if (xhr.readyState == 4) {
+                      if ((xhr.status == 200 || xhr.status == 204)) {
+                          window.location.href = page.join('/');
+                      } else if (xhr.status  >= 400) {
+                          page.splice(2, 1);  // go to english version
+                          window.location.href = page.join('/');
+                      }
+                  }
+              };
+              xhr.send();
+          }
+      }
+  })();
+
+  // Handle embedded documentation in help by removing website template
+  if (window.self !== window.top) {
+      setTimeout(function() {
+          var videos = document.querySelectorAll('video');
+          for (var i = 0; i < videos.length; i++) {
+              if (parseInt(videos[i].getAttribute('width')) > 360) {
+                  var aspect = parseInt(videos[i].getAttribute('height')) / parseInt(videos[i].getAttribute('width'));
+                  videos[i].setAttribute('width', '360');
+                  videos[i].setAttribute('height', '' + (360 * aspect));
+              }
+          }
+          var h1 = document.querySelector('h1');
+          var article = document.querySelector('article');
+          article.insertBefore(h1, article.firstElementChild);
+          document.body.innerHTML = article.outerHTML;
+      });
+  }
+</script>
+
+            </div>
+<script src="../../../static/js/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="../../../static/js/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="../../../static/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+<script async src="../../../static/js/widgets.js" charset="utf-8"></script>
+</div>
+    </body>
+</html>

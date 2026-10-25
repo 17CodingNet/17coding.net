@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+
+     一一对应。
+     - 正文（标题/段落/列表/表格/图片 alt/视频说明）译为简体中文；
+     - 顶部导航（MIT logo、"Create Apps!" 按钮、About/Educators/News/Resources/Blogs
+       菜单、Donate 按钮、gcse 搜索框）与底部 MIT 版权页脚（© 声明、CC BY-SA、ToS、
+       Support/Twitter/GitHub/Accessibility）已整块删除：本项目是离线产品，帮助页只在
+       应用内新标签页打开，不应出现通往 MIT 主站的品牌链接与捐赠入口。head 里仅供
+       "Create Apps!" 按钮使用的 gotoappinventor() 脚本一并删除；<title> 与页面 <h1>
+       里的 "MIT " 字样已去掉，正文中作为产品名出现的 "MIT App Inventor" 已改为
+       "App Inventor蔻丁工坊"(zh_CN 语境带蔻丁工坊后缀;版权说明处的 MIT 保留)；
+     - 重定向脚本（<script> 块）按上游原文保留：本项目 blocklyeditor.js 的 _resolveHelpUrl
+       已把 href 直接写成 zh_CN 路径且不带 ?locale=，脚本不会触发；若日后有人手工拼了
+       ?locale=zh_CN 进 URL，file:// 下 sync XHR 会被浏览器拦截，脚本停在"已是目标语言"，
+       不会跳错位置；
+     - /static/ 绝对路径改为相对路径：offline webapp 支持以 file:// 打开，绝对路径会解析到
+       磁盘根目录（file:///static/...）从而 404；
+     - 本地图片/视频按上游同名相对路径复制到本目录，故 src 与上游完全一致；
+     - id= 锚点与块/组件/属性英文名保持上游原文，帮助链接里的 #fragment 才能定位。 -->
+<html lang="zh-CN"><head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="stylesheet" href="../../../static/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="../../../static/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
+    <link href="../../../static/css/fonts.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="../../../static/css/mit_app_inventor.css">
+    <title>App Inventor 中的编辑功能</title></head>
+<body class="mit_app_inventor">
+<div class="default-page">
+            <div class="header">
+	        <h1 class="font-weight-bold text-center offset-xl-2 col-xl-8">App Inventor 中的编辑功能</h1>
+            </div>
+            <div class="container-fluid">
+                <article class="documentation">
+<p>从 nb184 版本开始，App Inventor 具备了剪切、复制和粘贴应用设计各部分的能力。本文档介绍这一功能。</p>
+
+<h2 id="manipulating-components">操作组件</h2>
+
+<p>您的应用设计由一个或多个组件构成，这些组件以屏幕（Screen）为根组成树状结构。您可以把组件从设计视图左侧的组件面板拖进来，从而添加组件；也可以在设计视图右侧的属性面板中修改组件属性，从而对组件进行定制。</p>
+
+<h3 id="selecting-components">选择组件</h3>
+
+<p>点击组件即可选中它。从 nb182 版本开始，您可以按住平台对应的按键（Windows/Linux 上是 Ctrl，macOS 上是 Command）再点击其他组件，从而一次选中多个组件。App Inventor 中有时把这一功能称为多选（multiselect）。选中多个组件时，属性面板只会显示这些组件共有的属性。在这种状态下修改某个属性，会同时修改所有选中组件的该属性。</p>
+
+<h3 id="copying-components">复制组件</h3>
+
+<p>选中一个或多个元素后，用平台标准的键盘快捷键复制它们（Windows/Linux 上是 Ctrl+C，macOS 上是 ⌘C）。所选内容会被放到系统剪贴板上。</p>
+
+<p>您也可以使用剪切快捷键（Windows/Linux 上是 Ctrl+X，macOS 上是 ⌘X），把元素复制到剪贴板并立即删除，以便粘贴到别处。</p>
+
+<h3 id="pasting-components">粘贴组件</h3>
+
+<p>把组件复制到剪贴板后，按下粘贴快捷键（Windows/Linux 上是 Ctrl+V，macOS 上是 ⌘V）即可粘贴。复制和粘贴组件时，默认行为是既复制设计部分，也复制行为部分（即代码块）。如果您只想粘贴组件、不复制它的行为，可以在按粘贴组合键时按住 Shift 键。只要按住 Shift 键，App Inventor 就会跳过粘贴代码块这一步。</p>
+
+<p>粘贴时，如果粘贴出来的组件与项目中已有组件重名，App Inventor 会对它重命名。做法是为每个发生冲突的名称计算一个新名称。重命名算法或者给名称添加数字后缀，或者不断递增名称中原有的数字后缀，直到冲突消除。例如，如果您复制一个名为 <code class="language-plaintext highlighter-rouge">ResetButton</code> 的组件，第一次粘贴得到的组件叫 <code class="language-plaintext highlighter-rouge">ResetButton1</code>，第二次粘贴得到的叫 <code class="language-plaintext highlighter-rouge">ResetButton2</code>，依此类推。这些新名称也会被替换到复制出来的代码块里（如果有的话）。</p>
+
+<h2 id="manipulating-blocks">操作代码块</h2>
+
+<p>编程视图用来为应用提供行为逻辑。与设计视图一样，它也支持复制和粘贴代码块。您还可以使用<a href="backpack.html">背包</a>在项目之间转移代码块，或者<a href="download-pngs.html">把代码块下载为图像</a>，把它们分享给别人。</p>
+
+<h3 id="copying-blocks">复制代码块</h3>
+
+<p>要复制代码块，先选中该代码块。按下平台对应的复制快捷键（Windows/Linux 上是 Ctrl+C，macOS 上是 ⌘C）即可复制。在代码块上右键单击（macOS 上是按住 Ctrl 单击）调出上下文菜单，其中也有复制命令。</p>
+
+<h3 id="paste-blocks">粘贴代码块</h3>
+
+<p>要粘贴代码块，按平台对应的粘贴快捷键（Windows/Linux 上是 Ctrl+V，macOS 上是 ⌘V）。在工作区上右键单击（macOS 上是按住 Ctrl 单击）调出上下文菜单，其中也有粘贴命令。</p>
+
+<h2 id="copying-screens">复制屏幕</h2>
+
+<p>App Inventor 允许您复制和粘贴某个屏幕的内容，实际上相当于可以复制屏幕。</p>
+
+<p>要复制屏幕，可以点击屏幕的背景，或者在结构树中选中该屏幕。按复制快捷键复制它。接着新建一个屏幕，在新屏幕中按粘贴快捷键，即可粘贴此前从原屏幕复制的内容。</p>
+
+<h2 id="sharing-designs">分享设计</h2>
+
+<p>由于复制功能会把所选内容放到剪贴板上，因此可以以文本形式分享这些内容，只是格式略显复杂。例如，您可以复制一个组件，把它对应的文本粘贴到文本文档或电子邮件里。别人选中这段文本并复制，再粘贴到 App Inventor 中，就能还原出该组件。这有助于您为应用积累一套设计元素。</p>
+
+</article>
+<script>
+  // Handle redirection to documentation based on locale query parameter (if specified)
+  (function() {
+      var locale = window.location.search.match('[&?]locale=([a-zA-Z-]*)');
+      if (locale) {
+          if (locale[1].indexOf('en') === 0) {
+              // English needs to stay at the top level to not break existing links
+              var page = window.location.pathname.split('/');
+              if (page.length === 5) {
+                  page.splice(2, 1);
+              } else {
+                  // already on english
+                  return;
+              }
+              window.location.href = page.join('/');
+          } else {
+              var page = window.location.pathname.split('/');
+              if (page.length === 4) {
+                  page.splice(2, 0, locale[1]);
+              } else if (page[2].toLowerCase() != locale[1].toLowerCase()) {
+                  page[2] = locale[1];
+              } else {
+                  return;  // already on the desired language
+              }
+              // Test that the page exists before redirecting.
+              var xhr = new XMLHttpRequest();
+              xhr.open('HEAD', page.join('/'), false);
+              xhr.onreadystatechange = function() {
+                  if (xhr.readyState == 4) {
+                      if ((xhr.status == 200 || xhr.status == 204)) {
+                          window.location.href = page.join('/');
+                      } else if (xhr.status  >= 400) {
+                          page.splice(2, 1);  // go to english version
+                          window.location.href = page.join('/');
+                      }
+                  }
+              };
+              xhr.send();
+          }
+      }
+  })();
+
+  // Handle embedded documentation in help by removing website template
+  if (window.self !== window.top) {
+      setTimeout(function() {
+          var videos = document.querySelectorAll('video');
+          for (var i = 0; i < videos.length; i++) {
+              if (parseInt(videos[i].getAttribute('width')) > 360) {
+                  var aspect = parseInt(videos[i].getAttribute('height')) / parseInt(videos[i].getAttribute('width'));
+                  videos[i].setAttribute('width', '360');
+                  videos[i].setAttribute('height', '' + (360 * aspect));
+              }
+          }
+          var h1 = document.querySelector('h1');
+          var article = document.querySelector('article');
+          article.insertBefore(h1, article.firstElementChild);
+          document.body.innerHTML = article.outerHTML;
+      });
+  }
+</script>
+
+            </div>
+<script src="../../../static/js/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="../../../static/js/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="../../../static/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+<script async src="../../../static/js/widgets.js" charset="utf-8"></script>
+</div>
+    </body>
+</html>

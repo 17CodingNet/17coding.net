@@ -1,0 +1,789 @@
+<!DOCTYPE html>
+
+     一一对应。
+     - 正文（标题/段落/列表/表格/图片 alt/视频说明）译为简体中文；
+     - 顶部导航（MIT logo、"Create Apps!" 按钮、About/Educators/News/Resources/Blogs
+       菜单、Donate 按钮、gcse 搜索框）与底部 MIT 版权页脚（© 声明、CC BY-SA、ToS、
+       Support/Twitter/GitHub/Accessibility）已整块删除：本项目是离线产品，帮助页只在
+       应用内新标签页打开，不应出现通往 MIT 主站的品牌链接与捐赠入口。head 里仅供
+       "Create Apps!" 按钮使用的 gotoappinventor() 脚本一并删除；<title> 与页面 <h1>
+       里的 "MIT " 字样已去掉，正文中作为产品名出现的 "MIT App Inventor" 已改为
+       "App Inventor蔻丁工坊"(zh_CN 语境带蔻丁工坊后缀;版权说明处的 MIT 保留)；
+     - 重定向脚本（<script> 块）按上游原文保留：本项目 blocklyeditor.js 的 _resolveHelpUrl
+       已把 href 直接写成 zh_CN 路径且不带 ?locale=，脚本不会触发；若日后有人手工拼了
+       ?locale=zh_CN 进 URL，file:// 下 sync XHR 会被浏览器拦截，脚本停在“已是目标语言”，
+       不会跳错位置；
+     - ../../../static/ 绝对路径改为相对路径：offline webapp 支持以 file:// 打开，绝对路径会解析到
+       磁盘根目录（file://../../../static/...）从而 404；
+     - 本地图片/视频按上游同名相对路径复制到本目录，故 src 与上游完全一致；
+     - id= 锚点与块/组件/属性英文名保持上游原文，帮助链接里的 #fragment 才能定位。 -->
+<html lang="zh-CN"><head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="stylesheet" href="../../../static/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="../../../static/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
+    <link href="../../../static/css/fonts.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="../../../static/css/mit_app_inventor.css">
+    <title>多媒体</title></head>
+<body class="mit_app_inventor">
+<div class="default-page">
+            <div class="header">
+	        <h1 class="font-weight-bold text-center offset-xl-2 col-xl-8">多媒体</h1>
+            </div>
+            <div class="container-fluid">
+                <article class="documentation">
+<p><a href="index.html">« 返回目录</a></p>
+<h1 id="media">多媒体</h1>
+
+<p>目录：</p>
+
+<ul>
+  <li><a href="#Camcorder">摄像机（Camcorder）</a></li>
+  <li><a href="#Camera">照相机（Camera）</a></li>
+  <li><a href="#FilePicker">文件选框（FilePicker）</a></li>
+  <li><a href="#ImagePicker">图片选框（ImagePicker）</a></li>
+  <li><a href="#Player">音频播放器（Player）</a></li>
+  <li><a href="#Sound">音效播放器（Sound）</a></li>
+  <li><a href="#SoundRecorder">录音机（SoundRecorder）</a></li>
+  <li><a href="#SpeechRecognizer">语音识别器（SpeechRecognizer）</a></li>
+  <li><a href="#TextToSpeech">语音合成器（TextToSpeech）</a></li>
+  <li><a href="#Translator">语言翻译器（Translator）</a></li>
+  <li><a href="#VideoPlayer">视频播放器（VideoPlayer）</a></li>
+</ul>
+
+<h2 id="Camcorder">摄像机（Camcorder）</h2>
+
+<p><img src="images/camcorder.png" alt="摄像机图标" /></p>
+
+<p>用于使用设备摄像机录制视频的组件。录制完成后，手机上保存该片段的文件名
+ 可作为 <a href="#Camcorder.AfterRecording"><code class="language-plaintext highlighter-rouge">AfterRecording</code></a> 事件的参数获取。
+ 例如，可以用该文件名设置
+ <a href="#VideoPlayer"><code class="language-plaintext highlighter-rouge">VideoPlayer</code></a> 组件的 Source 属性。</p>
+
+<h3 id="Camcorder-Properties">属性</h3>
+
+<p class="properties">无</p>
+
+<h3 id="Camcorder-Events">事件</h3>
+
+<dl class="events">
+  <dt id="Camcorder.AfterRecording">AfterRecording(<em class="text">clip</em>)</dt>
+  <dd>表示已用摄像机录制了一段视频，并提供所存视频的路径。</dd>
+</dl>
+
+<h3 id="Camcorder-Methods">方法</h3>
+
+<dl class="methods">
+  <dt id="Camcorder.RecordVideo" class="method"><i></i> RecordVideo()</dt>
+  <dd>录制一段视频，然后引发 <a href="#Camcorder.AfterRecording"><code class="language-plaintext highlighter-rouge">AfterRecording</code></a> 事件。</dd>
+</dl>
+
+<h2 id="Camera">照相机（Camera）</h2>
+
+<p><img src="images/camera.png" alt="照相机图标" /></p>
+
+<p>使用照相机组件在手机上拍照。</p>
+
+<p><code class="language-plaintext highlighter-rouge">Camera</code> 是一个非可视组件，它使用设备的照相机拍照。拍照后，
+ 手机上保存该照片的文件路径可作为
+ <a href="#Camera.AfterPicture"><code class="language-plaintext highlighter-rouge">AfterPicture</code></a> 事件的参数获取。例如，该路径可用作
+ <a href="userinterface.html#Image.Picture"><code class="language-plaintext highlighter-rouge">Picture</code></a> 属性，供
+ <a href="userinterface.html3Image"><code class="language-plaintext highlighter-rouge">Image</code></a> 组件使用。</p>
+
+<h3 id="Camera-Properties">属性</h3>
+
+<p class="properties">无</p>
+
+<h3 id="Camera-Events">事件</h3>
+
+<dl class="events">
+  <dt id="Camera.AfterPicture">AfterPicture(<em class="text">image</em>)</dt>
+  <dd>拍照后调用。文本参数 <code class="language-plaintext highlighter-rouge">image</code> 是可用于在手机上
+ 定位该图像的路径。</dd>
+</dl>
+
+<h3 id="Camera-Methods">方法</h3>
+
+<dl class="methods">
+  <dt id="Camera.TakePicture" class="method"><i></i> TakePicture()</dt>
+  <dd>拍摄一张照片，然后引发 <a href="#Camera.AfterPicture"><code class="language-plaintext highlighter-rouge">AfterPicture</code></a> 事件。</dd>
+</dl>
+
+<h2 id="FilePicker">文件选框（FilePicker）</h2>
+
+<p><code>FilePicker</code> 组件是一个类似按钮的组件，用户点击它时
+ 会提示用户从系统中选择一个文件。也可以通过调用它的
+ <a href="media.html#FilePicker.Open" target="_blank">Open</a> 方法
+ 以编程方式打开该选择器。使用 FilePicker 需要 Android 4.4 或更高版本，或 iOS 11 或更高版本。</p>
+
+<h3 id="FilePicker-Properties">属性</h3>
+
+<dl class="properties">
+  <dt id="FilePicker.Action" class="com google appinventor components common FileActionEnum"><em>Action</em></dt>
+  <dd>设置 FilePicker 的期望动作。取值之一：
+
+    <ul>
+      <li>选择文件（Pick Existing File）：打开已有文件</li>
+      <li>选择目录（Pick Directory）：打开已有目录</li>
+      <li>新建文件（Pick New File）：创建新文件用于保存</li>
+    </ul>
+  </dd>
+  <dt id="FilePicker.BackgroundColor" class="color"><em>BackgroundColor</em></dt>
+  <dd>以 alpha-red-green-blue（透明度-红-绿-蓝）整数指定 <code class="language-plaintext highlighter-rouge">FilePicker</code> 的背景色。
+ 如果设置了 <a href="#FilePicker.Image"><code class="language-plaintext highlighter-rouge">Image</code></a>，则在移除该
+ <a href="#FilePicker.Image"><code class="language-plaintext highlighter-rouge">Image</code></a> 之前看不到颜色的变化。</dd>
+  <dt id="FilePicker.Enabled" class="boolean"><em>Enabled</em></dt>
+  <dd>指定 <code class="language-plaintext highlighter-rouge">FilePicker</code> 是否处于活动状态且可点击。</dd>
+  <dt id="FilePicker.FontBold" class="boolean"><em>FontBold</em></dt>
+  <dd>指定 <code class="language-plaintext highlighter-rouge">FilePicker</code> 的文本是否使用粗体。
+ 有些字体不支持粗体。</dd>
+  <dt id="FilePicker.FontItalic" class="boolean"><em>FontItalic</em></dt>
+  <dd>指定 <code class="language-plaintext highlighter-rouge">FilePicker</code> 的文本是否使用斜体。
+ 有些字体不支持斜体。</dd>
+  <dt id="FilePicker.FontSize" class="number"><em>FontSize</em></dt>
+  <dd>指定 <code class="language-plaintext highlighter-rouge">FilePicker</code> 的文本字号，以 sp（缩放无关像素）为单位。</dd>
+  <dt id="FilePicker.FontTypeface" class="text"><em>FontTypeface</em></dt>
+  <dd>以 default、serif、sans
+ serif、monospace 或自定义字体指定 <code class="language-plaintext highlighter-rouge">FilePicker</code> 的文本字体。要添加自定义字体，
+ 请将一个 .ttf 文件上传到项目的媒体资源中。</dd>
+  <dt id="FilePicker.Height" class="number bo"><em>Height</em></dt>
+  <dd>指定 <code class="language-plaintext highlighter-rouge">FilePicker</code> 的垂直高度，以像素为单位。</dd>
+  <dt id="FilePicker.HeightPercent" class="number wo bo"><em>HeightPercent</em></dt>
+  <dd>以 <a href="userinterface.html#Screen.Height"><code class="language-plaintext highlighter-rouge">Screen</code> 的 <code class="language-plaintext highlighter-rouge">Height</code></a> 的百分比形式
+ 指定 <code class="language-plaintext highlighter-rouge">FilePicker</code> 的垂直高度。</dd>
+  <dt id="FilePicker.Image" class="text"><em>Image</em></dt>
+  <dd>指定 <code class="language-plaintext highlighter-rouge">FilePicker</code> 图像的路径。如果同时指定了 <code class="language-plaintext highlighter-rouge">Image</code> 和
+ <a href="#FilePicker.BackgroundColor"><code class="language-plaintext highlighter-rouge">BackgroundColor</code></a>，则只有 <code class="language-plaintext highlighter-rouge">Image</code> 可见。</dd>
+  <dt id="FilePicker.Left" class="number"><em>Left</em></dt>
+  <dd>指定组件左边缘相对于
+ AbsoluteArrangement 的位置。</dd>
+  <dt id="FilePicker.MimeType" class="text"><em>MimeType</em></dt>
+  <dd>设置选择文件时所需的 MIME 类型。</dd>
+  <dt id="FilePicker.Selection" class="text ro bo"><em>Selection</em></dt>
+  <dd>返回选中的文件，可能表示为 content URI。</dd>
+  <dt id="FilePicker.Shape" class="number"><em>Shape</em></dt>
+  <dd>指定 <code class="language-plaintext highlighter-rouge">FilePicker</code> 的形状。本属性的有效取值为 <code class="language-plaintext highlighter-rouge">0</code>（默认）、
+ <code class="language-plaintext highlighter-rouge">1</code>（圆角）、<code class="language-plaintext highlighter-rouge">2</code>（矩形）和 <code class="language-plaintext highlighter-rouge">3</code>（椭圆）。若使用了
+ <a href="#FilePicker.Image"><code class="language-plaintext highlighter-rouge">Image</code></a>，则 <code class="language-plaintext highlighter-rouge">Shape</code> 不可见。</dd>
+  <dt id="FilePicker.ShowFeedback" class="boolean"><em>ShowFeedback</em></dt>
+  <dd>指定当按下带有指定
+ <a href="#FilePicker.Image"><code class="language-plaintext highlighter-rouge">Image</code></a> 的 <code class="language-plaintext highlighter-rouge">FilePicker</code> 时是否显示视觉反馈。</dd>
+  <dt id="FilePicker.Text" class="text"><em>Text</em></dt>
+  <dd>指定 <code class="language-plaintext highlighter-rouge">FilePicker</code> 显示的文本。</dd>
+  <dt id="FilePicker.TextAlignment" class="number"><em>TextAlignment</em></dt>
+  <dd>指定 <code class="language-plaintext highlighter-rouge">FilePicker</code> 文本的对齐方式。有效取值为：
+ <code class="language-plaintext highlighter-rouge">0</code>（正常；例如，当文字从左到右书写时为左对齐）、
+ <code class="language-plaintext highlighter-rouge">1</code>（居中），或
+ <code class="language-plaintext highlighter-rouge">2</code>（相反；例如，当文字从左到右书写时为右对齐）。</dd>
+  <dt id="FilePicker.TextColor" class="color"><em>TextColor</em></dt>
+  <dd>以 alpha-red-green-blue（透明度-红-绿-蓝）整数指定 <code class="language-plaintext highlighter-rouge">FilePicker</code> 的文本颜色。</dd>
+  <dt id="FilePicker.Top" class="number"><em>Top</em></dt>
+  <dd>指定组件上边缘相对于
+ AbsoluteArrangement 的位置。</dd>
+  <dt id="FilePicker.Visible" class="boolean"><em>Visible</em></dt>
+  <dd>指定 <code class="language-plaintext highlighter-rouge">FilePicker</code> 是否在屏幕上可见。若 <code class="language-plaintext highlighter-rouge">FilePicker</code> 正在显示，值为 <code class="language-plaintext logic block highlighter-rouge">true</code>；
+ 若已隐藏，值为 <code class="language-plaintext logic block highlighter-rouge">false</code>。</dd>
+  <dt id="FilePicker.Width" class="number bo"><em>Width</em></dt>
+  <dd>指定 <code class="language-plaintext highlighter-rouge">FilePicker</code> 的水平宽度，以像素为单位。</dd>
+  <dt id="FilePicker.WidthPercent" class="number wo bo"><em>WidthPercent</em></dt>
+  <dd>以 <a href="userinterface.html#Screen.Width"><code class="language-plaintext highlighter-rouge">Screen</code> 的 <code class="language-plaintext highlighter-rouge">Width</code></a> 的百分比形式
+ 指定 <code class="language-plaintext highlighter-rouge">FilePicker</code> 的水平宽度。</dd>
+</dl>
+
+<h3 id="FilePicker-Events">事件</h3>
+
+<dl class="events">
+  <dt id="FilePicker.AfterPicking">AfterPicking()</dt>
+  <dd><code class="language-plaintext highlighter-rouge">FilePicker</code> 活动返回结果并填好相关属性后
+ 要引发的事件。</dd>
+  <dt id="FilePicker.BeforePicking">BeforePicking()</dt>
+  <dd>当 <code class="language-plaintext highlighter-rouge">FilePicker</code> 被点击，或用
+ <a href="#FilePicker.Open"><code class="language-plaintext highlighter-rouge">Open</code></a> 方法显示选择器时要引发的事件。此事件在选择器显示之前发生，
+ 可用于在显示选择器之前做好准备工作。</dd>
+  <dt id="FilePicker.GotFocus">GotFocus()</dt>
+  <dd>表示光标移动到 <code class="language-plaintext highlighter-rouge">FilePicker</code> 上方，现在可以
+ 点击它。</dd>
+  <dt id="FilePicker.LostFocus">LostFocus()</dt>
+  <dd>表示光标从 <code class="language-plaintext highlighter-rouge">FilePicker</code> 上移开，现在
+ 不能再点击它。</dd>
+  <dt id="FilePicker.TouchDown">TouchDown()</dt>
+  <dd>表示 <code class="language-plaintext highlighter-rouge">FilePicker</code> 被按下。</dd>
+  <dt id="FilePicker.TouchUp">TouchUp()</dt>
+  <dd>表示 <code class="language-plaintext highlighter-rouge">FilePicker</code> 已被松开。</dd>
+</dl>
+
+<h3 id="FilePicker-Methods">方法</h3>
+
+<dl class="methods">
+  <dt id="FilePicker.Open" class="method"><i></i> Open()</dt>
+  <dd>打开 <code class="language-plaintext highlighter-rouge">FilePicker</code>，如同用户点击了它。</dd>
+</dl>
+
+<h2 id="ImagePicker">图片选框（ImagePicker）</h2>
+
+<p>一种专用按钮。当用户点按 <code class="language-plaintext highlighter-rouge">ImagePicker</code> 时，会显示设备的图片库，
+ 用户可以从中选择一张图像。选中图像后，它会被保存，
+ <a href="#ImagePicker.Selection"><code class="language-plaintext highlighter-rouge">Selection</code></a> 属性将是存储该图像的文件名。为了不占满存储空间，
+ 最多只保存 10 张图像。选择更多图像时会删除先前的图像，按从最早到最新的顺序删除。</p>
+
+<h3 id="ImagePicker-Properties">属性</h3>
+
+<dl class="properties">
+  <dt id="ImagePicker.BackgroundColor" class="color"><em>BackgroundColor</em></dt>
+  <dd>以 alpha-red-green-blue（透明度-红-绿-蓝）整数指定 <code class="language-plaintext highlighter-rouge">ImagePicker</code> 的背景色。
+ 如果设置了 <a href="#ImagePicker.Image"><code class="language-plaintext highlighter-rouge">Image</code></a>，则在移除该
+ <a href="#ImagePicker.Image"><code class="language-plaintext highlighter-rouge">Image</code></a> 之前看不到颜色的变化。</dd>
+  <dt id="ImagePicker.Enabled" class="boolean"><em>Enabled</em></dt>
+  <dd>指定 <code class="language-plaintext highlighter-rouge">ImagePicker</code> 是否处于活动状态且可点击。</dd>
+  <dt id="ImagePicker.FontBold" class="boolean"><em>FontBold</em></dt>
+  <dd>指定 <code class="language-plaintext highlighter-rouge">ImagePicker</code> 的文本是否使用粗体。
+ 有些字体不支持粗体。</dd>
+  <dt id="ImagePicker.FontItalic" class="boolean"><em>FontItalic</em></dt>
+  <dd>指定 <code class="language-plaintext highlighter-rouge">ImagePicker</code> 的文本是否使用斜体。
+ 有些字体不支持斜体。</dd>
+  <dt id="ImagePicker.FontSize" class="number"><em>FontSize</em></dt>
+  <dd>指定 <code class="language-plaintext highlighter-rouge">ImagePicker</code> 的文本字号，以 sp（缩放无关像素）为单位。</dd>
+  <dt id="ImagePicker.FontTypeface" class="text"><em>FontTypeface</em></dt>
+  <dd>以 default、serif、sans
+ serif、monospace 或自定义字体指定 <code class="language-plaintext highlighter-rouge">ImagePicker</code> 的文本字体。要添加自定义字体，
+ 请将一个 .ttf 文件上传到项目的媒体资源中。</dd>
+  <dt id="ImagePicker.Height" class="number bo"><em>Height</em></dt>
+  <dd>指定 <code class="language-plaintext highlighter-rouge">ImagePicker</code> 的垂直高度，以像素为单位。</dd>
+  <dt id="ImagePicker.HeightPercent" class="number wo bo"><em>HeightPercent</em></dt>
+  <dd>以 <a href="userinterface.html#Screen.Height"><code class="language-plaintext highlighter-rouge">Screen</code> 的 <code class="language-plaintext highlighter-rouge">Height</code></a> 的百分比形式
+ 指定 <code class="language-plaintext highlighter-rouge">ImagePicker</code> 的垂直高度。</dd>
+  <dt id="ImagePicker.Image" class="text"><em>Image</em></dt>
+  <dd>指定 <code class="language-plaintext highlighter-rouge">ImagePicker</code> 图像的路径。如果同时指定了 <code class="language-plaintext highlighter-rouge">Image</code> 和
+ <a href="#ImagePicker.BackgroundColor"><code class="language-plaintext highlighter-rouge">BackgroundColor</code></a>，则只有 <code class="language-plaintext highlighter-rouge">Image</code> 可见。</dd>
+  <dt id="ImagePicker.Left" class="number"><em>Left</em></dt>
+  <dd>指定组件左边缘相对于
+ AbsoluteArrangement 的位置。</dd>
+  <dt id="ImagePicker.Selection" class="text ro bo"><em>Selection</em></dt>
+  <dd>包含所选图像的文件路径。</dd>
+  <dt id="ImagePicker.Shape" class="number"><em>Shape</em></dt>
+  <dd>指定 <code class="language-plaintext highlighter-rouge">ImagePicker</code> 的形状。本属性的有效取值为 <code class="language-plaintext highlighter-rouge">0</code>（默认）、
+ <code class="language-plaintext highlighter-rouge">1</code>（圆角）、<code class="language-plaintext highlighter-rouge">2</code>（矩形）和 <code class="language-plaintext highlighter-rouge">3</code>（椭圆）。若使用了
+ <a href="#ImagePicker.Image"><code class="language-plaintext highlighter-rouge">Image</code></a>，则 <code class="language-plaintext highlighter-rouge">Shape</code> 不可见。</dd>
+  <dt id="ImagePicker.ShowFeedback" class="boolean"><em>ShowFeedback</em></dt>
+  <dd>指定当按下带有指定
+ <a href="#ImagePicker.Image"><code class="language-plaintext highlighter-rouge">Image</code></a> 的 <code class="language-plaintext highlighter-rouge">ImagePicker</code> 时是否显示视觉反馈。</dd>
+  <dt id="ImagePicker.Text" class="text"><em>Text</em></dt>
+  <dd>指定 <code class="language-plaintext highlighter-rouge">ImagePicker</code> 显示的文本。</dd>
+  <dt id="ImagePicker.TextAlignment" class="number"><em>TextAlignment</em></dt>
+  <dd>指定 <code class="language-plaintext highlighter-rouge">ImagePicker</code> 文本的对齐方式。有效取值为：
+ <code class="language-plaintext highlighter-rouge">0</code>（正常；例如，当文字从左到右书写时为左对齐）、
+ <code class="language-plaintext highlighter-rouge">1</code>（居中），或
+ <code class="language-plaintext highlighter-rouge">2</code>（相反；例如，当文字从左到右书写时为右对齐）。</dd>
+  <dt id="ImagePicker.TextColor" class="color"><em>TextColor</em></dt>
+  <dd>以 alpha-red-green-blue（透明度-红-绿-蓝）整数指定 <code class="language-plaintext highlighter-rouge">ImagePicker</code> 的文本颜色。</dd>
+  <dt id="ImagePicker.Top" class="number"><em>Top</em></dt>
+  <dd>指定组件上边缘相对于
+ AbsoluteArrangement 的位置。</dd>
+  <dt id="ImagePicker.Visible" class="boolean"><em>Visible</em></dt>
+  <dd>指定 <code class="language-plaintext highlighter-rouge">ImagePicker</code> 是否在屏幕上可见。若 <code class="language-plaintext highlighter-rouge">ImagePicker</code> 正在显示，值为 <code class="language-plaintext logic block highlighter-rouge">true</code>；
+ 若已隐藏，值为 <code class="language-plaintext logic block highlighter-rouge">false</code>。</dd>
+  <dt id="ImagePicker.Width" class="number bo"><em>Width</em></dt>
+  <dd>指定 <code class="language-plaintext highlighter-rouge">ImagePicker</code> 的水平宽度，以像素为单位。</dd>
+  <dt id="ImagePicker.WidthPercent" class="number wo bo"><em>WidthPercent</em></dt>
+  <dd>以 <a href="userinterface.html#Screen.Width"><code class="language-plaintext highlighter-rouge">Screen</code> 的 <code class="language-plaintext highlighter-rouge">Width</code></a> 的百分比形式
+ 指定 <code class="language-plaintext highlighter-rouge">ImagePicker</code> 的水平宽度。</dd>
+</dl>
+
+<h3 id="ImagePicker-Events">事件</h3>
+
+<dl class="events">
+  <dt id="ImagePicker.AfterPicking">AfterPicking()</dt>
+  <dd><code class="language-plaintext highlighter-rouge">ImagePicker</code> 活动返回结果并填好相关属性后
+ 要引发的事件。</dd>
+  <dt id="ImagePicker.BeforePicking">BeforePicking()</dt>
+  <dd>当 <code class="language-plaintext highlighter-rouge">ImagePicker</code> 被点击，或用
+ <a href="#ImagePicker.Open"><code class="language-plaintext highlighter-rouge">Open</code></a> 方法显示选择器时要引发的事件。此事件在选择器显示之前发生，
+ 可用于在显示选择器之前做好准备工作。</dd>
+  <dt id="ImagePicker.GotFocus">GotFocus()</dt>
+  <dd>表示光标移动到 <code class="language-plaintext highlighter-rouge">ImagePicker</code> 上方，现在可以
+ 点击它。</dd>
+  <dt id="ImagePicker.LostFocus">LostFocus()</dt>
+  <dd>表示光标从 <code class="language-plaintext highlighter-rouge">ImagePicker</code> 上移开，现在
+ 不能再点击它。</dd>
+  <dt id="ImagePicker.TouchDown">TouchDown()</dt>
+  <dd>表示 <code class="language-plaintext highlighter-rouge">ImagePicker</code> 被按下。</dd>
+  <dt id="ImagePicker.TouchUp">TouchUp()</dt>
+  <dd>表示 <code class="language-plaintext highlighter-rouge">ImagePicker</code> 已被松开。</dd>
+</dl>
+
+<h3 id="ImagePicker-Methods">方法</h3>
+
+<dl class="methods">
+  <dt id="ImagePicker.Open" class="method"><i></i> Open()</dt>
+  <dd>打开 <code class="language-plaintext highlighter-rouge">ImagePicker</code>，如同用户点击了它。</dd>
+</dl>
+
+<h2 id="Player">音频播放器（Player）</h2>
+
+<p>播放音频并控制手机振动的多媒体组件。多媒体
+ 文件的名称在 <a href="#Player.Source"><code class="language-plaintext highlighter-rouge">Source</code></a> 属性中指定，该属性可以在设计视图或
+ 编程视图中设置。振动的时长在编程视图中以
+ 毫秒（千分之一秒）为单位指定。</p>
+
+<p>有关支持的音频格式，请参阅
+ <a href="//developer.android.com/guide/appendix/media-formats.html">Android Supported Media Formats</a>。</p>
+
+<p>对于较长的声音文件（例如歌曲），此组件最为合适；而 <a href="#Sound"><code class="language-plaintext highlighter-rouge">Sound</code></a> 组件
+ 对于较短的文件（例如音效）效率更高。</p>
+
+<h3 id="Player-Properties">属性</h3>
+
+<dl class="properties">
+  <dt id="Player.IsPlaying" class="boolean ro bo"><em>IsPlaying</em></dt>
+  <dd>报告媒体是否正在播放。</dd>
+  <dt id="Player.Loop" class="boolean"><em>Loop</em></dt>
+  <dd>如果为真，<code class="language-plaintext highlighter-rouge">Player</code> 会在播放时循环。在播放器正在播放时设置 <code class="language-plaintext highlighter-rouge">Loop</code>
+ 会影响当前正在进行的播放。</dd>
+  <dt id="Player.PlayOnlyInForeground" class="boolean"><em>PlayOnlyInForeground</em></dt>
+  <dd>如果为真（默认选项），<code class="language-plaintext highlighter-rouge">Player</code> 在离开当前屏幕时会暂停播放；
+ 如果为假，则无论当前屏幕是否正在显示，<code class="language-plaintext highlighter-rouge">Player</code> 都会继续播放。</dd>
+  <dt id="Player.Source" class="text"><em>Source</em></dt>
+  <dd>设置音频来源。</dd>
+  <dt id="Player.Volume" class="number"><em>Volume</em></dt>
+  <dd>将音量属性设置为 0 到 100 之间的数字。</dd>
+</dl>
+
+<h3 id="Player-Events">事件</h3>
+
+<dl class="events">
+  <dt id="Player.Completed">Completed()</dt>
+  <dd>表示媒体已播放到结尾</dd>
+  <dt id="Player.OtherPlayerStarted">OtherPlayerStarted()</dt>
+  <dd>当另一个播放器开始播放时（且当前播放器正在播放或
+ 已暂停，但未停止）发出此事件。</dd>
+</dl>
+
+<h3 id="Player-Methods">方法</h3>
+
+<dl class="methods">
+  <dt id="Player.Pause" class="method"><i></i> Pause()</dt>
+  <dd>暂停播放媒体（如果正在播放）。</dd>
+  <dt id="Player.Start" class="method"><i></i> Start()</dt>
+  <dd>播放媒体。如果之前是暂停状态，则恢复播放。
+ 如果之前是停止状态，则从头开始播放。</dd>
+  <dt id="Player.Stop" class="method"><i></i> Stop()</dt>
+  <dd>停止播放媒体，并定位到歌曲开头。</dd>
+  <dt id="Player.Vibrate" class="method"><i></i> Vibrate(<em class="number">milliseconds</em>)</dt>
+  <dd>振动指定的毫秒数。</dd>
+</dl>
+
+<h2 id="Sound">音效播放器（Sound）</h2>
+
+<p>播放声音文件，并可按编程视图中指定的毫秒数（千分之一秒）
+ 选择性地振动的多媒体组件。要播放的声音
+ 文件名可以在设计视图或编程视图中指定。</p>
+
+<p>有关支持的声音文件格式，请参阅
+ <a href="//developer.android.com/guide/appendix/media-formats.html">Android Supported Media Formats</a>。</p>
+
+<p>此 <code class="language-plaintext highlighter-rouge">Sound</code> 组件最适合较短的声音文件（例如音效），而
+ <a href="#Player"><code class="language-plaintext highlighter-rouge">Player</code></a> 组件对于较长的声音（例如歌曲）效率更高。</p>
+
+<h3 id="Sound-Properties">属性</h3>
+
+<dl class="properties">
+  <dt id="Sound.MinimumInterval" class="number"><em>MinimumInterval</em></dt>
+  <dd>指定两次调用 <a href="#Sound.Play"><code class="language-plaintext highlighter-rouge">Play</code></a> 之间所需的最小间隔，单位为
+ 毫秒。
+ 一旦声音开始播放，在时间间隔过去之前，所有后续对 <a href="#Sound.Play"><code class="language-plaintext highlighter-rouge">Play</code></a> 的调用都将被忽略。</dd>
+  <dt id="Sound.Source" class="text"><em>Source</em></dt>
+  <dd>声音文件的名称。只支持某些格式。
+ 参见 http://developer.android.com/guide/appendix/media-formats.html。</dd>
+</dl>
+
+<h3 id="Sound-Events">事件</h3>
+
+<p class="events">无</p>
+
+<h3 id="Sound-Methods">方法</h3>
+
+<dl class="methods">
+  <dt id="Sound.Pause" class="method"><i></i> Pause()</dt>
+  <dd>如果声音正在播放，则暂停播放。</dd>
+  <dt id="Sound.Play" class="method"><i></i> Play()</dt>
+  <dd>播放声音。</dd>
+  <dt id="Sound.Resume" class="method"><i></i> Resume()</dt>
+  <dd>在暂停之后恢复播放声音。</dd>
+  <dt id="Sound.Stop" class="method"><i></i> Stop()</dt>
+  <dd>如果声音正在播放，则停止播放。</dd>
+  <dt id="Sound.Vibrate" class="method"><i></i> Vibrate(<em class="number">millisecs</em>)</dt>
+  <dd>振动指定的毫秒数。</dd>
+</dl>
+
+<h2 id="SoundRecorder">录音机（SoundRecorder）</h2>
+
+<p><img src="images/soundrecorder.png" alt="录音机图标" /></p>
+
+<p>录制音频的多媒体组件。</p>
+
+<h3 id="SoundRecorder-Properties">属性</h3>
+
+<dl class="properties">
+  <dt id="SoundRecorder.SavedRecording" class="text"><em>SavedRecording</em></dt>
+  <dd>指定录音应存储到的文件路径。如果此属性是
+ 空字符串，则开始录音时会自动在适当的位置创建一个文件。如果
+ 此属性不是空字符串，则应指定现有目录中某个文件的完整路径，
+ 包括带 .3gp 扩展名的文件名。</dd>
+</dl>
+
+<h3 id="SoundRecorder-Events">事件</h3>
+
+<dl class="events">
+  <dt id="SoundRecorder.AfterSoundRecorded">AfterSoundRecorded(<em class="text">sound</em>)</dt>
+  <dd>提供新建声音的位置。</dd>
+  <dt id="SoundRecorder.StartedRecording">StartedRecording()</dt>
+  <dd>表示录音机已开始，可以停止。</dd>
+  <dt id="SoundRecorder.StoppedRecording">StoppedRecording()</dt>
+  <dd>表示录音机已停止，可以再次开始。</dd>
+</dl>
+
+<h3 id="SoundRecorder-Methods">方法</h3>
+
+<dl class="methods">
+  <dt id="SoundRecorder.Start" class="method"><i></i> Start()</dt>
+  <dd>开始录音。</dd>
+  <dt id="SoundRecorder.Stop" class="method"><i></i> Stop()</dt>
+  <dd>停止录音。</dd>
+</dl>
+
+<h2 id="SpeechRecognizer">语音识别器（SpeechRecognizer）</h2>
+
+<p><img src="images/speechrecognizer.png" alt="语音识别器图标" /></p>
+
+<p>使用 <code class="language-plaintext highlighter-rouge">SpeechRecognizer</code> 组件倾听用户说话，并利用设备的语音识别功能
+ 把说的内容转换成文本。</p>
+
+<h3 id="SpeechRecognizer-Properties">属性</h3>
+
+<dl class="properties">
+  <dt id="SpeechRecognizer.AvailableCountries" class="list ro bo"><em>AvailableCountries</em></dt>
+  <dd>此设备上可用于
+ SpeechRecognizer 的国家/地区代码列表。这些国家/地区代码取自
+ 所支持的 BCP-47 语言标记的 region 子标记（例如，从 en-US 得到 US）。如果
+ 设备不支持语音识别，或该列表尚未填充，则返回空
+ 列表。</dd>
+  <dt id="SpeechRecognizer.AvailableLanguages" class="list ro bo"><em>AvailableLanguages</em></dt>
+  <dd>此设备上可用于 SpeechRecognizer 的语言列表。
+ 语言以
+ <a href="https://en.wikipedia.org/wiki/IETF_language_tag">BCP-47</a> 语言标记的形式提供，
+ 例如 en-US 和 es-MX。如果设备不支持语音识别，或该列表尚未
+ 填充，则返回空列表。</dd>
+  <dt id="SpeechRecognizer.Language" class="text bo"><em>Language</em></dt>
+  <dd>建议用于识别语音的语言。空字符串（默认值）
+ 将使用系统的默认语言。
+
+    <p>语言用 <a href="https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes">语言标记（language tag）</a>
+   指定，可带可选的区域后缀，例如 en 或 es-MX。所支持的语言集合
+   因设备而异。</p>
+  </dd>
+  <dt id="SpeechRecognizer.Result" class="text ro bo"><em>Result</em></dt>
+  <dd>返回识别器最后生成的文本。</dd>
+  <dt id="SpeechRecognizer.UseLegacy" class="boolean"><em>UseLegacy</em></dt>
+  <dd>如果为真，则使用单独的对话框来识别语音（默认）。如果为假，则在
+ 后台识别语音，并在识别词语的过程中接收更新。
+ <a href="#SpeechRecognizer.AfterGettingText"><code class="language-plaintext highlighter-rouge">AfterGettingText</code></a> 可能会被多次调用，其中 <code class="language-plaintext highlighter-rouge">partial</code> 被设为 <code class="language-plaintext logic block highlighter-rouge">true</code>。
+ 当距最后一次说话已过去足够长时间，或调用了 <code class="language-plaintext highlighter-rouge">StopListening</code> 时，
+ 将返回最后一个字符串，其中 <code class="language-plaintext highlighter-rouge">partial</code> 被设为 <code class="language-plaintext logic block highlighter-rouge">false</code>，以表示它是
+ 最终识别出的字符串，在再次开始识别之前不会提供更多数据。有关
+ 部分语音识别的更多细节，请参阅
+ <a href="#SpeechRecognizer.AfterGettingText"><code class="language-plaintext highlighter-rouge">AfterGettingText</code></a>。</dd>
+</dl>
+
+<h3 id="SpeechRecognizer-Events">事件</h3>
+
+<dl class="events">
+  <dt id="SpeechRecognizer.AfterGettingText">AfterGettingText(<em class="text">result</em>,<em class="boolean">partial</em>)</dt>
+  <dd>在 SpeechRecognizer 识别出语音后要引发的简单事件。如果
+ <a href="#SpeechRecognizer.UseLegacy"><code class="language-plaintext highlighter-rouge">UseLegacy</code></a> 为 <code class="language-plaintext logic block highlighter-rouge">true</code>，则此事件只在识别的
+ 最末尾发生一次。如果 <a href="#SpeechRecognizer.UseLegacy"><code class="language-plaintext highlighter-rouge">UseLegacy</code></a> 为 <code class="language-plaintext logic block highlighter-rouge">false</code>，
+ 则随着 <code class="language-plaintext highlighter-rouge">SpeechRecognizer</code> 逐步识别语音，此事件会运行多次
+ 。此时，在识别出的语音
+ 最终确定（例如用户停止说话）之前，<code class="language-plaintext highlighter-rouge">partial</code> 将为 <code class="language-plaintext logic block highlighter-rouge">true</code>；
+ 而一旦确定，<code class="language-plaintext highlighter-rouge">partial</code> 将为
+ <code class="language-plaintext logic block highlighter-rouge">false</code>。</dd>
+  <dt id="SpeechRecognizer.BeforeGettingText">BeforeGettingText()</dt>
+  <dd>在调用 <code class="language-plaintext highlighter-rouge">SpeechRecognizer</code> 之后、其活动开始之前
+ 要引发的简单事件。</dd>
+</dl>
+
+<h3 id="SpeechRecognizer-Methods">方法</h3>
+
+<dl class="methods">
+  <dt id="SpeechRecognizer.GetText" class="method"><i></i> GetText()</dt>
+  <dd>要求用户说话，并把语音转换成文本。结果可用时发出
+ <a href="#SpeechRecognizer.AfterGettingText"><code class="language-plaintext highlighter-rouge">AfterGettingText</code></a> 事件。</dd>
+  <dt id="SpeechRecognizer.Stop" class="method"><i></i> Stop()</dt>
+  <dd>在 SpeechRecognizer 无法自动停止的情况下，用于强制停止
+ 倾听语音的函数。
+ 仅当 <a href="#SpeechRecognizer.UseLegacy"><code class="language-plaintext highlighter-rouge">UseLegacy</code></a> 属性
+ 设为 <code class="language-plaintext logic block highlighter-rouge">false</code> 时此函数才有效。</dd>
+</dl>
+
+<h2 id="TextToSpeech">语音合成器（TextToSpeech）</h2>
+
+<p><code class="language-plaintext highlighter-rouge">TextToSpeech</code> 组件会朗读给定的文本。您可以设置音调
+ 和语速。</p>
+
+<p>您也可以通过提供语言代码来设置语言。这会改变词语的发音，
+ 而不是实际所说的语言。例如，把 <a href="#TextToSpeech.Language"><code class="language-plaintext highlighter-rouge">Language</code></a> 设为法语
+ 并朗读英语文本，听起来就像是有法语口音的人说英语。</p>
+
+<p>您还可以通过提供 <a href="#TextToSpeech.Country"><code class="language-plaintext highlighter-rouge">Country</code></a> 代码来指定国家/地区。这可能会影响
+ 发音。例如，英式英语（GBR）听起来会与美式英语（USA）不同。
+ 并非每个国家/地区代码都会影响每种语言。</p>
+
+<p>可用的语言和国家/地区取决于具体设备，可以用
+ <a href="#TextToSpeech.AvailableLanguages"><code class="language-plaintext highlighter-rouge">AvailableLanguages</code></a> 和 <a href="#TextToSpeech.AvailableCountries"><code class="language-plaintext highlighter-rouge">AvailableCountries</code></a> 属性列出。</p>
+
+<h3 id="TextToSpeech-Properties">属性</h3>
+
+<dl class="properties">
+  <dt id="TextToSpeech.AvailableCountries" class="list ro bo"><em>AvailableCountries</em></dt>
+  <dd>此设备上可用于 TextToSpeech 的国家/地区代码列表。请查阅 Android 开发者文档中支持的语言一节，以了解这些缩写的含义。</dd>
+  <dt id="TextToSpeech.AvailableLanguages" class="list ro bo"><em>AvailableLanguages</em></dt>
+  <dd>此设备上可用于 TextToSpeech 的语言列表。请查阅 Android 开发者文档中支持的语言一节，以了解这些缩写的含义。</dd>
+  <dt id="TextToSpeech.Country" class="text"><em>Country</em></dt>
+  <dd>用于语音生成的国家/地区代码。这可能会影响发音。例如，
+ 英式英语（GBR）听起来会与美式英语（USA）不同。并非每个国家/地区代码都会
+ 影响每种语言。</dd>
+  <dt id="TextToSpeech.Language" class="text"><em>Language</em></dt>
+  <dd>设置 TextToSpeech 的语言。这会改变词语的发音方式，而不是
+ 实际所说的语言。例如，把语言设为法语并朗读
+ 英语文本，听起来就像是有法语口音的人说英语。</dd>
+  <dt id="TextToSpeech.Pitch" class="number"><em>Pitch</em></dt>
+  <dd>设置 TextToSpeech 的语音音调。
+
+    <p>取值应在 0 到 2 之间，值越小合成语音的音调越低，
+ 值越大音调越高。</p>
+
+    <p>默认值为 1.0，即正常音调。</p>
+  </dd>
+  <dt id="TextToSpeech.Result" class="boolean ro bo"><em>Result</em></dt>
+  <dd>如果文本成功转换为
+ 语音则返回 <code class="language-plaintext logic block highlighter-rouge">true</code>，否则返回 <code class="language-plaintext logic block highlighter-rouge">false</code>。</dd>
+  <dt id="TextToSpeech.SpeechRate" class="number"><em>SpeechRate</em></dt>
+  <dd>设置 TextToSpeech 的语速。
+
+    <p>取值应在 0 到 2 之间，值越小语速越慢，
+ 值越大语速越快。</p>
+
+    <p>默认值为 1.0，即正常语速。</p>
+  </dd>
+</dl>
+
+<h3 id="TextToSpeech-Events">事件</h3>
+
+<dl class="events">
+  <dt id="TextToSpeech.AfterSpeaking">AfterSpeaking(<em class="boolean">result</em>)</dt>
+  <dd>消息朗读完后要引发的事件。如果消息朗读成功，<code class="language-plaintext variable block highlighter-rouge">result</code> 将为
+ <code class="language-plaintext logic block highlighter-rouge">true</code>，否则将为
+ <code class="language-plaintext logic block highlighter-rouge">false</code>。</dd>
+  <dt id="TextToSpeech.BeforeSpeaking">BeforeSpeaking()</dt>
+  <dd>调用 Speak 时、在朗读消息之前要引发的事件。</dd>
+</dl>
+
+<h3 id="TextToSpeech-Methods">方法</h3>
+
+<dl class="methods">
+  <dt id="TextToSpeech.Speak" class="method"><i></i> Speak(<em class="text">message</em>)</dt>
+  <dd>朗读给定的消息。</dd>
+  <dt id="TextToSpeech.Stop" class="method"><i></i> Stop()</dt>
+  <dd>停止当前任何朗读。</dd>
+</dl>
+
+<h2 id="Translator">语言翻译器（Translator）</h2>
+
+<p>使用此组件在不同语言之间翻译单词和句子。此组件需要
+ 访问互联网，因为它会向 MIT 的服务器请求翻译（该服务器
+ 又会向一家商业翻译服务请求翻译）。
+ 用两个字母的语言代码、以 source-target 的形式
+ 指定源语言和目标语言。所以“en-es”会把
+ 英语翻译为西班牙语，而“es-ru”会把西班牙语翻译为
+ 俄语。如果省略源语言，服务会
+ 尝试检测源语言。所以只提供“es”会
+ 尝试检测源语言并将其翻译为西班牙语。</p>
+
+<p><strong>注意：</strong>翻译在后台异步进行。翻译完成后，
+ 会触发 <a href="#Translator.GotTranslation"><code class="language-plaintext highlighter-rouge">GotTranslation</code></a> 事件。</p>
+
+<h3 id="Translator-Properties">属性</h3>
+
+<dl class="properties">
+  <dt id="Translator.ApiKey" class="text wo"><em>ApiKey</em></dt>
+  <dd>要使用的 API 密钥。App Inventor蔻丁工坊 会自动填入此
+ 值。您无需更改它。</dd>
+</dl>
+
+<h3 id="Translator-Events">事件</h3>
+
+<dl class="events">
+  <dt id="Translator.GotTranslation">GotTranslation(<em class="text">responseCode</em>,<em class="text">translation</em>)</dt>
+  <dd>表示请求已完成并已返回数据（翻译）的事件。</dd>
+</dl>
+
+<h3 id="Translator-Methods">方法</h3>
+
+<dl class="methods">
+  <dt id="Translator.RequestTranslation" class="method"><i></i> RequestTranslation(<em class="text">languageToTranslateTo</em>,<em class="text">textToTranslate</em>)</dt>
+  <dd>通过提供要翻译成的目标语言（例如，'es' 表示西班牙语，'en' 表示
+ 英语，或 'ru' 表示俄语）以及要翻译的单词或句子，此方法将请求
+ 翻译。外部服务翻译完文本后，
+ 将执行 <a href="#Translator.GotTranslation"><code class="language-plaintext highlighter-rouge">GotTranslation</code></a> 事件。
+
+    <p><strong>注意：</strong>Translator 会尝试检测源语言。您也可以把它前置
+ 在语言翻译之前来指定，例如 es-ru 表示从西班牙语翻译到俄语。</p>
+  </dd>
+</dl>
+
+<h2 id="VideoPlayer">视频播放器（VideoPlayer）</h2>
+
+<p>能够播放视频的多媒体组件。运行应用时，<code class="language-plaintext highlighter-rouge">VideoPlayer</code>
+ 会在屏幕上显示为一个矩形。如果用户触摸该矩形，会出现控制条，
+ 用于在视频中播放/暂停、快进和快退。应用也可以
+ 通过调用 <a href="#VideoPlayer.Start"><code class="language-plaintext highlighter-rouge">Start</code></a>、<a href="#VideoPlayer.Pause"><code class="language-plaintext highlighter-rouge">Pause</code></a> 和 <a href="#VideoPlayer.SeekTo"><code class="language-plaintext highlighter-rouge">SeekTo</code></a>
+ 方法来控制其行为。</p>
+
+<p>视频文件应采用 3GPP（.3gp）或 MPEG-4（.mp4）格式。有关合法
+ 格式的更多细节，请参阅
+ <a href="//developer.android.com/guide/appendix/media-formats.html">Android Supported Media Formats</a>。</p>
+
+<p>App Inventor 只允许小于 1 MB 的视频文件，并把应用的总大小限制为
+ 5 MB，其中并非全部可用于媒体（视频、音频和声音）文件。如果您的媒体
+ 文件过大，打包或安装应用时可能会出错，此时
+ 应减少媒体文件的数量或大小。大多数视频编辑软件，
+ 例如 Windows Movie Maker 和 Apple iMovie，都可以通过缩短视频
+ 或把视频重新编码为更紧凑的格式来帮助您减小视频大小。</p>
+
+<p>您也可以把媒体来源设为指向流式视频的 URL，但该 URL 必须
+ 指向视频文件本身，而不是播放该视频的程序。</p>
+
+<h3 id="VideoPlayer-Properties">属性</h3>
+
+<dl class="properties">
+  <dt id="VideoPlayer.FullScreen" class="boolean bo"><em>FullScreen</em></dt>
+  <dd>设置视频是否应以全屏方式显示。</dd>
+  <dt id="VideoPlayer.Height" class="number bo"><em>Height</em></dt>
+  <dd>指定组件的垂直高度，以像素为单位。</dd>
+  <dt id="VideoPlayer.HeightPercent" class="number wo bo"><em>HeightPercent</em></dt>
+  <dd>以 <a href="userinterface.html#Screen.Height"><code class="language-plaintext highlighter-rouge">Screen</code> 的 <code class="language-plaintext highlighter-rouge">Height</code></a> 的百分比形式
+ 指定 <code class="language-plaintext highlighter-rouge">VideoPlayer</code> 的垂直高度。</dd>
+  <dt id="VideoPlayer.Left" class="number"><em>Left</em></dt>
+  <dd>指定组件左边缘相对于
+ AbsoluteArrangement 的位置。</dd>
+  <dt id="VideoPlayer.Source" class="text"><em>Source</em></dt>
+  <dd>返回视频的“路径”。</dd>
+  <dt id="VideoPlayer.Top" class="number"><em>Top</em></dt>
+  <dd>指定组件上边缘相对于
+ AbsoluteArrangement 的位置。</dd>
+  <dt id="VideoPlayer.Visible" class="boolean"><em>Visible</em></dt>
+  <dd>指定 <code class="language-plaintext highlighter-rouge">VideoPlayer</code> 是否在屏幕上可见。若 <code class="language-plaintext highlighter-rouge">VideoPlayer</code> 正在显示，值为 <code class="language-plaintext logic block highlighter-rouge">true</code>；
+ 若已隐藏，值为 <code class="language-plaintext logic block highlighter-rouge">false</code>。</dd>
+  <dt id="VideoPlayer.Volume" class="number"><em>Volume</em></dt>
+  <dd>将音量属性设置为 0 到 100 之间的数字。小于 0 的值
+ 将按 0 处理，大于 100 的值将按 100 处理。</dd>
+  <dt id="VideoPlayer.Width" class="number bo"><em>Width</em></dt>
+  <dd>指定组件的水平宽度，以像素为单位。</dd>
+  <dt id="VideoPlayer.WidthPercent" class="number wo bo"><em>WidthPercent</em></dt>
+  <dd>以 <a href="userinterface.html#Screen.Width"><code class="language-plaintext highlighter-rouge">Screen</code> 的 <code class="language-plaintext highlighter-rouge">Width</code></a> 的百分比形式
+ 指定 <code class="language-plaintext highlighter-rouge">VideoPlayer</code> 的水平宽度。</dd>
+</dl>
+
+<h3 id="VideoPlayer-Events">事件</h3>
+
+<dl class="events">
+  <dt id="VideoPlayer.Completed">Completed()</dt>
+  <dd>表示视频已播放到结尾</dd>
+</dl>
+
+<h3 id="VideoPlayer-Methods">方法</h3>
+
+<dl class="methods">
+  <dt id="VideoPlayer.GetDuration" class="method returns number"><i></i> GetDuration()</dt>
+  <dd>返回视频时长，以毫秒为单位。</dd>
+  <dt id="VideoPlayer.Pause" class="method"><i></i> Pause()</dt>
+  <dd>暂停视频播放。可以调用
+ <a href="#VideoPlayer.Start"><code class="language-plaintext highlighter-rouge">Start</code></a> 方法从同一位置恢复播放。</dd>
+  <dt id="VideoPlayer.SeekTo" class="method"><i></i> SeekTo(<em class="number">ms</em>)</dt>
+  <dd>定位到视频中请求的时间（以毫秒为单位）。如果视频处于暂停状态，所显示的帧不会因定位而更新。播放器只能跳到视频中的关键帧，因此定位到间隔很短的不同时间可能实际上不会移动到不同的帧。</dd>
+  <dt id="VideoPlayer.Start" class="method"><i></i> Start()</dt>
+  <dd>播放由 <a href="#VideoPlayer.Source"><code class="language-plaintext highlighter-rouge">Source</code></a> 指定的媒体。</dd>
+  <dt id="VideoPlayer.Stop" class="method"><i></i> Stop()</dt>
+  <dd>重置到视频开头，如果视频正在播放则暂停它。</dd>
+</dl>
+
+</article>
+<script>
+  // Handle redirection to documentation based on locale query parameter (if specified)
+  (function() {
+      var locale = window.location.search.match('[&?]locale=([a-zA-Z-]*)');
+      if (locale) {
+          if (locale[1].indexOf('en') === 0) {
+              // English needs to stay at the top level to not break existing links
+              var page = window.location.pathname.split('/');
+              if (page.length === 5) {
+                  page.splice(2, 1);
+              } else {
+                  // already on english
+                  return;
+              }
+              window.location.href = page.join('/');
+          } else {
+              var page = window.location.pathname.split('/');
+              if (page.length === 4) {
+                  page.splice(2, 0, locale[1]);
+              } else if (page[2].toLowerCase() != locale[1].toLowerCase()) {
+                  page[2] = locale[1];
+              } else {
+                  return;  // already on the desired language
+              }
+              // Test that the page exists before redirecting.
+              var xhr = new XMLHttpRequest();
+              xhr.open('HEAD', page.join('/'), false);
+              xhr.onreadystatechange = function() {
+                  if (xhr.readyState == 4) {
+                      if ((xhr.status == 200 || xhr.status == 204)) {
+                          window.location.href = page.join('/');
+                      } else if (xhr.status  >= 400) {
+                          page.splice(2, 1);  // go to english version
+                          window.location.href = page.join('/');
+                      }
+                  }
+              };
+              xhr.send();
+          }
+      }
+  })();
+
+  // Handle embedded documentation in help by removing website template
+  if (window.self !== window.top) {
+      setTimeout(function() {
+          var videos = document.querySelectorAll('video');
+          for (var i = 0; i < videos.length; i++) {
+              if (parseInt(videos[i].getAttribute('width')) > 360) {
+                  var aspect = parseInt(videos[i].getAttribute('height')) / parseInt(videos[i].getAttribute('width'));
+                  videos[i].setAttribute('width', '360');
+                  videos[i].setAttribute('height', '' + (360 * aspect));
+              }
+          }
+          var h1 = document.querySelector('h1');
+          var article = document.querySelector('article');
+          article.insertBefore(h1, article.firstElementChild);
+          document.body.innerHTML = article.outerHTML;
+      });
+  }
+</script>
+
+            </div>
+<script src="../../../static/js/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="../../../static/js/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="../../../static/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+<script async src="../../../static/js/widgets.js" charset="utf-8"></script>
+</div>
+    </body>
+</html>

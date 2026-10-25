@@ -1,0 +1,737 @@
+<!DOCTYPE html>
+
+     一一对应。
+     - 正文（标题/段落/列表/表格/图片 alt/视频说明）译为简体中文；
+     - 顶部导航（MIT logo、"Create Apps!" 按钮、About/Educators/News/Resources/Blogs
+       菜单、Donate 按钮、gcse 搜索框）与底部 MIT 版权页脚（© 声明、CC BY-SA、ToS、
+       Support/Twitter/GitHub/Accessibility）已整块删除：本项目是离线产品，帮助页只在
+       应用内新标签页打开，不应出现通往 MIT 主站的品牌链接与捐赠入口。head 里仅供
+       "Create Apps!" 按钮使用的 gotoappinventor() 脚本一并删除；<title> 与页面 <h1>
+       里的 "MIT " 字样已去掉，正文中作为产品名出现的 "MIT App Inventor" 已改为
+       "App Inventor蔻丁工坊"(zh_CN 语境带蔻丁工坊后缀;版权说明处的 MIT 保留)；
+     - 重定向脚本（<script> 块）按上游原文保留：本项目 blocklyeditor.js 的 _resolveHelpUrl
+       已把 href 直接写成 zh_CN 路径且不带 ?locale=，脚本不会触发；若日后有人手工拼了
+       ?locale=zh_CN 进 URL，file:// 下 sync XHR 会被浏览器拦截，脚本停在"已是目标语言"，
+       不会跳错位置；
+     - /static/ 绝对路径改为相对路径：offline webapp 支持以 file:// 打开，绝对路径会解析到
+       磁盘根目录（file:///static/...）从而 404；
+     - 本地图片/视频按上游同名相对路径复制到本目录，故 src 与上游完全一致；
+     - id= 锚点与块/组件/属性英文名保持上游原文，帮助链接里的 #fragment 才能定位。 -->
+<html lang="zh-CN"><head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="stylesheet" href="../../../static/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="../../../static/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
+    <link href="../../../static/css/fonts.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="../../../static/css/mit_app_inventor.css">
+    <title>地图应用</title></head>
+<body class="mit_app_inventor">
+<div class="default-page">
+            <div class="header">
+	        <h1 class="font-weight-bold text-center offset-xl-2 col-xl-8">地图应用</h1>
+            </div>
+            <div class="container-fluid">
+                <article class="documentation">
+<p><a href="index.html">« 返回目录</a></p>
+<h1 id="maps">地图应用</h1>
+
+<p>目录：</p>
+
+<ul>
+  <li><a href="#Circle">圆（Circle）</a></li>
+  <li><a href="#FeatureCollection">特征点集（FeatureCollection）</a></li>
+  <li><a href="#LineString">线（LineString）</a></li>
+  <li><a href="#Map">地图（Map）</a></li>
+  <li><a href="#Marker">标记（Marker）</a></li>
+  <li><a href="#Navigation">导航（Navigation）</a></li>
+  <li><a href="#Polygon">多边形（Polygon）</a></li>
+  <li><a href="#Rectangle">矩形（Rectangle）</a></li>
+</ul>
+
+<h2 id="Circle">圆（Circle）</h2>
+
+<p><code class="language-plaintext highlighter-rouge">Circle</code> 组件用于可视化一个给定 <a href="#Circle.Radius"><code class="language-plaintext highlighter-rouge">Radius</code></a> 的圆，单位为米，圆心位于 <a href="#Circle.Latitude"><code class="language-plaintext highlighter-rouge">Latitude</code></a> 和 <a href="#Circle.Longitude"><code class="language-plaintext highlighter-rouge">Longitude</code></a>。<code class="language-plaintext highlighter-rouge">Circle</code> 的外观可以通过诸如 <a href="#Circle.FillColor"><code class="language-plaintext highlighter-rouge">FillColor</code></a>、<a href="#Circle.StrokeColor"><code class="language-plaintext highlighter-rouge">StrokeColor</code></a> 和 <a href="#Circle.StrokeWidth"><code class="language-plaintext highlighter-rouge">StrokeWidth</code></a> 等属性来自定义。</p>
+
+<p><code class="language-plaintext highlighter-rouge">Circle</code> 组件还可用于实现地理围栏（geofencing）等功能，即根据用户是否位于某个区域内来触发其他行为。将 <a href="#Circle.DistanceToPoint"><code class="language-plaintext highlighter-rouge">DistanceToPoint</code></a> 方法与 <a href="sensors.html#LocationSensor"><code class="language-plaintext highlighter-rouge">LocationSensor</code></a> 结合使用，即可判断用户的位置是在 <code class="language-plaintext highlighter-rouge">Circle</code> 的内部还是外部。您可以利用该功能触发其他操作。</p>
+
+<h3 id="Circle-Properties">属性</h3>
+
+<dl class="properties">
+  <dt id="Circle.Description" class="text"><em>Description</em></dt>
+  <dd>设置或获取信息窗口中显示的描述。信息窗口会在用户点击 <code class="language-plaintext highlighter-rouge">Circle</code> 时显示。</dd>
+  <dt id="Circle.Draggable" class="boolean"><em>Draggable</em></dt>
+  <dd>设置或获取用户能否拖拽地图要素。其用法为：先长按，然后将 <code class="language-plaintext highlighter-rouge">Circle</code> 拖拽到新位置。</dd>
+  <dt id="Circle.EnableInfobox" class="boolean"><em>EnableInfobox</em></dt>
+  <dd>启用或禁用用户点击 <code class="language-plaintext highlighter-rouge">Circle</code> 时的信息框窗口显示。</dd>
+  <dt id="Circle.FillColor" class="color"><em>FillColor</em></dt>
+  <dd>设置或获取用于填充 <code class="language-plaintext highlighter-rouge">Circle</code> 的颜色。</dd>
+  <dt id="Circle.FillOpacity" class="number"><em>FillOpacity</em></dt>
+  <dd>设置或获取填充 <code class="language-plaintext highlighter-rouge">Circle</code> 所用颜色的不透明度。值为 0.0 时完全不可见，值为 1.0 时完全不透明。</dd>
+  <dt id="Circle.Latitude" class="number"><em>Latitude</em></dt>
+  <dd>设置或获取圆心纬度（以度为单位）。正值表示赤道以北，负值表示赤道以南。要同时更新纬度和经度，请使用 <a href="#Circle.SetLocation"><code class="language-plaintext highlighter-rouge">SetLocation</code></a> 方法。</dd>
+  <dt id="Circle.Longitude" class="number"><em>Longitude</em></dt>
+  <dd>设置或获取圆心经度（以度为单位）。正值表示本初子午线以东，负值表示本初子午线以西。要同时更新纬度和经度，请使用 <a href="#Circle.SetLocation"><code class="language-plaintext highlighter-rouge">SetLocation</code></a> 方法。</dd>
+  <dt id="Circle.Radius" class="number"><em>Radius</em></dt>
+  <dd>设置或获取圆的半径（以米为单位）。</dd>
+  <dt id="Circle.StrokeColor" class="color"><em>StrokeColor</em></dt>
+  <dd>设置或获取用于勾画 <code class="language-plaintext highlighter-rouge">Circle</code> 的颜色。</dd>
+  <dt id="Circle.StrokeOpacity" class="number"><em>StrokeOpacity</em></dt>
+  <dd>设置或获取 <code class="language-plaintext highlighter-rouge">Circle</code> 轮廓的不透明度。值为 0.0 时不可见，值为 1.0 时不透明。</dd>
+  <dt id="Circle.StrokeWidth" class="number"><em>StrokeWidth</em></dt>
+  <dd>设置或获取用于勾画 <code class="language-plaintext highlighter-rouge">Circle</code> 的线条宽度。</dd>
+  <dt id="Circle.Title" class="text"><em>Title</em></dt>
+  <dd>设置或获取用户点击地图要素时显示的信息窗口标题。</dd>
+  <dt id="Circle.Type" class="text ro bo"><em>Type</em></dt>
+  <dd>返回要素的类型。对于圆（Circle），返回 MapFeature.Circle（“Circle”）。</dd>
+  <dt id="Circle.Visible" class="boolean"><em>Visible</em></dt>
+  <dd>指定 <code class="language-plaintext highlighter-rouge">Circle</code> 是否应在屏幕上可见。值为 <code class="language-plaintext logic block highlighter-rouge">true</code> 表示 <code class="language-plaintext highlighter-rouge">Circle</code> 正在显示，<code class="language-plaintext logic block highlighter-rouge">false</code> 表示已隐藏。</dd>
+</dl>
+
+<h3 id="Circle-Events">事件</h3>
+
+<dl class="events">
+  <dt id="Circle.Click">Click()</dt>
+  <dd><code class="language-plaintext highlighter-rouge">Click</code> 事件在用户点击 <code class="language-plaintext highlighter-rouge">Circle</code> 时触发。</dd>
+  <dt id="Circle.Drag">Drag()</dt>
+  <dd><code class="language-plaintext highlighter-rouge">Drag</code> 事件会在用户拖拽 <code class="language-plaintext highlighter-rouge">Circle</code> 时，随其位置更新而触发。</dd>
+  <dt id="Circle.LongClick">LongClick()</dt>
+  <dd><code class="language-plaintext highlighter-rouge">LongClick</code> 事件在用户按住 <code class="language-plaintext highlighter-rouge">Circle</code> 并松开时触发。仅当 <a href="#Circle.Draggable"><code class="language-plaintext highlighter-rouge">Draggable</code></a> 为 <code class="language-plaintext logic block highlighter-rouge">false</code> 时才会触发，因为它与 <a href="#Circle.StartDrag"><code class="language-plaintext highlighter-rouge">StartDrag</code></a> 使用了相同的手势。</dd>
+  <dt id="Circle.StartDrag">StartDrag()</dt>
+  <dd><code class="language-plaintext highlighter-rouge">StartDrag</code> 事件在用户按住 <code class="language-plaintext highlighter-rouge">Circle</code> 并保持不放，然后在屏幕上移动手指时触发。随后会依次触发 <a href="#Circle.Drag"><code class="language-plaintext highlighter-rouge">Drag</code></a> 和 <a href="#Circle.StopDrag"><code class="language-plaintext highlighter-rouge">StopDrag</code></a> 事件。</dd>
+  <dt id="Circle.StopDrag">StopDrag()</dt>
+  <dd><code class="language-plaintext highlighter-rouge">StopDrag</code> 事件在用户松开 <code class="language-plaintext highlighter-rouge">Circle</code> 时触发（即一次拖拽结束时）。</dd>
+</dl>
+
+<h3 id="Circle-Methods">方法</h3>
+
+<dl class="methods">
+  <dt id="Circle.DistanceToFeature" class="method returns number"><i></i> DistanceToFeature(<em class="component">mapFeature</em>,<em class="boolean">centroids</em>)</dt>
+  <dd>计算 <code class="language-plaintext highlighter-rouge">Circle</code> 与给定的 <code class="language-plaintext highlighter-rouge">mapFeature</code> 之间的距离。如果 <code class="language-plaintext highlighter-rouge">centroids</code> 为 <code class="language-plaintext logic block highlighter-rouge">true</code>，则按两个要素的质心计算距离。否则，将基于最近点计算两个要素之间的距离。此外，当 <code class="language-plaintext highlighter-rouge">centroids</code> 为 <code class="language-plaintext logic block highlighter-rouge">false</code> 时，如果 <code class="language-plaintext highlighter-rouge">Circle</code> 与 <code class="language-plaintext highlighter-rouge">mapFeature</code> 相交或包含，则该方法返回 0。如果发生错误，该方法返回 -1。</dd>
+  <dt id="Circle.DistanceToPoint" class="method returns number"><i></i> DistanceToPoint(<em class="number">latitude</em>,<em class="number">longitude</em>,<em class="boolean">centroid</em>)</dt>
+  <dd>计算 <code class="language-plaintext highlighter-rouge">Circle</code> 与给定的 <code class="language-plaintext highlighter-rouge">latitude</code> 和 <code class="language-plaintext highlighter-rouge">longitude</code> 之间的距离。如果 <code class="language-plaintext highlighter-rouge">centroids</code> 为 <code class="language-plaintext logic block highlighter-rouge">true</code>，则从 <code class="language-plaintext highlighter-rouge">Circle</code> 的中心到给定点计算距离。否则，从 <code class="language-plaintext highlighter-rouge">Circle</code> 上距离给定点最近的点计算距离。此外，如果 <code class="language-plaintext highlighter-rouge">centroids</code> 为 <code class="language-plaintext logic block highlighter-rouge">false</code> 且该点位于 <code class="language-plaintext highlighter-rouge">Circle</code> 内，则该方法返回 0。如果发生错误，将返回 -1。</dd>
+  <dt id="Circle.HideInfobox" class="method"><i></i> HideInfobox()</dt>
+  <dd>隐藏 <code class="language-plaintext highlighter-rouge">Circle</code> 的信息框（若其可见）。否则不执行任何操作。</dd>
+  <dt id="Circle.SetLocation" class="method"><i></i> SetLocation(<em class="number">latitude</em>,<em class="number">longitude</em>)</dt>
+  <dd>将 <code class="language-plaintext highlighter-rouge">Circle</code> 的中心移动到给定的 <code class="language-plaintext highlighter-rouge">latitude</code> 和 <code class="language-plaintext highlighter-rouge">longitude</code>。此方法比分别设置 <a href="#Circle.Latitude"><code class="language-plaintext highlighter-rouge">Latitude</code></a> 和 <a href="#Circle.Longitude"><code class="language-plaintext highlighter-rouge">Longitude</code></a> 更高效。</dd>
+  <dt id="Circle.ShowInfobox" class="method"><i></i> ShowInfobox()</dt>
+  <dd>显示 <code class="language-plaintext highlighter-rouge">Circle</code> 的信息框（若其不可见）。否则，此方法不产生任何效果。即使 <a href="#Circle.EnableInfobox"><code class="language-plaintext highlighter-rouge">EnableInfobox</code></a> 为 false，也可以用此方法显示信息框。</dd>
+</dl>
+
+<h2 id="FeatureCollection">特征点集（FeatureCollection）</h2>
+
+<p>一个 <code class="language-plaintext highlighter-rouge">FeatureCollection</code> 会将一个或多个地图要素组合在一起。集合中某个要素上发生的任何事件，也会触发该集合组件中对应的事件。<code class="language-plaintext highlighter-rouge">FeatureCollection</code> 可以从外部资源加载，以便为 <a href="#Map"><code class="language-plaintext highlighter-rouge">Map</code></a> 填充内容。目前仅支持 GeoJSON 这一种格式。</p>
+
+<h3 id="FeatureCollection-Properties">属性</h3>
+
+<dl class="properties">
+  <dt id="FeatureCollection.Features" class="list bo"><em>Features</em></dt>
+  <dd>获取附加到 <code class="language-plaintext highlighter-rouge">FeatureCollection</code> 上的要素列表（不考虑要素 <code class="language-plaintext getter block highlighter-rouge">Visible</code> 属性的值）。该列表还包括通过调用 <code class="language-plaintext highlighter-rouge">FeatureCollection</code> 上的 <a href="#FeatureCollection.FeatureFromDescription"><code class="language-plaintext highlighter-rouge">FeatureFromDescription</code></a> 创建的要素。</dd>
+  <dt id="FeatureCollection.FeaturesFromGeoJSON" class="text wo"><em>FeaturesFromGeoJSON</em></dt>
+  <dd>用包含 GeoJSON 内容的字符串填充要素集合。由于这类字符串通常很大，建议使用 <a href="#FeatureCollection.Source"><code class="language-plaintext highlighter-rouge">Source</code></a> 属性从资源文件或网络加载要素集合。</dd>
+  <dt id="FeatureCollection.Height" class="number bo"><em>Height</em></dt>
+  <dd>指定 <code class="language-plaintext highlighter-rouge">FeatureCollection</code> 的垂直高度（以像素为单位）。</dd>
+  <dt id="FeatureCollection.HeightPercent" class="number wo bo"><em>HeightPercent</em></dt>
+  <dd>指定 <code class="language-plaintext highlighter-rouge">FeatureCollection</code> 的垂直高度，其值为 <a href="userinterface.html#Screen.Height"><code class="language-plaintext highlighter-rouge">Screen</code> 的 <code class="language-plaintext highlighter-rouge">Height</code></a> 的百分比。</dd>
+  <dt id="FeatureCollection.Left" class="number"><em>Left</em></dt>
+  <dd>指定组件左边缘相对于 AbsoluteArrangement 的位置。</dd>
+  <dt id="FeatureCollection.Source" class="text ro"><em>Source</em></dt>
+  <dd>指定用于填充要素集合的源 URL。如果要素集合不是从 URL 加载的，该值为空字符串。</dd>
+  <dt id="FeatureCollection.Top" class="number"><em>Top</em></dt>
+  <dd>指定组件上边缘相对于 AbsoluteArrangement 的位置。</dd>
+  <dt id="FeatureCollection.Visible" class="boolean"><em>Visible</em></dt>
+  <dd>指定 <code class="language-plaintext highlighter-rouge">FeatureCollection</code> 是否应在屏幕上可见。值为 <code class="language-plaintext logic block highlighter-rouge">true</code> 表示 <code class="language-plaintext highlighter-rouge">FeatureCollection</code> 正在显示，<code class="language-plaintext logic block highlighter-rouge">false</code> 表示已隐藏。</dd>
+  <dt id="FeatureCollection.Width" class="number bo"><em>Width</em></dt>
+  <dd>指定 <code class="language-plaintext highlighter-rouge">FeatureCollection</code> 的水平宽度（以像素为单位）。</dd>
+  <dt id="FeatureCollection.WidthPercent" class="number wo bo"><em>WidthPercent</em></dt>
+  <dd>指定 <code class="language-plaintext highlighter-rouge">FeatureCollection</code> 的水平宽度，其值为 <a href="userinterface.html#Screen.Width"><code class="language-plaintext highlighter-rouge">Screen</code> 的 <code class="language-plaintext highlighter-rouge">Width</code></a> 的百分比。</dd>
+</dl>
+
+<h3 id="FeatureCollection-Events">事件</h3>
+
+<dl class="events">
+  <dt id="FeatureCollection.FeatureClick">FeatureClick(<em class="component">feature</em>)</dt>
+  <dd>当某个要素被点击时，父级 <code class="language-plaintext highlighter-rouge">FeatureCollection</code> 也会接收到 <code class="language-plaintext highlighter-rouge">FeatureClick</code> 事件。<code class="language-plaintext highlighter-rouge">feature</code> 参数指明哪个子要素被点击。该事件在对应要素的<em></em> <code class="language-plaintext highlighter-rouge">Click</code> 事件之后运行；如果提供了 <code class="language-plaintext highlighter-rouge">when any ... Click</code> 事件，也会在其之后运行。</dd>
+  <dt id="FeatureCollection.FeatureDrag">FeatureDrag(<em class="component">feature</em>)</dt>
+  <dd>当用户拖拽某个要素时，父级 <code class="language-plaintext highlighter-rouge">FeatureCollection</code> 也会接收到 <code class="language-plaintext highlighter-rouge">FeatureDrag</code> 事件。<code class="language-plaintext highlighter-rouge">feature</code> 参数指明哪个子要素被拖拽。该事件在对应要素的<em></em> <code class="language-plaintext highlighter-rouge">Drag</code> 事件之后运行；如果提供了 <code class="language-plaintext highlighter-rouge">when any ... Drag</code> 事件，也会在其之后运行。</dd>
+  <dt id="FeatureCollection.FeatureLongClick">FeatureLongClick(<em class="component">feature</em>)</dt>
+  <dd>当某个要素被长按点击时，父级 <code class="language-plaintext highlighter-rouge">FeatureCollection</code> 也会接收到 <code class="language-plaintext highlighter-rouge">FeatureLongClick</code> 事件。<code class="language-plaintext highlighter-rouge">feature</code> 参数指明哪个子要素被长按点击。该事件在对应要素的<em></em> <code class="language-plaintext highlighter-rouge">LongClick</code> 事件之后运行；如果提供了 <code class="language-plaintext highlighter-rouge">when any ... LongClick</code> 事件，也会在其之后运行。</dd>
+  <dt id="FeatureCollection.FeatureStartDrag">FeatureStartDrag(<em class="component">feature</em>)</dt>
+  <dd>当用户开始拖拽某个要素时，父级 <code class="language-plaintext highlighter-rouge">FeatureCollection</code> 也会接收到 <code class="language-plaintext highlighter-rouge">FeatureStartDrag</code> 事件。<code class="language-plaintext highlighter-rouge">feature</code> 参数指明哪个子要素被拖拽。该事件在对应要素的<em></em> <code class="language-plaintext highlighter-rouge">StartDrag</code> 事件之后运行；如果提供了 <code class="language-plaintext highlighter-rouge">when any ... StartDrag</code> 事件，也会在其之后运行。</dd>
+  <dt id="FeatureCollection.FeatureStopDrag">FeatureStopDrag(<em class="component">feature</em>)</dt>
+  <dd>当用户停止拖拽某个要素时，父级 <code class="language-plaintext highlighter-rouge">FeatureCollection</code> 也会接收到 <code class="language-plaintext highlighter-rouge">FeatureStopDrag</code> 事件。<code class="language-plaintext highlighter-rouge">feature</code> 参数指明哪个子要素被拖拽。该事件在对应要素的<em></em> <code class="language-plaintext highlighter-rouge">StopDrag</code> 事件之后运行；如果提供了 <code class="language-plaintext highlighter-rouge">when any ... StopDrag</code> 事件，也会在其之后运行。</dd>
+  <dt id="FeatureCollection.GotFeatures">GotFeatures(<em class="text">url</em>,<em class="list">features</em>)</dt>
+  <dd><code class="language-plaintext highlighter-rouge">GotFeatures</code> 事件在成功从给定的 <code class="language-plaintext variable block highlighter-rouge">url</code> 读取要素集合时运行。<code class="language-plaintext variable block highlighter-rouge">features</code> 参数是一个要素描述列表，可使用 <a href="#FeatureCollection.FeatureFromDescription"><code class="language-plaintext highlighter-rouge">FeatureFromDescription</code></a> 方法转换为组件。</dd>
+  <dt id="FeatureCollection.LoadError">LoadError(<em class="text">url</em>,<em class="number">responseCode</em>,<em class="text">errorMessage</em>)</dt>
+  <dd><code class="language-plaintext highlighter-rouge">LoadError</code> 事件在处理给定 <code class="language-plaintext variable block highlighter-rouge">url</code> 处的要素集合文档时发生错误时运行。<code class="language-plaintext variable block highlighter-rouge">responseCode</code> 参数将包含 HTTP 状态码，<code class="language-plaintext variable block highlighter-rouge">errorMessage</code> 参数将包含详细的错误消息。</dd>
+</dl>
+
+<h3 id="FeatureCollection-Methods">方法</h3>
+
+<dl class="methods">
+  <dt id="FeatureCollection.FeatureFromDescription" class="method returns any"><i></i> FeatureFromDescription(<em class="list">description</em>)</dt>
+  <dd>将要素描述转换为 App Inventor 地图要素。点（Point）会转换为 <a href="#Marker"><code class="language-plaintext highlighter-rouge">Marker</code></a> 组件，LineString 会转换为 <a href="#LineString"><code class="language-plaintext highlighter-rouge">LineString</code></a> 组件，多边形（以及多多边形）会转换为 <a href="#Polygon"><code class="language-plaintext highlighter-rouge">Polygon</code></a> 组件。如果要素带有属性，则会按以下映射关系转换为 App Inventor 属性：<ul>
+      <li>description 映射为 <code class="language-plaintext highlighter-rouge">Description</code></li>
+      <li>draggable 映射为 <code class="language-plaintext highlighter-rouge">Draggable</code></li>
+      <li>infobox 映射为 <code class="language-plaintext highlighter-rouge">EnableInfobox</code></li>
+      <li>fill 映射为 <code class="language-plaintext highlighter-rouge">FillColor</code></li>
+      <li>fill-opacity 映射为 <code class="language-plaintext highlighter-rouge">FillOpacity</code></li>
+      <li>image 映射为 <code class="language-plaintext highlighter-rouge">ImageAsset</code></li>
+      <li>stroke 映射为 <code class="language-plaintext highlighter-rouge">StrokeColor</code></li>
+      <li>stroke-opacity 映射为 <code class="language-plaintext highlighter-rouge">StrokeOpacity</code></li>
+      <li>stroke-width 映射为 <code class="language-plaintext highlighter-rouge">StrokeWidth</code></li>
+      <li>title 映射为 <code class="language-plaintext highlighter-rouge">Title</code></li>
+      <li>visible 映射为 <code class="language-plaintext highlighter-rouge">Visible</code></li>
+    </ul>
+  </dd>
+  <dt id="FeatureCollection.LoadFromURL" class="method"><i></i> LoadFromURL(<em class="text">url</em>)</dt>
+  <dd>从给定的 <code class="language-plaintext highlighter-rouge">url</code> 加载 GeoJSON 格式的要素集合。成功后，会触发 <a href="#FeatureCollection.GotFeatures"><code class="language-plaintext highlighter-rouge">GotFeatures</code></a> 事件，并传入给定的 <code class="language-plaintext highlighter-rouge">url</code> 以及由 <code class="language-plaintext highlighter-rouge">feature</code> 构成的列表，其中的要素按 (key, value) 对的形式从 GeoJSON 中解析而来。如果失败，则会触发 <a href="#FeatureCollection.LoadError"><code class="language-plaintext highlighter-rouge">LoadError</code></a> 事件，并附带相应的 HTTP 响应码和错误消息。</dd>
+</dl>
+
+<h2 id="LineString">线（LineString）</h2>
+
+<p><code class="language-plaintext highlighter-rouge">LineString</code> 是用于在 <code class="language-plaintext highlighter-rouge">Map</code> 上绘制开放、连续线段序列的组件。在设计器中为 <code class="language-plaintext highlighter-rouge">LineString</code> 添加新点的方法是：将任一线段的中点拖离该线条，从而引入一个新顶点。点击并拖拽顶点可将其移动到新位置。点击顶点会删除该顶点，除非只剩下两个。</p>
+
+<h3 id="LineString-Properties">属性</h3>
+
+<dl class="properties">
+  <dt id="LineString.Description" class="text"><em>Description</em></dt>
+  <dd>设置或获取信息窗口中显示的描述。信息窗口会在用户点击 <code class="language-plaintext highlighter-rouge">LineString</code> 时显示。</dd>
+  <dt id="LineString.Draggable" class="boolean"><em>Draggable</em></dt>
+  <dd>设置或获取用户能否拖拽地图要素。其用法为：先长按，然后将 <code class="language-plaintext highlighter-rouge">LineString</code> 拖拽到新位置。</dd>
+  <dt id="LineString.EnableInfobox" class="boolean"><em>EnableInfobox</em></dt>
+  <dd>启用或禁用用户点击 <code class="language-plaintext highlighter-rouge">LineString</code> 时的信息框窗口显示。</dd>
+  <dt id="LineString.Points" class="list bo"><em>Points</em></dt>
+  <dd><code class="language-plaintext highlighter-rouge">LineString</code> 中的点列表，以纬度和经度对的形式表示。</dd>
+  <dt id="LineString.PointsFromString" class="text wo"><em>PointsFromString</em></dt>
+  <dd>使用特殊编码的字符串设置 LineString 的点，字符串格式为：
+ [[latitude1, longitude1], [latitude2, longitude2], …]</dd>
+  <dt id="LineString.StrokeColor" class="color"><em>StrokeColor</em></dt>
+  <dd>设置或获取用于勾画 <code class="language-plaintext highlighter-rouge">LineString</code> 的颜色。</dd>
+  <dt id="LineString.StrokeOpacity" class="number"><em>StrokeOpacity</em></dt>
+  <dd>设置或获取 <code class="language-plaintext highlighter-rouge">LineString</code> 轮廓的不透明度。值为 0.0 时不可见，值为 1.0 时不透明。</dd>
+  <dt id="LineString.StrokeWidth" class="number"><em>StrokeWidth</em></dt>
+  <dd>设置或获取用于勾画 <code class="language-plaintext highlighter-rouge">LineString</code> 的线条宽度。</dd>
+  <dt id="LineString.Title" class="text"><em>Title</em></dt>
+  <dd>设置或获取用户点击地图要素时显示的信息窗口标题。</dd>
+  <dt id="LineString.Type" class="text ro bo"><em>Type</em></dt>
+  <dd>返回地图要素的类型。对于 LineString，返回 MapFeature.LineString（“LineString”）。</dd>
+  <dt id="LineString.Visible" class="boolean"><em>Visible</em></dt>
+  <dd>指定 <code class="language-plaintext highlighter-rouge">LineString</code> 是否应在屏幕上可见。值为 <code class="language-plaintext logic block highlighter-rouge">true</code> 表示 <code class="language-plaintext highlighter-rouge">LineString</code> 正在显示，<code class="language-plaintext logic block highlighter-rouge">false</code> 表示已隐藏。</dd>
+</dl>
+
+<h3 id="LineString-Events">事件</h3>
+
+<dl class="events">
+  <dt id="LineString.Click">Click()</dt>
+  <dd><code class="language-plaintext highlighter-rouge">Click</code> 事件在用户点击 <code class="language-plaintext highlighter-rouge">LineString</code> 时触发。</dd>
+  <dt id="LineString.Drag">Drag()</dt>
+  <dd><code class="language-plaintext highlighter-rouge">Drag</code> 事件会在用户拖拽 <code class="language-plaintext highlighter-rouge">LineString</code> 时，随其位置更新而触发。</dd>
+  <dt id="LineString.LongClick">LongClick()</dt>
+  <dd><code class="language-plaintext highlighter-rouge">LongClick</code> 事件在用户按住 <code class="language-plaintext highlighter-rouge">LineString</code> 并松开时触发。仅当 <a href="#LineString.Draggable"><code class="language-plaintext highlighter-rouge">Draggable</code></a> 为 <code class="language-plaintext logic block highlighter-rouge">false</code> 时才会触发，因为它与 <a href="#LineString.StartDrag"><code class="language-plaintext highlighter-rouge">StartDrag</code></a> 使用了相同的手势。</dd>
+  <dt id="LineString.StartDrag">StartDrag()</dt>
+  <dd><code class="language-plaintext highlighter-rouge">StartDrag</code> 事件在用户按住 <code class="language-plaintext highlighter-rouge">LineString</code> 并保持不放，然后在屏幕上移动手指时触发。随后会依次触发 <a href="#LineString.Drag"><code class="language-plaintext highlighter-rouge">Drag</code></a> 和 <a href="#LineString.StopDrag"><code class="language-plaintext highlighter-rouge">StopDrag</code></a> 事件。</dd>
+  <dt id="LineString.StopDrag">StopDrag()</dt>
+  <dd><code class="language-plaintext highlighter-rouge">StopDrag</code> 事件在用户松开 <code class="language-plaintext highlighter-rouge">LineString</code> 时触发（即一次拖拽结束时）。</dd>
+</dl>
+
+<h3 id="LineString-Methods">方法</h3>
+
+<dl class="methods">
+  <dt id="LineString.DistanceToFeature" class="method returns number"><i></i> DistanceToFeature(<em class="component">mapFeature</em>,<em class="boolean">centroids</em>)</dt>
+  <dd>计算 <code class="language-plaintext highlighter-rouge">LineString</code> 与给定的 <code class="language-plaintext highlighter-rouge">mapFeature</code> 之间的距离。如果 <code class="language-plaintext highlighter-rouge">centroids</code> 为 <code class="language-plaintext logic block highlighter-rouge">true</code>，则按两个要素的质心计算距离。否则，将基于最近点计算两个要素之间的距离。此外，当 <code class="language-plaintext highlighter-rouge">centroids</code> 为 <code class="language-plaintext logic block highlighter-rouge">false</code> 时，如果 <code class="language-plaintext highlighter-rouge">LineString</code> 与 <code class="language-plaintext highlighter-rouge">mapFeature</code> 相交或包含，则该方法返回 0。如果发生错误，该方法返回 -1。</dd>
+  <dt id="LineString.DistanceToPoint" class="method returns number"><i></i> DistanceToPoint(<em class="number">latitude</em>,<em class="number">longitude</em>,<em class="boolean">centroid</em>)</dt>
+  <dd>计算 <code class="language-plaintext highlighter-rouge">LineString</code> 与给定的 <code class="language-plaintext highlighter-rouge">latitude</code> 和 <code class="language-plaintext highlighter-rouge">longitude</code> 之间的距离。如果 <code class="language-plaintext highlighter-rouge">centroids</code> 为 <code class="language-plaintext logic block highlighter-rouge">true</code>，则从 <code class="language-plaintext highlighter-rouge">LineString</code> 的中心到给定点计算距离。否则，从 <code class="language-plaintext highlighter-rouge">LineString</code> 上距离给定点最近的点计算距离。此外，如果 <code class="language-plaintext highlighter-rouge">centroids</code> 为 <code class="language-plaintext logic block highlighter-rouge">false</code> 且该点位于 <code class="language-plaintext highlighter-rouge">LineString</code> 内，则该方法返回 0。如果发生错误，将返回 -1。</dd>
+  <dt id="LineString.HideInfobox" class="method"><i></i> HideInfobox()</dt>
+  <dd>隐藏 <code class="language-plaintext highlighter-rouge">LineString</code> 的信息框（若其可见）。否则不执行任何操作。</dd>
+  <dt id="LineString.ShowInfobox" class="method"><i></i> ShowInfobox()</dt>
+  <dd>显示 <code class="language-plaintext highlighter-rouge">LineString</code> 的信息框（若其不可见）。否则，此方法不产生任何效果。即使 <a href="#LineString.EnableInfobox"><code class="language-plaintext highlighter-rouge">EnableInfobox</code></a> 为 false，也可以用此方法显示信息框。</dd>
+</dl>
+
+<h2 id="Map">地图（Map）</h2>
+
+<p>一个二维容器，在背景中渲染地图图块，并允许使用多个 <a href="#Marker"><code class="language-plaintext highlighter-rouge">Marker</code></a> 元素来标识地图上的点。地图图块由 OpenStreetMap 贡献者和美国地质调查局提供，您也可以提供自定义底图 URL。</p>
+
+<p><code class="language-plaintext highlighter-rouge">Map</code> 组件提供了三项在 App Inventor 中调整其边界的功能。第一，提供了锁定机制，使地图可以相对于屏幕上的其他组件移动。第二，解锁后，用户可以将 <code class="language-plaintext highlighter-rouge">Map</code> 平移到任意位置。在新的位置上，可以点击“设定初始边界”按钮，把当前的 <code class="language-plaintext highlighter-rouge">Map</code> 坐标保存到其属性中。最后，如果 <code class="language-plaintext highlighter-rouge">Map</code> 被移动到其他位置，例如为了把 <a href="#Marker"><code class="language-plaintext highlighter-rouge">Marker</code></a> 添加到屏幕之外，则可以使用“恢复到初始边界”按钮，把 <code class="language-plaintext highlighter-rouge">Map</code> 重新居中到起始位置。</p>
+
+<h3 id="Map-Properties">属性</h3>
+
+<dl class="properties">
+  <dt id="Map.BoundingBox" class="list bo"><em>BoundingBox</em></dt>
+  <dd>设置或获取地图当前绘制视图的边界。该值是一个列表的列表，包含当前视图的西北角和东南角坐标，格式为 <code class="language-plaintext highlighter-rouge">((North West) (South East))</code>。</dd>
+  <dt id="Map.CenterFromString" class="text wo"><em>CenterFromString</em></dt>
+  <dd>设置地图的初始中心坐标。该值以逗号分隔的十进制纬度和经度坐标对表示，例如 <code class="language-plaintext highlighter-rouge">42.359144, -71.093612</code>。<p>在代码块中，出于性能考虑，建议使用 <a href="#Map.PanTo"><code class="language-plaintext highlighter-rouge">PanTo</code></a> 并传入数值型纬度和经度，而不是转换为字符串形式再使用该属性。</p>
+  </dd>
+  <dt id="Map.CustomUrl" class="text"><em>CustomUrl</em></dt>
+  <dd>更新地图当前所用基础图块层的自定义 URL。
+ 例如 https://tile.openstreetmap.org/{z}/{x}/{y}.png
+ 例如 https://example.com/geoserver/gwc/service/tms/1.0.0/workspace:layername</dd>
+  <dt id="Map.EnablePan" class="boolean"><em>EnablePan</em></dt>
+  <dd>启用或禁用用户移动地图的能力。</dd>
+  <dt id="Map.EnableRotation" class="boolean"><em>EnableRotation</em></dt>
+  <dd>启用或禁用用于旋转地图的双指旋转手势。</dd>
+  <dt id="Map.EnableZoom" class="boolean"><em>EnableZoom</em></dt>
+  <dd>启用或禁用用于缩放地图的双指捏合手势。</dd>
+  <dt id="Map.Features" class="list bo"><em>Features</em></dt>
+  <dd>获取附加到 <code class="language-plaintext highlighter-rouge">Map</code> 上的要素列表（不考虑要素 <code class="language-plaintext getter block highlighter-rouge">Visible</code> 属性的值）。该列表还包括通过调用 <code class="language-plaintext highlighter-rouge">Map</code> 上的 <a href="#Map.FeatureFromDescription"><code class="language-plaintext highlighter-rouge">FeatureFromDescription</code></a> 创建的要素。</dd>
+  <dt id="Map.Height" class="number bo"><em>Height</em></dt>
+  <dd>指定 <code class="language-plaintext highlighter-rouge">Map</code> 的垂直高度（以像素为单位）。</dd>
+  <dt id="Map.HeightPercent" class="number wo bo"><em>HeightPercent</em></dt>
+  <dd>指定 <code class="language-plaintext highlighter-rouge">Map</code> 的垂直高度，其值为 <a href="userinterface.html#Screen.Height"><code class="language-plaintext highlighter-rouge">Screen</code> 的 <code class="language-plaintext highlighter-rouge">Height</code></a> 的百分比。</dd>
+  <dt id="Map.Latitude" class="number ro bo"><em>Latitude</em></dt>
+  <dd>获取地图中心的纬度。要更改纬度，请使用 <a href="#Map.PanTo"><code class="language-plaintext highlighter-rouge">PanTo</code></a> 方法。</dd>
+  <dt id="Map.Left" class="number"><em>Left</em></dt>
+  <dd>指定组件左边缘相对于 AbsoluteArrangement 的位置。</dd>
+  <dt id="Map.LocationSensor" class="component"><em>LocationSensor</em></dt>
+  <dd>使用提供的 <a href="sensors.html#LocationSensor"><code class="language-plaintext highlighter-rouge">LocationSensor</code></a> 获取用户位置数据，而不是内置的位置提供程序。</dd>
+  <dt id="Map.Longitude" class="number ro bo"><em>Longitude</em></dt>
+  <dd>获取地图中心的经度。要更改经度，请使用 <a href="#Map.PanTo"><code class="language-plaintext highlighter-rouge">PanTo</code></a> 方法。</dd>
+  <dt id="Map.MapType" class="number"><em>MapType</em></dt>
+  <dd>设置或获取用于绘制地图背景的图块层。默认为 Roads。有效取值包括：<ol>
+      <li>Roads</li>
+      <li>Aerial</li>
+      <li>Terrain</li>
+      <li>Custom</li>
+    </ol>
+
+    <p><strong>注意：</strong> 道路图层由 OpenStreetMap 提供，航拍和地形图层由美国地质调查局（U.S. Geological Survey）提供。</p>
+  </dd>
+  <dt id="Map.Rotation" class="number"><em>Rotation</em></dt>
+  <dd>指定地图的旋转角度，以十进制度数表示（如有）。</dd>
+  <dt id="Map.ScaleUnits" class="number"><em>ScaleUnits</em></dt>
+  <dd>指定比例尺叠加层使用的单位。1（默认值）表示公制单位（km、m），2 表示英制单位（mi、ft）。</dd>
+  <dt id="Map.ShowCompass" class="boolean"><em>ShowCompass</em></dt>
+  <dd>指定是否在地图上显示指南针叠加层。如果硬件中存在数字指南针，指南针会随设备的方向而旋转。</dd>
+  <dt id="Map.ShowScale" class="boolean"><em>ShowScale</em></dt>
+  <dd>在地图上显示比例尺参考。</dd>
+  <dt id="Map.ShowUser" class="boolean"><em>ShowUser</em></dt>
+  <dd>显示或隐藏用于指示用户在 <a href="#Map"><code class="language-plaintext highlighter-rouge">Map</code></a> 上当前位置的图标。该功能的可用性和准确性取决于用户是否启用了位置服务以及有哪些位置提供程序可用。</dd>
+  <dt id="Map.ShowZoom" class="boolean"><em>ShowZoom</em></dt>
+  <dd>指定是否显示缩放控件。</dd>
+  <dt id="Map.Top" class="number"><em>Top</em></dt>
+  <dd>指定组件上边缘相对于 AbsoluteArrangement 的位置。</dd>
+  <dt id="Map.UserLatitude" class="number ro bo"><em>UserLatitude</em></dt>
+  <dd>如果启用了 ShowUser，则返回用户的纬度。</dd>
+  <dt id="Map.UserLongitude" class="number ro bo"><em>UserLongitude</em></dt>
+  <dd>如果启用了 ShowUser，则返回用户的经度。</dd>
+  <dt id="Map.Visible" class="boolean"><em>Visible</em></dt>
+  <dd>指定 <code class="language-plaintext highlighter-rouge">Map</code> 是否应在屏幕上可见。值为 <code class="language-plaintext logic block highlighter-rouge">true</code> 表示 <code class="language-plaintext highlighter-rouge">Map</code> 正在显示，<code class="language-plaintext logic block highlighter-rouge">false</code> 表示已隐藏。</dd>
+  <dt id="Map.Width" class="number bo"><em>Width</em></dt>
+  <dd>指定 <code class="language-plaintext highlighter-rouge">Map</code> 的水平宽度（以像素为单位）。</dd>
+  <dt id="Map.WidthPercent" class="number wo bo"><em>WidthPercent</em></dt>
+  <dd>指定 <code class="language-plaintext highlighter-rouge">Map</code> 的水平宽度，其值为 <a href="userinterface.html#Screen.Width"><code class="language-plaintext highlighter-rouge">Screen</code> 的 <code class="language-plaintext highlighter-rouge">Width</code></a> 的百分比。</dd>
+  <dt id="Map.ZoomLevel" class="number"><em>ZoomLevel</em></dt>
+  <dd>指定地图的缩放级别。ZoomLevel 的有效取值取决于图块提供方以及地图的纬度和经度。例如，为了节省存储图块的空间，海洋上空的缩放级别比密集的城市中心受到更多限制，因此海洋上空的取值可能是 1-7，而城市上空的取值可能是 1-20。如果缩放级别超出服务器的支持范围，图块提供方可能会返回警告图块或错误图块。</dd>
+</dl>
+
+<h3 id="Map-Events">事件</h3>
+
+<dl class="events">
+  <dt id="Map.BoundsChange">BoundsChange()</dt>
+  <dd><code class="language-plaintext highlighter-rouge">BoundsChange</code> 事件在用户通过缩放、平移或旋转视图更改地图边界时运行。</dd>
+  <dt id="Map.DoubleTapAtPoint">DoubleTapAtPoint(<em class="number">latitude</em>,<em class="number">longitude</em>)</dt>
+  <dd><code class="language-plaintext highlighter-rouge">DoubleTapAtPoint</code> 事件在用户双击地图上的某一点时运行。点击的位置会通过 <code class="language-plaintext variable block highlighter-rouge">latitude</code> 和 <code class="language-plaintext variable block highlighter-rouge">longitude</code> 参数以地图坐标形式报告。</dd>
+  <dt id="Map.FeatureClick">FeatureClick(<em class="component">feature</em>)</dt>
+  <dd>当某个要素被点击时，父级 <code class="language-plaintext highlighter-rouge">Map</code> 也会接收到 <code class="language-plaintext highlighter-rouge">FeatureClick</code> 事件。<code class="language-plaintext highlighter-rouge">feature</code> 参数指明哪个子要素被点击。该事件在对应要素的<em></em> <code class="language-plaintext highlighter-rouge">Click</code> 事件之后运行；如果提供了 <code class="language-plaintext highlighter-rouge">when any ... Click</code> 事件，也会在其之后运行。</dd>
+  <dt id="Map.FeatureDrag">FeatureDrag(<em class="component">feature</em>)</dt>
+  <dd>当用户拖拽某个要素时，父级 <code class="language-plaintext highlighter-rouge">Map</code> 也会接收到 <code class="language-plaintext highlighter-rouge">FeatureDrag</code> 事件。<code class="language-plaintext highlighter-rouge">feature</code> 参数指明哪个子要素被拖拽。该事件在对应要素的<em></em> <code class="language-plaintext highlighter-rouge">Drag</code> 事件之后运行；如果提供了 <code class="language-plaintext highlighter-rouge">when any ... Drag</code> 事件，也会在其之后运行。</dd>
+  <dt id="Map.FeatureLongClick">FeatureLongClick(<em class="component">feature</em>)</dt>
+  <dd>当某个要素被长按点击时，父级 <code class="language-plaintext highlighter-rouge">Map</code> 也会接收到 <code class="language-plaintext highlighter-rouge">FeatureLongClick</code> 事件。<code class="language-plaintext highlighter-rouge">feature</code> 参数指明哪个子要素被长按点击。该事件在对应要素的<em></em> <code class="language-plaintext highlighter-rouge">LongClick</code> 事件之后运行；如果提供了 <code class="language-plaintext highlighter-rouge">when any ... LongClick</code> 事件，也会在其之后运行。</dd>
+  <dt id="Map.FeatureStartDrag">FeatureStartDrag(<em class="component">feature</em>)</dt>
+  <dd>当用户开始拖拽某个要素时，父级 <code class="language-plaintext highlighter-rouge">Map</code> 也会接收到 <code class="language-plaintext highlighter-rouge">FeatureStartDrag</code> 事件。<code class="language-plaintext highlighter-rouge">feature</code> 参数指明哪个子要素被拖拽。该事件在对应要素的<em></em> <code class="language-plaintext highlighter-rouge">StartDrag</code> 事件之后运行；如果提供了 <code class="language-plaintext highlighter-rouge">when any ... StartDrag</code> 事件，也会在其之后运行。</dd>
+  <dt id="Map.FeatureStopDrag">FeatureStopDrag(<em class="component">feature</em>)</dt>
+  <dd>当用户停止拖拽某个要素时，父级 <code class="language-plaintext highlighter-rouge">Map</code> 也会接收到 <code class="language-plaintext highlighter-rouge">FeatureStopDrag</code> 事件。<code class="language-plaintext highlighter-rouge">feature</code> 参数指明哪个子要素被拖拽。该事件在对应要素的<em></em> <code class="language-plaintext highlighter-rouge">StopDrag</code> 事件之后运行；如果提供了 <code class="language-plaintext highlighter-rouge">when any ... StopDrag</code> 事件，也会在其之后运行。</dd>
+  <dt id="Map.GotFeatures">GotFeatures(<em class="text">url</em>,<em class="list">features</em>)</dt>
+  <dd><code class="language-plaintext highlighter-rouge">GotFeatures</code> 事件在成功从给定的 <code class="language-plaintext variable block highlighter-rouge">url</code> 读取要素集合时运行。<code class="language-plaintext variable block highlighter-rouge">features</code> 参数是一个要素描述列表，可使用 <a href="#Map.FeatureFromDescription"><code class="language-plaintext highlighter-rouge">FeatureFromDescription</code></a> 方法转换为组件。</dd>
+  <dt id="Map.InvalidPoint">InvalidPoint(<em class="text">message</em>)</dt>
+  <dd><code class="language-plaintext highlighter-rouge">InvalidPoint</code> 事件在程序处理地理数据时遇到无效点时运行。当点的纬度或经度超出可接受范围（ <code class="language-plaintext highlighter-rouge">[-90, 90]</code> 和 <code class="language-plaintext highlighter-rouge">[-180, 180]</code>）时，该点即被视为无效。<code class="language-plaintext highlighter-rouge">message</code> 参数将包含该错误的说明。</dd>
+  <dt id="Map.LoadError">LoadError(<em class="text">url</em>,<em class="number">responseCode</em>,<em class="text">errorMessage</em>)</dt>
+  <dd><code class="language-plaintext highlighter-rouge">LoadError</code> 事件在处理给定 <code class="language-plaintext variable block highlighter-rouge">url</code> 处的要素集合文档时发生错误时运行。<code class="language-plaintext variable block highlighter-rouge">responseCode</code> 参数将包含 HTTP 状态码，<code class="language-plaintext variable block highlighter-rouge">errorMessage</code> 参数将包含详细的错误消息。</dd>
+  <dt id="Map.LongPressAtPoint">LongPressAtPoint(<em class="number">latitude</em>,<em class="number">longitude</em>)</dt>
+  <dd><code class="language-plaintext highlighter-rouge">LongPressAtPoint</code> 事件在用户长按地图上某一点且不移动手指（移动手指会触发拖拽）时运行。长按的位置会通过 <code class="language-plaintext variable block highlighter-rouge">latitude</code> 和 <code class="language-plaintext variable block highlighter-rouge">longitude</code> 参数以地图坐标形式报告。</dd>
+  <dt id="Map.Ready">Ready()</dt>
+  <dd><code class="language-plaintext highlighter-rouge">Ready</code> 事件在 <code class="language-plaintext highlighter-rouge">Map</code> 完成初始化并准备好接受用户交互后运行。</dd>
+  <dt id="Map.TapAtPoint">TapAtPoint(<em class="number">latitude</em>,<em class="number">longitude</em>)</dt>
+  <dd><code class="language-plaintext highlighter-rouge">TapAtPoint</code> 事件在用户点击地图上的某一点时运行。点击的位置会通过 <code class="language-plaintext variable block highlighter-rouge">latitude</code> 和 <code class="language-plaintext variable block highlighter-rouge">longitude</code> 参数以地图坐标形式报告。</dd>
+  <dt id="Map.ZoomChange">ZoomChange()</dt>
+  <dd><code class="language-plaintext highlighter-rouge">ZoomChange</code> 事件在用户更改地图缩放级别时运行，例如通过双指捏合或双击进行缩放。</dd>
+</dl>
+
+<h3 id="Map-Methods">方法</h3>
+
+<dl class="methods">
+  <dt id="Map.CreateMarker" class="method returns component"><i></i> CreateMarker(<em class="number">latitude</em>,<em class="number">longitude</em>)</dt>
+  <dd>创建一个新的 <a href="#Marker"><code class="language-plaintext highlighter-rouge">Marker</code></a>，将其放在 <code class="language-plaintext highlighter-rouge">Map</code> 上指定的 <code class="language-plaintext highlighter-rouge">latitude</code> 和 <code class="language-plaintext highlighter-rouge">longitude</code> 处。</dd>
+  <dt id="Map.FeatureFromDescription" class="method returns any"><i></i> FeatureFromDescription(<em class="list">description</em>)</dt>
+  <dd>将要素描述转换为 App Inventor 地图要素。点（Point）会转换为 <a href="#Marker"><code class="language-plaintext highlighter-rouge">Marker</code></a> 组件，LineString 会转换为 <a href="#LineString"><code class="language-plaintext highlighter-rouge">LineString</code></a> 组件，多边形（以及多多边形）会转换为 <a href="#Polygon"><code class="language-plaintext highlighter-rouge">Polygon</code></a> 组件。如果要素带有属性，则会按以下映射关系转换为 App Inventor 属性：<ul>
+      <li>description 映射为 <code class="language-plaintext highlighter-rouge">Description</code></li>
+      <li>draggable 映射为 <code class="language-plaintext highlighter-rouge">Draggable</code></li>
+      <li>infobox 映射为 <code class="language-plaintext highlighter-rouge">EnableInfobox</code></li>
+      <li>fill 映射为 <code class="language-plaintext highlighter-rouge">FillColor</code></li>
+      <li>fill-opacity 映射为 <code class="language-plaintext highlighter-rouge">FillOpacity</code></li>
+      <li>image 映射为 <code class="language-plaintext highlighter-rouge">ImageAsset</code></li>
+      <li>stroke 映射为 <code class="language-plaintext highlighter-rouge">StrokeColor</code></li>
+      <li>stroke-opacity 映射为 <code class="language-plaintext highlighter-rouge">StrokeOpacity</code></li>
+      <li>stroke-width 映射为 <code class="language-plaintext highlighter-rouge">StrokeWidth</code></li>
+      <li>title 映射为 <code class="language-plaintext highlighter-rouge">Title</code></li>
+      <li>visible 映射为 <code class="language-plaintext highlighter-rouge">Visible</code></li>
+    </ul>
+  </dd>
+  <dt id="Map.LoadFromURL" class="method"><i></i> LoadFromURL(<em class="text">url</em>)</dt>
+  <dd>从给定的 <code class="language-plaintext highlighter-rouge">url</code> 加载 GeoJSON 格式的要素集合。成功后，会触发 <a href="#Map.GotFeatures"><code class="language-plaintext highlighter-rouge">GotFeatures</code></a> 事件，并传入给定的 <code class="language-plaintext highlighter-rouge">url</code> 以及由 <code class="language-plaintext highlighter-rouge">feature</code> 构成的列表，其中的要素按 (key, value) 对的形式从 GeoJSON 中解析而来。如果失败，则会触发 <a href="#Map.LoadError"><code class="language-plaintext highlighter-rouge">LoadError</code></a> 事件，并附带相应的 HTTP 响应码和错误消息。</dd>
+  <dt id="Map.PanTo" class="method"><i></i> PanTo(<em class="number">latitude</em>,<em class="number">longitude</em>,<em class="number">zoom</em>)</dt>
+  <dd>将地图中心平移到给定的纬度和经度，并把缩放级别调整为指定的缩放值。</dd>
+  <dt id="Map.Save" class="method"><i></i> Save(<em class="text">path</em>)</dt>
+  <dd>将 <code class="language-plaintext highlighter-rouge">Map</code> 上的要素保存为指定路径下的 GeoJSON 文件。</dd>
+</dl>
+
+<h2 id="Marker">标记（Marker）</h2>
+
+<p><code class="language-plaintext highlighter-rouge">Marker</code> 组件用于标记 <a href="#Map"><code class="language-plaintext highlighter-rouge">Map</code></a> 上的点，例如建筑物或其他兴趣点。<code class="language-plaintext highlighter-rouge">Marker</code> 可以通过多种方式自定义，例如使用应用资源中的自定义图像，或更改 <code class="language-plaintext highlighter-rouge">Marker</code> <a href="#Marker.FillColor"><code class="language-plaintext highlighter-rouge">FillColor</code></a>。<code class="language-plaintext highlighter-rouge">Marker</code> 也可以动态创建：调用 <a href="#Map.CreateMarker"><code class="language-plaintext highlighter-rouge">Map</code> 的 <code class="language-plaintext highlighter-rouge">CreateMarker</code></a> 方法创建，并使用 <a href="../other/any-component-blocks.html">“任意组件”</a> 块对其进行配置。</p>
+
+<h3 id="Marker-Properties">属性</h3>
+
+<dl class="properties">
+  <dt id="Marker.AnchorHorizontal" class="number"><em>AnchorHorizontal</em></dt>
+  <dd>设置或获取 <code class="language-plaintext highlighter-rouge">Marker</code> 中心相对于其图像的水平偏移量。有效取值为：<code class="language-plaintext highlighter-rouge">1</code> （左），<code class="language-plaintext highlighter-rouge">2</code> （右），或 <code class="language-plaintext highlighter-rouge">3</code> （居中）。</dd>
+  <dt id="Marker.AnchorVertical" class="number"><em>AnchorVertical</em></dt>
+  <dd>设置或获取 <code class="language-plaintext highlighter-rouge">Marker</code> 中心相对于其图像的垂直偏移量。有效取值为：<code class="language-plaintext highlighter-rouge">1</code> （上），<code class="language-plaintext highlighter-rouge">2</code> （中），或 <code class="language-plaintext highlighter-rouge">3</code> （下）。</dd>
+  <dt id="Marker.Description" class="text"><em>Description</em></dt>
+  <dd>设置或获取信息窗口中显示的描述。信息窗口会在用户点击 <code class="language-plaintext highlighter-rouge">Marker</code> 时显示。</dd>
+  <dt id="Marker.Draggable" class="boolean"><em>Draggable</em></dt>
+  <dd>设置或获取用户能否拖拽地图要素。其用法为：先长按，然后将 <code class="language-plaintext highlighter-rouge">Marker</code> 拖拽到新位置。</dd>
+  <dt id="Marker.EnableInfobox" class="boolean"><em>EnableInfobox</em></dt>
+  <dd>启用或禁用用户点击 <code class="language-plaintext highlighter-rouge">Marker</code> 时的信息框窗口显示。</dd>
+  <dt id="Marker.FillColor" class="color"><em>FillColor</em></dt>
+  <dd>设置或获取用于填充 <code class="language-plaintext highlighter-rouge">Marker</code> 的颜色。</dd>
+  <dt id="Marker.FillOpacity" class="number"><em>FillOpacity</em></dt>
+  <dd>设置或获取填充 <code class="language-plaintext highlighter-rouge">Marker</code> 所用颜色的不透明度。值为 0.0 时完全不可见，值为 1.0 时完全不透明。</dd>
+  <dt id="Marker.Height" class="number bo"><em>Height</em></dt>
+  <dd>指定 <code class="language-plaintext highlighter-rouge">Marker</code> 的垂直高度（以像素为单位）。</dd>
+  <dt id="Marker.HeightPercent" class="number wo bo"><em>HeightPercent</em></dt>
+  <dd>指定 <code class="language-plaintext highlighter-rouge">Marker</code> 的垂直高度，其值为 <a href="userinterface.html#Screen.Height"><code class="language-plaintext highlighter-rouge">Screen</code> 的 <code class="language-plaintext highlighter-rouge">Height</code></a> 的百分比。</dd>
+  <dt id="Marker.ImageAsset" class="text"><em>ImageAsset</em></dt>
+  <dd>指定 <code class="language-plaintext highlighter-rouge">Marker</code> 显示的图像。如果设为空字符串“”，则使用默认的标记图标。</dd>
+  <dt id="Marker.Latitude" class="number"><em>Latitude</em></dt>
+  <dd>设置或获取 <code class="language-plaintext highlighter-rouge">Marker</code> 的纬度（以度为单位），正值表示赤道以北，负值表示赤道以南。要同时更新 <code class="language-plaintext highlighter-rouge">Latitude</code> 和 <a href="#Marker.Longitude"><code class="language-plaintext highlighter-rouge">Longitude</code></a>，请使用 <a href="#Marker.SetLocation"><code class="language-plaintext highlighter-rouge">SetLocation</code></a> 方法。</dd>
+  <dt id="Marker.Longitude" class="number"><em>Longitude</em></dt>
+  <dd>设置或获取 <code class="language-plaintext highlighter-rouge">Marker</code> 的经度（以度为单位），正值表示本初子午线以东，负值表示本初子午线以西。要同时更新 <a href="#Marker.Latitude"><code class="language-plaintext highlighter-rouge">Latitude</code></a> 和 <code class="language-plaintext highlighter-rouge">Longitude</code>，请使用 <a href="#Marker.SetLocation"><code class="language-plaintext highlighter-rouge">SetLocation</code></a> 方法。</dd>
+  <dt id="Marker.StrokeColor" class="color"><em>StrokeColor</em></dt>
+  <dd>设置或获取用于勾画 <code class="language-plaintext highlighter-rouge">Marker</code> 的颜色。</dd>
+  <dt id="Marker.StrokeOpacity" class="number"><em>StrokeOpacity</em></dt>
+  <dd>设置或获取 <code class="language-plaintext highlighter-rouge">Marker</code> 轮廓的不透明度。值为 0.0 时不可见，值为 1.0 时不透明。</dd>
+  <dt id="Marker.StrokeWidth" class="number"><em>StrokeWidth</em></dt>
+  <dd>设置或获取用于勾画 <code class="language-plaintext highlighter-rouge">Marker</code> 的线条宽度。</dd>
+  <dt id="Marker.Title" class="text"><em>Title</em></dt>
+  <dd>设置或获取用户点击地图要素时显示的信息窗口标题。</dd>
+  <dt id="Marker.Type" class="text ro bo"><em>Type</em></dt>
+  <dd>返回地图要素的类型。对于 Marker，返回文本“Marker”。</dd>
+  <dt id="Marker.Visible" class="boolean"><em>Visible</em></dt>
+  <dd>指定 <code class="language-plaintext highlighter-rouge">Marker</code> 是否应在屏幕上可见。值为 <code class="language-plaintext logic block highlighter-rouge">true</code> 表示 <code class="language-plaintext highlighter-rouge">Marker</code> 正在显示，<code class="language-plaintext logic block highlighter-rouge">false</code> 表示已隐藏。</dd>
+  <dt id="Marker.Width" class="number bo"><em>Width</em></dt>
+  <dd>指定 <code class="language-plaintext highlighter-rouge">Marker</code> 的水平宽度（以像素为单位）。</dd>
+  <dt id="Marker.WidthPercent" class="number wo bo"><em>WidthPercent</em></dt>
+  <dd>指定 <code class="language-plaintext highlighter-rouge">Marker</code> 的水平宽度，其值为 <a href="userinterface.html#Screen.Width"><code class="language-plaintext highlighter-rouge">Screen</code> 的 <code class="language-plaintext highlighter-rouge">Width</code></a> 的百分比。</dd>
+</dl>
+
+<h3 id="Marker-Events">事件</h3>
+
+<dl class="events">
+  <dt id="Marker.Click">Click()</dt>
+  <dd><code class="language-plaintext highlighter-rouge">Click</code> 事件在用户点击 <code class="language-plaintext highlighter-rouge">Marker</code> 时触发。</dd>
+  <dt id="Marker.Drag">Drag()</dt>
+  <dd><code class="language-plaintext highlighter-rouge">Drag</code> 事件会在用户拖拽 <code class="language-plaintext highlighter-rouge">Marker</code> 时，随其位置更新而触发。</dd>
+  <dt id="Marker.LongClick">LongClick()</dt>
+  <dd><code class="language-plaintext highlighter-rouge">LongClick</code> 事件在用户按住 <code class="language-plaintext highlighter-rouge">Marker</code> 并松开时触发。仅当 <a href="#Marker.Draggable"><code class="language-plaintext highlighter-rouge">Draggable</code></a> 为 <code class="language-plaintext logic block highlighter-rouge">false</code> 时才会触发，因为它与 <a href="#Marker.StartDrag"><code class="language-plaintext highlighter-rouge">StartDrag</code></a> 使用了相同的手势。</dd>
+  <dt id="Marker.StartDrag">StartDrag()</dt>
+  <dd><code class="language-plaintext highlighter-rouge">StartDrag</code> 事件在用户按住 <code class="language-plaintext highlighter-rouge">Marker</code> 并保持不放，然后在屏幕上移动手指时触发。随后会依次触发 <a href="#Marker.Drag"><code class="language-plaintext highlighter-rouge">Drag</code></a> 和 <a href="#Marker.StopDrag"><code class="language-plaintext highlighter-rouge">StopDrag</code></a> 事件。</dd>
+  <dt id="Marker.StopDrag">StopDrag()</dt>
+  <dd><code class="language-plaintext highlighter-rouge">StopDrag</code> 事件在用户松开 <code class="language-plaintext highlighter-rouge">Marker</code> 时触发（即一次拖拽结束时）。</dd>
+</dl>
+
+<h3 id="Marker-Methods">方法</h3>
+
+<dl class="methods">
+  <dt id="Marker.BearingToFeature" class="method returns number"><i></i> BearingToFeature(<em class="component">mapFeature</em>,<em class="boolean">centroids</em>)</dt>
+  <dd>返回从 <code class="language-plaintext highlighter-rouge">Marker</code> 到给定地图要素的方位角（以度为单位，自正北方向起算）。如果 <code class="language-plaintext highlighter-rouge">centroids</code> 参数为 <code class="language-plaintext logic block highlighter-rouge">true</code>，则方位角指向该地图要素的中心；否则，将计算到该要素中距离 <code class="language-plaintext highlighter-rouge">Marker</code> 最近的点的方位角。</dd>
+  <dt id="Marker.BearingToPoint" class="method returns number"><i></i> BearingToPoint(<em class="number">latitude</em>,<em class="number">longitude</em>)</dt>
+  <dd>返回从 <code class="language-plaintext highlighter-rouge">Marker</code> 到给定的 <code class="language-plaintext highlighter-rouge">latitude</code> 和 <code class="language-plaintext highlighter-rouge">longitude</code> 的方位角（以度为单位，自正北方向起算）。</dd>
+  <dt id="Marker.DistanceToFeature" class="method returns number"><i></i> DistanceToFeature(<em class="component">mapFeature</em>,<em class="boolean">centroids</em>)</dt>
+  <dd>计算 <code class="language-plaintext highlighter-rouge">Marker</code> 与给定的 <code class="language-plaintext highlighter-rouge">mapFeature</code> 之间的距离。如果 <code class="language-plaintext highlighter-rouge">centroids</code> 为 <code class="language-plaintext logic block highlighter-rouge">true</code>，则按两个要素的质心计算距离。否则，将基于最近点计算两个要素之间的距离。此外，当 <code class="language-plaintext highlighter-rouge">centroids</code> 为 <code class="language-plaintext logic block highlighter-rouge">false</code> 时，如果 <code class="language-plaintext highlighter-rouge">Marker</code> 与 <code class="language-plaintext highlighter-rouge">mapFeature</code> 相交或包含，则该方法返回 0。如果发生错误，该方法返回 -1。</dd>
+  <dt id="Marker.DistanceToPoint" class="method returns number"><i></i> DistanceToPoint(<em class="number">latitude</em>,<em class="number">longitude</em>)</dt>
+  <dd>计算 <code class="language-plaintext highlighter-rouge">Marker</code> 与 <code class="language-plaintext highlighter-rouge">latitude</code>、<code class="language-plaintext highlighter-rouge">longitude</code> 点之间的距离（以米为单位）。</dd>
+  <dt id="Marker.HideInfobox" class="method"><i></i> HideInfobox()</dt>
+  <dd>隐藏 <code class="language-plaintext highlighter-rouge">Marker</code> 的信息框（若其可见）。否则不执行任何操作。</dd>
+  <dt id="Marker.SetLocation" class="method"><i></i> SetLocation(<em class="number">latitude</em>,<em class="number">longitude</em>)</dt>
+  <dd>设置 <code class="language-plaintext highlighter-rouge">Marker</code> 的位置。</dd>
+  <dt id="Marker.ShowInfobox" class="method"><i></i> ShowInfobox()</dt>
+  <dd>显示 <code class="language-plaintext highlighter-rouge">Marker</code> 的信息框（若其不可见）。否则，此方法不产生任何效果。即使 <a href="#Marker.EnableInfobox"><code class="language-plaintext highlighter-rouge">EnableInfobox</code></a> 为 false，也可以用此方法显示信息框。</dd>
+</dl>
+
+<h2 id="Navigation">导航（Navigation）</h2>
+
+<p>Navigation 组件使用名为 <a href="https://openrouteservice.org">OpenRouteService</a> 的服务来生成两个位置之间的路线。要使该组件正常工作，您必须提供来自该服务的有效 API 密钥。</p>
+
+<h3 id="Navigation-Properties">属性</h3>
+
+<dl class="properties">
+  <dt id="Navigation.ApiKey" class="text wo"><em>ApiKey</em></dt>
+  <dd>Open Route Service 的 API 密钥。可在 <a href="https://openrouteservice.org">https://openrouteservice.org</a>。</dd>
+  <dt id="Navigation.EndLatitude" class="number"><em>EndLatitude</em></dt>
+  <dd>终点位置的纬度。</dd>
+  <dt id="Navigation.EndLocation" class="component wo bo"><em>EndLocation</em></dt>
+  <dd>设置终点位置。</dd>
+  <dt id="Navigation.EndLongitude" class="number"><em>EndLongitude</em></dt>
+  <dd>终点位置的经度。</dd>
+  <dt id="Navigation.Language" class="text"><em>Language</em></dt>
+  <dd>文字导航指示所用的语言。默认值为“en”，表示英语。</dd>
+  <dt id="Navigation.ResponseContent" class="dictionary ro bo"><em>ResponseContent</em></dt>
+  <dd>服务器返回的原始响应。除 <a href="#Navigation.GotDirections"><code class="language-plaintext highlighter-rouge">GotDirections</code></a> 事件提供的内容之外，还可通过它访问更多细节。</dd>
+  <dt id="Navigation.StartLatitude" class="number"><em>StartLatitude</em></dt>
+  <dd>起点位置的纬度。</dd>
+  <dt id="Navigation.StartLocation" class="component wo bo"><em>StartLocation</em></dt>
+  <dd>设置起点位置。</dd>
+  <dt id="Navigation.StartLongitude" class="number"><em>StartLongitude</em></dt>
+  <dd>起点位置的经度。</dd>
+  <dt id="Navigation.TransportationMethod" class="text"><em>TransportationMethod</em></dt>
+  <dd>用于确定路线的交通方式。有效选项包括：<ul>
+      <li><code class="language-plaintext highlighter-rouge">foot-walking</code>：基于步行路径的路线</li>
+      <li><code class="language-plaintext highlighter-rouge">driving-car</code>：基于车辆行驶路径的路线</li>
+      <li><code class="language-plaintext highlighter-rouge">cycling-regular</code>：基于自行车路径的路线</li>
+      <li><code class="language-plaintext highlighter-rouge">wheelchair</code>：基于轮椅无障碍路径的路线</li>
+    </ul>
+  </dd>
+</dl>
+
+<h3 id="Navigation-Events">事件</h3>
+
+<dl class="events">
+  <dt id="Navigation.GotDirections">GotDirections(<em class="list">directions</em>,<em class="list">points</em>,<em class="number">distance</em>,<em class="number">duration</em>)</dt>
+  <dd>表示请求已完成并已返回数据的事件。提供以下参数：<ul>
+      <li><code class="language-plaintext highlighter-rouge">directions</code>：文字导航指示的列表，例如“Turn left at Massachusetts Avenue”。</li>
+      <li><code class="language-plaintext highlighter-rouge">points</code>：（latitude, longitude）点构成的列表，表示所要走的路径。可以将其传给 <a href="#LineString.Points"><code class="language-plaintext highlighter-rouge">LineString</code> 的 <code class="language-plaintext highlighter-rouge">Points</code></a>，以在 <a href="#Map"><code class="language-plaintext highlighter-rouge">Map</code></a> 上绘制该线条。</li>
+      <li><code class="language-plaintext highlighter-rouge">distance</code>：路线的估计距离，单位为米。</li>
+      <li><code class="language-plaintext highlighter-rouge">duration</code>：路线的估计时长，单位为秒。</li>
+    </ul>
+  </dd>
+</dl>
+
+<h3 id="Navigation-Methods">方法</h3>
+
+<dl class="methods">
+  <dt id="Navigation.RequestDirections" class="method"><i></i> RequestDirections()</dt>
+  <dd>使用 <a href="#Navigation.StartLatitude"><code class="language-plaintext highlighter-rouge">StartLatitude</code></a>、<a href="#Navigation.StartLongitude"><code class="language-plaintext highlighter-rouge">StartLongitude</code></a>、<a href="#Navigation.EndLatitude"><code class="language-plaintext highlighter-rouge">EndLatitude</code></a> 和 <a href="#Navigation.EndLongitude"><code class="language-plaintext highlighter-rouge">EndLongitude</code></a> 的值向路径规划服务请求路线。成功后，将运行 <a href="#Navigation.GotDirections"><code class="language-plaintext highlighter-rouge">GotDirections</code></a> 事件块。如果发生错误，错误将通过 <a href="userinterface.html#Screen.ErrorOccurred"><code class="language-plaintext highlighter-rouge">Screen's ErrorOccurred</code></a> 事件报告。</dd>
+</dl>
+
+<h2 id="Polygon">多边形（Polygon）</h2>
+
+<p><code class="language-plaintext highlighter-rouge">Polygon</code> 用于在 <a href="#Map"><code class="language-plaintext highlighter-rouge">Map</code></a> 上围出任意二维区域。<code class="language-plaintext highlighter-rouge">Polygon</code> 可用于绘制边界，例如校园、城市或国家。<code class="language-plaintext highlighter-rouge">Polygon</code> 初始时为基本的三角形。将多边形的中点拖离边缘可以创建新顶点。点击顶点会移除该顶点，但任何时刻都必须至少存在 3 个顶点。</p>
+
+<h3 id="Polygon-Properties">属性</h3>
+
+<dl class="properties">
+  <dt id="Polygon.Description" class="text"><em>Description</em></dt>
+  <dd>设置或获取信息窗口中显示的描述。信息窗口会在用户点击 <code class="language-plaintext highlighter-rouge">Polygon</code> 时显示。</dd>
+  <dt id="Polygon.Draggable" class="boolean"><em>Draggable</em></dt>
+  <dd>设置或获取用户能否拖拽地图要素。其用法为：先长按，然后将 <code class="language-plaintext highlighter-rouge">Polygon</code> 拖拽到新位置。</dd>
+  <dt id="Polygon.EnableInfobox" class="boolean"><em>EnableInfobox</em></dt>
+  <dd>启用或禁用用户点击 <code class="language-plaintext highlighter-rouge">Polygon</code> 时的信息框窗口显示。</dd>
+  <dt id="Polygon.FillColor" class="color"><em>FillColor</em></dt>
+  <dd>设置或获取用于填充 <code class="language-plaintext highlighter-rouge">Polygon</code> 的颜色。</dd>
+  <dt id="Polygon.FillOpacity" class="number"><em>FillOpacity</em></dt>
+  <dd>设置或获取填充 <code class="language-plaintext highlighter-rouge">Polygon</code> 所用颜色的不透明度。值为 0.0 时完全不可见，值为 1.0 时完全不透明。</dd>
+  <dt id="Polygon.HolePoints" class="list bo"><em>HolePoints</em></dt>
+  <dd>指定 <code class="language-plaintext highlighter-rouge">Polygon</code> 中孔洞的点。<code class="language-plaintext highlighter-rouge">HolePoints</code> 属性是一个由列表组成的列表，其中每个子列表包含表示一个孔洞的 <code class="language-plaintext highlighter-rouge">(latitude, longitude)</code> 点。</dd>
+  <dt id="Polygon.HolePointsFromString" class="text wo"><em>HolePointsFromString</em></dt>
+  <dd>指定 <code class="language-plaintext highlighter-rouge">Polygon</code> 的孔洞（由 GeoJSON 字符串给出）。与 <a href="#Polygon.HolePoints"><code class="language-plaintext highlighter-rouge">HolePoints</code></a> 不同，按照 GeoJSON 规范的规定，每个点的经度排在纬度之前。</dd>
+  <dt id="Polygon.Points" class="list bo"><em>Points</em></dt>
+  <dd>指定用于绘制 <code class="language-plaintext highlighter-rouge">Polygon</code> 的点。这些点以包含纬度和经度值的列表的列表形式给出，例如 <code class="language-plaintext highlighter-rouge">[[lat1, long1], [lat2, long2], ...]</code>。</dd>
+  <dt id="Polygon.PointsFromString" class="text wo"><em>PointsFromString</em></dt>
+  <dd>指定 <code class="language-plaintext highlighter-rouge">Polygon</code> 的点（由 GeoJSON 字符串给出）。与 <a href="#Polygon.Points"><code class="language-plaintext highlighter-rouge">Points</code></a> 不同，该属性要求点中经度在前、纬度在后。</dd>
+  <dt id="Polygon.StrokeColor" class="color"><em>StrokeColor</em></dt>
+  <dd>设置或获取用于勾画 <code class="language-plaintext highlighter-rouge">Polygon</code> 的颜色。</dd>
+  <dt id="Polygon.StrokeOpacity" class="number"><em>StrokeOpacity</em></dt>
+  <dd>设置或获取 <code class="language-plaintext highlighter-rouge">Polygon</code> 轮廓的不透明度。值为 0.0 时不可见，值为 1.0 时不透明。</dd>
+  <dt id="Polygon.StrokeWidth" class="number"><em>StrokeWidth</em></dt>
+  <dd>设置或获取用于勾画 <code class="language-plaintext highlighter-rouge">Polygon</code> 的线条宽度。</dd>
+  <dt id="Polygon.Title" class="text"><em>Title</em></dt>
+  <dd>设置或获取用户点击地图要素时显示的信息窗口标题。</dd>
+  <dt id="Polygon.Type" class="text ro bo"><em>Type</em></dt>
+  <dd>返回要素的类型。对于多边形（polygon），返回 MapFeature.Polygon（“Polygon”）。</dd>
+  <dt id="Polygon.Visible" class="boolean"><em>Visible</em></dt>
+  <dd>指定 <code class="language-plaintext highlighter-rouge">Polygon</code> 是否应在屏幕上可见。值为 <code class="language-plaintext logic block highlighter-rouge">true</code> 表示 <code class="language-plaintext highlighter-rouge">Polygon</code> 正在显示，<code class="language-plaintext logic block highlighter-rouge">false</code> 表示已隐藏。</dd>
+</dl>
+
+<h3 id="Polygon-Events">事件</h3>
+
+<dl class="events">
+  <dt id="Polygon.Click">Click()</dt>
+  <dd><code class="language-plaintext highlighter-rouge">Click</code> 事件在用户点击 <code class="language-plaintext highlighter-rouge">Polygon</code> 时触发。</dd>
+  <dt id="Polygon.Drag">Drag()</dt>
+  <dd><code class="language-plaintext highlighter-rouge">Drag</code> 事件会在用户拖拽 <code class="language-plaintext highlighter-rouge">Polygon</code> 时，随其位置更新而触发。</dd>
+  <dt id="Polygon.LongClick">LongClick()</dt>
+  <dd><code class="language-plaintext highlighter-rouge">LongClick</code> 事件在用户按住 <code class="language-plaintext highlighter-rouge">Polygon</code> 并松开时触发。仅当 <a href="#Polygon.Draggable"><code class="language-plaintext highlighter-rouge">Draggable</code></a> 为 <code class="language-plaintext logic block highlighter-rouge">false</code> 时才会触发，因为它与 <a href="#Polygon.StartDrag"><code class="language-plaintext highlighter-rouge">StartDrag</code></a> 使用了相同的手势。</dd>
+  <dt id="Polygon.StartDrag">StartDrag()</dt>
+  <dd><code class="language-plaintext highlighter-rouge">StartDrag</code> 事件在用户按住 <code class="language-plaintext highlighter-rouge">Polygon</code> 并保持不放，然后在屏幕上移动手指时触发。随后会依次触发 <a href="#Polygon.Drag"><code class="language-plaintext highlighter-rouge">Drag</code></a> 和 <a href="#Polygon.StopDrag"><code class="language-plaintext highlighter-rouge">StopDrag</code></a> 事件。</dd>
+  <dt id="Polygon.StopDrag">StopDrag()</dt>
+  <dd><code class="language-plaintext highlighter-rouge">StopDrag</code> 事件在用户松开 <code class="language-plaintext highlighter-rouge">Polygon</code> 时触发（即一次拖拽结束时）。</dd>
+</dl>
+
+<h3 id="Polygon-Methods">方法</h3>
+
+<dl class="methods">
+  <dt id="Polygon.Centroid" class="method returns list"><i></i> Centroid()</dt>
+  <dd>获取 <code class="language-plaintext highlighter-rouge">Polygon</code> 的质心，以 <code class="language-plaintext highlighter-rouge">(latitude, longitude)</code> 对的形式返回。</dd>
+  <dt id="Polygon.DistanceToFeature" class="method returns number"><i></i> DistanceToFeature(<em class="component">mapFeature</em>,<em class="boolean">centroids</em>)</dt>
+  <dd>计算 <code class="language-plaintext highlighter-rouge">Polygon</code> 与给定的 <code class="language-plaintext highlighter-rouge">mapFeature</code> 之间的距离。如果 <code class="language-plaintext highlighter-rouge">centroids</code> 为 <code class="language-plaintext logic block highlighter-rouge">true</code>，则按两个要素的质心计算距离。否则，将基于最近点计算两个要素之间的距离。此外，当 <code class="language-plaintext highlighter-rouge">centroids</code> 为 <code class="language-plaintext logic block highlighter-rouge">false</code> 时，如果 <code class="language-plaintext highlighter-rouge">Polygon</code> 与 <code class="language-plaintext highlighter-rouge">mapFeature</code> 相交或包含，则该方法返回 0。如果发生错误，该方法返回 -1。</dd>
+  <dt id="Polygon.DistanceToPoint" class="method returns number"><i></i> DistanceToPoint(<em class="number">latitude</em>,<em class="number">longitude</em>,<em class="boolean">centroid</em>)</dt>
+  <dd>计算 <code class="language-plaintext highlighter-rouge">Polygon</code> 与给定的 <code class="language-plaintext highlighter-rouge">latitude</code> 和 <code class="language-plaintext highlighter-rouge">longitude</code> 之间的距离。如果 <code class="language-plaintext highlighter-rouge">centroids</code> 为 <code class="language-plaintext logic block highlighter-rouge">true</code>，则从 <code class="language-plaintext highlighter-rouge">Polygon</code> 的中心到给定点计算距离。否则，从 <code class="language-plaintext highlighter-rouge">Polygon</code> 上距离给定点最近的点计算距离。此外，如果 <code class="language-plaintext highlighter-rouge">centroids</code> 为 <code class="language-plaintext logic block highlighter-rouge">false</code> 且该点位于 <code class="language-plaintext highlighter-rouge">Polygon</code> 内，则该方法返回 0。如果发生错误，将返回 -1。</dd>
+  <dt id="Polygon.HideInfobox" class="method"><i></i> HideInfobox()</dt>
+  <dd>隐藏 <code class="language-plaintext highlighter-rouge">Polygon</code> 的信息框（若其可见）。否则不执行任何操作。</dd>
+  <dt id="Polygon.ShowInfobox" class="method"><i></i> ShowInfobox()</dt>
+  <dd>显示 <code class="language-plaintext highlighter-rouge">Polygon</code> 的信息框（若其不可见）。否则，此方法不产生任何效果。即使 <a href="#Polygon.EnableInfobox"><code class="language-plaintext highlighter-rouge">EnableInfobox</code></a> 为 false，也可以用此方法显示信息框。</dd>
+</dl>
+
+<h2 id="Rectangle">矩形（Rectangle）</h2>
+
+<p><code class="language-plaintext highlighter-rouge">Rectangle</code> 是四条边界（北、南、东、西）都使用固定纬度和经度的多边形。移动 <code class="language-plaintext highlighter-rouge">Rectangle</code> 的某个顶点会相应地更新对应的边。</p>
+
+<h3 id="Rectangle-Properties">属性</h3>
+
+<dl class="properties">
+  <dt id="Rectangle.Description" class="text"><em>Description</em></dt>
+  <dd>设置或获取信息窗口中显示的描述。信息窗口会在用户点击 <code class="language-plaintext highlighter-rouge">Rectangle</code> 时显示。</dd>
+  <dt id="Rectangle.Draggable" class="boolean"><em>Draggable</em></dt>
+  <dd>设置或获取用户能否拖拽地图要素。其用法为：先长按，然后将 <code class="language-plaintext highlighter-rouge">Rectangle</code> 拖拽到新位置。</dd>
+  <dt id="Rectangle.EastLongitude" class="number"><em>EastLongitude</em></dt>
+  <dd>指定 <code class="language-plaintext highlighter-rouge">Rectangle</code> 最东侧的边，以本初子午线以东的十进制度数表示。</dd>
+  <dt id="Rectangle.EnableInfobox" class="boolean"><em>EnableInfobox</em></dt>
+  <dd>启用或禁用用户点击 <code class="language-plaintext highlighter-rouge">Rectangle</code> 时的信息框窗口显示。</dd>
+  <dt id="Rectangle.FillColor" class="color"><em>FillColor</em></dt>
+  <dd>设置或获取用于填充 <code class="language-plaintext highlighter-rouge">Rectangle</code> 的颜色。</dd>
+  <dt id="Rectangle.FillOpacity" class="number"><em>FillOpacity</em></dt>
+  <dd>设置或获取填充 <code class="language-plaintext highlighter-rouge">Rectangle</code> 所用颜色的不透明度。值为 0.0 时完全不可见，值为 1.0 时完全不透明。</dd>
+  <dt id="Rectangle.NorthLatitude" class="number"><em>NorthLatitude</em></dt>
+  <dd>指定 <code class="language-plaintext highlighter-rouge">Rectangle</code> 最北侧的边，以赤道以北的十进制度数表示。</dd>
+  <dt id="Rectangle.SouthLatitude" class="number"><em>SouthLatitude</em></dt>
+  <dd>指定 <code class="language-plaintext highlighter-rouge">Rectangle</code> 最西侧的边，以本初子午线以东的十进制度数表示。</dd>
+  <dt id="Rectangle.StrokeColor" class="color"><em>StrokeColor</em></dt>
+  <dd>设置或获取用于勾画 <code class="language-plaintext highlighter-rouge">Rectangle</code> 的颜色。</dd>
+  <dt id="Rectangle.StrokeOpacity" class="number"><em>StrokeOpacity</em></dt>
+  <dd>设置或获取 <code class="language-plaintext highlighter-rouge">Rectangle</code> 轮廓的不透明度。值为 0.0 时不可见，值为 1.0 时不透明。</dd>
+  <dt id="Rectangle.StrokeWidth" class="number"><em>StrokeWidth</em></dt>
+  <dd>设置或获取用于勾画 <code class="language-plaintext highlighter-rouge">Rectangle</code> 的线条宽度。</dd>
+  <dt id="Rectangle.Title" class="text"><em>Title</em></dt>
+  <dd>设置或获取用户点击地图要素时显示的信息窗口标题。</dd>
+  <dt id="Rectangle.Type" class="text ro bo"><em>Type</em></dt>
+  <dd>返回要素的类型。对于矩形（rectangle），返回 MapFeature.Rectangle（“Rectangle”）。</dd>
+  <dt id="Rectangle.Visible" class="boolean"><em>Visible</em></dt>
+  <dd>指定 <code class="language-plaintext highlighter-rouge">Rectangle</code> 是否应在屏幕上可见。值为 <code class="language-plaintext logic block highlighter-rouge">true</code> 表示 <code class="language-plaintext highlighter-rouge">Rectangle</code> 正在显示，<code class="language-plaintext logic block highlighter-rouge">false</code> 表示已隐藏。</dd>
+  <dt id="Rectangle.WestLongitude" class="number"><em>WestLongitude</em></dt>
+  <dd>指定 <code class="language-plaintext highlighter-rouge">Rectangle</code> 最南侧的边，以赤道以南的十进制度数表示。</dd>
+</dl>
+
+<h3 id="Rectangle-Events">事件</h3>
+
+<dl class="events">
+  <dt id="Rectangle.Click">Click()</dt>
+  <dd><code class="language-plaintext highlighter-rouge">Click</code> 事件在用户点击 <code class="language-plaintext highlighter-rouge">Rectangle</code> 时触发。</dd>
+  <dt id="Rectangle.Drag">Drag()</dt>
+  <dd><code class="language-plaintext highlighter-rouge">Drag</code> 事件会在用户拖拽 <code class="language-plaintext highlighter-rouge">Rectangle</code> 时，随其位置更新而触发。</dd>
+  <dt id="Rectangle.LongClick">LongClick()</dt>
+  <dd><code class="language-plaintext highlighter-rouge">LongClick</code> 事件在用户按住 <code class="language-plaintext highlighter-rouge">Rectangle</code> 并松开时触发。仅当 <a href="#Rectangle.Draggable"><code class="language-plaintext highlighter-rouge">Draggable</code></a> 为 <code class="language-plaintext logic block highlighter-rouge">false</code> 时才会触发，因为它与 <a href="#Rectangle.StartDrag"><code class="language-plaintext highlighter-rouge">StartDrag</code></a> 使用了相同的手势。</dd>
+  <dt id="Rectangle.StartDrag">StartDrag()</dt>
+  <dd><code class="language-plaintext highlighter-rouge">StartDrag</code> 事件在用户按住 <code class="language-plaintext highlighter-rouge">Rectangle</code> 并保持不放，然后在屏幕上移动手指时触发。随后会依次触发 <a href="#Rectangle.Drag"><code class="language-plaintext highlighter-rouge">Drag</code></a> 和 <a href="#Rectangle.StopDrag"><code class="language-plaintext highlighter-rouge">StopDrag</code></a> 事件。</dd>
+  <dt id="Rectangle.StopDrag">StopDrag()</dt>
+  <dd><code class="language-plaintext highlighter-rouge">StopDrag</code> 事件在用户松开 <code class="language-plaintext highlighter-rouge">Rectangle</code> 时触发（即一次拖拽结束时）。</dd>
+</dl>
+
+<h3 id="Rectangle-Methods">方法</h3>
+
+<dl class="methods">
+  <dt id="Rectangle.Bounds" class="method returns list"><i></i> Bounds()</dt>
+  <dd>返回 <code class="language-plaintext highlighter-rouge">Rectangle</code> 的包围盒，格式为 <code class="language-plaintext highlighter-rouge">((North West) (South East))</code>。</dd>
+  <dt id="Rectangle.Center" class="method returns list"><i></i> Center()</dt>
+  <dd>返回 <code class="language-plaintext highlighter-rouge">Rectangle</code> 的中心，形式为 <code class="language-plaintext highlighter-rouge">(Latitude Longitude)</code> 的列表。</dd>
+  <dt id="Rectangle.DistanceToFeature" class="method returns number"><i></i> DistanceToFeature(<em class="component">mapFeature</em>,<em class="boolean">centroids</em>)</dt>
+  <dd>计算 <code class="language-plaintext highlighter-rouge">Rectangle</code> 与给定的 <code class="language-plaintext highlighter-rouge">mapFeature</code> 之间的距离。如果 <code class="language-plaintext highlighter-rouge">centroids</code> 为 <code class="language-plaintext logic block highlighter-rouge">true</code>，则按两个要素的质心计算距离。否则，将基于最近点计算两个要素之间的距离。此外，当 <code class="language-plaintext highlighter-rouge">centroids</code> 为 <code class="language-plaintext logic block highlighter-rouge">false</code> 时，如果 <code class="language-plaintext highlighter-rouge">Rectangle</code> 与 <code class="language-plaintext highlighter-rouge">mapFeature</code> 相交或包含，则该方法返回 0。如果发生错误，该方法返回 -1。</dd>
+  <dt id="Rectangle.DistanceToPoint" class="method returns number"><i></i> DistanceToPoint(<em class="number">latitude</em>,<em class="number">longitude</em>,<em class="boolean">centroid</em>)</dt>
+  <dd>计算 <code class="language-plaintext highlighter-rouge">Rectangle</code> 与给定的 <code class="language-plaintext highlighter-rouge">latitude</code> 和 <code class="language-plaintext highlighter-rouge">longitude</code> 之间的距离。如果 <code class="language-plaintext highlighter-rouge">centroids</code> 为 <code class="language-plaintext logic block highlighter-rouge">true</code>，则从 <code class="language-plaintext highlighter-rouge">Rectangle</code> 的中心到给定点计算距离。否则，从 <code class="language-plaintext highlighter-rouge">Rectangle</code> 上距离给定点最近的点计算距离。此外，如果 <code class="language-plaintext highlighter-rouge">centroids</code> 为 <code class="language-plaintext logic block highlighter-rouge">false</code> 且该点位于 <code class="language-plaintext highlighter-rouge">Rectangle</code> 内，则该方法返回 0。如果发生错误，将返回 -1。</dd>
+  <dt id="Rectangle.HideInfobox" class="method"><i></i> HideInfobox()</dt>
+  <dd>隐藏 <code class="language-plaintext highlighter-rouge">Rectangle</code> 的信息框（若其可见）。否则不执行任何操作。</dd>
+  <dt id="Rectangle.SetCenter" class="method"><i></i> SetCenter(<em class="number">latitude</em>,<em class="number">longitude</em>)</dt>
+  <dd>将 <code class="language-plaintext highlighter-rouge">Rectangle</code> 移动到以给定的 <code class="language-plaintext highlighter-rouge">latitude</code> 和 <code class="language-plaintext highlighter-rouge">longitude</code> 为中心的位置，并尽量使宽度和高度（以米为单位）保持相等，同时考虑纬度变化的影响。</dd>
+  <dt id="Rectangle.ShowInfobox" class="method"><i></i> ShowInfobox()</dt>
+  <dd>显示 <code class="language-plaintext highlighter-rouge">Rectangle</code> 的信息框（若其不可见）。否则，此方法不产生任何效果。即使 <a href="#Rectangle.EnableInfobox"><code class="language-plaintext highlighter-rouge">EnableInfobox</code></a> 为 false，也可以用此方法显示信息框。</dd>
+</dl>
+
+</article>
+<script>
+  // Handle redirection to documentation based on locale query parameter (if specified)
+  (function() {
+      var locale = window.location.search.match('[&?]locale=([a-zA-Z-]*)');
+      if (locale) {
+          if (locale[1].indexOf('en') === 0) {
+              // English needs to stay at the top level to not break existing links
+              var page = window.location.pathname.split('/');
+              if (page.length === 5) {
+                  page.splice(2, 1);
+              } else {
+                  // already on english
+                  return;
+              }
+              window.location.href = page.join('/');
+          } else {
+              var page = window.location.pathname.split('/');
+              if (page.length === 4) {
+                  page.splice(2, 0, locale[1]);
+              } else if (page[2].toLowerCase() != locale[1].toLowerCase()) {
+                  page[2] = locale[1];
+              } else {
+                  return;  // already on the desired language
+              }
+              // Test that the page exists before redirecting.
+              var xhr = new XMLHttpRequest();
+              xhr.open('HEAD', page.join('/'), false);
+              xhr.onreadystatechange = function() {
+                  if (xhr.readyState == 4) {
+                      if ((xhr.status == 200 || xhr.status == 204)) {
+                          window.location.href = page.join('/');
+                      } else if (xhr.status  >= 400) {
+                          page.splice(2, 1);  // go to english version
+                          window.location.href = page.join('/');
+                      }
+                  }
+              };
+              xhr.send();
+          }
+      }
+  })();
+
+  // Handle embedded documentation in help by removing website template
+  if (window.self !== window.top) {
+      setTimeout(function() {
+          var videos = document.querySelectorAll('video');
+          for (var i = 0; i < videos.length; i++) {
+              if (parseInt(videos[i].getAttribute('width')) > 360) {
+                  var aspect = parseInt(videos[i].getAttribute('height')) / parseInt(videos[i].getAttribute('width'));
+                  videos[i].setAttribute('width', '360');
+                  videos[i].setAttribute('height', '' + (360 * aspect));
+              }
+          }
+          var h1 = document.querySelector('h1');
+          var article = document.querySelector('article');
+          article.insertBefore(h1, article.firstElementChild);
+          document.body.innerHTML = article.outerHTML;
+      });
+  }
+</script>
+
+            </div>
+<script src="../../../static/js/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="../../../static/js/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="../../../static/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+<script async src="../../../static/js/widgets.js" charset="utf-8"></script>
+</div>
+    </body>
+</html>

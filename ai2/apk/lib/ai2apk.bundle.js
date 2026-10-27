@@ -1292,6 +1292,22 @@
     }
 
     /**
+     * Encode bytes as standard base64, in chunks.
+     *
+     * <p>{@code String.fromCharCode.apply} has an argument-count cap; an APK is ~18 MB,
+     * so the conversion has to run per chunk. Used only when the caller asks for the
+     * bytes back instead of a download.
+     */
+    function bytesToBase64(bytes) {
+      const CHUNK = 0x8000;
+      let binary = '';
+      for (let i = 0; i < bytes.length; i += CHUNK) {
+        binary += String.fromCharCode.apply(null, bytes.subarray(i, i + CHUNK));
+      }
+      return btoa(binary);
+    }
+
+    /**
      * The template APK, from the embedded copy when the page has one and by fetch otherwise.
      *
      * Exported so the export's entry point does not have to know which of the two it is on - the
@@ -1413,14 +1429,14 @@
       // Revoking immediately can cancel the download in some browsers; a minute is long enough.
       setTimeout(() => URL.revokeObjectURL(url), 60000);
     }
-    return { importSigningKey, importPublicKey, cryptoPrimitives, base64Bytes, readTemplate, fetchBytes, loadSigningIdentity, identityFromParts, verifyIdentity, download };
+    return { importSigningKey, importPublicKey, cryptoPrimitives, base64Bytes, bytesToBase64, readTemplate, fetchBytes, loadSigningIdentity, identityFromParts, verifyIdentity, download };
   })();
 
   // ---- entry.js -------------------------------------------------------
   var __entry = (function () {
     'use strict';
     var { exportApk, MIN_SDK } = __export_apk;
-    var { readTemplate, loadSigningIdentity, identityFromParts, verifyIdentity, cryptoPrimitives, download, base64Bytes } = __browser;
+    var { readTemplate, loadSigningIdentity, identityFromParts, verifyIdentity, cryptoPrimitives, download, base64Bytes, bytesToBase64 } = __browser;
     /**
      * The IDE's way in: one function, reached from the Build → APK menu item.
      *
@@ -1540,7 +1556,12 @@
       });
 
       const fileName = opts.fileName || (String(opts.projectName || 'app') + '.apk');
-      download(built.bytes, fileName);
+      // The bridge asks for the bytes instead of a download so `--out` works and the
+      // artifact can be cached. The menu path keeps downloading as before.
+      const returnBytes = opts.returnBytes === true;
+      if (!returnBytes) {
+        download(built.bytes, fileName);
+      }
 
       return {
         fileName,
@@ -1551,6 +1572,7 @@
         screens: project.screens.length,
         assets: project.assets.length,
         minSdk: built.minSdk,
+        contentBase64: returnBytes ? bytesToBase64(built.bytes) : null,
         // Which key signed this, so the IDE can say so rather than leave the user to guess.
         signer: signer.kind,
         signerFingerprint: signer.fingerprint,

@@ -80,6 +80,22 @@ export function base64Bytes(base64) {
 }
 
 /**
+ * Encode bytes as standard base64, in chunks.
+ *
+ * <p>{@code String.fromCharCode.apply} has an argument-count cap; an APK is ~18 MB,
+ * so the conversion has to run per chunk. Used only when the caller asks for the
+ * bytes back instead of a download.
+ */
+export function bytesToBase64(bytes) {
+  const CHUNK = 0x8000;
+  let binary = '';
+  for (let i = 0; i < bytes.length; i += CHUNK) {
+    binary += String.fromCharCode.apply(null, bytes.subarray(i, i + CHUNK));
+  }
+  return btoa(binary);
+}
+
+/**
  * The template APK, from the embedded copy when the page has one and by fetch otherwise.
  *
  * Exported so the export's entry point does not have to know which of the two it is on - the

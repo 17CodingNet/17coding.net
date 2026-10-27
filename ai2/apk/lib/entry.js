@@ -14,8 +14,8 @@
  */
 import { exportApk, MIN_SDK } from './export_apk.js';
 import {
-  readTemplate, loadSigningIdentity, identityFromParts, verifyIdentity, cryptoPrimitives, download,
-  base64Bytes,
+  readTemplate, loadSigningIdentity, identityFromParts, verifyIdentity, cryptoPrimitives,
+  download, base64Bytes, bytesToBase64,
 } from './browser.js';
 
 /** Where the template and the identity live, relative to the site root. */
@@ -121,7 +121,12 @@ export async function exportApkForProject(options) {
   });
 
   const fileName = opts.fileName || (String(opts.projectName || 'app') + '.apk');
-  download(built.bytes, fileName);
+  // The bridge asks for the bytes instead of a download so `--out` works and the
+  // artifact can be cached. The menu path keeps downloading as before.
+  const returnBytes = opts.returnBytes === true;
+  if (!returnBytes) {
+    download(built.bytes, fileName);
+  }
 
   return {
     fileName,
@@ -132,6 +137,7 @@ export async function exportApkForProject(options) {
     screens: project.screens.length,
     assets: project.assets.length,
     minSdk: built.minSdk,
+    contentBase64: returnBytes ? bytesToBase64(built.bytes) : null,
     // Which key signed this, so the IDE can say so rather than leave the user to guess.
     signer: signer.kind,
     signerFingerprint: signer.fingerprint,

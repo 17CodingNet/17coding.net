@@ -117,10 +117,9 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
     <meta name="apple-mobile-web-app-title" content="蔻丁工坊">
     <script type="text/javascript">
-      // Install the cache layer. Guarded twice over: a browser without
-      // service workers, or a page opened from disk (file://, or a
-      // desktop wrapper's own scheme) where registration is not allowed
-      // and would only throw. The site runs there without a cache.
+      // Installability only (B0): register a service worker so Chrome
+      // offers Install/standalone, but do not precache or intercept any
+      // request. The browser's HTTP cache and the network do the work.
       if ("serviceWorker" in navigator && location.protocol !== "file:") {
         window.addEventListener("load", function() {
           navigator.serviceWorker.register("sw.js").catch(function() {});

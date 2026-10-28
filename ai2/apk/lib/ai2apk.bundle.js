@@ -1557,12 +1557,12 @@
           || (typeof navigator !== 'undefined' ? navigator.language : '') || '').toLowerCase();
       if (lang.indexOf('zh') === 0) {
         return {
-          prepare: '准备 APK 工具…', template: '下载 APK 模板…',
+          prepare: '准备 APK 工具…', template: '下载 APK 模板（约 18 MB）…',
           sign: '读取签名…', build: '正在编译 APK…', save: '保存 APK…', done: '完成'
         };
       }
       return {
-        prepare: 'Preparing APK tools…', template: 'Downloading APK template…',
+        prepare: 'Preparing APK tools…', template: 'Downloading APK template (about 18 MB)…',
         sign: 'Reading signing key…', build: 'Building APK…', save: 'Saving APK…', done: 'Done'
       };
     }
@@ -1668,8 +1668,8 @@
 
       const labels = progressLabels();
       const ui = opts.returnBytes ? null : createProgress();
-      try {
       if (ui) ui.set(0, labels.prepare, true);
+      try {
       await ensureEmbedded(base);
       if (ui) ui.set(5, labels.template);
       const template = await readTemplate(base, function (loaded, total) {

@@ -117,39 +117,14 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
     <meta name="apple-mobile-web-app-title" content="蔻丁工坊">
     <script type="text/javascript">
-      // Installability + APK template warm-up. The shell is never
-      // precached: the IDE loads exactly as a plain page, and the 18 MB
-      // template is fetched only after load, once the worker controls the
-      // page, five seconds after the editor is up and the main thread is
-      // idle. The worker caches it, so the build itself never waits on it.
+      // Installability only. The shell is never precached and nothing is
+      // prefetched: the 18 MB APK template used to warm up 5 s after load,
+      // which competed with the template-project download for the same
+      // bandwidth. The worker still caches bin/template.bin the first time
+      // a build asks for it, so later builds do not pay for it again.
       if ("serviceWorker" in navigator && location.protocol !== "file:") {
         window.addEventListener("load", function() {
           navigator.serviceWorker.register("sw.js").catch(function() {});
-          navigator.serviceWorker.ready.then(function() {
-            var warm = function() {
-              // Skip metered/slow links; the download is a convenience,
-              // never a prerequisite for the editor.
-              var c = navigator.connection || {};
-              if (c.saveData) return;
-              if (/(^|-)2g$|(^|-)3g$/.test(c.effectiveType || "")) return;
-              fetch(new URL("bin/template.bin", document.baseURI),
-                    {credentials: "same-origin"}).catch(function() {});
-            };
-            var later = function() {
-              if ("requestIdleCallback" in window) {
-                requestIdleCallback(warm, {timeout: 12000});
-              } else {
-                setTimeout(warm, 3000);
-              }
-            };
-            var wait = function() { setTimeout(later, 5000); };
-            if (navigator.serviceWorker.controller) {
-              wait();
-            } else {
-              navigator.serviceWorker.addEventListener("controllerchange", wait,
-                  {once: true});
-            }
-          });
         });
       }
     </script>

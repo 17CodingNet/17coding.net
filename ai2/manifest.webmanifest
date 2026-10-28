@@ -1,6 +1,7 @@
 {
   "name": "蔻丁工坊",
   "short_name": "蔻丁工坊",
+  "id": "./",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",

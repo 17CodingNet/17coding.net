@@ -1,6 +1,6 @@
 {
-  "name": "App Inventor社区版",
-  "short_name": "App Inventor",
+  "name": "蔻丁工坊",
+  "short_name": "蔻丁工坊",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",

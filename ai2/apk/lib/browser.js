@@ -11,15 +11,14 @@
  * wrong: Chrome treats a `file://` document as a secure context too, so WebCrypto and
  * `DecompressionStream` both work from one. What a `file://` page cannot do is read a sibling
  * file - no `fetch`, no `XMLHttpRequest`, and no external module script - which is why the
- * template and the signing identity are also shipped base64 in `../embedded.js` and preferred
- * over fetching. The fetch path stays for the hosted case, where the same code runs off the
- * site's own static files.
+ * template and the signing identity are also shipped base64 in `../embedded.js`, used only for a
+ * `file://` page. Over http(s) `entry.js` skips it and fetches the template and keys directly.
  */
 
 /**
  * The base64 the build embedded, or null when there is none (the hosted case).
  *
- * `../embedded.js` is loaded lazily by `entry.js` before the pipeline runs, not with the page:
+ * `../embedded.js` is loaded lazily by `entry.js` only for a `file://` page, not with the page:
  * it is ~24 MB and most sessions never export an APK.
  */
 function embedded(name) {
@@ -36,10 +35,14 @@ function embedded(name) {
  * @param {string} url   the site-relative path, e.g. 'apk/template.apk'
  * @param {string} name  its key in the embedded table, e.g. 'template.apk'
  */
-async function readInput(url, name) {
+async function readInput(url, name, onProgress) {
   const base64 = embedded(name);
-  if (base64 !== null) return base64Bytes(base64);
-  return fetchBytes(url);
+  if (base64 !== null) {
+    const bytes = base64Bytes(base64);
+    if (onProgress) onProgress(bytes.length, bytes.length);
+    return bytes;
+  }
+  return fetchBytes(url, undefined, onProgress);
 }
 
 /** RSA PKCS#1 v1.5 with SHA-256, i.e. apksig algorithm 0x0103 - the deterministic one. */
@@ -101,15 +104,54 @@ export function bytesToBase64(bytes) {
  * Exported so the export's entry point does not have to know which of the two it is on - the
  * hosted site and a `file://` copy take the same path through the code.
  */
-export async function readTemplate(base) {
-  return readInput(base + 'template.apk', 'template.apk');
+export async function readTemplate(base, onProgress) {
+  return readInput(base + 'template.apk', 'template.apk', onProgress);
 }
 
 /** A same-origin static file as bytes. */
-export async function fetchBytes(url) {
-  const response = await fetch(url);
-  if (!response.ok) throw new Error(`could not read ${url} (HTTP ${response.status})`);
-  return new Uint8Array(await response.arrayBuffer());
+export async function fetchBytes(url, timeoutMs, onProgress) {
+  // The template is ~18 MB; a weak mobile link or a proxy can leave the fetch
+  // pending forever. Abort it with a message the Build dialog can show.
+  const limit = timeoutMs === undefined ? 120000 : timeoutMs;
+  const controller = typeof AbortController === 'function' ? new AbortController() : null;
+  const timer = controller ? setTimeout(function () { controller.abort(); }, limit) : null;
+  try {
+    const response = await fetch(url, controller ? {signal: controller.signal} : {});
+    if (!response.ok) throw new Error(`could not read ${url} (HTTP ${response.status})`);
+    if (!response.body || !onProgress) {
+      const bytes = new Uint8Array(await response.arrayBuffer());
+      if (onProgress) onProgress(bytes.length, bytes.length);
+      return bytes;
+    }
+    const total = Number(response.headers.get('content-length')) || 0;
+    const reader = response.body.getReader();
+    const chunks = [];
+    let received = 0;
+    for (;;) {
+      const step = await reader.read();
+      if (step.done) break;
+      if (step.value && step.value.length) {
+        chunks.push(step.value);
+        received += step.value.length;
+        onProgress(received, total);
+      }
+    }
+    const bytes = new Uint8Array(received);
+    let offset = 0;
+    for (const chunk of chunks) {
+      bytes.set(chunk, offset);
+      offset += chunk.length;
+    }
+    return bytes;
+  } catch (error) {
+    if (error && error.name === 'AbortError') {
+      throw new Error(`timed out reading ${url} after ${Math.round(limit / 1000)}s; `
+          + 'check the network and retry');
+    }
+    throw error;
+  } finally {
+    if (timer) clearTimeout(timer);
+  }
 }
 
 /**

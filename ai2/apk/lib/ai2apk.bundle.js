@@ -1223,15 +1223,14 @@
      * wrong: Chrome treats a `file://` document as a secure context too, so WebCrypto and
      * `DecompressionStream` both work from one. What a `file://` page cannot do is read a sibling
      * file - no `fetch`, no `XMLHttpRequest`, and no external module script - which is why the
-     * template and the signing identity are also shipped base64 in `../embedded.js` and preferred
-     * over fetching. The fetch path stays for the hosted case, where the same code runs off the
-     * site's own static files.
+     * template and the signing identity are also shipped base64 in `../embedded.js`, used only for a
+     * `file://` page. Over http(s) `entry.js` skips it and fetches the template and keys directly.
      */
 
     /**
      * The base64 the build embedded, or null when there is none (the hosted case).
      *
-     * `../embedded.js` is loaded lazily by `entry.js` before the pipeline runs, not with the page:
+     * `../embedded.js` is loaded lazily by `entry.js` only for a `file://` page, not with the page:
      * it is ~24 MB and most sessions never export an APK.
      */
     function embedded(name) {
@@ -1248,10 +1247,14 @@
      * @param {string} url   the site-relative path, e.g. 'apk/template.apk'
      * @param {string} name  its key in the embedded table, e.g. 'template.apk'
      */
-    async function readInput(url, name) {
+    async function readInput(url, name, onProgress) {
       const base64 = embedded(name);
-      if (base64 !== null) return base64Bytes(base64);
-      return fetchBytes(url);
+      if (base64 !== null) {
+        const bytes = base64Bytes(base64);
+        if (onProgress) onProgress(bytes.length, bytes.length);
+        return bytes;
+      }
+      return fetchBytes(url, undefined, onProgress);
     }
 
     /** RSA PKCS#1 v1.5 with SHA-256, i.e. apksig algorithm 0x0103 - the deterministic one. */
@@ -1313,15 +1316,54 @@
      * Exported so the export's entry point does not have to know which of the two it is on - the
      * hosted site and a `file://` copy take the same path through the code.
      */
-    async function readTemplate(base) {
-      return readInput(base + 'template.apk', 'template.apk');
+    async function readTemplate(base, onProgress) {
+      return readInput(base + 'template.apk', 'template.apk', onProgress);
     }
 
     /** A same-origin static file as bytes. */
-    async function fetchBytes(url) {
-      const response = await fetch(url);
-      if (!response.ok) throw new Error(`could not read ${url} (HTTP ${response.status})`);
-      return new Uint8Array(await response.arrayBuffer());
+    async function fetchBytes(url, timeoutMs, onProgress) {
+      // The template is ~18 MB; a weak mobile link or a proxy can leave the fetch
+      // pending forever. Abort it with a message the Build dialog can show.
+      const limit = timeoutMs === undefined ? 120000 : timeoutMs;
+      const controller = typeof AbortController === 'function' ? new AbortController() : null;
+      const timer = controller ? setTimeout(function () { controller.abort(); }, limit) : null;
+      try {
+        const response = await fetch(url, controller ? {signal: controller.signal} : {});
+        if (!response.ok) throw new Error(`could not read ${url} (HTTP ${response.status})`);
+        if (!response.body || !onProgress) {
+          const bytes = new Uint8Array(await response.arrayBuffer());
+          if (onProgress) onProgress(bytes.length, bytes.length);
+          return bytes;
+        }
+        const total = Number(response.headers.get('content-length')) || 0;
+        const reader = response.body.getReader();
+        const chunks = [];
+        let received = 0;
+        for (;;) {
+          const step = await reader.read();
+          if (step.done) break;
+          if (step.value && step.value.length) {
+            chunks.push(step.value);
+            received += step.value.length;
+            onProgress(received, total);
+          }
+        }
+        const bytes = new Uint8Array(received);
+        let offset = 0;
+        for (const chunk of chunks) {
+          bytes.set(chunk, offset);
+          offset += chunk.length;
+        }
+        return bytes;
+      } catch (error) {
+        if (error && error.name === 'AbortError') {
+          throw new Error(`timed out reading ${url} after ${Math.round(limit / 1000)}s; `
+              + 'check the network and retry');
+        }
+        throw error;
+      } finally {
+        if (timer) clearTimeout(timer);
+      }
     }
 
     /**
@@ -1470,6 +1512,10 @@
      */
     async function ensureEmbedded(base) {
       if (typeof window === 'undefined' || window.AI2_APK_EMBEDDED) return;
+      // http(s) can fetch the template and keys directly (readInput below), so the
+      // 24 MB base64 copy is only for file://, where a sibling fetch is forbidden.
+      // Loading and parsing it on a phone is slower than the 18 MB template.
+      if (window.location.protocol !== 'file:') return;
       if (!embeddedLoading) {
         embeddedLoading = new Promise((resolve) => {
           const script = document.createElement('script');
@@ -1500,6 +1546,119 @@
      * Resolves with a summary of what was written; rejects with an Error whose message is meant to
      * be shown to the user.
      */
+
+    const PROGRESS_ID = 'ai2-apk-progress';
+    const PROGRESS_STYLE_ID = 'ai2-apk-progress-style';
+    let activeProgress = null;
+
+    function progressLabels() {
+      const lang = ((typeof document !== 'undefined' && document.documentElement
+          && document.documentElement.lang)
+          || (typeof navigator !== 'undefined' ? navigator.language : '') || '').toLowerCase();
+      if (lang.indexOf('zh') === 0) {
+        return {
+          prepare: '准备 APK 工具…', template: '下载 APK 模板…',
+          sign: '读取签名…', build: '正在编译 APK…', save: '保存 APK…', done: '完成'
+        };
+      }
+      return {
+        prepare: 'Preparing APK tools…', template: 'Downloading APK template…',
+        sign: 'Reading signing key…', build: 'Building APK…', save: 'Saving APK…', done: 'Done'
+      };
+    }
+
+    function progressStyle() {
+      if (document.getElementById(PROGRESS_STYLE_ID)) return;
+      const style = document.createElement('style');
+      style.id = PROGRESS_STYLE_ID;
+      style.textContent = `
+    #ai2-apk-progress {
+      position: fixed; left: 50%; top: 50%; transform: translate(-50%, -50%);
+      width: min(380px, 86vw); z-index: 2147483647;
+      background: #fff; color: #222; border: 1px solid #ddd; border-radius: 12px;
+      box-shadow: 0 12px 40px rgba(0, 0, 0, .18); padding: 18px 20px;
+      font: 13px/1.5 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+            "Helvetica Neue", Arial, sans-serif;
+      pointer-events: none;
+    }
+    #ai2-apk-progress .ai2-apk-progress-row {
+      display: flex; justify-content: space-between; gap: 12px; margin-bottom: 10px;
+    }
+    #ai2-apk-progress .ai2-apk-progress-label { font-weight: 600; }
+    #ai2-apk-progress .ai2-apk-progress-pct {
+      color: #666; font-variant-numeric: tabular-nums;
+    }
+    #ai2-apk-progress .ai2-apk-progress-track {
+      height: 6px; background: #e8e8e8; border-radius: 3px; overflow: hidden;
+    }
+    #ai2-apk-progress .ai2-apk-progress-bar {
+      height: 100%; width: 0; background: #4285f4; border-radius: 3px;
+      transition: width .2s ease;
+    }
+    #ai2-apk-progress .ai2-apk-progress-bar.indeterminate {
+      width: 100% !important;
+      background: repeating-linear-gradient(45deg, #4285f4, #4285f4 10px,
+                  #5a97f6 10px, #5a97f6 20px);
+      background-size: 200% 100%;
+      animation: ai2-apk-progress-stripes .8s linear infinite;
+    }
+    @keyframes ai2-apk-progress-stripes {
+      from { background-position: 0 0; }
+      to { background-position: 40px 0; }
+    }`;
+      document.head.appendChild(style);
+    }
+
+    function createProgress() {
+      if (typeof document === 'undefined' || !document.body) return null;
+      if (activeProgress) activeProgress.hide(0);
+      progressStyle();
+      const box = document.createElement('div');
+      box.id = PROGRESS_ID;
+      box.setAttribute('role', 'progressbar');
+      box.setAttribute('aria-valuemin', '0');
+      box.setAttribute('aria-valuemax', '100');
+      box.setAttribute('aria-live', 'polite');
+      box.innerHTML = '<div class="ai2-apk-progress-row">'
+          + '<span class="ai2-apk-progress-label"></span>'
+          + '<span class="ai2-apk-progress-pct"></span></div>'
+          + '<div class="ai2-apk-progress-track">'
+          + '<div class="ai2-apk-progress-bar"></div></div>';
+      document.body.appendChild(box);
+      const label = box.querySelector('.ai2-apk-progress-label');
+      const pct = box.querySelector('.ai2-apk-progress-pct');
+      const bar = box.querySelector('.ai2-apk-progress-bar');
+      let hidden = false;
+      const api = {
+        set(value, text, indeterminate) {
+          if (hidden) return;
+          if (text) label.textContent = text;
+          const unknown = !!indeterminate || value === null || value === undefined;
+          bar.classList.toggle('indeterminate', unknown);
+          if (unknown) {
+            bar.style.width = '100%';
+            pct.textContent = '…';
+            box.removeAttribute('aria-valuenow');
+          } else {
+            const number = Math.max(0, Math.min(100, Number(value) || 0));
+            bar.style.width = number + '%';
+            pct.textContent = Math.round(number) + '%';
+            box.setAttribute('aria-valuenow', String(Math.round(number)));
+          }
+        },
+        hide(delay) {
+          if (hidden) return;
+          hidden = true;
+          if (activeProgress === api) activeProgress = null;
+          setTimeout(function () {
+            if (box.parentNode) box.parentNode.removeChild(box);
+          }, delay === undefined ? 0 : delay);
+        }
+      };
+      activeProgress = api;
+      return api;
+    }
+
     async function exportApkForProject(options) {
       const opts = options || {};
       const base = opts.base || DEFAULT_BASE;
@@ -1507,8 +1666,20 @@
         throw new Error('the project has no screens to export');
       }
 
+      const labels = progressLabels();
+      const ui = opts.returnBytes ? null : createProgress();
+      try {
+      if (ui) ui.set(0, labels.prepare, true);
       await ensureEmbedded(base);
-      const template = await readTemplate(base);
+      if (ui) ui.set(5, labels.template);
+      const template = await readTemplate(base, function (loaded, total) {
+        if (!ui) return;
+        if (total > 0) {
+          ui.set(5 + Math.min(1, loaded / total) * 55, labels.template);
+        } else {
+          ui.set(null, labels.template, true);
+        }
+      });
       // The key the user uploaded wins over the one the site ships: an export they signed with their
       // own certificate is the one they can publish and update, and the built-in test identity is
       // good for nothing beyond "it installs".
@@ -1541,6 +1712,7 @@
         })),
       };
       const primitives = cryptoPrimitives(identity.key);
+      if (ui) ui.set(70, labels.build, true);
       const built = await exportApk({
         template,
         project,
@@ -1554,6 +1726,7 @@
         sign: primitives.sign,
         inflateRaw: primitives.inflateRaw,
       });
+      if (ui) ui.set(94, labels.save);
 
       const fileName = opts.fileName || (String(opts.projectName || 'app') + '.apk');
       // The bridge asks for the bytes instead of a download so `--out` works and the
@@ -1561,6 +1734,7 @@
       const returnBytes = opts.returnBytes === true;
       if (!returnBytes) {
         download(built.bytes, fileName);
+        if (ui) ui.set(100, labels.done);
       }
 
       return {
@@ -1581,6 +1755,9 @@
         // The four manifest strings that name the app; reported so the IDE can show what changed.
         manifestChanges: built.manifest.changes.map((c) => c.why),
       };
+      } finally {
+        if (ui) ui.hide(800);
+      }
     }
 
     // The handle ApkBuilder.java waits for. Assigned on the window rather than exported, because

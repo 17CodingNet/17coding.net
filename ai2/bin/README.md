@@ -1,9 +1,9 @@
-# `war/apk/` — the native-APK export, packaged with the site
+# `war/bin/` — the native-APK export, packaged with the site
 
 Everything the browser needs to turn the open project into an installable APK, with no build
 server and no network. `appengine/build.xml` copies this whole directory into `war/`, so it
-ships at `<site>/apk/…` and the page loads it from there (`ApkBuilder.java` passes
-`GWT.getHostPageBaseURL() + "apk/"` in, so the site also works under a subdirectory).
+ships at `<site>/bin/…` and the page loads it from there (`ApkBuilder.java` passes
+`GWT.getHostPageBaseURL() + "bin/"` in, so the site also works under a subdirectory).
 
 **This is the browser-side Android export.** Upstream also shipped a server-side Android APK builder
 (`appinventor/buildserver/...`, the historic "Build → Android" path that assembled dex + manifest +
@@ -14,13 +14,13 @@ the user sees in the Build menu is this client-side pipeline.** See
 
 | Path | What it is |
 |---|---|
-| `template.apk` | The generic player template: a normal App Inventor project built with `--isForCompanion`, whose `Screen1.Initialize` copies its bundled payload out of the APK and hands it to `ProjectManager` (the App Library path). It already contains the whole runtime, so an export only has to replace the payload and four manifest strings. ~18 MB, built from `appinventor/misc/player/template/`. That copy runs on the UI thread on **every** cold start, so it must stay buffered — see "The boot copy" below. |
+| `template.bin` | The generic player template: a normal App Inventor project built with `--isForCompanion`, whose `Screen1.Initialize` copies its bundled payload out of the APK and hands it to `ProjectManager` (the App Library path). The file **is** an APK, byte for byte; it is named `.bin` because hosting platforms reject `.apk` uploads. The pipeline reads it as bytes, so the extension is only a delivery convention — keep it if you replace the file. It already contains the whole runtime, so an export only has to replace the payload and four manifest strings. ~18 MB, built from `appinventor/misc/player/template/`. That copy runs on the UI thread on **every** cold start, so it must stay buffered — see "The boot copy" below. |
 | `keys/key.pk8` | The signing identity used when the user has not uploaded one: private key, PKCS#8 (DER). |
 | `keys/cert.der` | Its self-signed certificate, DER. |
 | `keys/key.spki` | The matching public key, SubjectPublicKeyInfo (DER). WebCrypto cannot export SPKI from a private key, so the public half has to be shipped beside it; the page verifies the pair before signing. A key the user uploads replaces all three (see "The user's own signing identity"). |
 | `lib/*.js` | The pipeline itself, plain ES modules: `zip.js` (container), `axml.js` (binary manifest), `apksig.js` (APK Signing Block / scheme v2), `build_apk.js` (rewrite → align → sign), `export_apk.js` (payload → `exportApk`), `browser.js` (WebCrypto / `DecompressionStream` / inputs / download), `entry.js` (the page's entry point). These are the **source of truth**. |
 | `lib/ai2apk.bundle.js` | Generated: the modules above concatenated into one **classic** script defining `window.AI2ApkExport`. The IDE loads *this*, not `entry.js`, because the export has to work from a `file://` copy of the site and a `file://` document cannot load an external module script. Built by `node tools/apk/build_apk_bundle.mjs`. |
-| `embedded.js` | Generated: `template.apk` and the three `keys/` files as base64, under `window.AI2_APK_EMBEDDED`. Same reason — a `file://` page cannot `fetch` a sibling file — and loaded lazily on the menu click, not with the page. Same generator. |
+| `embedded.js` | Generated: `template.bin` and the three `keys/` files as base64, under `window.AI2_APK_EMBEDDED`. Same reason — a `file://` page cannot `fetch` a sibling file — and loaded lazily on the menu click, not with the page. Same generator. |
 
 ## How it loads, and why two ways
 
@@ -33,11 +33,12 @@ file*: no `fetch`, no `XMLHttpRequest`, and no external `<script type="module">`
 So the export ships both halves of that constraint:
 
 * the pipeline as a classic script (`lib/ai2apk.bundle.js`), generated from the ES modules;
-* its inputs as base64 (`embedded.js`), preferred over fetching when present.
+* its inputs as base64 (`embedded.js`), loaded only when the page itself is `file://`.
 
-Over http(s) the same code runs and simply fetches `template.apk` and `keys/` instead, so there
-is one implementation and two ways to feed it. `entry.js` also works as a module for callers
-that load it that way.
+Over http(s) `entry.js` skips `embedded.js` and fetches `template.bin` and `keys/` directly, so
+one implementation feeds both cases: the local file gets the base64 copy, the hosted page gets
+the 18 MB binary template and the browser's HTTP/SW cache. `entry.js` also works as a module for
+callers that load it that way.
 
 Because `ai2apk.bundle.js` and `embedded.js` are generated, **edit the ES modules and
 regenerate** — `node tools/apk/build_apk_bundle.mjs`. `tools/apk/verify_apk_bundle.js` re-derives
@@ -46,7 +47,7 @@ in the shipped site.
 
 ## The boot copy
 
-`template.apk`'s `Screen1.Initialize` copies `assets/payload.zip` out of the APK into the app's
+`template.bin`'s `Screen1.Initialize` copies `assets/payload.zip` out of the APK into the app's
 external files dir, because `ProjectManager` — the App Library path — only reads a project from
 there. It does this on **every** cold start, on the **UI thread**, before the user's screen
 exists, and it re-copies even when the payload has not changed. So its cost is paid by every
@@ -165,8 +166,8 @@ bash tools/apk/build_template.sh --install
 ```
 
 That is the whole loop — it builds the template, copies it to **this** directory's
-`template.apk`, regenerates `embedded.js` (which carries the APK as base64, and is what a
-`file://` page reads), syncs `offline-webapp/apk/`, and finishes by running
+`template.bin`, regenerates `embedded.js` (which carries the APK as base64, and is what a
+`file://` page reads), syncs `offline-webapp/bin/`, and finishes by running
 `verify_apk_bundle.js` so a stale copy is a failing check rather than a silently old export.
 Dropping the `--install` builds into `appinventor/misc/player/build/` and stops there; the copy
 step is what makes it useless on its own.

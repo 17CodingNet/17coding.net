@@ -1244,8 +1244,8 @@
      * Read one of the shipped inputs: the base64 copy when the page has it, otherwise a fetch of the
      * same path relative to the site.
      *
-     * @param {string} url   the site-relative path, e.g. 'apk/template.apk'
-     * @param {string} name  its key in the embedded table, e.g. 'template.apk'
+     * @param {string} url   the site-relative path, e.g. 'bin/template.bin'
+     * @param {string} name  its key in the embedded table, e.g. 'template.bin'
      */
     async function readInput(url, name, onProgress) {
       const base64 = embedded(name);
@@ -1317,7 +1317,7 @@
      * hosted site and a `file://` copy take the same path through the code.
      */
     async function readTemplate(base, onProgress) {
-      return readInput(base + 'template.apk', 'template.apk', onProgress);
+      return readInput(base + 'template.bin', 'template.bin', onProgress);
     }
 
     /** A same-origin static file as bytes. */
@@ -1375,7 +1375,7 @@
      * together before it signs anything - `verifyIdentity` - so a mismatched pair is a clear error
      * here rather than an uninstallable APK later.
      *
-     * @param {string} base directory holding the material, e.g. 'apk/keys/'
+     * @param {string} base directory holding the material, e.g. 'bin/keys/'
      */
     async function loadSigningIdentity(base) {
       const [pkcs8, certificateDer, publicKeyDer] = await Promise.all([
@@ -1496,7 +1496,7 @@
 
 
     /** Where the template and the identity live, relative to the site root. */
-    const DEFAULT_BASE = 'apk/';
+    const DEFAULT_BASE = 'bin/';
 
     /** The base64 copy of the template and identity, loaded once, on demand. */
     const EMBEDDED_SCRIPT = 'embedded.js';
@@ -1532,7 +1532,7 @@
      * Build the APK for one project and hand it to the browser.
      *
      * options:
-     *   base          string?   site-relative directory holding template.apk and keys/ (default 'apk/')
+     *   base          string?   site-relative directory holding template.bin and keys/ (default 'bin/')
      *   projectName   string    the project, used for the application id and as the label fallback
      *   fileName      string?   what the download is called (default `<projectName>.apk`)
      *   label         string?   the app name shown under the icon (UTF-8 is fine)
@@ -1700,7 +1700,7 @@
         // refuses to install with no explanation.
         if (!await verifyIdentity(identity)) {
           throw new Error('the signing identity next to the site is inconsistent: key.spki is not the '
-              + 'public half of key.pk8 (see apk/README.md)');
+              + 'public half of key.pk8 (see bin/README.md)');
         }
         signer = { kind: 'builtin' };
       }

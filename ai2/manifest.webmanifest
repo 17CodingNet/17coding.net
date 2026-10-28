@@ -1,7 +1,7 @@
 {
   "name": "蔻丁工坊",
   "short_name": "蔻丁工坊",
-  "start_url": "./index.html",
+  "start_url": "./",
   "scope": "./",
   "display": "standalone",
   "orientation": "any",

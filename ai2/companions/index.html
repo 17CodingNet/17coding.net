@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>下载 AI 伴侣 · 蔻丁工坊</title>
+<style>
+  :root {
+    color-scheme: light dark;
+    --bg: #f2f2f2;
+    --card: #ffffff;
+    --ink: #1f2328;
+    --muted: #5c6570;
+    --line: #e3e6ea;
+    --accent: #128ba8;
+    --accent-ink: #ffffff;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #14181c;
+      --card: #1d2329;
+      --ink: #e8ecef;
+      --muted: #9aa4ae;
+      --line: #2c343c;
+      --accent: #3aa9c4;
+      --accent-ink: #06232b;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    background: var(--bg);
+    color: var(--ink);
+    font: 16px/1.6 -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC",
+          "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+  }
+  main {
+    width: 100%;
+    max-width: 480px;
+    padding: 28px 24px 24px;
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgb(0 0 0 / 0.08);
+  }
+  h1 { margin: 0 0 4px; font-size: 24px; line-height: 1.3; }
+  .sub { margin: 0 0 20px; color: var(--muted); font-size: 14px; }
+  .button {
+    display: block;
+    padding: 14px 18px;
+    border-radius: 12px;
+    background: var(--accent);
+    color: var(--accent-ink);
+    font-size: 17px;
+    font-weight: 600;
+    text-align: center;
+    text-decoration: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .button:active { transform: translateY(1px); }
+  .meta { margin: 12px 0 0; color: var(--muted); font-size: 13px; text-align: center; }
+  ol { margin: 20px 0 0; padding-left: 20px; color: var(--muted); font-size: 14px; }
+  li + li { margin-top: 6px; }
+  .fallback { margin: 18px 0 0; font-size: 12px; color: var(--muted); word-break: break-all; }
+  .fallback a { color: var(--accent); }
+</style>
+</head>
+<body>
+<main>
+  <h1>AI 伴侣</h1>
+  <p class="sub">App Inventor 手机端伴侣 · Android 7.0 及以上</p>
+
+  <!-- The site ships the companion as AI2Companion.bin (hosting platforms
+       reject .apk uploads). download= restores the filename Android needs. -->
+  <a class="button" href="AI2Companion.bin" download="AI2Companion.apk">下载 AI 伴侣（.apk）</a>
+  <p class="meta">约 18 MB · 下载后在手机的“下载”里点开安装</p>
+
+  <ol>
+    <li>下载完成后，在通知栏或“文件 → 下载”里点开 <code>AI2Companion.apk</code>。</li>
+    <li>如果系统提示“禁止安装未知应用”，允许浏览器安装一次。</li>
+    <li>回到 App Inventor，点“连接 → AI 伴侣”，用手机上的伴侣扫码或输入六位码。</li>
+  </ol>
+
+  <p class="fallback">
+    按钮没有反应？直接下载：
+    <a href="AI2Companion.bin" download="AI2Companion.apk">AI2Companion.bin</a>
+  </p>
+</main>
+</body>
+</html>

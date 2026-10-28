@@ -117,12 +117,39 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
     <meta name="apple-mobile-web-app-title" content="蔻丁工坊">
     <script type="text/javascript">
-      // Installability only (B0): register a service worker so Chrome
-      // offers Install/standalone, but do not precache or intercept any
-      // request. The browser's HTTP cache and the network do the work.
+      // Installability + APK template warm-up. The shell is never
+      // precached: the IDE loads exactly as a plain page, and the 18 MB
+      // template is fetched only after load, once the worker controls the
+      // page, five seconds after the editor is up and the main thread is
+      // idle. The worker caches it, so the build itself never waits on it.
       if ("serviceWorker" in navigator && location.protocol !== "file:") {
         window.addEventListener("load", function() {
           navigator.serviceWorker.register("sw.js").catch(function() {});
+          navigator.serviceWorker.ready.then(function() {
+            var warm = function() {
+              // Skip metered/slow links; the download is a convenience,
+              // never a prerequisite for the editor.
+              var c = navigator.connection || {};
+              if (c.saveData) return;
+              if (/(^|-)2g$|(^|-)3g$/.test(c.effectiveType || "")) return;
+              fetch(new URL("bin/template.bin", document.baseURI),
+                    {credentials: "same-origin"}).catch(function() {});
+            };
+            var later = function() {
+              if ("requestIdleCallback" in window) {
+                requestIdleCallback(warm, {timeout: 12000});
+              } else {
+                setTimeout(warm, 3000);
+              }
+            };
+            var wait = function() { setTimeout(later, 5000); };
+            if (navigator.serviceWorker.controller) {
+              wait();
+            } else {
+              navigator.serviceWorker.addEventListener("controllerchange", wait,
+                  {once: true});
+            }
+          });
         });
       }
     </script>
@@ -240,7 +267,7 @@
       })();
     </script>
     <script src="static/js/tutorial.js" defer></script>
-    <script type="text/javascript" src="ode/aiblockly-407639b27dd0719866fce9df53a10467e1cf5c7ed9dfe37f4753a17058fbcdfd.cache.js"></script>
+    <script type="text/javascript" src="ode/aiblockly-832efe1e3abee17db4303ec67cc8728636440af6d42bdb4e4b7ba049050abfae.cache.js"></script>
     <script type="text/javascript" src="static/js/scroll-options-6.0.16.min.js" defer></script>
     <script type="text/javascript" src="static/js/workspace-search-9.1.10.min.js" defer></script>
     <script type="text/javascript" src="static/js/block-dynamic-connection-0.7.16.min.js" defer></script>

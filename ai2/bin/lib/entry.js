@@ -19,7 +19,7 @@ import {
 } from './browser.js';
 
 /** Where the template and the identity live, relative to the site root. */
-const DEFAULT_BASE = 'apk/';
+const DEFAULT_BASE = 'bin/';
 
 /** The base64 copy of the template and identity, loaded once, on demand. */
 const EMBEDDED_SCRIPT = 'embedded.js';
@@ -55,7 +55,7 @@ async function ensureEmbedded(base) {
  * Build the APK for one project and hand it to the browser.
  *
  * options:
- *   base          string?   site-relative directory holding template.apk and keys/ (default 'apk/')
+ *   base          string?   site-relative directory holding template.bin and keys/ (default 'bin/')
  *   projectName   string    the project, used for the application id and as the label fallback
  *   fileName      string?   what the download is called (default `<projectName>.apk`)
  *   label         string?   the app name shown under the icon (UTF-8 is fine)
@@ -223,7 +223,7 @@ export async function exportApkForProject(options) {
     // refuses to install with no explanation.
     if (!await verifyIdentity(identity)) {
       throw new Error('the signing identity next to the site is inconsistent: key.spki is not the '
-          + 'public half of key.pk8 (see apk/README.md)');
+          + 'public half of key.pk8 (see bin/README.md)');
     }
     signer = { kind: 'builtin' };
   }

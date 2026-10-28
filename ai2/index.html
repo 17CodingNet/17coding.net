@@ -117,14 +117,52 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
     <meta name="apple-mobile-web-app-title" content="蔻丁工坊">
     <script type="text/javascript">
-      // Installability only. The shell is never precached and nothing is
-      // prefetched: the 18 MB APK template used to warm up 5 s after load,
-      // which competed with the template-project download for the same
-      // bandwidth. The worker still caches bin/template.bin the first time
-      // a build asks for it, so later builds do not pay for it again.
-      if ("serviceWorker" in navigator && location.protocol !== "file:") {
-        window.addEventListener("load", function() {
-          navigator.serviceWorker.register("sw.js").catch(function() {});
+      // Shared warm-up for the ~18 MB APK template. The NoProjectsDialog
+      // calls it after its template zips; returning APK builders call it
+      // from the flag below. The cache check and the in-flight promise
+      // keep the two paths from downloading it twice.
+      if (location.protocol !== "file:") {
+        var APK_URL = new URL("bin/template.bin", document.baseURI).href;
+        var apkWarm = null;
+        window.__ai2WarmApkTemplate = function () {
+          if (apkWarm) return apkWarm;
+          if (String(location.search).indexOf('noprefetch=1') >= 0) return null;
+          var c = navigator.connection || {};
+          if (c.saveData) return null;
+          if (/(^|-)2g$|(^|-)3g$/.test(c.effectiveType || "")) return null;
+          if (!window.caches) return null;
+          apkWarm = caches.match(APK_URL).then(function (hit) {
+            return hit || fetch(APK_URL, {credentials: 'same-origin'});
+          }).catch(function () { return null; });
+          return apkWarm;
+        };
+        if ("serviceWorker" in navigator) {
+          window.addEventListener("load", function() {
+            navigator.serviceWorker.register("sw.js").catch(function() {});
+          });
+        }
+        // Warm the template on idle for every browser, not just previous
+        // APK builders: the first build is the painful one. The dialog
+        // path fetches this locale's zips first, so when the dialog is on
+        // screen its own chain does the warming; the helper dedupes if
+        // both paths ever run.
+        window.addEventListener('load', function () {
+          setTimeout(function () {
+            if (document.querySelector('.ode-noDialogExampleDiv')) return;
+            var go = function () {
+              if ('requestIdleCallback' in window) {
+                requestIdleCallback(window.__ai2WarmApkTemplate, {timeout: 15000});
+              } else {
+                setTimeout(window.__ai2WarmApkTemplate, 5000);
+              }
+            };
+            if ('serviceWorker' in navigator && !navigator.serviceWorker.controller) {
+              navigator.serviceWorker.addEventListener('controllerchange', go,
+                  {once: true});
+            } else {
+              go();
+            }
+          }, 5000);
         });
       }
     </script>

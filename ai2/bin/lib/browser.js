@@ -108,13 +108,25 @@ export async function readTemplate(base, onProgress) {
   return readInput(base + 'template.bin', 'template.bin', onProgress);
 }
 
-/** A same-origin static file as bytes. */
+/**
+ * A same-origin static file as bytes.
+ *
+ * `timeoutMs` is an **inactivity** limit, not a total budget. The APK template
+ * is ~18 MB: on a slow link it legitimately takes minutes, and a fixed total
+ * cap aborted downloads that were still making progress (the reported
+ * "timed out reading bin/template.bin after 120s"). Every chunk pushes the
+ * deadline out; only a stalled stream is aborted.
+ */
 export async function fetchBytes(url, timeoutMs, onProgress) {
-  // The template is ~18 MB; a weak mobile link or a proxy can leave the fetch
-  // pending forever. Abort it with a message the Build dialog can show.
-  const limit = timeoutMs === undefined ? 120000 : timeoutMs;
+  const idle = timeoutMs === undefined ? 60000 : timeoutMs;
   const controller = typeof AbortController === 'function' ? new AbortController() : null;
-  const timer = controller ? setTimeout(function () { controller.abort(); }, limit) : null;
+  let timer = null;
+  const arm = function () {
+    if (!controller) return;
+    if (timer) clearTimeout(timer);
+    timer = setTimeout(function () { controller.abort(); }, idle);
+  };
+  arm();
   try {
     const response = await fetch(url, controller ? {signal: controller.signal} : {});
     if (!response.ok) throw new Error(`could not read ${url} (HTTP ${response.status})`);
@@ -131,6 +143,7 @@ export async function fetchBytes(url, timeoutMs, onProgress) {
       const step = await reader.read();
       if (step.done) break;
       if (step.value && step.value.length) {
+        arm();
         chunks.push(step.value);
         received += step.value.length;
         onProgress(received, total);
@@ -145,7 +158,7 @@ export async function fetchBytes(url, timeoutMs, onProgress) {
     return bytes;
   } catch (error) {
     if (error && error.name === 'AbortError') {
-      throw new Error(`timed out reading ${url} after ${Math.round(limit / 1000)}s; `
+      throw new Error(`no data from ${url} for ${Math.round(idle / 1000)}s; `
           + 'check the network and retry');
     }
     throw error;

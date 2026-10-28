@@ -259,7 +259,6 @@ export async function exportApkForProject(options) {
     download(built.bytes, fileName);
     if (ui) ui.set(100, labels.done);
   }
-
   return {
     fileName,
     package: built.toPackage,

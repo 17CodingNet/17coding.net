@@ -9,8 +9,9 @@
 // cache, including the old shell/APK caches.
 var CACHE_PREFIX = 'offline-webapp-';
 var TEMPLATE_CACHE = 'offline-webapp-apk-1e0c8b4e143d';
+var TEMPLATES_CACHE = 'offline-webapp-templates-40e1b757ad4b';
 var TEMPLATE_URL = new URL('bin/template.bin', self.location.href).href;
-var templateInFlight = null;
+var TEMPLATES_URL = new URL('templates/', self.location.href).href;
 
 self.addEventListener('install', function(event) {
   event.waitUntil(self.skipWaiting());
@@ -19,7 +20,8 @@ self.addEventListener('install', function(event) {
 self.addEventListener('activate', function(event) {
   event.waitUntil(caches.keys().then(function(keys) {
     return Promise.all(keys.filter(function(key) {
-      return key.indexOf(CACHE_PREFIX) === 0 && key !== TEMPLATE_CACHE;
+      return key.indexOf(CACHE_PREFIX) === 0
+          && key !== TEMPLATE_CACHE && key !== TEMPLATES_CACHE;
     }).map(function(key) {
       return caches.delete(key);
     }));
@@ -31,7 +33,15 @@ self.addEventListener('activate', function(event) {
 self.addEventListener('fetch', function(event) {
   var request = event.request;
   if (request.method === 'GET' && request.url === TEMPLATE_URL) {
-    event.respondWith(templateResponse(request));
+    event.respondWith(cacheFirst(request, TEMPLATE_CACHE, TEMPLATE_URL));
+    return;
+  }
+  // The six template archives are tiny (a few hundred KB in total); caching
+  // them makes the first click instant once the dialog has warmed them.
+  if (request.method === 'GET'
+      && request.url.indexOf(TEMPLATES_URL) === 0
+      && /\.zip$/.test(request.url)) {
+    event.respondWith(cacheFirst(request, TEMPLATES_CACHE, request.url));
     return;
   }
   // Everything else (the editor, its lazy chunks, docs) keeps using the
@@ -42,34 +52,28 @@ self.addEventListener('fetch', function(event) {
   }
 });
 
-// Cache-first for the template, and one fetch shared by every caller: the
-// page's prefetch and a build started at the same moment must not download
-// the same 18 MB twice.
-function templateResponse(request) {
-  return caches.open(TEMPLATE_CACHE).then(function(cache) {
-    return cache.match(TEMPLATE_URL).catch(function() {
+// Cache-first. The network response is returned **before** the cache write
+// finishes: awaiting cache.put() first meant the page received no bytes until
+// the whole ~18 MB was stored, which looked like a stalled download and tripped
+// the page's timeout on slow links. The clone is written in the background; a
+// failed write (quota, read-only profile) never fails the request.
+function cacheFirst(request, cacheName, url) {
+  return caches.open(cacheName).then(function(cache) {
+    return cache.match(url).catch(function() {
       return null;
     }).then(function(hit) {
       if (hit) return hit;
-      if (!templateInFlight) {
-        templateInFlight = fetch(request).then(function(response) {
-          if (!response || !response.ok) return response;
-          // A full cache, a read-only profile or a quota error must not fail
-          // the build: the bytes are already on their way to the page.
-          return cache.put(TEMPLATE_URL, response.clone()).catch(function() {
+      return fetch(request).then(function(response) {
+        if (response && response.ok) {
+          var copy = response.clone();
+          caches.open(cacheName).then(function(c) {
+            return c.put(url, copy);
+          }).catch(function() {
             return undefined;
-          }).then(function() {
-            return response;
           });
-        }).then(function(response) {
-          templateInFlight = null;
-          return response;
-        }, function(error) {
-          templateInFlight = null;
-          throw error;
-        });
-      }
-      return templateInFlight;
+        }
+        return response;
+      });
     });
   }, function() {
     // No CacheStorage (private mode edge cases): still serve the request.

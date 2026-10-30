@@ -2,14 +2,14 @@
 // the next build overwrites this file. Edit the generator instead.
 //
 // B0 + template cache. The editor shell is never precached: the first visit
-// runs exactly as a plain page would. The one thing cached is the ~18 MB APK
+// runs exactly as a plain page would. The one thing cached is the ~10 MB APK
 // template, on first request (the build itself, or the page's idle prefetch),
 // so Build -> APK does not wait for the network again. The cache name carries
 // the template's content hash; activate deletes every other offline-webapp
 // cache, including the old shell/APK caches.
 var CACHE_PREFIX = 'offline-webapp-';
-var TEMPLATE_CACHE = 'offline-webapp-apk-1e0c8b4e143d';
-var TEMPLATES_CACHE = 'offline-webapp-templates-40e1b757ad4b';
+var TEMPLATE_CACHE = 'offline-webapp-apk-4999ca406ae8';
+var TEMPLATES_CACHE = 'offline-webapp-templates-3240321a1ea7';
 var TEMPLATE_URL = new URL('bin/template.bin', self.location.href).href;
 var TEMPLATES_URL = new URL('templates/', self.location.href).href;
 
@@ -54,7 +54,7 @@ self.addEventListener('fetch', function(event) {
 
 // Cache-first. The network response is returned **before** the cache write
 // finishes: awaiting cache.put() first meant the page received no bytes until
-// the whole ~18 MB was stored, which looked like a stalled download and tripped
+// the whole ~10 MB was stored, which looked like a stalled download and tripped
 // the page's timeout on slow links. The clone is written in the background; a
 // failed write (quota, read-only profile) never fails the request.
 function cacheFirst(request, cacheName, url) {

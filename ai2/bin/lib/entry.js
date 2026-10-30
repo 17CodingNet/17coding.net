@@ -29,15 +29,15 @@ let embeddedLoading = null;
  * Make sure `window.AI2_APK_EMBEDDED` is there before the pipeline asks for it.
  *
  * A classic script rather than a module, and loaded at click time rather than with the page: a
- * `file://` document cannot load an external module at all, and ~24 MB of base64 is not
+ * `file://` document cannot load an external module at all, and ~13 MB of base64 is not
  * something to pay for in every session. Resolves either way - on the hosted site the file is
  * simply not needed, since the same inputs are fetched from the site instead.
  */
 async function ensureEmbedded(base) {
   if (typeof window === 'undefined' || window.AI2_APK_EMBEDDED) return;
   // http(s) can fetch the template and keys directly (readInput below), so the
-  // 24 MB base64 copy is only for file://, where a sibling fetch is forbidden.
-  // Loading and parsing it on a phone is slower than the 18 MB template.
+  // 13 MB base64 copy is only for file://, where a sibling fetch is forbidden.
+  // Loading and parsing it on a phone is slower than the 10 MB template.
   if (window.location.protocol !== 'file:') return;
   if (!embeddedLoading) {
     embeddedLoading = new Promise((resolve) => {
@@ -80,12 +80,12 @@ function progressLabels() {
       || (typeof navigator !== 'undefined' ? navigator.language : '') || '').toLowerCase();
   if (lang.indexOf('zh') === 0) {
     return {
-      prepare: '准备 APK 工具…', template: '下载 APK 模板（约 18 MB）…',
+      prepare: '准备 APK 工具…', template: '下载 APK 模板（约 10 MB）…',
       sign: '读取签名…', build: '正在编译 APK…', save: '保存 APK…', done: '完成'
     };
   }
   return {
-    prepare: 'Preparing APK tools…', template: 'Downloading APK template (about 18 MB)…',
+    prepare: 'Preparing APK tools…', template: 'Downloading APK template (about 10 MB)…',
     sign: 'Reading signing key…', build: 'Building APK…', save: 'Saving APK…', done: 'Done'
   };
 }

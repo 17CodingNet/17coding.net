@@ -5,13 +5,6 @@
     "description": "<p>利用方向传感器组件,制作一个简易的指南针应用。当方位角为 0 度时,手机屏幕的顶端指向正北。使用组件:画布、精灵、方向传感器。</p>"
   },
   {
-    "name": "HelloPurr",
-    "subtitle": "A purring kitty app",
-    "description": "<p>This is App Inventor's version of the HelloWorld app. For more information see the <a href='http://appinventor.mit.edu/explore/content/hellopurr.html' target='_blank'>HelloPurr tutorial</a>.",
-    "screenshot": "screenshot.png",
-    "thumbnail": "thumbnail.png"
-  },
-  {
     "name": "Magic",
     "subtitle": "变魔术示例项目",
     "description": "<p>一个简单的魔术游戏。手机屏幕上显示一张鸭子的图片,点击屏幕鸭子发出叫声;摇晃手机鸭子消失;再次摇晃鸭子重新出现并发出叫声。</p>"
@@ -20,17 +13,5 @@
     "name": "Palette",
     "subtitle": "画板调色示例项目",
     "description": "<p>利用画板组件做一个简易的调色板应用,通过触摸屏幕给画板涂色,演示 Canvas 组件的画线与画点能力。</p>"
-  },
-  {
-    "name": "TalkToMe",
-    "subtitle": "A starter app that talks.",
-    "description": "Text to Speech is surprisingly fun. Find out for yourself with this starter app that talks."
-  },
-  {
-    "name": "TranslateApp",
-    "subtitle": "Quickly translate English to Spanish (and other languages too!)",
-    "description": "You're challenged with creating an app that could act as an aid for immigrant parents who need a little extra help in English-speaking situations. Inspired by YR Media story <a href='https://yr.media/news/what-its-like-to-be-a-translator/' target='_blank'>What It's Like to be a Translator</a>.",
-    "screenshot": "screenshot.png",
-    "thumbnail": "thumbnail.png"
   }
 ]

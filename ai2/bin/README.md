@@ -14,13 +14,60 @@ the user sees in the Build menu is this client-side pipeline.** See
 
 | Path | What it is |
 |---|---|
-| `template.bin` | The generic player template: a normal App Inventor project built with `--isForCompanion`, whose `Screen1.Initialize` copies its bundled payload out of the APK and hands it to `ProjectManager` (the App Library path). The file **is** an APK, byte for byte; it is named `.bin` because hosting platforms reject `.apk` uploads. The pipeline reads it as bytes, so the extension is only a delivery convention — keep it if you replace the file. It already contains the whole runtime, so an export only has to replace the payload and four manifest strings. ~18 MB, built from `appinventor/misc/player/template/`. That copy runs on the UI thread on **every** cold start, so it must stay buffered — see "The boot copy" below. |
+| `template.bin` | The generic player template: a normal App Inventor project built with `--isForCompanion --excludeNativeLibs`, whose `Screen1.Initialize` copies its bundled payload out of the APK and hands it to `ProjectManager` (the App Library path). The file **is** an APK, byte for byte; it is named `.bin` because hosting platforms reject `.apk` uploads. The pipeline reads it as bytes, so the extension is only a delivery convention — keep it if you replace the file. It already contains the whole runtime, so an export only has to replace the payload and four manifest strings. ~10 MB, built from `appinventor/misc/player/template/`. That copy runs on the UI thread on **every** cold start, so it must stay buffered — see "The boot copy" below. |
 | `keys/key.pk8` | The signing identity used when the user has not uploaded one: private key, PKCS#8 (DER). |
 | `keys/cert.der` | Its self-signed certificate, DER. |
 | `keys/key.spki` | The matching public key, SubjectPublicKeyInfo (DER). WebCrypto cannot export SPKI from a private key, so the public half has to be shipped beside it; the page verifies the pair before signing. A key the user uploads replaces all three (see "The user's own signing identity"). |
 | `lib/*.js` | The pipeline itself, plain ES modules: `zip.js` (container), `axml.js` (binary manifest), `apksig.js` (APK Signing Block / scheme v2), `build_apk.js` (rewrite → align → sign), `export_apk.js` (payload → `exportApk`), `browser.js` (WebCrypto / `DecompressionStream` / inputs / download), `entry.js` (the page's entry point). These are the **source of truth**. |
 | `lib/ai2apk.bundle.js` | Generated: the modules above concatenated into one **classic** script defining `window.AI2ApkExport`. The IDE loads *this*, not `entry.js`, because the export has to work from a `file://` copy of the site and a `file://` document cannot load an external module script. Built by `node tools/apk/build_apk_bundle.mjs`. |
 | `embedded.js` | Generated: `template.bin` and the three `keys/` files as base64, under `window.AI2_APK_EMBEDDED`. Same reason — a `file://` page cannot `fetch` a sibling file — and loaded lazily on the menu click, not with the page. Same generator. |
+
+## Why the template carries no native libraries
+
+`--isForCompanion` makes the build include every component, because a payload may use any of
+them. Native libraries are pulled in by components, and only one component declares any:
+`PhoneStatus`'s `@UsesNativeLibraries` adds `libjingle_peerconnection_so.so` (the WebRTC engine)
+for `armeabi-v7a`, `arm64-v8a` and `x86_64`. The only code that loads it is the Companion
+handshake (`PhoneStatus.startWebRTC` → `WebRTCNativeMgr`, reached through `ReplForm`). An APK
+exported from this template is a standalone app; it never connects to a Companion, so those
+three libraries have no reader and their ~8.5 MB (compressed) is dead weight in every export.
+`--excludeNativeLibs` tells the build server to skip `AttachNativeLibs`, which takes the
+template from ~18 MB to ~10 MB. The Companion APK itself still needs the library and is built
+without the flag.
+
+The template still carries the whole dex and every component class — that is required — so
+do not expect to shrink it further without dropping components.
+
+## Where the shipped template is built
+
+The `template.bin` shipped here is **not** compiled from this branch. It is built on
+`offline-webapp-zh_cn-companion`, because the component and runtime localization lives there:
+the shipped archive's dex contains Chinese error text (46 occurrences of 「错误」 in
+classes.dex), while a template built from this branch's (upstream-English) sources contains
+none. That branch got the same
+`appinventor/misc/player/` sources, `tools/apk/build_template.sh` and the
+`--excludeNativeLibs` build-server option (commit `8a8d2a8b6`).
+
+Its `--install` is intentionally disabled (there is no `bin/` pipeline on that branch), so the
+loop is:
+
+```bash
+# on offline-webapp-zh_cn-companion
+bash tools/apk/build_template.sh                 # -> appinventor/misc/player/build/PlayerTemplate.apk
+
+# on offline-webapp-zh_cn-release (this branch)
+cp ../appinventor_2026-offline-webapp-zh_cn-companion/appinventor/misc/player/build/PlayerTemplate.apk \
+   appinventor/appengine/war/bin/template.bin
+node tools/apk/build_apk_bundle.mjs              # embedded.js + ai2apk.bundle.js
+cp -R appinventor/appengine/war/bin/. appinventor/appengine/build/war/bin/
+cp -R appinventor/appengine/war/bin/. offline-webapp/bin/
+node tools/apk/verify_apk_bundle.js
+```
+
+Editing `misc/player/` here does not ship anything by itself: the next published template
+comes from the companion branch, so port the change there, rebuild, and import the APK.
+Running `build_template.sh --install` **here** would replace the Chinese template with an
+English-runtime one.
 
 ## How it loads, and why two ways
 
@@ -37,7 +84,7 @@ So the export ships both halves of that constraint:
 
 Over http(s) `entry.js` skips `embedded.js` and fetches `template.bin` and `keys/` directly, so
 one implementation feeds both cases: the local file gets the base64 copy, the hosted page gets
-the 18 MB binary template and the browser's HTTP/SW cache. `entry.js` also works as a module for
+the 10 MB binary template and the browser's HTTP/SW cache. `entry.js` also works as a module for
 callers that load it that way.
 
 Because `ai2apk.bundle.js` and `embedded.js` are generated, **edit the ES modules and
@@ -167,7 +214,8 @@ bash tools/apk/build_template.sh --install
 
 That is the whole loop — it builds the template, copies it to **this** directory's
 `template.bin`, regenerates `embedded.js` (which carries the APK as base64, and is what a
-`file://` page reads), syncs `offline-webapp/bin/`, and finishes by running
+`file://` page reads), syncs `offline-webapp/bin/` (and `appengine/build/war/bin/`, which is
+what `build-webapp.sh` actually copies from), and finishes by running
 `verify_apk_bundle.js` so a stale copy is a failing check rather than a silently old export.
 Dropping the `--install` builds into `appinventor/misc/player/build/` and stops there; the copy
 step is what makes it useless on its own.

@@ -1,7 +1,7 @@
 /**
  * Minimal ZIP container reader/writer for APK rewriting, browser-safe ESM.
  *
- * Untouched entries keep their *original compressed bytes*, so rewriting an 18 MB
+ * Untouched entries keep their *original compressed bytes*, so rewriting a 10 MB
  * APK is a memcpy per entry and never recompresses or changes the payload. Entries
  * we replace are written uncompressed (method 0): legal for an APK, and it lets this
  * module stay free of a deflate implementation. Alignment is left to a separate step.

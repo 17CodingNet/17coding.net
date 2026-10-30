@@ -19,7 +19,7 @@
  * The base64 the build embedded, or null when there is none (the hosted case).
  *
  * `../embedded.js` is loaded lazily by `entry.js` only for a `file://` page, not with the page:
- * it is ~24 MB and most sessions never export an APK.
+ * it is ~13 MB and most sessions never export an APK.
  */
 function embedded(name) {
   const table = typeof window !== 'undefined' ? window.AI2_APK_EMBEDDED : null;
@@ -85,7 +85,7 @@ export function base64Bytes(base64) {
 /**
  * Encode bytes as standard base64, in chunks.
  *
- * <p>{@code String.fromCharCode.apply} has an argument-count cap; an APK is ~18 MB,
+ * <p>{@code String.fromCharCode.apply} has an argument-count cap; the template is ~10 MB,
  * so the conversion has to run per chunk. Used only when the caller asks for the
  * bytes back instead of a download.
  */
@@ -112,7 +112,7 @@ export async function readTemplate(base, onProgress) {
  * A same-origin static file as bytes.
  *
  * `timeoutMs` is an **inactivity** limit, not a total budget. The APK template
- * is ~18 MB: on a slow link it legitimately takes minutes, and a fixed total
+ * is ~10 MB: on a slow link it legitimately takes minutes, and a fixed total
  * cap aborted downloads that were still making progress (the reported
  * "timed out reading bin/template.bin after 120s"). Every chunk pushes the
  * deadline out; only a stalled stream is aborted.
@@ -224,8 +224,8 @@ export async function verifyIdentity(identity) {
 /**
  * Hand the archive to the browser as a download.
  *
- * A Blob and an object URL rather than WebAppBuilder's `data:` URL: this file is ~18 MB, and a
- * `data:` URI of that size is a ~24 MB string the page has to build and the browser has to parse
+ * A Blob and an object URL rather than WebAppBuilder's `data:` URL: this file is ~10 MB, and a
+ * `data:` URI of that size is a ~13 MB string the page has to build and the browser has to parse
  * before the download even starts. The object URL is revoked once the download has begun.
  */
 export function download(bytes, fileName) {
@@ -236,7 +236,7 @@ export function download(bytes, fileName) {
   // `<a download>`; mirror that here so the desktop wrapper hands the APK off
   // through a native save dialog. The chunked base64 pattern matches the Java
   // side — `String.fromCharCode.apply` must run per-chunk, otherwise the JS
-  // arg-count cap blows on the ~18 MB APK.
+  // arg-count cap blows on the ~10 MB APK.
   const wailsApp = (typeof window !== 'undefined'
       && window.go && window.go.main && window.go.main.App) || null;
   if (wailsApp && typeof wailsApp.SaveFile === 'function') {

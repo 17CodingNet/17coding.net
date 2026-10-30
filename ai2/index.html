@@ -15,7 +15,7 @@
   <head>
     <meta http-equiv="X-UA-Compatible" content="IE=10">
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https://tile.openstreetmap.org https://*.arcgisonline.com; media-src 'self' data: blob:; font-src 'self' data:; connect-src 'self' http://127.0.0.1:8001 ws://127.0.0.1:8001 http://localhost:* ws://localhost:* https://*.appinventor.mit.edu http://*.appinventor.mit.edu; frame-src 'self' data: blob:; object-src 'none'; base-uri 'none'; form-action 'none'">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https://tile.openstreetmap.org https://*.arcgisonline.com; media-src 'self' data: blob:; font-src 'self' data:; connect-src 'self' http://127.0.0.1:8001 ws://127.0.0.1:8001 http://localhost:* ws://localhost:* https://*.appinventor.mit.edu http://*.appinventor.mit.edu; frame-src 'self' data: blob: https: http:; object-src 'none'; base-uri 'none'; form-action 'none'">
     <meta name="viewport" content="width=1024, user-scalable=yes, minimum-scale=0.25, maximum-scale=5.0">
     <!--meta name="gwt:property" content="locale=en_US"-->
     <!-- Title is set at runtime. -->
@@ -48,7 +48,7 @@
          YaClient.gwt.xml and this build's i18n.java - do not edit by hand. -->
     <script type="text/javascript">
       (function() {
-        var LOCALES = {"en":"messages_6341ccb2.cache.js","zh_CN":"messages_7aa2ae68.cache.js"};
+        var LOCALES = {"zh_CN":"messages_7aa2ae68.cache.js"};
         var DEFAULT_LOCALE = "zh_CN";
         var STORAGE_KEY = "ai2.locale";
         function known(locale) {
@@ -102,6 +102,17 @@
         window.__gwt_Locale = locale;
 
         document.documentElement.lang = locale.replace(/_/g, "-");
+
+        // [scope: zh-only-single-locale 2026-10-29] Expose the shipped locale
+        // list to the GWT client. The compiled GWT permutation is identical in a
+        // single-locale and a bilingual build (LocaleInfo.getAvailableLocaleNames()
+        // always reports every locale the module declares), so only this
+        // generated page knows the site ships one language. TopPanel hides its
+        // language dropdown when the list has a single entry - otherwise the
+        // zh-only site would offer a language its one-entry LOCALES map cannot
+        // serve (picking it writes ode/undefined and breaks the load).
+        window.__gwt_ShippedLocales = ["zh_CN"];
+
         document.write('<script type="text/javascript" src="ode/' + LOCALES[locale] + '"><\/script>');
       })();
     </script>
@@ -117,7 +128,7 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
     <meta name="apple-mobile-web-app-title" content="蔻丁工坊">
     <script type="text/javascript">
-      // Shared warm-up for the ~18 MB APK template. The NoProjectsDialog
+      // Shared warm-up for the ~10 MB APK template. The NoProjectsDialog
       // calls it after its template zips; returning APK builders call it
       // from the flag below. The cache check and the in-flight promise
       // keep the two paths from downloading it twice.
@@ -280,7 +291,7 @@
       })();
     </script>
     <script src="static/js/tutorial.js" defer></script>
-    <script type="text/javascript" src="ode/aiblockly-832efe1e3abee17db4303ec67cc8728636440af6d42bdb4e4b7ba049050abfae.cache.js"></script>
+    <script type="text/javascript" src="ode/aiblockly-7582fe2a1877d9ab169711e5f4b3f9ace1bcd8aabbffd6f43daea3aba39bc8e3.cache.js"></script>
     <script type="text/javascript" src="static/js/scroll-options-6.0.16.min.js" defer></script>
     <script type="text/javascript" src="static/js/workspace-search-9.1.10.min.js" defer></script>
     <script type="text/javascript" src="static/js/block-dynamic-connection-0.7.16.min.js" defer></script>

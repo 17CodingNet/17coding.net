@@ -17,7 +17,7 @@
     /**
      * Minimal ZIP container reader/writer for APK rewriting, browser-safe ESM.
      *
-     * Untouched entries keep their *original compressed bytes*, so rewriting an 18 MB
+     * Untouched entries keep their *original compressed bytes*, so rewriting a 10 MB
      * APK is a memcpy per entry and never recompresses or changes the payload. Entries
      * we replace are written uncompressed (method 0): legal for an APK, and it lets this
      * module stay free of a deflate implementation. Alignment is left to a separate step.
@@ -1231,7 +1231,7 @@
      * The base64 the build embedded, or null when there is none (the hosted case).
      *
      * `../embedded.js` is loaded lazily by `entry.js` only for a `file://` page, not with the page:
-     * it is ~24 MB and most sessions never export an APK.
+     * it is ~13 MB and most sessions never export an APK.
      */
     function embedded(name) {
       const table = typeof window !== 'undefined' ? window.AI2_APK_EMBEDDED : null;
@@ -1297,7 +1297,7 @@
     /**
      * Encode bytes as standard base64, in chunks.
      *
-     * <p>{@code String.fromCharCode.apply} has an argument-count cap; an APK is ~18 MB,
+     * <p>{@code String.fromCharCode.apply} has an argument-count cap; the template is ~10 MB,
      * so the conversion has to run per chunk. Used only when the caller asks for the
      * bytes back instead of a download.
      */
@@ -1324,7 +1324,7 @@
      * A same-origin static file as bytes.
      *
      * `timeoutMs` is an **inactivity** limit, not a total budget. The APK template
-     * is ~18 MB: on a slow link it legitimately takes minutes, and a fixed total
+     * is ~10 MB: on a slow link it legitimately takes minutes, and a fixed total
      * cap aborted downloads that were still making progress (the reported
      * "timed out reading bin/template.bin after 120s"). Every chunk pushes the
      * deadline out; only a stalled stream is aborted.
@@ -1436,8 +1436,8 @@
     /**
      * Hand the archive to the browser as a download.
      *
-     * A Blob and an object URL rather than WebAppBuilder's `data:` URL: this file is ~18 MB, and a
-     * `data:` URI of that size is a ~24 MB string the page has to build and the browser has to parse
+     * A Blob and an object URL rather than WebAppBuilder's `data:` URL: this file is ~10 MB, and a
+     * `data:` URI of that size is a ~13 MB string the page has to build and the browser has to parse
      * before the download even starts. The object URL is revoked once the download has begun.
      */
     function download(bytes, fileName) {
@@ -1448,7 +1448,7 @@
       // `<a download>`; mirror that here so the desktop wrapper hands the APK off
       // through a native save dialog. The chunked base64 pattern matches the Java
       // side — `String.fromCharCode.apply` must run per-chunk, otherwise the JS
-      // arg-count cap blows on the ~18 MB APK.
+      // arg-count cap blows on the ~10 MB APK.
       const wailsApp = (typeof window !== 'undefined'
           && window.go && window.go.main && window.go.main.App) || null;
       if (wailsApp && typeof wailsApp.SaveFile === 'function') {
@@ -1519,15 +1519,15 @@
      * Make sure `window.AI2_APK_EMBEDDED` is there before the pipeline asks for it.
      *
      * A classic script rather than a module, and loaded at click time rather than with the page: a
-     * `file://` document cannot load an external module at all, and ~24 MB of base64 is not
+     * `file://` document cannot load an external module at all, and ~13 MB of base64 is not
      * something to pay for in every session. Resolves either way - on the hosted site the file is
      * simply not needed, since the same inputs are fetched from the site instead.
      */
     async function ensureEmbedded(base) {
       if (typeof window === 'undefined' || window.AI2_APK_EMBEDDED) return;
       // http(s) can fetch the template and keys directly (readInput below), so the
-      // 24 MB base64 copy is only for file://, where a sibling fetch is forbidden.
-      // Loading and parsing it on a phone is slower than the 18 MB template.
+      // 13 MB base64 copy is only for file://, where a sibling fetch is forbidden.
+      // Loading and parsing it on a phone is slower than the 10 MB template.
       if (window.location.protocol !== 'file:') return;
       if (!embeddedLoading) {
         embeddedLoading = new Promise((resolve) => {
@@ -1570,12 +1570,12 @@
           || (typeof navigator !== 'undefined' ? navigator.language : '') || '').toLowerCase();
       if (lang.indexOf('zh') === 0) {
         return {
-          prepare: '准备 APK 工具…', template: '下载 APK 模板（约 18 MB）…',
+          prepare: '准备 APK 工具…', template: '下载 APK 模板（约 10 MB）…',
           sign: '读取签名…', build: '正在编译 APK…', save: '保存 APK…', done: '完成'
         };
       }
       return {
-        prepare: 'Preparing APK tools…', template: 'Downloading APK template (about 18 MB)…',
+        prepare: 'Preparing APK tools…', template: 'Downloading APK template (about 10 MB)…',
         sign: 'Reading signing key…', build: 'Building APK…', save: 'Saving APK…', done: 'Done'
       };
     }
